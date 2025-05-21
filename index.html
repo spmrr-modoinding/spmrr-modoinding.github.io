@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+ <div id="particles-js"></div>
   <header>
     <img src="logo-paroki.png" alt="Logo Paroki" class="logo" style="width: 180px; height: auto;" />
     <h1>Paroki St. Perawan Maria Ratu Rosari - Modoinding</h1>
@@ -108,5 +109,80 @@ Amin.</p>
   </footer>
 
   <script src="script.js"></script>
+  <!-- Script Particles.js -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script>
+  particlesJS("particles-js", {
+    particles: {
+      number: { value: 60, density: { enable: true, value_area: 800 } },
+      color: { value: "#ffffff" },
+      shape: { type: "circle" },
+      opacity: { value: 0.3 },
+      size: { value: 3, random: true },
+      line_linked: {
+        enable: true,
+        distance: 150,
+        color: "#ffffff",
+        opacity: 0.2,
+        width: 1
+      },
+      move: {
+        enable: true,
+        speed: 1.5,
+        direction: "none",
+        random: false,
+        straight: false,
+        out_mode: "out"
+      }
+    },
+    interactivity: {
+      detect_on: "canvas",
+      events: {
+        onhover: { enable: true, mode: "repulse" },
+        onclick: { enable: true, mode: "push" },
+        resize: true
+      },
+      modes: {
+        repulse: { distance: 80 },
+        push: { particles_nb: 4 }
+      }
+    },
+    retina_detect: true
+  });
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      particlesJS("particles-js", {
+        particles: {
+          number: { value: 80, density: { enable: true, value_area: 800 } },
+          color: { value: "#ffffff" },
+          shape: { type: "circle" },
+          opacity: { value: 0.78 },
+          size: { value: 3, random: true },
+          line_linked: { enable: false },
+          move: {
+            enable: true,
+            speed: 1.8,
+            direction: "none",
+            random: false,
+            straight: false,
+            out_mode: "out"
+          }
+        },
+        interactivity: {
+          detect_on: "canvas",
+          events: {
+            onhover: { enable: false },
+            onclick: { enable: false },
+            resize: true
+          }
+        },
+        retina_detect: true
+      });
+    });
+  </script>
 </body>
 </html>
