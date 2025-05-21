@@ -1,0 +1,351 @@
+/* style.css */
+
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f6ff;
+  color: #333;
+  transition: background-color 0.5s ease;
+}
+
+header {
+  background: linear-gradient(to right, #a3cfff, #d0e8ff);
+  padding: 2rem;
+  text-align: center;
+  border-bottom: 4px solid #86b6ff;
+  transition: all 0.3s ease;
+}
+
+.logo {
+  width: 80px;
+  height: auto;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.1);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #004a99;
+}
+
+header p {
+  margin: 0.3rem 0 0;
+  font-size: 1rem;
+  color: #003366;
+}
+
+.tab-nav {
+  display: flex;
+  justify-content: center;
+  background-color: #e6f2ff;
+  border-bottom: 2px solid #b3d1ff;
+  position: relative;
+  z-index: 10;
+}
+
+.tab-button {
+  padding: 1rem 2rem;
+  border: none;
+  background: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #004a99;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.tab-button:hover,
+.tab-button.active {
+  background-color: #cce5ff;
+  color: #002a66;
+  transform: scale(1.05);
+}
+
+main {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: auto;
+  transition: all 0.4s ease;
+}
+
+.tab-content {
+  display: none;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.tab-content.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes fade {
+  from {opacity: 0; transform: translateY(10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+.card {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.pastors {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pastor {
+  text-align: center;
+}
+
+.pastor-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+  border: 3px solid #86b6ff;
+  transition: transform 0.3s ease;
+}
+
+.pastor-photo:hover {
+  transform: scale(1.1);
+}
+
+.pastor-status {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.status {
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.status:hover {
+  transform: translateY(-5px);
+}
+
+.indicator {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-weight: bold;
+  color: white;
+  font-size: 0.9rem;
+}
+
+.indicator.green {
+  background-color: #4caf50;
+}
+
+.indicator.red {
+  background-color: #f44336;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #d9ecff;
+  font-size: 0.9rem;
+  color: #555;
+  border-top: 2px solid #b3d1ff;
+  transition: background-color 0.3s ease;
+}
+
+@media (max-width: 600px) {
+  .tab-button {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .pastors, .pastor-status {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+table th, table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #d0e8ff;
+}
+
+table th {
+  background-color: #e6f2ff;
+  color: #004a99;
+  font-weight: bold;
+}
+
+table tr:last-child td {
+  border-bottom: none;
+}
+
+@media (max-width: 600px) {
+  table th, table td {
+    padding: 0.7rem;
+    font-size: 0.9rem;
+  }
+}
+
+.stats-table {
+  text-align: center; /* default untuk semua sel */
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: #003366;
+}
+
+.stats-table td:nth-child(2) {
+  text-align: left;   /* kolom ke-2 (Nama Wilayah) rata kiri */
+  padding-left: 0.75rem; /* beri sedikit padding */
+}
+
+.stats-table th,
+.stats-table td {
+  border: 1px solid #b3d1ff;
+  padding: 0.5rem 0.75rem;
+  text-align: center;
+}
+
+.stats-table thead {
+  background: linear-gradient(to right, #a3cfff, #d0e8ff);
+  color: #002a66;
+}
+
+.stats-table tbody tr:nth-child(even) {
+  background-color: #f0f6ff;
+}
+
+.stats-table tbody tr:hover {
+  background-color: #cce5ff;
+  cursor: default;
+}
+
+.ayat {
+  display: block;
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.2rem;
+  text-align: center;
+  font-style: italic;
+  margin: 1em 0;
+  transition: color 0.3s ease;
+}
+
+.ayat:hover {
+  color: #1565c0;
+}
+
+.renungan {
+  font-family: 'Merriweather', serif;
+  text-align: center;
+  font-size: 0.90rem;
+  line-height: 1.8;
+  margin: 2em auto;
+  max-width: 700px;
+  padding: 0 1em;
+  transition: color 0.3s ease;
+}
+
+.renungan:hover {
+  color: #003366;
+}
+
+.pastor-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 20px rgba(0, 123, 255, 0.1);
+  padding: 1.5rem;
+  text-align: center;
+  width: 220px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pastor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 123, 255, 0.2);
+}
+
+.pastor-name {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+  color: #002a66;
+}
+
+.tab-content {
+  display: none;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.tab-content.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Efek transisi smooth */
+.fade-in-up {
+  animation: fadeInUp 0.5s ease-out;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hover interaktif */
+.tab-button:hover {
+  background-color: #b3d9ff;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Tambahan animasi pada elemen */
+.card:hover,
+.status:hover,
+.pastor:hover {
+  transform: scale(1.02);
+  transition: all 0.3s ease-in-out;
+}
+(no content — file kosong)
