@@ -321,7 +321,7 @@ table tr:last-child td {
 
 /* Efek transisi smooth */
 .fade-in-up {
-  animation: fadeInUp 0.5s ease-out;
+  animation: fadeInUp 0.7s ease-out;
 }
 @keyframes fadeInUp {
   from {
@@ -349,3 +349,23 @@ table tr:last-child td {
   transition: all 0.3s ease-in-out;
 }
 (no content — file kosong)
+
+@media (max-width: 768px) {
+  main {
+    padding: 1rem;
+    max-width: 100%;
+  }
+
+  .tab-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  header h1 {
+    font-size: 1.4rem;
+  }
+
+  header p {
+    font-size: 0.9rem;
+  }
+}
