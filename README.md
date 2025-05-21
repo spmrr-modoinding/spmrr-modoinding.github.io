@@ -10,8 +10,7 @@ Website resmi Paroki Santa Perawan Maria Ratu Rosari Modoinding.
 - **Statistik**: Data umat per wilayah (otomatis ditambahkan via JavaScript)
 
 ## 🚀 Dibuat Dengan
-- HTML, CSS, JavaScript
-- GitHub Pages untuk hosting gratis
+- HTML, CSS, JavaScript, Kopi, dan Rokok.
 
 ## 🎯 Tujuan
 Menyediakan informasi dan sarana devosi online bagi seluruh umat Paroki Modoinding.
