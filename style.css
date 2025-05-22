@@ -11,7 +11,7 @@ body {
 
 header {
   background: linear-gradient(to right, #a3cfff, #d0e8ff);
-  padding: 2rem;
+  padding: 0.9rem;
   text-align: center;
   border-bottom: 4px solid #86b6ff;
   transition: all 0.3s ease;
@@ -30,14 +30,14 @@ header {
 
 header h1 {
   margin: 0;
-  font-size: 1.8rem;
+  font-size: 2rem;
   color: #004a99;
 }
 
 header p {
   margin: 0.3rem 0 0;
   font-size: 1rem;
-  color: #003366;
+  color: #004a99;
 }
 
 .tab-nav {
@@ -50,14 +50,14 @@ header p {
 }
 
 .tab-button {
-  padding: 1rem 2rem;
+  padding: 0.8rem 2rem;
   border: none;
   background: none;
   font-size: 1rem;
   cursor: pointer;
   color: #004a99;
   font-weight: bold;
-  transition: background-color 0.3s, transform 0.2s;
+  transition: background-color 0.5s, transform 0.5s;
 }
 
 .tab-button:hover,
@@ -68,10 +68,10 @@ header p {
 }
 
 main {
-  padding: 2rem;
+  padding: 1.5rem;
   max-width: 1000px;
   margin: auto;
-  transition: all 0.4s ease;
+  transition: all 0.5s ease;
 }
 
 .tab-content {
@@ -95,20 +95,20 @@ main {
 .card {
   background-color: #ffffff;
   padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-radius: 50px;
+  box-shadow: 0 12px 12px rgba(0,0,0,0.1);
   margin-bottom: 2rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 15px 20px rgba(0,0,0,0.15);
 }
 
 .pastors {
   display: flex;
-  gap: 2rem;
+  gap: 5rem;
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -118,13 +118,13 @@ main {
 }
 
 .pastor-photo {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  border-radius: 100%;
   object-fit: cover;
   margin-bottom: 0.5rem;
-  border: 3px solid #86b6ff;
-  transition: transform 0.3s ease;
+  border: 3px solid #FFF44F;
+  transition: transform 1s ease;
 }
 
 .pastor-photo:hover {
@@ -133,14 +133,14 @@ main {
 
 .pastor-status {
   display: flex;
-  gap: 2rem;
+  gap: 10rem;
   justify-content: center;
   flex-wrap: wrap;
 }
 
 .status {
   text-align: center;
-  transition: transform 0.3s ease;
+  transition: transform 1s ease;
 }
 
 .status:hover {
@@ -178,7 +178,7 @@ footer {
 @media (max-width: 600px) {
   .tab-button {
     padding: 0.8rem;
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 
   .pastors, .pastor-status {
@@ -410,4 +410,104 @@ html, body {
   height: 100%;
   position: relative;
   overflow-x: hidden;
+}
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+*{
+}
+html,body{
+  display: block;
+  font-family: 'Inter', sans-serif;
+  background-color: #f0f6ff;
+}
+.icons{
+  display: inline-flex;
+}
+.icons a{
+  margin: 0 25px;
+  text-decoration: none;
+  color: #fff;
+  display: block;
+  position: relative;
+}
+.icons a .layer{
+  width: 70px;
+  height: 70px;
+  transition: transform 1s;
+}
+.icons a:hover .layer{
+  transform: rotate(-35deg) skew(20deg);
+}
+.icons a .layer span{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  transition: all 0.3s;
+}
+.icons a .layer span.fab{
+  font-size: 30px;
+  line-height: 55px;
+  text-align: center;
+}
+.icons a:hover .layer span:nth-child(1){
+  opacity: 0.2;
+}
+.icons a:hover .layer span:nth-child(2){
+  opacity: 0.4;
+  transform: translate(5px, -5px);
+}
+.icons a:hover .layer span:nth-child(3){
+  opacity: 0.6;
+  transform: translate(10px, -10px);
+}
+.icons a:hover .layer span:nth-child(4){
+  opacity: 0.8;
+  transform: translate(15px, -15px);
+}
+.icons a:hover .layer span:nth-child(5){
+  opacity: 1;
+  transform: translate(20px, -20px);
+}
+.icons a:nth-child(1) .layer span,
+.icons a:nth-child(1) .text{
+  color: #4267B2;
+  border-color: #4267B2;
+}
+.icons a:nth-child(2) .layer span,
+.icons a:nth-child(2) .text{
+  color: #1DA1F2;
+  border-color: #1DA1F2;
+}
+.icons a:nth-child(3) .layer span,
+.icons a:nth-child(3) .text{
+  color: #E1306C;
+  border-color: #E1306C;
+}
+.icons a:nth-child(4) .layer span,
+.icons a:nth-child(4) .text{
+  color: #2867B2;
+  border-color: #2867B2;
+}
+.icons a:nth-child(5) .layer span,
+.icons a:nth-child(5) .text{
+  color: #ff0000;
+  border-color: #ff0000;
+}
+.icons a:hover:nth-child(1) .layer span{
+  box-shadow: -1px 1px 3px #4267B2;
+}
+.icons a:hover:nth-child(2) .layer span{
+  box-shadow: -1px 1px 3px #1DA1F2;
+}
+.icons a:hover:nth-child(3) .layer span{
+  box-shadow: -1px 1px 3px #E1306C;
+}
+.icons a:hover:nth-child(4) .layer span{
+  box-shadow: -1px 1px 3px #2867B2;
+}
+.icons a:hover:nth-child(5) .layer span{
+  box-shadow: -1px 1px 3px #ff0000;
 }
