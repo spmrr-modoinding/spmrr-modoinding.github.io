@@ -1,6 +1,6 @@
 // script.js
 
-// Fungsi ubah warna indikator kehadiran pastor
+// Fungsi untuk mengubah warna indikator kehadiran pastor secara dinamis
 function updatePastorStatusColors() {
   const indicators = document.querySelectorAll('.indicator');
   indicators.forEach(indicator => {
@@ -124,71 +124,56 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
-// Toggle sidebar (mobile)
-const sidebarToggle = document.getElementById('sidebarToggle');
-const sidebar = document.getElementById('sidebar');
-const mainContent = document.querySelector('main');
+// script.js
 
-sidebarToggle.addEventListener('click', () => {
-  sidebar.classList.toggle('show');
+document.addEventListener('DOMContentLoaded', () => {
+  const tabButtons = document.querySelectorAll('.tab-button');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  // Fungsi untuk mengaktifkan tab tertentu
+  function activateTab(tabId) {
+    tabButtons.forEach(btn => {
+      if (btn.dataset.tab === tabId) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+
+    tabContents.forEach(content => {
+      if (content.id === tabId) {
+        content.classList.add('active', 'fade-in-up');
+      } else {
+        content.classList.remove('active', 'fade-in-up');
+      }
+    });
+  }
+
+  // Set tab pertama aktif saat halaman dimuat
+  if (tabButtons.length > 0) {
+    activateTab(tabButtons[0].dataset.tab);
+  }
+
+  // Event listener untuk klik tab
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      activateTab(button.dataset.tab);
+    });
+  });
 });
-
-// Ganti aktif sidebar button dan tab content
-const sidebarButtons = document.querySelectorAll('.sidebar-button');
-const tabContents = document.querySelectorAll('.tab-content');
-
-sidebarButtons.forEach(button => {
+document.querySelectorAll('.tab-button').forEach(button => {
   button.addEventListener('click', () => {
-    // Hapus active semua button
-    sidebarButtons.forEach(btn => btn.classList.remove('active'));
-    // Tambah active ke yang diklik
+    // Remove active class dari semua button
+    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+    // Tambah active class ke button yang diklik
     button.classList.add('active');
 
-    // Sembunyikan semua konten tab
-    tabContents.forEach(tab => tab.classList.remove('active'));
+    // Sembunyikan semua tab content
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
 
-    // Tampilkan konten tab sesuai data-tab
+    // Tampilkan tab content yang sesuai data-tab
     const tabId = button.getAttribute('data-tab');
-    const activeTab = document.getElementById(tabId);
-    if (activeTab) activeTab.classList.add('active');
-
-    // Tutup sidebar di mobile setelah pilih menu
-    if (window.innerWidth <= 768) {
-      sidebar.classList.remove('show');
-    }
-  });
-});
-document.addEventListener("DOMContentLoaded", () => {
-  const sidebar = document.getElementById("sidebar");
-  const toggleBtn = document.getElementById("sidebarToggle");
-  const buttonsContainer = sidebar.querySelector(".sidebar-menu");
-  const tabContents = document.querySelectorAll(".tab-content");
-
-  // Toggle sidebar (mobile)
-  toggleBtn.addEventListener("click", () => {
-    const isOpen = sidebar.classList.toggle("open");
-    toggleBtn.setAttribute("aria-expanded", isOpen);
-  });
-
-  // Switch tab via event delegation
-  buttonsContainer.addEventListener("click", e => {
-    const btn = e.target.closest(".sidebar-button");
-    if (!btn) return;
-
-    // Nonaktifkan semua button dan tab
-    sidebar.querySelectorAll(".sidebar-button").forEach(b => b.classList.remove("active"));
-    tabContents.forEach(tc => tc.classList.remove("active"));
-
-    // Aktifkan yang dipilih
-    btn.classList.add("active");
-    const tabId = btn.dataset.tab;
-    const targetTab = document.getElementById(tabId);
-    if (targetTab) targetTab.classList.add("active");
-
-    // Jika mobile, sembunyikan sidebar setelah klik
-    if (window.innerWidth <= 768) {
-      sidebar.classList.remove("open");
-      toggleBtn.setAttribute("aria-expanded", false);
-    }
+    const tabToShow = document.getElementById(tabId);
+    if (tabToShow) tabToShow.classList.add('active');
   });
 });

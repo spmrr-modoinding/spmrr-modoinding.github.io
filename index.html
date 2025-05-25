@@ -2,207 +2,123 @@
 <html lang="id">
 <head>
   <meta charset="utf-8" />
-  <meta name="robots" content="index, follow" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Paroki SP Maria Ratu Rosari Modoinding</title>
   <link rel="icon" href="logo-paroki2.png" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <script src="https://kit.fontawesome.com/a2ec24cfcd.js" crossorigin="anonymous"></script>
 </head>
 <body>
+  <header>
   <header style="position: relative; z-index: 1;">
-    <div id="particles-js" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 0;"></div>
-    <img class="logo" src="logo-paroki.png" alt="Logo Paroki" style="width: 180px;" />
+    <div id="particles-js"></div>
+    <img class="logo" src="logo-paroki.png" alt="Logo Paroki" />
     <h1>Paroki St. Perawan Maria Ratu Rosari - Modoinding</h1>
     <p>Jl. Trans Sulawesi, Desa Sinisir, Jaga VIII, Kecamatan Modoinding, Kabupaten Minahasa Selatan 95358</p>
   </header>
 
-<nav id="sidebar" class="sidebar">
-<button id="sidebarToggle" class="sidebar-toggle" aria-label="Toggle Sidebar">
-  <i class="fas fa-bars"></i>
-</button>
-  <ul class="sidebar-menu">
-    <li><button class="sidebar-button active" data-tab="beranda">Beranda</button></li>
-    <li><button class="sidebar-button" data-tab="agenda">Agenda/Pengumuman</button></li>
-    <li><button class="sidebar-button" data-tab="angelus">Angelus</button></li>
-    <li><button class="sidebar-button" data-tab="pastor">Pastor</button></li>
-	<li><button class="sidebar-button" data-tab="statistikumat">Statistik Umat</button></li>
-    <li><button class="sidebar-button" data-tab="sekretariat/komsos">Sekretariat / Komsos</button></li>
-    <!-- Statistik akan ditambahkan otomatis via JS -->
-  </ul>
-</nav>
+  <div class="container">
+    <aside class="sidebar">
+      <nav>
+        <button class="tab-button active" data-tab="beranda">Beranda</button>
+        <button class="tab-button" data-tab="agenda">Agenda/Pengumuman</button>
+        <button class="tab-button" data-tab="angelus">Angelus</button>
+        <button class="tab-button" data-tab="pastor">Pastor</button>
+        <button class="tab-button" data-tab="sekretariat">Sekretariat / Komsos</button>
+      </nav>
+    </aside>
 
-  <main class="tabs">
-    <section class="tab-content active" id="beranda">
-      <h2 style="text-align: center;">Pastor Paroki &amp; Pastor Rekan</h2>
-      <div class="pastors">
-        <div class="pastor">
-          <img src="pastor-joseph.jpg" alt="P. Joseph Ansow" class="pastor-photo" />
-          <p><strong>P. Joseph Ansow, Pr.</strong></p>
+    <main>
+      <section id="beranda" class="tab-content active">
+        <h2>Pastor Paroki & Pastor Rekan</h2>
+        <div class="pastors">
+          <div>
+            <img class="pastor-photo" src="pastor-joseph.jpg" alt="P. Joseph Ansow" />
+            <p><b>P. Joseph Ansow, Pr.</b></p>
+          </div>
+          <div>
+            <img class="pastor-photo" src="pastor-stenly.jpg" alt="P. Stenly Ambun" />
+            <p><b>P. Stenly Ambun, Pr.</b></p>
+          </div>
         </div>
-        <div class="pastor">
-          <img src="pastor-stenly.jpg" alt="Pastor Stenly Ambun" class="pastor-photo" />
-          <p><strong>P. Stenly Ambun, Pr.</strong></p>
-        </div>
-      </div>
-      <section class="card" id="doa">
-        <h2 style="text-align: center;"><u>Doa &amp; Renungan</u></h2>
-        <div id="doa-harian-text">
-          <h3 style="text-align: center;">"MEMILIKI DAMAI DIHATI"</h3>
-          <span class="ayat">“Damai sejahtera-Ku Kuberikan kepadamu ... (Yoh 14:27b)”</span>
-        </div>
-        <h1 style="text-align: center;">---o---</h1>
-        <div class="renungan" id="renungan-singkat-text">
-          <p>Yesus menjanjikan damai sejahtera bagi kita...</p>
-          <p>Seseorang yang memiliki damai ...</p>
-          <p>Sebagai orang Kristen, kita juga dipanggil ...</p>
+        <section id="doa">
+          <h2>Doa & Renungan</h2>
+          <h3>"MEMILIKI DAMAI DI HATI"</h3>
+          <p>“Damai sejahtera-Ku Kuberikan kepadamu ... (Yoh 14:27b)”</p>
+          <p>Yesus menjanjikan damai sejahtera bagi kita...<br/>
+            Seseorang yang memiliki damai ...<br/>
+            Sebagai orang Kristen, kita juga dipanggil ...</p>
+        </section>
+      </section>
+
+      <section id="agenda" class="tab-content">
+        <h2>Agenda/Pengumuman Mingguan</h2>
+        <p>(Isi agenda akan diupdate setiap Minggu)</p>
+      </section>
+
+      <section id="angelus" class="tab-content">
+        <h2>Doa Malaikat Tuhan</h2>
+        <p>Maria diberi kabar oleh malaikat Tuhan, ...</p>
+      </section>
+
+      <section id="pastor" class="tab-content">
+        <h2>Status Kehadiran Pastor</h2>
+        <div class="pastor-status">
+          <div>
+            <img class="pastor-photo" src="pastor-joseph.jpg" alt="P. Joseph" />
+            <p>P. Joseph Ansow, Pr.</p>
+            <span class="indicator red">Ada</span>
+          </div>
+          <div>
+            <img class="pastor-photo" src="pastor-stenly.jpg" alt="P. Stenly" />
+            <p>P. Stenly Ambun, Pr.</p>
+            <span class="indicator green">Ada</span>
+          </div>
         </div>
       </section>
-    </section>
 
-    <section class="tab-content" id="agenda">
-      <h2>Agenda/Pengumuman Mingguan</h2>
-      <p>(Isi agenda kedua pastor dan agenda paroki akan diupdate setiap hari Minggu)</p>
-    </section>
-
-    <section class="tab-content" id="angelus">
-      <h2 style="text-align: center;"><u>Doa Malaikat Tuhan</u></h2>
-      <h2 style="text-align: center;">Didoakan pada pukul 06.00, 12.00, dan 18.00.</h2>
-      <p>Maria diberi kabar oleh malaikat Tuhan,</p>
-      <p>Bahwa ia akan mengandung dari Roh Kudus. Salam Maria …</p>
-      <p>Aku ini hamba Tuhan, Terjadilah padaku menurut perkataan-Mu. Salam Maria …</p>
-      <p>Sabda sudah menjadi Manusia, Dan tinggal di antara kita. Salam Maria …</p>
-      <p>Doakanlah kami, ya Santa Bunda Allah, Supaya kami dapat menikmati janji Kristus.</p>
-      <p>Marilah berdoa (Hening)</p>
-      <p>Ya Allah, karena kabar malaikat ... Amin.</p>
-    </section>
-
-    <section class="tab-content" id="pastor">
-      <h2 style="text-align: center;">Status Kehadiran Pastor</h2>
-      <div class="pastor-status">
-        <div class="status">
-          <img src="pastor-joseph.jpg" alt="Pastor Joseph" class="pastor-photo" />
-          <p class="pastor-name">P. Joseph Ansow, Pr.</p>
-          <span class="indicator red">Ada</span>
+      <section id="sekretariat" class="tab-content">
+        <h2>Sekretariat / Komsos</h2>
+        <div class="icons">
+          <a href="https://www.facebook.com/share/19K6ZFiifj/">
+            <div class="layer"><span><i class="fab fa-facebook-f"></i></span></div>
+          </a>
+          <a href="https://www.tiktok.com/@komsos_spmararos">
+            <div class="layer"><span><i class="fab fa-tiktok"></i></span></div>
+          </a>
+          <a href="https://www.instagram.com/komsosparokimodoinding">
+            <div class="layer"><span><i class="fab fa-instagram"></i></span></div>
+          </a>
         </div>
-        <div class="status">
-          <img src="pastor-stenly.jpg" alt="Pastor Stenly" class="pastor-photo" />
-          <p class="pastor-name">P. Stenly Ambun, Pr.</p>
-          <span class="indicator green">Ada</span>
-        </div>
-      </div>
-    </section>
-	
-	   <section class="tab-content" id="sekretariat/komsos">
-      <h2 style="text-align: center;">Sekretariat / Komsos</h2>
-      <div class="icons">
-        <a href="https://www.facebook.com/share/19K6ZFiifj/">
-          <div class="layer">
-            <span></span><span></span><span></span>
-            <span><img src="facebook.ico" alt="Facebook" style="width: 65px; height: 65px;" /></span>
-          </div>
-        </a>
-        <a href="https://www.tiktok.com/@komsos_spmararos?_t=ZS-8wZbGgi8dZw&_r=1">
-          <div class="layer">
-            <span></span><span></span><span></span>
-            <span><img src="tiktok.ico" alt="TikTok" style="width: 65px; height: 65px;" /></span>
-          </div>
-        </a>
-        <a href="https://www.instagram.com/komsosparokimodoinding?igsh=ZGo1aTVibGp6dW5n">
-          <div class="layer">
-            <span></span><span></span><span></span>
-            <span><img src="instagram.ico" alt="Instagram" style="width: 65px; height: 65px;" /></span>
-          </div>
-        </a>
-      </div>
-    </section>
-	
-	 <section class="tab-content" id="statistikumat">
-    <h2>Statistik Umat per Tahun</h2>
-    <div class="overflow-auto">
-      <table class="stats-table">
-        <thead>
-          <tr>
-            <th>No.</th>
-            <th style="text-align:left;">Nama Wilayah</th>
-            <th>KK</th>
-            <th>Laki-Laki</th>
-            <th>Perempuan</th>
-            <th>Jumlah Jiwa</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>1</td><td>St. Fransiskus Asisi Sinisir</td><td>23</td><td>41</td><td>30</td><td>71</td></tr>
-          <tr><td>2</td><td>St. Dominikus Sinisir</td><td>22</td><td>28</td><td>31</td><td>59</td></tr>
-          <tr><td>3</td><td>St. Ignasius Sinisir</td><td>20</td><td>24</td><td>25</td><td>49</td></tr>
-          <tr><td>4</td><td>Sta. Skolastika Sinisir</td><td>26</td><td>39</td><td>32</td><td>71</td></tr>
-          <tr><td>5</td><td>St. Vincensius Sinisir</td><td>20</td><td>28</td><td>28</td><td>56</td></tr>
-          <tr><td>6</td><td>St. Stefanus Sinisir</td><td>21</td><td>23</td><td>28</td><td>51</td></tr>
-          <tr><td>7</td><td>Sta. Ursula Sinisir</td><td>19</td><td>26</td><td>34</td><td>60</td></tr>
-          <tr><td>8</td><td>Sta. Maria Bunda Karmel Sinisir</td><td>21</td><td>29</td><td>34</td><td>63</td></tr>
-          <tr><td>9</td><td>St. Romualdus Sinisir</td><td>21</td><td>33</td><td>35</td><td>68</td></tr>
-          <tr><td>10</td><td>Sta. Faustina Sinisir</td><td>19</td><td>30</td><td>26</td><td>56</td></tr>
-          <tr><td>11</td><td>Sta. Theresia Sinisir</td><td>22</td><td>38</td><td>28</td><td>66</td></tr>
-          <tr><td>12</td><td>St. Mikael Sinisir</td><td>13</td><td>16</td><td>17</td><td>33</td></tr>
-          <tr><td>13</td><td>Antonius Maria Claret Makaaroyen</td><td>20</td><td>30</td><td>28</td><td>58</td></tr>
-          <tr><td>14</td><td>St. Alfonsus Maria de Liquori Makaaroyen</td><td>19</td><td>23</td><td>29</td><td>52</td></tr>
-          <tr><td>15</td><td>Sta. Angela Merici Tambelang</td><td>21</td><td>35</td><td>28</td><td>63</td></tr>
-          <tr><td>16</td><td>St. Aloysius Gonzaga Tambelang</td><td>22</td><td>46</td><td>34</td><td>80</td></tr>
-          <tr><td>17</td><td>Sta. Katarina Siena Tambelang</td><td>20</td><td>26</td><td>31</td><td>57</td></tr>
-          <tr><td>18</td><td>St. Robertus Bellarminus Tambelang</td><td>20</td><td>33</td><td>26</td><td>59</td></tr>
-          <tr><td>19</td><td>St. Yohanes Krisostomus Tambelang</td><td>15</td><td>19</td><td>27</td><td>46</td></tr>
-          <tr><td>20</td><td>St. Fransiskus de Sales Tambelang</td><td>19</td><td>34</td><td>33</td><td>67</td></tr>
-          <tr><td>21</td><td>St. Pius X Tambelang</td><td>20</td><td>43</td><td>32</td><td>75</td></tr>
-          <tr><td>22</td><td>St. Hieronimus Kinamang</td><td>22</td><td>38</td><td>32</td><td>70</td></tr>
-          <tr><td>23</td><td>St. Lukas Kinamang</td><td>24</td><td>32</td><td>45</td><td>77</td></tr>
-          <tr><td>24</td><td>Sta. Agata Kinamang</td><td>23</td><td>36</td><td>30</td><td>66</td></tr>
-          <tr><td>25</td><td>Sta. Rita de Cascia Kinamang</td><td>23</td><td>36</td><td>30</td><td>66</td></tr>
-          <tr><td>26</td><td>St. Laurensius Kinamang</td><td>21</td><td>28</td><td>27</td><td>66</td></tr>
-          <tr><td>27</td><td>Stasi Christus Rex Liningaan</td><td>22</td><td>34</td><td>19</td><td>75</td></tr>
-          <tr><td>28</td><td>Stasi Hati Kudus Yesus Mobuya</td><td>11</td><td>22</td><td>16</td><td>49</td></tr>
-          <tr style="font-weight:bold; background:#e0f7fa">
-            <td colspan="2">Jumlah</td>
-            <td>569</td>
-            <td>870</td>
-            <td>815</td>
-            <td>1.729</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </main>
+      </section>
+    </main>
+  </div>
 
-  <footer>
-    © 2025 Paroki SP Maria Ratu Rosari Modoinding. Dibuat oleh Sekretariat Paroki.
-  </footer>
+  <footer>© 2025 Paroki SP Maria Ratu Rosari Modoinding. Dibuat oleh Sekretariat Paroki.</footer>
 
   <script src="script.js"></script>
-  <script src="https://kit.fontawesome.com/a2ec24cfcd.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script>
     particlesJS("particles-js", {
-      "particles": {
-        "number": { "value": 100, "density": { "enable": true, "value_area": 1000 } },
-        "color": { "value": "#FEFCFF" },
-        "shape": { "type": "circle" },
-        "opacity": { "value": 1 },
-        "size": { "value": 2 },
-        "line_linked": {
-          "enable": true,
-          "distance": 150,
-          "color": "#FEFCFF",
-          "opacity": 0.8,
-          "width": 1
+      particles: {
+        number: { value: 100, density: { enable: true, value_area: 1000 } },
+        color: { value: "#FEFCFF" },
+        shape: { type: "circle" },
+        opacity: { value: 1 },
+        size: { value: 2 },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: "#FEFCFF",
+          opacity: 0.8,
+          width: 1
         },
-        "move": { "enable": true, "speed": 4 }
+        move: { enable: true, speed: 4 }
       },
-      "interactivity": {
-        "events": {
-          "onhover": { "enable": true, "mode": "grab" }
-        }
-      },
-      "retina_detect": true
+      interactivity: { events: { onhover: { enable: true, mode: "grab" } } },
+      retina_detect: true
     });
   </script>
 </body>
