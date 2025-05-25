@@ -413,3 +413,23 @@ footer {
 .icons a:hover:nth-child(3) .layer span { box-shadow: -1px 1px 3px #E1306C; }
 .icons a:hover:nth-child(4) .layer span { box-shadow: -1px 1px 3px #2867B2; }
 .icons a:hover:nth-child(5) .layer span { box-shadow: -1px 1px 3px #ff0000; }
+.toggle-button {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+  background-color: #004080;
+  color: white;
+  border: none;
+  padding: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  display: none; /* default disembunyikan */
+}
+
+/* Tampilkan hanya di layar kecil */
+@media (max-width: 768px) {
+  .toggle-button {
+    display: block;
+  }
+}
