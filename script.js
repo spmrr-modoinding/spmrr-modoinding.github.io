@@ -1,5 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Tambahkan tombol Statistik dulu
+  // Fungsi aktifkan tab
+  function activateTab(tabId) {
+    document.querySelectorAll('.tab-button').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.tab === tabId);
+    });
+
+    document.querySelectorAll('.tab-content').forEach(content => {
+      content.classList.toggle('active', content.id === tabId);
+    });
+  }
+
+  // Tambah tombol Statistik ke nav
   const nav = document.querySelector('.nav');
   const statistikBtn = document.createElement('button');
   statistikBtn.className = 'tab-button';
@@ -17,32 +28,20 @@ document.addEventListener('DOMContentLoaded', () => {
   `;
   document.querySelector('main').appendChild(statistikSection);
 
-  // Setelah semua tab sudah lengkap, baru pasang event handler
-  const tabButtons = document.querySelectorAll('.tab-button');
-  const tabContents = document.querySelectorAll('.tab-content');
-
-  function activateTab(tabId) {
-    tabButtons.forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.tab === tabId);
-    });
-    tabContents.forEach(content => {
-      content.classList.toggle('active', content.id === tabId);
-    });
-  }
-
-  // Event: klik tab
-  tabButtons.forEach(button => {
+  // Pasang event listener SEKARANG untuk semua tombol, termasuk yang baru ditambahkan
+  nav.querySelectorAll('.tab-button').forEach(button => {
     button.addEventListener('click', () => {
       activateTab(button.dataset.tab);
     });
   });
 
   // Aktifkan tab pertama
-  if (tabButtons.length > 0) {
-    activateTab(tabButtons[0].dataset.tab);
+  const firstTab = nav.querySelector('.tab-button');
+  if (firstTab) {
+    activateTab(firstTab.dataset.tab);
   }
 
-  // Update warna indikator kehadiran
+  // Warna status pastor
   document.querySelectorAll('.indicator').forEach(indicator => {
     const text = indicator.textContent.toLowerCase();
     if (text.includes('tidak')) {
@@ -56,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Pengingat Angelus otomatis
+  // Angelus
   setInterval(() => {
     const now = new Date();
     const h = now.getHours();
