@@ -199,7 +199,7 @@ main {
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    overflow-x: auto;
+  overflow-x: auto;
   display: block;
 }
 /* Sel tabel: padding, rata kiri, border bawah tipis */
@@ -264,20 +264,6 @@ footer {
     white-space: nowrap;
     max-height: none;
   }
-   .tab-content {
-    position: absolute;
-    width: 100%;
-    height: 0;
-    opacity: 0;
-    pointer-events: none;
-    overflow: hidden;
-  }
-  .tab-content.active {
-    position: relative;
-    height: auto;
-    opacity: 1;
-    pointer-events: auto;
-  }
   .tab-button {
     flex: 1 1 auto;
     text-align: center;
@@ -316,16 +302,16 @@ footer {
     height: 100px;
   }
   .pastor-name {
-  font-weight: bold;
-  text-align: center; /* biar nama rata tengah di bawah foto */
-  margin-top: 0.3rem; /* beri jarak sedikit dari foto */
-}
-.pastors {
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem; /* atau 0.5rem jika terlalu renggang */
-  align-items: center;
-}
+    font-weight: bold;
+    text-align: center; /* biar nama rata tengah di bawah foto */
+    margin-top: 0.3rem; /* beri jarak sedikit dari foto */
+  }
+  .pastors {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem; /* atau 0.5rem jika terlalu renggang */
+    align-items: center;
+  }
   .tab-button {
     font-size: 0.7rem;
     padding: 0.8rem 0.5rem;
