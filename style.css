@@ -124,6 +124,7 @@ main {
 
 .tab-content {
   display: none;
+  transition: all 0.5s ease;
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.5s ease, transform 0.5s ease;
