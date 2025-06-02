@@ -60,6 +60,8 @@ header h1, header p {
   max-width: 1200px;
   margin: 1rem auto;
   gap: 1rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* ========== SIDEBAR ========== */
@@ -127,8 +129,8 @@ main {
 }
 /* Foto pastor bundar, ukuran, border warna kuning, efek hover zoom */
 .pastor-photo {
-  width: 150px;
-  height: 150px;
+   max-width: 100%;
+  height: auto;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid #FFF44F;
@@ -212,6 +214,7 @@ footer {
   .sidebar {
     flex: 1 1 100%;
     margin-bottom: 1rem;
+	width: 100%;
   }
     .tab-content {
     position: relative;
@@ -233,7 +236,7 @@ footer {
   }
   main {
     padding: 0.5rem;
-	widht: 100%;
+	width: 100%;
   }
   .pastors, .pastor-status {
     flex-direction: column;
@@ -241,8 +244,8 @@ footer {
     align-items: center;
   }
   .pastor-photo {
-    width: 120px;
-    height: 120px;
+  max-width: 100%;
+  height: auto;
   }
   footer {
     font-size: 0.8rem;
@@ -335,6 +338,9 @@ body {
   .container {
     overflow-x: auto;
     width: 100%;
+	flex: 1 1 100%;
+    margin-bottom: 1rem;
+    width: 100%;
   }
 
   .sidebar {
@@ -344,5 +350,74 @@ body {
 
   .tab-button {
     white-space: nowrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .pastor-photo {
+    width: 100px;
+    height: 100px;
+  }
+  .tab-button {
+    font-size: 0.7rem;
+    padding: 0.8rem 0.5rem;
+  }
+  main {
+    padding: 0.5rem 0.5rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .pastor-photo {
+    width: 100px;
+    height: 100px;
+  }
+  .tab-button {
+    font-size: 0.7rem;
+    padding: 0.8rem 0.5rem;
+  }
+  main {
+    padding: 0.5rem 0.5rem;
+  }
+}
+
+@media (max-width: 1080px) {
+  .pastor-photo {
+    width: 100px;
+    height: 100px;
+  }
+  .tab-button {
+    font-size: 0.7rem;
+    padding: 0.8rem 0.5rem;
+  }
+  main {
+    padding: 0.5rem 0.5rem;
+  }
+}
+
+@media (max-width: 720p60x) {
+  .pastor-photo {
+    width: 100px;
+    height: 100px;
+  }
+  .tab-button {
+    font-size: 0.7rem;
+    padding: 0.8rem 0.5rem;
+  }
+  main {
+    padding: 0.5rem 0.5rem;
+  }
+}
+@media (max-width: 1440px) {
+  .pastor-photo {
+    width: 100px;
+    height: 100px;
+  }
+  .tab-button {
+    font-size: 0.7rem;
+    padding: 0.8rem 0.5rem;
+  }
+  main {
+    padding: 0.5rem 0.5rem;
   }
 }
