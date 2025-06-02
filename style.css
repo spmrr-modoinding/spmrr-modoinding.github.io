@@ -325,6 +325,23 @@ footer {
   main {
     padding: 0.5rem 0.5rem;
   }
+    .pastor-card {
+    width: 120px;
+    padding: 8px;
+  }
+
+  .pastor-card img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .pastor-card h2 {
+    font-size: 0.9rem;
+  }
+
+  .pastor-card p {
+    font-size: 0.8rem;
+  }
 }
 
 /* ========== SOSIAL MEDIA ICONS ========== */
