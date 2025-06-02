@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+  <!-- ========== METADATA & STYLE ========== -->
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Paroki SP Maria Ratu Rosari Modoinding</title>
   <link rel="icon" href="logo-paroki2.png" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
@@ -11,7 +12,8 @@
   <script src="https://kit.fontawesome.com/a2ec24cfcd.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <header>
+  <!-- ========== HEADER / LOGO & NAMA PAROKI ========== -->
+ <header>
   <header style="position: relative; z-index: 1;">
     <div id="particles-js"></div>
     <img class="logo" src="logo-paroki.png" alt="Logo Paroki" />
@@ -19,9 +21,11 @@
     <p>Jl. Trans Sulawesi, Desa Sinisir, Jaga VIII, Kecamatan Modoinding, Kabupaten Minahasa Selatan 95358</p>
   </header>
 
+  <!-- ========== KONTEN UTAMA: SIDEBAR & TAB KONTEN ========== -->
   <div class="container">
+    <!-- ========== SIDEBAR NAVIGASI ========== -->
     <aside class="sidebar">
-      <nav>
+      <nav class="nav">
         <button class="tab-button active" data-tab="beranda">Beranda</button>
         <button class="tab-button" data-tab="agenda">Agenda/Pengumuman</button>
         <button class="tab-button" data-tab="angelus">Angelus</button>
@@ -30,6 +34,7 @@
       </nav>
     </aside>
 
+    <!-- ========== KONTEN TIAP TAB ========== -->
     <main>
       <section id="beranda" class="tab-content active">
         <h2>Pastor Paroki & Pastor Rekan</h2>
@@ -43,10 +48,11 @@
             <p><b>P. Stenly Ambun, Pr.</b></p>
           </div>
         </div>
+
         <section id="doa">
           <h2>Doa & Renungan</h2>
           <h3>"MEMILIKI DAMAI DI HATI"</h3>
-          <p>“Damai sejahtera-Ku Kuberikan kepadamu ... (Yoh 14:27b)”</p>
+          <p>"Damai sejahtera-Ku Kuberikan kepadamu ... (Yoh 14:27b)"</p>
           <p>Yesus menjanjikan damai sejahtera bagi kita...<br/>
             Seseorang yang memiliki damai ...<br/>
             Sebagai orang Kristen, kita juga dipanggil ...</p>
@@ -81,7 +87,7 @@
 
       <section id="sekretariat" class="tab-content">
         <h2>Sekretariat / Komsos</h2>
-        <div class="icons">
+        <section class="icons" aria-label="Media Sosial Paroki">
           <a href="https://www.facebook.com/share/19K6ZFiifj/">
             <div class="layer"><span><i class="fab fa-facebook-f"></i></span></div>
           </a>
@@ -91,16 +97,20 @@
           <a href="https://www.instagram.com/komsosparokimodoinding">
             <div class="layer"><span><i class="fab fa-instagram"></i></span></div>
           </a>
-        </div>
       </section>
     </main>
   </div>
 
-  <footer>© 2025 Paroki SP Maria Ratu Rosari Modoinding. Dibuat oleh Sekretariat Paroki.</footer>
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    © 2025 - Paroki SP Maria Ratu Rosari Modoinding. Dibuat oleh Sekretariat Paroki.
+  </footer>
 
+  <!-- ========== SCRIPT JAVASCRIPT ========== -->
   <script src="script.js"></script>
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script>
+    // ========== KONFIGURASI PARTICLES ANIMASI ==========
     particlesJS("particles-js", {
       particles: {
         number: { value: 100, density: { enable: true, value_area: 1000 } },
