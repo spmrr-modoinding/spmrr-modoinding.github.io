@@ -1,7 +1,5 @@
-// script.js
-
-// Fungsi untuk mengubah warna indikator kehadiran pastor secara dinamis
-function updatePastorStatusColors() {
+document.addEventListener('DOMContentLoaded', () => {
+  // Ubah warna indikator kehadiran
   const indicators = document.querySelectorAll('.indicator');
   indicators.forEach(indicator => {
     const text = indicator.textContent.toLowerCase();
@@ -15,66 +13,59 @@ function updatePastorStatusColors() {
       indicator.textContent = "Ada";
     }
   });
-}
 
-// Fungsi untuk mengaktifkan tab tertentu
-function activateTab(tabId) {
-  const tabButtons = document.querySelectorAll('.tab-button');
-  const tabContents = document.querySelectorAll('.tab-content');
+  // Fungsi aktifkan tab
+  function activateTab(tabId) {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
 
-  tabButtons.forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.tab === tabId);
-  });
+    tabButtons.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.tab === tabId);
+    });
 
-  tabContents.forEach(content => {
-    content.classList.toggle('active', content.id === tabId);
-  });
-}
-
-// Angelus reminder otomatis (pukul 6, 12, 18)
-function checkAngelusTime() {
-  const now = new Date();
-  const hours = now.getHours();
-  const minutes = now.getMinutes();
-  if ((hours === 6 || hours === 12 || hours === 18) && minutes === 0) {
-    alert('🔔 Waktu untuk Doa Angelus. Mari kita berdoa.');
-  }
-}
-setInterval(checkAngelusTime, 60000);
-
-// Inisialisasi saat halaman dimuat
-document.addEventListener('DOMContentLoaded', () => {
-  updatePastorStatusColors();
-
-  const tabButtons = document.querySelectorAll('.tab-button');
-
-  if (tabButtons.length > 0) {
-    activateTab(tabButtons[0].dataset.tab); // Set tab pertama aktif
+    tabContents.forEach(content => {
+      content.classList.toggle('active', content.id === tabId);
+    });
   }
 
-  tabButtons.forEach(button => {
+  // Tambahkan tab Statistik Umat
+  const nav = document.querySelector('.nav');
+  const statistikBtn = document.createElement('button');
+  statistikBtn.className = 'tab-button';
+  statistikBtn.setAttribute('data-tab', 'statistik');
+  statistikBtn.textContent = 'Statistik Umat';
+  nav.appendChild(statistikBtn);
+
+  const statistikSection = document.createElement('section');
+  statistikSection.className = 'tab-content';
+  statistikSection.id = 'statistik';
+  statistikSection.innerHTML = `
+    <h2>Statistik Umat per Tahun</h2>
+    <p>Statistik umat akan dimuat di sini.</p>
+  `;
+  document.querySelector('main').appendChild(statistikSection);
+
+  // Aktivasi tab saat klik
+  const allButtons = document.querySelectorAll('.tab-button');
+  allButtons.forEach(button => {
     button.addEventListener('click', () => {
-      activateTab(button.dataset.tab);
+      const tabId = button.dataset.tab;
+      activateTab(tabId);
     });
   });
 
-  // Tambah tab Statistik Umat secara dinamis jika perlu
-  const nav = document.querySelector('nav');
-  if (nav) {
-    const tabBtn = document.createElement('button');
-    tabBtn.className = 'tab-button';
-    tabBtn.setAttribute('data-tab', 'statistik');
-    tabBtn.textContent = 'Statistik Umat';
-    nav.appendChild(tabBtn);
-
-    const statistikTab = document.createElement('section');
-    statistikTab.className = 'tab-content';
-    statistikTab.id = 'statistik';
-    statistikTab.innerHTML = `
-      <h2>Statistik Umat per Tahun</h2>
-      <p>Konten statistik umat bisa dimasukkan di sini.</p>
-    `;
-    const contentContainer = document.querySelector('main');
-    contentContainer.appendChild(statistikTab);
+  // Aktifkan tab pertama saat load
+  if (allButtons.length > 0) {
+    activateTab(allButtons[0].dataset.tab);
   }
+
+  // Cek waktu Angelus
+  setInterval(() => {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    if ((hours === 6 || hours === 12 || hours === 18) && minutes === 0) {
+      alert('🔔 Waktu untuk Doa Angelus. Mari kita berdoa.');
+    }
+  }, 60000);
 });
