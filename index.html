@@ -132,5 +132,25 @@
       retina_detect: true
     });
   </script>
+  <script>
+  // Fungsi navigasi tab
+  document.querySelectorAll('.tab-button').forEach(button => {
+    button.addEventListener('click', () => {
+      const tabId = button.getAttribute('data-tab');
+
+      // Nonaktifkan semua tab dan tombol
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+      });
+      document.querySelectorAll('.tab-button').forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      // Aktifkan tab dan tombol yang dipilih
+      document.getElementById(tabId).classList.add('active');
+      button.classList.add('active');
+    });
+  });
+</script>
 </body>
 </html>
