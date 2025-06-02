@@ -1,16 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Fungsi aktifkan tab
   function activateTab(tabId) {
     document.querySelectorAll('.tab-button').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.tab === tabId);
     });
-
     document.querySelectorAll('.tab-content').forEach(content => {
       content.classList.toggle('active', content.id === tabId);
     });
   }
 
-  // Tambah tombol Statistik ke nav
   const nav = document.querySelector('.nav');
   const statistikBtn = document.createElement('button');
   statistikBtn.className = 'tab-button';
@@ -18,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
   statistikBtn.textContent = 'Statistik Umat';
   nav.appendChild(statistikBtn);
 
-  // Tambahkan isi tab Statistik
   const statistikSection = document.createElement('section');
   statistikSection.className = 'tab-content';
   statistikSection.id = 'statistik';
@@ -28,20 +24,15 @@ document.addEventListener('DOMContentLoaded', () => {
   `;
   document.querySelector('main').appendChild(statistikSection);
 
-  // Pasang event listener SEKARANG untuk semua tombol, termasuk yang baru ditambahkan
   nav.querySelectorAll('.tab-button').forEach(button => {
     button.addEventListener('click', () => {
       activateTab(button.dataset.tab);
     });
   });
 
-  // Aktifkan tab pertama
   const firstTab = nav.querySelector('.tab-button');
-  if (firstTab) {
-    activateTab(firstTab.dataset.tab);
-  }
+  if (firstTab) activateTab(firstTab.dataset.tab);
 
-  // Warna status pastor
   document.querySelectorAll('.indicator').forEach(indicator => {
     const text = indicator.textContent.toLowerCase();
     if (text.includes('tidak')) {
@@ -55,7 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Angelus
   setInterval(() => {
     const now = new Date();
     const h = now.getHours();
