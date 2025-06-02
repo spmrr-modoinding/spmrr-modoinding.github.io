@@ -26,7 +26,7 @@ html, body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
+  overflow-x: auto;
 }
 
 /* ========== HEADER ========== */
@@ -324,4 +324,25 @@ footer {
 #doa p {
   font-size: 0.95rem;
   line-height: 1.6;
+}
+/* ====== GULIR KIRI-KANAN GLOBAL ====== */
+body {
+  overflow-x: auto;
+}
+
+/* Jika sidebar atau kontainer lebar di HP, izinkan scroll horizontal */
+@media (max-width: 768px) {
+  .container {
+    overflow-x: auto;
+    width: 100%;
+  }
+
+  .sidebar {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .tab-button {
+    white-space: nowrap;
+  }
 }
