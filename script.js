@@ -64,22 +64,26 @@ document.addEventListener('DOMContentLoaded', () => {
     <h2 class="mt-4">Tentang Paroki</h2>
 
     <div class="card shadow-sm border rounded p-3 mb-4 animate-fadein">
-      <h5>Sejarah Singkat</h5>
-      <p>
-        Paroki Santa Perawan Maria Ratu Rosari Suci Modoinding, yang terletak di Desa Sinisir, Kecamatan Modoinding, Kabupaten Minahasa Selatan, Sulawesi Utara, merupakan bagian dari Keuskupan Manado dan berada dalam Kevikepan Stella Maris.
-		Paroki ini dimekarkan dari Paroki St. Paulus Tompaso Baru dan resmi berdiri sebagai paroki mandiri pada tanggal 14 Agustus 2011.</p>
-		<p>Alamat Paroki Sta. Perawan Maria Ratu Rosari Modoindng terletak di:</p>
-		<p>Jl. Trans Sulawesi, Desa Sinisir, Jaga VIII, Kecamatan Modoinding, Kabupaten Minahasa Selatan 95358 Provinsi Sulawesi Utara.</p>
+      <b>Sejarah Singkat</b>
+      <p style="text-align: justify;">
+        Paroki Santa Perawan Maria Ratu Rosari Modoinding merupakan Gereja Paroki Katolik yang terletak di Jl. Trans Sulawesi, Desa Sinisir, Jaga VIII, Kecamatan Modoinding, Kabupaten Minahasa Selatan 95358 Provinsi Sulawesi Utara.. Paroki ini didedikasikan kepada Santa Perawan Maria dengan gelar Ratu Rosari dan berada di bawah yurisdiksi Keuskupan Manado. Sebelum berstatus paroki sendiri, umat Katolik Sinisir dulunya adalah Stasi dan termasuk dalam wilayah Paroki St. Paulus Tompaso Baru. Menurut catatan keuskupan, buku baptis paroki Sinisir mulai dicatat sejak tahun 2007, sehingga Paroki Maria Ratu Rosari Modoinding mulai aktif pada pertengahan dekade 2000-an (sekitar 2007) sebagai pemekaran dari paroki sebelumnya.
+		Paroki Maria Ratu Rosari Modoinding merupakan bagian Kevikepan Stella Maris yang berada di bawah Keuskupan Manado. Dengan demikian, paroki ini secara langsung berkoordinasi dengan Uskup Manado dalam setiap kegiatan rohani dan administratif.
+		</P><P><b>Paroki ini mempunyai 5 Stasi yakni diantaranya:</b></p>
+		<p>- STASI SANTA THERESIA MAKAAROYEN -</p>
+		<p>- STASI HATI KUDUS YESUS MOBUYA -</p>
+		<p>- STASI REX MUNDI TAMBELANG -</p>
+		<p>- STASI SANTO ANDREAS KINAMANG -</p>
+		<p>- STASI CHRISTUS REX LININGAAN -</p>
     </div>
 
     <div class="card shadow-sm border rounded p-3 animate-fadein">
-      <h5>Daftar Pastor & Pastor Rekan</h5>
+      <h5>Pastor & Vikaris Parokial</h5>
       <div class="accordion" id="accordionPastor">
 
         <div class="accordion-item">
           <h2 class="accordion-header" id="pastor2">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePastor2">
-              P. Joseph Ansow, Pr.
+              <b>P. Joseph Ansow, Pr.</b>
             </button>
           </h2>
           <div id="collapsePastor2" class="accordion-collapse collapse" aria-labelledby="pastor2">
@@ -93,7 +97,21 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="accordion-item">
           <h2 class="accordion-header" id="pastor3">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePastor3">
-              P. Stenly Ambun, Pr. (Pastor Rekan)
+              <b>P. Stenly Ambun, Pr. (Vikaris Parokial)</b>
+            </button>
+          </h2>
+          <div id="collapsePastor3" class="accordion-collapse collapse" aria-labelledby="pastor3">
+            <div class="accordion-body text-center">
+              <img src="pastor-stenly.jpg" class="img-fluid rounded shadow-sm mb-2" style="max-height:200px;" />
+              <p>Masa Jabatan: 2024 - Sekarang</p>
+            </div>
+          </div>
+        </div>
+		
+		 <div class="accordion-item">
+          <h2 class="accordion-header" id="pastor3">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePastor3">
+              <b>P. Feigty Boseke, Pr.</b>
             </button>
           </h2>
           <div id="collapsePastor3" class="accordion-collapse collapse" aria-labelledby="pastor3">

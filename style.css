@@ -23,7 +23,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  font-family: 'Inter', sans-serif;
+  font-family: "Russo One", Sans-serif;
   background-color: #f0f6ff;
   color: #333;
   height: 100%;
@@ -373,7 +373,7 @@ body {
 }
 
 #doa h3 {
-  font-family: 'Merriweather', serif;
+  font-family: "Russo One", Sans-serif;
   font-size: 1.2rem;
   color: var(--blue-main);
   margin-bottom: 0.5rem;
