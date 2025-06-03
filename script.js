@@ -109,15 +109,15 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
 		
 		 <div class="accordion-item">
-          <h2 class="accordion-header" id="pastor3">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePastor3">
-              <b>P. Feigty Boseke, Pr.</b>
+          <h2 class="accordion-header" id="pastor4">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePastor4">
+              <b>P. Feighty Y. Boseke, Pr. (Alm)</b>
             </button>
           </h2>
-          <div id="collapsePastor3" class="accordion-collapse collapse" aria-labelledby="pastor3">
+          <div id="collapsePastor4" class="accordion-collapse collapse" aria-labelledby="pastor4">
             <div class="accordion-body text-center">
-              <img src="pastor-stenly.jpg" class="img-fluid rounded shadow-sm mb-2" style="max-height:200px;" />
-              <p>Masa Jabatan: 2024 - Sekarang</p>
+              <img src="pastor-feighty.jpg" class="img-fluid rounded shadow-sm mb-2" style="max-height:200px;" />
+              <p>Masa Jabatan: 2018 - 2024</p>
             </div>
           </div>
         </div>
