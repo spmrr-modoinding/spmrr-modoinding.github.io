@@ -1,36 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
-  /*
-   * Fungsi activateTab:
-   * Mengatur tampilan tab agar hanya tab yang dipilih yang aktif (terlihat),
-   * dan tombol tab yang sesuai diberi class 'active' untuk styling.
-   * @param {string} tabId - ID tab yang ingin diaktifkan
-   */
   function activateTab(tabId) {
-    // Loop semua tombol tab dan aktifkan yang sesuai tabId
     document.querySelectorAll('.tab-button').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.tab === tabId);
     });
-    // Loop semua konten tab dan tampilkan yang sesuai tabId
     document.querySelectorAll('.tab-content').forEach(content => {
       content.classList.toggle('active', content.id === tabId);
     });
   }
 
-  /*
-   * Menambahkan tombol baru "Statistik Umat" ke navigasi tab.
-   * Tombol ini digunakan untuk membuka tab statistik.
-   */
   const nav = document.querySelector('.nav');
+
+  // Tambahkan tombol Statistik Umat
   const statistikBtn = document.createElement('button');
   statistikBtn.className = 'tab-button';
   statistikBtn.setAttribute('data-tab', 'statistik');
   statistikBtn.textContent = 'Statistik Umat';
   nav.appendChild(statistikBtn);
 
-  /*
-   * Membuat section baru berisi data statistik umat dalam bentuk tabel.
-   * Section ini akan muncul saat tab Statistik dipilih.
-   */
+  // Tambahkan tombol Tentang Paroki
+  const tentangBtn = document.createElement('button');
+  tentangBtn.className = 'tab-button';
+  tentangBtn.setAttribute('data-tab', 'tentang');
+  tentangBtn.textContent = 'Tentang Paroki';
+  nav.appendChild(tentangBtn);
+
+  // Tambahkan konten Statistik Umat
   const statistikSection = document.createElement('section');
   statistikSection.className = 'tab-content';
   statistikSection.id = 'statistik';
@@ -62,28 +56,70 @@ document.addEventListener('DOMContentLoaded', () => {
   `;
   document.querySelector('main').appendChild(statistikSection);
 
-  /*
-   * Menambahkan event listener pada semua tombol tab.
-   * Saat tombol diklik, akan memanggil activateTab untuk menampilkan konten tab yang sesuai.
-   */
+  // Tambahkan konten Tentang Paroki
+  const tentangSection = document.createElement('section');
+  tentangSection.className = 'tab-content';
+  tentangSection.id = 'tentang';
+  tentangSection.innerHTML = `
+    <h2 class="mt-4">Tentang Paroki</h2>
+
+    <div class="card shadow-sm border rounded p-3 mb-4 animate-fadein">
+      <h5>Sejarah Singkat</h5>
+      <p>
+        Paroki Santa Perawan Maria Ratu Rosari Suci Modoinding, yang terletak di Desa Sinisir, Kecamatan Modoinding, Kabupaten Minahasa Selatan, Sulawesi Utara, merupakan bagian dari Keuskupan Manado dan berada dalam Kevikepan Stella Maris.
+		Paroki ini dimekarkan dari Paroki St. Paulus Tompaso Baru dan resmi berdiri sebagai paroki mandiri pada tanggal 14 Agustus 2011.</p>
+		<p>Alamat Paroki Sta. Perawan Maria Ratu Rosari Modoindng terletak di:</p>
+		<p>Jl. Trans Sulawesi, Desa Sinisir, Jaga VIII, Kecamatan Modoinding, Kabupaten Minahasa Selatan 95358 Provinsi Sulawesi Utara.</p>
+    </div>
+
+    <div class="card shadow-sm border rounded p-3 animate-fadein">
+      <h5>Daftar Pastor & Pastor Rekan</h5>
+      <div class="accordion" id="accordionPastor">
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="pastor2">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePastor2">
+              P. Joseph Ansow, Pr.
+            </button>
+          </h2>
+          <div id="collapsePastor2" class="accordion-collapse collapse" aria-labelledby="pastor2">
+            <div class="accordion-body text-center">
+              <img src="pastor-joseph.jpg" class="img-fluid rounded shadow-sm mb-2" style="max-height:200px;" />
+              <p>Masa Jabatan: 2025 - Sekarang</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="pastor3">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePastor3">
+              P. Stenly Ambun, Pr. (Pastor Rekan)
+            </button>
+          </h2>
+          <div id="collapsePastor3" class="accordion-collapse collapse" aria-labelledby="pastor3">
+            <div class="accordion-body text-center">
+              <img src="pastor-stenly.jpg" class="img-fluid rounded shadow-sm mb-2" style="max-height:200px;" />
+              <p>Masa Jabatan: 2024 - Sekarang</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.querySelector('main').appendChild(tentangSection);
+
+  // Event listener tab
   nav.querySelectorAll('.tab-button').forEach(button => {
     button.addEventListener('click', () => {
       activateTab(button.dataset.tab);
     });
   });
 
-  /*
-   * Mengaktifkan tab pertama secara otomatis saat halaman selesai dimuat.
-   * Agar tidak tampil kosong pada awal.
-   */
+  // Aktifkan tab pertama
   const firstTab = nav.querySelector('.tab-button');
   if (firstTab) activateTab(firstTab.dataset.tab);
 
-  /*
-   * Mengatur indikator kehadiran pastor dengan memberi warna hijau jika "Ada"
-   * dan merah jika "Tidak Ada".
-   * Juga mengganti teks agar konsisten "Ada" atau "Tidak Ada".
-   */
+  // Indikator kehadiran pastor
   document.querySelectorAll('.indicator').forEach(indicator => {
     const text = indicator.textContent.toLowerCase();
     const isHadir = text.includes('ada');
@@ -92,11 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
     indicator.textContent = isHadir ? 'Ada' : 'Tidak Ada';
   });
 
-  /*
-   * Pengingat Doa Angelus setiap pukul 6:00, 12:00, dan 18:00 tepat.
-   * Mengecek setiap menit dengan setInterval.
-   * Jika waktu sesuai, tampilkan alert pengingat.
-   */
+  // Pengingat Doa Angelus
   setInterval(() => {
     const now = new Date();
     const h = now.getHours();
