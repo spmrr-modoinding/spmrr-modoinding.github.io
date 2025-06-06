@@ -248,10 +248,6 @@ footer {
 /* ========== RESPONSIVE (LAYAR KECIL) ========== */
 /* Saat layar kecil, sidebar jadi horizontal dan tombol tab berubah style */
 @media (max-width: 768px) {
-    .nav .tab-button i {
-    display: block;
-    margin-bottom: 0.25rem;
-  }
   .container {
     flex-direction: column;
     padding: 0 1rem;
