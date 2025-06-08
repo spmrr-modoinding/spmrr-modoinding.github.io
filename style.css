@@ -1,5 +1,4 @@
 /* ========== VARIABEL GLOBAL ========== */
-/* Warna-warna utama yang dipakai di seluruh halaman */
 :root {
   --blue-main: #004a99;
   --blue-light: #b3d9ff;
@@ -11,18 +10,14 @@
   --red: #f44336;
   --white: #ffffff;
 
-  /* Tambahan warna baru (jika ada) */
   --sidebar-bg: var(--blue-bg);
   --sidebar-active-border: var(--blue-main);
 }
 
 /* ========== RESET & DASAR ========== */
-/* Reset margin & padding, box-sizing untuk kemudahan layout,
-   font dan warna dasar body, full height dan flex column */
 * { box-sizing: border-box; }
 html, body {
-  margin: 0;
-  padding: 0;
+  margin: 0; padding: 0;
   font-family: "Russo One", Sans-serif;
   background-color: #f0f6ff;
   color: #333;
@@ -34,7 +29,6 @@ html, body {
 }
 
 /* ========== HEADER ========== */
-/* Style area header: posisi, warna background dan teks, padding */
 header {
   position: relative;
   z-index: 1;
@@ -43,21 +37,18 @@ header {
   background-color: var(--blue-light);
   color: var(--blue-main);
 }
-/* Logo di header: ukuran dan efek hover */
 .logo {
   width: 100px;
   margin-bottom: 0.3rem;
   transition: transform 0.5s ease;
 }
 .logo:hover { transform: scale(1.1); }
-/* Heading dan paragraf di header, margin dan font size */
 header h1, header p {
   margin: 0.2rem 0 0;
   font-size: 1rem;
 }
 
 /* ========== LAYOUT UTAMA ========== */
-/* Container utama halaman, dengan flex row dan spacing antar elemen */
 .container {
   display: flex;
   flex: 1;
@@ -66,20 +57,27 @@ header h1, header p {
   gap: 1rem;
   width: 100%;
   box-sizing: border-box;
+  transition: margin-left 0.3s ease;
+  margin-left: 0;
+  position: relative;
+  z-index: 1;
 }
 .foto-wrapper {
   display: flex;
-  flex-wrap: nowrap; /* jangan biarkan pindah ke baris baru */
-  overflow-x: auto;   /* jika tidak muat, bisa di-scroll ke samping */
-  gap: 1rem;          /* jarak antar pasangan foto-nama */
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 1rem;
   padding: 1rem;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
 }
 .foto-item {
   display: flex;
-  flex-direction: row; /* tetap kiri-kanan */
+  flex-direction: row;
   align-items: center;
   gap: 0.5rem;
-  min-width: max-content; /* pastikan tidak menyusut */
+  min-width: max-content;
+  scroll-snap-align: start;
 }
 .foto-item img {
   width: 50px;
@@ -89,19 +87,34 @@ header h1, header p {
 }
 
 /* ========== SIDEBAR ========== */
-/* Sidebar kiri: lebar tetap, background warna biru muda, padding, border-radius, shadow */
 .sidebar {
-  flex: 0 0 220px;
-  background-color: var(--sidebar-bg);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 250px;
+  background-color: var(--blue-light);
+  color: var(--blue-main); /* Opsional: agar teks sidebar tetap kontras */
+  color: white;
   padding: 0.5rem;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  position: relative; /* tambahan agar positioning konten anak bisa */
   overflow-y: auto;
-  max-height: calc(100vh - 80px); /* agar sidebar tidak melebihi viewport */
+  transition: transform 0.3s ease, width 0.3s ease;
+  z-index: 1040;
+  transform: translateX(-100%);
 }
-
-/* Tombol tab di sidebar: full width, padding, warna dan border kiri transparan */
+.sidebar.active {
+  transform: translateX(0);
+}
+.sidebar.collapsed {
+  transform: translateX(-100%);
+  width: 60px;
+  overflow-x: hidden;
+}
+.sidebar.collapsed .tab-button span {
+  display: none;
+}
 .tab-button {
   display: block;
   width: 100%;
@@ -117,7 +130,6 @@ header h1, header p {
   transition: background-color 0.3s, border-left-color 0.3s, color 0.3s;
   user-select: none;
 }
-/* State hover dan aktif tombol tab: background warna biru muda dan border kiri biru */
 .tab-button:hover,
 .tab-button.active {
   background-color: var(--blue-light);
@@ -127,7 +139,6 @@ header h1, header p {
 }
 
 /* ========== MAIN CONTENT ========== */
-/* Area utama konten: background putih, padding, border-radius dan shadow */
 main {
   flex: 1;
   background-color: #fff;
@@ -138,7 +149,8 @@ main {
   overflow-y: auto;
   max-height: calc(100vh - 80px);
 }
-/* Konten tiap tab awalnya disembunyikan dan diberi efek transisi */
+
+/* Tab content */
 .tab-content {
   opacity: 0;
   transition: opacity 0.5s ease;
@@ -146,11 +158,10 @@ main {
   overflow: hidden;
   position: absolute;
   width: 100%;
-  pointer-events: none; /* supaya gak bisa diklik saat tidak aktif */
+  pointer-events: none;
   top: 0;
   left: 0;
 }
-/* Konten tab aktif akan ditampilkan dengan transisi halus */
 .tab-content.active {
   opacity: 1;
   height: auto;
@@ -159,24 +170,21 @@ main {
 }
 
 /* ========== PASTOR (Foto & Status) ========== */
-/* Wrapper foto pastor dan status: flex wrap, center align, dan jarak */
 .pastors, .pastor-status {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 2rem;
 }
-/* Foto pastor bundar, ukuran, border warna kuning, efek hover zoom */
 .pastor-photo {
-  max-width: 100%;
-  height: auto;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid #FFF44F;
   transition: transform 0.3s ease;
 }
 .pastor-photo:hover { transform: scale(1.1); }
-/* Indikator kehadiran: bentuk kapsul, warna teks putih, ukuran font */
 .indicator {
   display: inline-block;
   margin-top: 0.5rem;
@@ -186,12 +194,10 @@ main {
   font-size: 0.9rem;
   color: white;
 }
-/* Warna indikator hijau dan merah sesuai status */
 .indicator.green { background-color: var(--green); }
 .indicator.red { background-color: var(--red); }
 
 /* ========== TABEL STATISTIK ========== */
-/* Styling tabel: full width, tanpa jarak antar border, margin atas, shadow */
 .stats-table {
   width: 100%;
   border-collapse: collapse;
@@ -202,28 +208,23 @@ main {
   overflow-x: auto;
   display: block;
 }
-/* Sel tabel: padding, rata kiri, border bawah tipis */
 .stats-table th, .stats-table td {
   padding: 1rem;
   text-align: left;
   border-bottom: 1px solid #d0e8ff;
 }
-/* Header tabel: background biru muda, teks biru tua */
 .stats-table th {
   background-color: var(--blue-bg);
   color: var(--blue-main);
 }
-/* Baris genap tabel diberi warna latar agar mudah dibaca */
 .stats-table tbody tr:nth-child(even) {
   background-color: #f0f6ff;
 }
-/* Hover baris tabel: ganti background warna hover */
 .stats-table tbody tr:hover {
   background-color: var(--blue-hover);
 }
 
 /* ========== FOOTER ========== */
-/* Footer: text center, padding, background warna biru soft, border atas */
 footer {
   text-align: center;
   padding: 1rem;
@@ -235,158 +236,118 @@ footer {
 }
 
 /* ========== PARTIKEL LAYER ========== */
-/* Layer partikel untuk efek background, full screen, z-index paling bawah */
 #particles-js {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 0; left: 0;
   width: 100%;
   height: 100%;
   z-index: 0;
 }
 
-/* ========== RESPONSIVE (LAYAR KECIL) ========== */
-/* Saat layar kecil, sidebar jadi horizontal dan tombol tab berubah style */
+/* ========== TOGGLE SIDEBAR BUTTON ========== */
+.sidebar-toggle {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1100;
+  background-color: var(--blue-main);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ========== RESPONSIF UNTUK LAYAR KECIL ========== */
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
     padding: 0 1rem;
-    overflow-x: auto;
     width: 100%;
-    flex: 1 1 100%;
     margin-bottom: 1rem;
+    margin-left: 0;
   }
   .sidebar {
-    flex: 1 1 100%;
-    margin-bottom: 1rem;
-    width: 100%;
-    overflow-x: auto;
-    white-space: nowrap;
-    max-height: none;
+    width: 180px;
+    height: auto;
+    max-height: 80vh;
+    top: 50px;
+    border-radius: 0 0 10px 0;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+    transform: translateX(-100%);
   }
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  body.sidebar-open::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 1035;
+  }
+
   .tab-button {
-    flex: 1 1 auto;
-    text-align: center;
-    border-left: none;
-    border-bottom: 3px solid transparent;
-    padding: 1rem 0.75rem;
-    white-space: nowrap;
-  }
+.tab-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: flex-start;
+  text-align: left;
+  width: 100%;
+  padding: 1rem 1.2rem;
+  border: none;
+  background: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #0d6efd; /* warna biru bootstrap */
+  font-weight: 600;
+  border-left: 4px solid transparent;
+  transition: background-color 0.3s, border-left-color 0.3s, color 0.3s;
+  user-select: none;
+}
   .tab-button.active {
     border-bottom: 3px solid var(--blue-main);
   }
+
   main {
     padding: 0.5rem;
     width: 100%;
     max-height: none;
   }
+
   .pastors, .pastor-status {
     flex-direction: column;
     gap: 1.5rem;
     align-items: center;
   }
+
   .pastor-photo {
-    max-width: 100%;
-    height: auto;
+    width: 100px;
+    height: 100px;
   }
+
   footer {
     font-size: 0.8rem;
     padding: 1.2rem 0.8rem;
   }
 }
 
-/* ========== PENGATURAN UKURAN FOTO PASTOR & TAB BUTTON UNTUK BERBAGAI LAYAR KECIL ========== */
+/* ========== TAMBAHAN UNTUK BERBAGAI LAYAR KECIL ========== */
 @media (max-width: 1440px), (max-width: 1080px), (max-width: 720px), (max-width: 480px) {
-  .pastor-photo {
-    width: 100px;
-    height: 100px;
-  }
   .pastor-name {
     font-weight: bold;
-    text-align: center; /* biar nama rata tengah di bawah foto */
-    margin-top: 0.3rem; /* beri jarak sedikit dari foto */
-  }
-  .pastors {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem; /* atau 0.5rem jika terlalu renggang */
-    align-items: center;
+    text-align: center;
+    margin-top: 0.3rem;
   }
   .tab-button {
-    font-size: 0.7rem;
-    padding: 0.8rem 0.5rem;
+    font-size: 0.75rem;
+    padding: 0.8rem 1rem;
   }
-  main {
-    padding: 0.5rem 0.5rem;
-  }
-}
-
-/* ========== SOSIAL MEDIA ICONS ========== */
-/* Wrapper icon: inline-flex agar icon berjejer */
-.icons {
-  display: inline-flex;
-}
-/* Link icon: margin horizontal, tanpa underline, warna putih, posisi relatif */
-.icons a {
-  margin: 0 25px;
-  text-decoration: none;
-  color: var(--white);
-  display: block;
-  position: relative;
-}
-/* Layer efek di dalam link: ukuran, transisi transform */
-.icons a .layer {
-  width: 50px;
-  height: 50px;
-  transition: transform 1s;
-}
-/* Hover layer: rotasi dan skew untuk efek dinamis */
-.icons a:hover .layer {
-  transform: rotate(-35deg) skew(20deg);
-}
-/* Span di layer: posisi absolut, ukuran 90%, border dan radius */
-.icons a .layer span {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 90%;
-  width: 90%;
-  border: 1px solid var(--white);
-  border-radius: 10px;
-  transition: all 0.3s;
-  font-size: 30px;
-  line-height: 45px;
-  text-align: center;
-}
-/* Warna dan border untuk setiap icon sosial media */
-.icons a:nth-child(1) .layer span { color: #4267B2; border-color: #4267B2; }
-.icons a:nth-child(2) .layer span { color: #1DA1F2; border-color: #1DA1F2; }
-.icons a:nth-child(3) .layer span { color: #E1306C; border-color: #E1306C; }
-/* Shadow saat hover tiap icon */
-.icons a:hover:nth-child(1) .layer span { box-shadow: -1px 1px 3px #4267B2; }
-.icons a:hover:nth-child(2) .layer span { box-shadow: -1px 1px 3px #1DA1F2; }
-.icons a:hover:nth-child(3) .layer span { box-shadow: -1px 1px 3px #E1306C; }
-
-/* ====== GULIR KIRI-KANAN GLOBAL ====== */
-body {
-  overflow-x: auto;
-}
-
-#doa h3 {
-  font-family: "Russo One", Sans-serif;
-  font-size: 1.2rem;
-  color: var(--blue-main);
-  margin-bottom: 0.5rem;
-}
-
-#doa p {
-  font-size: 0.95rem;
-  line-height: 1.6;
-}
-.animate-fadein {
-  animation: fadeIn 0.7s ease-in-out;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
 }

@@ -1,41 +1,18 @@
-<!DOCTYPE html>
 <html lang="id">
 <head>
-  <!-- ========== METADATA & STYLE ========== -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Paroki SP Maria Ratu Rosari Modoinding</title>
   <link rel="icon" href="logo-paroki2.png" type="image/png" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <script src="https://kit.fontawesome.com/a2ec24cfcd.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
 
   <!-- ========== BOOTSTRAP 5 ========== -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<style>
-  .sidebar {
-    transition: all 0.3s ease-in-out;
-    min-width: 220px;
-    max-width: 250px;
-    z-index: 1030;
-  }
-  .tab-button {
-    transition: background-color 0.3s ease, color 0.3s ease;
-    text-align: left;
-  }
-  .tab-button:hover {
-    background-color: #e6f2ff;
-    color: #004a99;
-  }
-  .tab-button.active {
-    background-color: #cce5ff;
-    color: #004a99;
-    font-weight: bold;
-  }
-</style>
-
 </head>
 <body>
   <!-- ========== HEADER / LOGO & NAMA PAROKI ========== -->
@@ -56,41 +33,39 @@
   </div>
 
   <!-- ========== KONTEN UTAMA: SIDEBAR & TAB KONTEN ========== -->
-  <div class="container">
-    <!-- ========== SIDEBAR NAVIGASI ========== -->
-<!-- Tambahkan di dalam <body> menggantikan <aside class="sidebar"> -->
-<nav id="sidebarMenu" class="d-lg-block sidebar bg-light collapse">
-  <div class="position-sticky">
-    <div class="list-group list-group-flush mx-3 mt-4">
-      <a href="#" class="list-group-item list-group-item-action py-2 ripple tab-button active text-start" data-tab="beranda">
-        <i class="fas fa-home fa-fw me-2"></i><span>Beranda</span>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action py-2 ripple tab-button text-start" data-tab="agenda">
-        <i class="fas fa-calendar-alt fa-fw me-2"></i><span>Agenda</span>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action py-2 ripple tab-button text-start" data-tab="angelus">
-        <i class="fas fa-praying-hands fa-fw me-2"></i><span>Angelus</span>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action py-2 ripple tab-button text-start" data-tab="pastor">
-        <i class="fas fa-user-friends fa-fw me-2"></i><span>Pastor</span>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action py-2 ripple tab-button text-start" data-tab="sekretariat">
-        <i class="fas fa-envelope fa-fw me-2"></i><span>Sekretariat</span>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action py-2 ripple tab-button text-start" data-tab="statistik">
-        <i class="fas fa-chart-bar fa-fw me-2"></i><span>Statistik Umat Paroki</span>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action py-2 ripple tab-button text-start" data-tab="tentang">
-        <i class="fas fa-info-circle fa-fw me-2"></i><span>Tentang Paroki</span>
-      </a>
-    </div>
-  </div>
-  </nav>
 
-<!-- Toggle button untuk sidebar di mobile -->
-<button class="btn btn-primary d-lg-none m-2" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
-  <i class="fas fa-bars"></i>
+  <div class="container">
+ <!-- Tombol Toggle Sidebar -->
+<button id="sidebarToggleBtn" class="btn btn-primary sidebar-toggle" type="button">
+  <i class="bi bi-list"></i>
 </button>
+
+<!-- Sidebar Simpel -->
+<aside id="sidebarMenu" class="sidebar collapsed">
+  <nav class="nav d-flex flex-column">
+    <button class="tab-button active" data-tab="beranda">
+      <i class="bi bi-house-door-fill"></i> <span>Beranda</span>
+    </button>
+    <button class="tab-button" data-tab="agenda">
+      <i class="bi bi-calendar-event"></i> <span>Agenda</span>
+    </button>
+    <button class="tab-button" data-tab="angelus">
+      <i class="bi bi-heart-fill"></i> <span>Angelus</span>
+    </button>
+    <button class="tab-button" data-tab="pastor">
+      <i class="bi bi-person-vcard-fill"></i> <span>Pastor</span>
+    </button>
+    <button class="tab-button" data-tab="sekretariat">
+      <i class="bi bi-envelope-fill"></i> <span>Sekretariat</span>
+    </button>
+    <button class="tab-button" data-tab="statistik">
+      <i class="bi bi-bar-chart-line-fill"></i> <span>Statistik</span>
+    </button>
+    <button class="tab-button" data-tab="tentang">
+      <i class="bi bi-info-circle-fill"></i> <span>Tentang</span>
+    </button>
+  </nav>
+</aside>
 
     <!-- ========== KONTEN TIAP TAB ========== -->
     <main>
@@ -298,6 +273,3 @@ Supaya kami dapat menikmati janji Kristus.</p>
   </script>
 </body>
 </html>
-
-
-
