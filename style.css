@@ -351,3 +351,27 @@ footer {
     padding: 0.8rem 1rem;
   }
 }
+.dokumentasi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 8px;
+}
+
+.dokumentasi-grid a img {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+
+.dokumentasi-grid a img:hover {
+  transform: scale(1.05);
+}
+
+@media (max-width: 600px) {
+  .dokumentasi-grid a img {
+    height: 60px;
+  }
+}

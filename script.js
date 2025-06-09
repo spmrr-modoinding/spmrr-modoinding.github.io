@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sidebarMenu = document.getElementById('sidebarMenu');
     if (sidebarMenu) {
       sidebarMenu.classList.add('collapsed');
+      sidebarMenu.classList.remove('active'); // pastikan tidak aktif
     }
   }
 
@@ -124,20 +125,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, 1000);
 
-  // Toggle sidebar
-  const sidebarToggle = document.querySelector('.sidebar-toggle');
-  const sidebar = document.querySelector('.sidebar');
-  if (sidebarToggle && sidebar) {
-    sidebarToggle.addEventListener('click', () => {
-      sidebar.classList.toggle('active');
-    });
-  }
-
+  // Toggle sidebar - versi final
   const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
   const sidebarMenu = document.getElementById('sidebarMenu');
   if (sidebarToggleBtn && sidebarMenu) {
     sidebarToggleBtn.addEventListener('click', () => {
       sidebarMenu.classList.toggle('collapsed');
+      sidebarMenu.classList.toggle('active');
     });
   }
 });
