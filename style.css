@@ -107,14 +107,6 @@ header h1, header p {
 .sidebar.active {
   transform: translateX(0);
 }
-.sidebar.collapsed {
-  transform: translateX(-100%);
-  width: 60px;
-  overflow-x: hidden;
-}
-.sidebar.collapsed .tab-button span {
-  display: none;
-}
 .tab-button {
   display: block;
   width: 100%;
@@ -373,5 +365,16 @@ footer {
 @media (max-width: 600px) {
   .dokumentasi-grid a img {
     height: 60px;
+  }
+}
+@media (min-width: 769px) {
+  .sidebar.collapsed {
+    width: 60px;
+    overflow-x: hidden;
+    transform: translateX(0);
+  }
+
+  .sidebar.collapsed .tab-button span {
+    display: none;
   }
 }

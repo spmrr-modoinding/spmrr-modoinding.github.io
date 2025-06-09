@@ -1,19 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
-  function activateTab(tabId) {
-    document.querySelectorAll('.tab-button').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.tab === tabId);
-    });
-    document.querySelectorAll('.tab-content').forEach(content => {
-      content.classList.toggle('active', content.id === tabId);
-    });
+function activateTab(tabId) {
+  document.querySelectorAll('.tab-button').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === tabId);
+  });
+  document.querySelectorAll('.tab-content').forEach(content => {
+    content.classList.toggle('active', content.id === tabId);
+  });
 
-    // Tutup sidebar setelah tab diklik (hanya untuk tampilan mobile)
-    const sidebarMenu = document.getElementById('sidebarMenu');
-    if (sidebarMenu) {
-      sidebarMenu.classList.add('collapsed');
-      sidebarMenu.classList.remove('active'); // pastikan tidak aktif
-    }
+  // Di mobile, tutup sidebar dengan hapus class 'active' saja
+  const sidebarMenu = document.getElementById('sidebarMenu');
+  if (window.innerWidth <= 768 && sidebarMenu) {
+    sidebarMenu.classList.remove('active');
   }
+}
+
 
   const nav = document.querySelector('.nav');
 
@@ -129,9 +129,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
   const sidebarMenu = document.getElementById('sidebarMenu');
   if (sidebarToggleBtn && sidebarMenu) {
-    sidebarToggleBtn.addEventListener('click', () => {
-      sidebarMenu.classList.toggle('collapsed');
-      sidebarMenu.classList.toggle('active');
-    });
+sidebarToggleBtn.addEventListener('click', () => {
+  if (window.innerWidth <= 768) {
+    sidebarMenu.classList.toggle('active');
+  } else {
+    sidebarMenu.classList.toggle('collapsed');
   }
 });
+
+}
+});
+if (window.innerWidth <= 768 && sidebarMenu) {
+  sidebarMenu.classList.remove('active');
+}
