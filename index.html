@@ -1,384 +1,504 @@
 <html lang="id">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Paroki SP Maria Ratu Rosari Modoinding</title>
-  <link rel="icon" href="logo-paroki2.png" type="image/png" />
-  <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet" />
-  <script src="https://kit.fontawesome.com/a2ec24cfcd.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="style.css" />
-</head>
-
-  <!-- ========== BOOTSTRAP 5 ========== -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-  <!-- ========== HEADER / LOGO & NAMA PAROKI ========== -->
- <header>
-  <header style="position: relative; z-index: 1;">
-    <div id="particles-js"></div>
-    <img class="logo" src="logo-paroki.png" alt="Logo Paroki" />
-    <h1>Paroki St. Perawan Maria Ratu Rosari - Modoinding</h1>
-    <p>Jl. Trans Sulawesi, Desa Sinisir, Jaga VIII, Kecamatan Modoinding, Kabupaten Minahasa Selatan 95358</p>
-  </header>
-
-  <!-- ========== ALERT INFO ========== -->
-  <div class="container mt-2">
-    <div class="alert alert-info alert-dismissible fade show" role="alert">
-      <strong>Informasi:</strong> Ini website masih sementara ja beking.
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-  </div>
-
-  <!-- ========== KONTEN UTAMA: SIDEBAR & TAB KONTEN ========== -->
-
-  <div class="container">
- <!-- Tombol Toggle Sidebar -->
-<button id="sidebarToggleBtn" class="btn btn-primary sidebar-toggle" type="button">
-  <i class="bi bi-list"></i>
-</button>
-
-<!-- Sidebar Simpel -->
-<aside id="sidebarMenu" class="sidebar collapsed">
-  <nav class="nav d-flex flex-column">
-    <button class="tab-button active" data-tab="beranda">
-      <i class="bi bi-house-door-fill"></i> <span>Beranda</span>
-    </button>
-    <button class="tab-button" data-tab="agenda">
-      <i class="bi bi-calendar-event"></i> <span>Agenda / Pengumuman</span>
-    </button>
-    <button class="tab-button" data-tab="angelus">
-      <i class="bi bi-heart-fill"></i> <span>Angelus</span>
-    </button>
-    <button class="tab-button" data-tab="pastor">
-      <i class="bi bi-person-vcard-fill"></i> <span>Profil Pastor</span>
-    </button>
-    <button class="tab-button" data-tab="sekretariat">
-      <i class="bi bi-envelope-fill"></i> <span>Sekretariat x Komsos</span>
-    </button>
-    <button class="tab-button" data-tab="statistik">
-      <i class="bi bi-bar-chart-line-fill"></i> <span>Statistik Umat Paroki</span>
-    </button>
-    <button class="tab-button" data-tab="tentang">
-      <i class="bi bi-info-circle-fill"></i> <span>Tentang Paroki</span>
-    </button>
-  </nav>
-</aside>
-
-    <!-- ========== KONTEN TIAP TAB ========== -->
-    <main>
-      <section id="beranda" class="tab-content active">
-        <h2>Pastor Paroki & Pastor Rekan</h2>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Paroki SP Maria Ratu Rosari Modoinding
+  </title>
+  <link href="logo-paroki2.png" rel="icon" type="image/png"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet">
+   <script crossorigin="anonymous" src="https://kit.fontawesome.com/a2ec24cfcd.js">
+   </script>
+   <link href="style.css" rel="stylesheet">
+    <header>
+     <header style="position: relative; z-index: 1;">
+      <div id="particles-js">
+      </div>
+      <img alt="Logo Paroki" class="logo" src="logo-paroki.png"/>
+      <h1>
+       Paroki St. Perawan Maria Ratu Rosari - Modoinding
+      </h1>
+      <p>
+       Jl. Trans Sulawesi, Desa Sinisir, Jaga VIII, Kecamatan Modoinding, Kabupaten Minahasa Selatan 95358
+      </p>
+     </header>
+     <!-- ========== ALERT INFO ========== -->
+     <div class="container mt-2">
+      <div class="alert alert-info alert-dismissible fade show" role="alert">
+       <strong>
+        Informasi:
+       </strong>
+       Ini website masih sementara ja beking.
+       <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button">
+       </button>
+      </div>
+     </div>
+     <!-- ========== KONTEN UTAMA: SIDEBAR & TAB KONTEN ========== -->
+     <div class="container">
+      <!-- Tombol Toggle Sidebar -->
+      <button class="btn btn-primary sidebar-toggle" id="sidebarToggleBtn" type="button">
+       <i class="bi bi-list">
+       </i>
+      </button>
+      <!-- Sidebar Simpel -->
+      <aside class="sidebar collapsed" id="sidebarMenu">
+       <nav class="nav d-flex flex-column">
+        <button class="tab-button active" data-tab="beranda">
+         <i class="bi bi-house-door-fill">
+         </i>
+         <span>
+          Beranda
+         </span>
+        </button>
+        <button class="tab-button" data-tab="agenda">
+         <i class="bi bi-calendar-event">
+         </i>
+         <span>
+          Agenda / Pengumuman
+         </span>
+        </button>
+        <button class="tab-button" data-tab="angelus">
+         <i class="bi bi-heart-fill">
+         </i>
+         <span>
+          Angelus
+         </span>
+        </button>
+        <button class="tab-button" data-tab="pastor">
+         <i class="bi bi-person-vcard-fill">
+         </i>
+         <span>
+          Profil Pastor
+         </span>
+        </button>
+        <button class="tab-button" data-tab="sekretariat">
+         <i class="bi bi-envelope-fill">
+         </i>
+         <span>
+          Sekretariat x Komsos
+         </span>
+        </button>
+        <button class="tab-button" data-tab="statistik">
+         <i class="bi bi-bar-chart-line-fill">
+         </i>
+         <span>
+          Statistik Umat Paroki
+         </span>
+        </button>
+        <button class="tab-button" data-tab="tentang">
+         <i class="bi bi-info-circle-fill">
+         </i>
+         <span>
+          Tentang Paroki
+         </span>
+        </button>
+       </nav>
+      </aside>
+      <!-- ========== KONTEN TIAP TAB ========== -->
+      <main>
+       <section class="tab-content active" id="beranda">
+        <h2>
+         Pastor Paroki &amp; Pastor Rekan
+        </h2>
         <div class="pastors">
-          <div>
-            <img class="pastor-photo" src="pastor-joseph.jpg" alt="P. Joseph Ansow" />
-            <p><b>P. Joseph Ansow, Pr.</b></p>
-          </div>
-          <div>
-            <img class="pastor-photo" src="pastor-stenly.jpg" alt="P. Stenly Ambun" />
-            <p><b>P. Stenly Ambun, Pr.</b></p>
-          </div>
+         <div>
+          <img alt="P. Joseph Ansow" class="pastor-photo" src="pastor-joseph.jpg"/>
+          <p>
+           <b>
+            P. Joseph Ansow, Pr.
+           </b>
+          </p>
+         </div>
+         <div>
+          <img alt="P. Stenly Ambun" class="pastor-photo" src="pastor-stenly.jpg"/>
+          <p>
+           <b>
+            P. Stenly Ambun, Pr.
+           </b>
+          </p>
+         </div>
         </div>
-
         <section id="doa">
-<br>
-		  <b>Matius 5:43-44</b></p>
-          <p><i>"Kamu telah mendengar firman: Kasihilah sesamamu manusia dan bencilah musuhmu. Tetapi Aku berkata kepadamu: Kasihilah musuhmu dan berdoalah bagi mereka yang menganiaya kamu."</i>
-		  <br>
-		  <br>
-		  <p style="text-align: justify;">
-          Musuh berarti seorang yang jahat kepada kita, sedangkan ‘Kasih’ (Agape) berarti perhatian dan perlakuan baik tanpa pamrih kepada seseorang. Dan Yesus memerintahkan untuk mengasihi dan mendoakan musuh kita, perintah yang sulit dan idealis. Namun alasan utama ajaran ini adalah karena Allah mengasihi setiap orang tanpa terkecuali, dan Ia memanggil kita untuk melakukan hal yang persis sama, karena bukankah kita diciptakan berdasarkan citra-Nya?<br/>
-            Kejahatan hanyalah mendatangkan penderitaan dan kerugian bagi diri sendiri. Maka pilihan yang ada bukan membalas kejahatan seseorang, namun berdoa baginya; mengasihinya dan memberikan pengampunan yang menyebuhkan. Mengasihi dan mendoakan kebaikan musuh pasti memberi rasa damai di hati, sambil percaya bahwa Allah akan ikut mengubah dan menyembuhkan dirinya. Membalas kejahatan dengan kebaikan pasti menghasikan hal positif bagi kedua pihak. “Berbahagialah orang yang damai karena mereka akan disebut anak – anak Allah” (Mat.5:9).<br/></p>
+         <br/>
+         <b>
+          Matius 5:43-44
+         </b>
+         <p>
+          <i>
+           "Kamu telah mendengar firman: Kasihilah sesamamu manusia dan bencilah musuhmu. Tetapi Aku berkata kepadamu: Kasihilah musuhmu dan berdoalah bagi mereka yang menganiaya kamu."
+          </i>
+          <br/>
+          <br/>
+          <p style="text-align: justify;">
+           Musuh berarti seorang yang jahat kepada kita, sedangkan ‘Kasih’ (Agape) berarti perhatian dan perlakuan baik tanpa pamrih kepada seseorang. Dan Yesus memerintahkan untuk mengasihi dan mendoakan musuh kita, perintah yang sulit dan idealis. Namun alasan utama ajaran ini adalah karena Allah mengasihi setiap orang tanpa terkecuali, dan Ia memanggil kita untuk melakukan hal yang persis sama, karena bukankah kita diciptakan berdasarkan citra-Nya?
+           <br>
+            Kejahatan hanyalah mendatangkan penderitaan dan kerugian bagi diri sendiri. Maka pilihan yang ada bukan membalas kejahatan seseorang, namun berdoa baginya; mengasihinya dan memberikan pengampunan yang menyebuhkan. Mengasihi dan mendoakan kebaikan musuh pasti memberi rasa damai di hati, sambil percaya bahwa Allah akan ikut mengubah dan menyembuhkan dirinya. Membalas kejahatan dengan kebaikan pasti menghasikan hal positif bagi kedua pihak. “Berbahagialah orang yang damai karena mereka akan disebut anak – anak Allah” (Mat.5:9).
+            <br/>
+           </br>
+          </p>
+         </p>
         </section>
-      </section>
-
-      <section id="agenda" class="tab-content">
-        <h2>Agenda / Pengumuman Mingguan</h2>
+       </section>
+       <section class="tab-content" id="agenda">
+        <h2>
+         Agenda / Pengumuman Mingguan
+        </h2>
         <div class="row row-cols-1 row-cols-md-2 g-4 mt-3">
-
-          <div class="col">
-            <div class="card shadow-sm">
-              <div class="card-body">
-                <h5 class="card-title">Jadwal Misa</h5>
-                <p class="card-text">Minggu, ... Juni 2025 - 08:00 WITA</p>
-              </div>
-            </div>
+         <div class="col">
+          <div class="card shadow-sm">
+           <div class="card-body">
+            <h5 class="card-title">
+             Jadwal Misa
+            </h5>
+            <p class="card-text">
+             Minggu, ... Juni 2025 - 08:00 WITA
+            </p>
+           </div>
           </div>
-
-          <div class="col">
-            <div class="card shadow-sm">
-              <div class="card-body">
-                <h5 class="card-title">Agenda Paroki Pekan Ini</h5>
-                <p class="card-text"> ... </p>
-              </div>
-            </div>
+         </div>
+         <div class="col">
+          <div class="card shadow-sm">
+           <div class="card-body">
+            <h5 class="card-title">
+             Agenda Paroki Pekan Ini
+            </h5>
+            <p class="card-text">
+             ...
+            </p>
+           </div>
           </div>
+         </div>
         </div>
-      </section>
-
-      <section id="angelus" class="tab-content">
-        <h2>Doa Malaikat Tuhan</h2>
-        <p>Maria diberi kabar oleh malaikat Tuhan,</p>
-Bahwa ia akan mengandung dari Roh Kudus.
-<br>
-Salam Maria …</p>
-
-<p>Aku ini hamba Tuhan,</p>
-Terjadilah padaku menurut perkataan-Mu.
-<br>
-Salam Maria …</p>
-
-<p>Sabda sudah menjadi Manusia,</p>
-Dan tinggal diantara kita.
-<br>
-Salam Maria …</p>
-
-<p>Doakanlah kami, ya Santa Bunda Allah,
-<br>
-Supaya kami dapat menikmati janji Kristus.</p>
-<br>
-<p>Marilah berdoa... <i>(Hening)</i></p>
-<br>
-<p>Ya Allah, karena kabar malaikat, kami mengetahui bahwa Yesus Kristus Putra-Mu menjadi manusia. Curahkanlah rahmat-Mu ke dalam hati kami, supaya karena sengsara dan salib-Nya, kami dibawa kepada kebangkitan yang mulia. Sebab Dialah Tuhan, pengantara kami.</p>
-
-<p>Amin.</p>
-<br>
-<br>
-<b>Angelus:</b>
-<p style="text-align: justify;">
-<p>Kata "Angelus" berasal dari bahasa Latin yang berarti "malaikat". Doa ini dinamakan Angelus karena pembukaannya, yaitu "Angelus Domini nuntiavit Mariae" (Malaikat Tuhan memberitakan kepada Maria).</p>
-<br>
-<b>Peristiwa Inkarnasi:</b>
-<p>Doa ini mengingatkan umat Katolik akan peristiwa inkarnasi, yaitu saat Yesus Kristus menjadi manusia dalam kandungan Bunda Maria.</p>
-<br>
-<b>Doa Tiga Kali Sehari:</b>
-<p>Doa Angelus dibaca tiga kali sehari, pada pukul 6 pagi, 12 siang, dan 6 sore, untuk menghormati peristiwa inkarnasi, sengsara Kristus, dan kebangkitan-Nya.</b>
-      </section>
-
-      <section id="pastor" class="tab-content">
-        <h2>Status Kehadiran Pastor</h2>
+       </section>
+       <section class="tab-content" id="angelus">
+        <h2>
+         Doa Malaikat Tuhan
+        </h2>
+        <p>
+         Maria diberi kabar oleh malaikat Tuhan,
+        </p>
+        Bahwa ia akan mengandung dari Roh Kudus.
+        <br/>
+        Salam Maria …
+        <p>
+         Aku ini hamba Tuhan,
+        </p>
+        Terjadilah padaku menurut perkataan-Mu.
+        <br/>
+        Salam Maria …
+        <p>
+         Sabda sudah menjadi Manusia,
+        </p>
+        Dan tinggal diantara kita.
+        <br/>
+        Salam Maria …
+        <p>
+         Doakanlah kami, ya Santa Bunda Allah,
+         <br/>
+         Supaya kami dapat menikmati janji Kristus.
+        </p>
+        <br/>
+        <p>
+         Marilah berdoa...
+         <i>
+          (Hening)
+         </i>
+        </p>
+        <br/>
+        <p>
+         Ya Allah, karena kabar malaikat, kami mengetahui bahwa Yesus Kristus Putra-Mu menjadi manusia. Curahkanlah rahmat-Mu ke dalam hati kami, supaya karena sengsara dan salib-Nya, kami dibawa kepada kebangkitan yang mulia. Sebab Dialah Tuhan, pengantara kami.
+        </p>
+        <p>
+         Amin.
+        </p>
+        <br/>
+        <br/>
+        <b>
+         Angelus:
+        </b>
+        <p style="text-align: justify;">
+         <p>
+          Kata "Angelus" berasal dari bahasa Latin yang berarti "malaikat". Doa ini dinamakan Angelus karena pembukaannya, yaitu "Angelus Domini nuntiavit Mariae" (Malaikat Tuhan memberitakan kepada Maria).
+         </p>
+         <br/>
+         <b>
+          Peristiwa Inkarnasi:
+         </b>
+         <p>
+          Doa ini mengingatkan umat Katolik akan peristiwa inkarnasi, yaitu saat Yesus Kristus menjadi manusia dalam kandungan Bunda Maria.
+         </p>
+         <br/>
+         <b>
+          Doa Tiga Kali Sehari:
+         </b>
+         <p>
+          Doa Angelus dibaca tiga kali sehari, pada pukul 6 pagi, 12 siang, dan 6 sore, untuk menghormati peristiwa inkarnasi, sengsara Kristus, dan kebangkitan-Nya.
+         </p>
+        </p>
+       </section>
+       <section class="tab-content" id="pastor">
+        <h2>
+         Status Kehadiran Pastor
+        </h2>
         <div class="pastor-status">
-          <div>
-            <img class="pastor-photo" src="pastor-joseph.jpg" alt="P. Joseph" />
-            <p>P. Joseph Ansow, Pr.</p>
-            <span class="indicator red">Ada</span>
-          </div>
-          <div>
-            <img class="pastor-photo" src="pastor-stenly.jpg" alt="P. Stenly" />
-            <p>P. Stenly Ambun, Pr.</p>
-            <span class="indicator green">Ada</span>
-          </div>
+         <div>
+          <img alt="P. Joseph" class="pastor-photo" src="pastor-joseph.jpg"/>
+          <p>
+           P. Joseph Ansow, Pr.
+          </p>
+          <span class="indicator red">
+           Ada
+          </span>
+         </div>
+         <div>
+          <img alt="P. Stenly" class="pastor-photo" src="pastor-stenly.jpg"/>
+          <p>
+           P. Stenly Ambun, Pr.
+          </p>
+          <span class="indicator green">
+           Ada
+          </span>
+         </div>
         </div>
-      </section>
-
-      <section id="sekretariat" class="tab-content">
-        <h2>Sekretariat / Komsos</h2>
+       </section>
+       <section class="tab-content" id="sekretariat">
+        <h2>
+         Sekretariat / Komsos
+        </h2>
         <div class="icons">
-          <a href="https://www.facebook.com/share/19K6ZFiifj/">
-            <div class="layer"><span><i class="fab fa-facebook-f"></i></span></div>
-          </a>
-          <a href="https://www.tiktok.com/@komsos_spmararos">
-            <div class="layer"><span><i class="fab fa-tiktok"></i></span></div>
-          </a>
-          <a href="https://www.instagram.com/komsosparokimodoinding">
-            <div class="layer"><span><i class="fab fa-instagram"></i></span></div>
-          </a>
-        </div>
-        
-                <div class="galeri-dokumentasi mt-5">
-          <h4 class="mb-3">📷 Dokumentasi</h4>      
-          <div class="accordion" id="accordionDokumentasi">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingAdvent">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAdvent" aria-expanded="false" aria-controls="collapseAdvent">
-                  <b>Alm. P. Feighty Y. Boseke, Pr. - 28 Desember 2024</b>
-                </button>
-              </h2>
-              <div id="collapseAdvent" class="accordion-collapse collapse" aria-labelledby="headingAdvent" data-bs-parent="#accordionDokumentasi">
-                <div class="accordion-body">
-                  <div id="galeriDokumentasi" class="dokumentasi-grid"></div>
-                  <div class="dokumentasi-grid">
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (1).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (1).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (2).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (2).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (3).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (3).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (4).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (4).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (5).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (5).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (6).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (6).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (7).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (7).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (8).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (8).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (9).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (9).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (10).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (10).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (11).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (11).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (12).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (12).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (13).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (13).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (14).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (14).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (15).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (15).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (16).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (16).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (17).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (17).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (18).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (18).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (19).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (19).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (20).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (20).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (21).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (21).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (22).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (22).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (23).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (23).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (24).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (24).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (25).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (25).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (26).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (26).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (27).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (27).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (28).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (28).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (29).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (29).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (30).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (30).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (31).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (31).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (32).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (32).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (33).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (33).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (34).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (34).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (35).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (35).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (36).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (36).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (37).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (37).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (38).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (38).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (39).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (39).jpg" alt="Dokumentasi">
-</a>
-<a href="dokumentasi/alm-feghty-boseke-pr/foto (40).jpg" class="glightbox" data-gallery="alm-feghty-boseke-pr">
-  <img src="dokumentasi/alm-feghty-boseke-pr/foto (40).jpg" alt="Dokumentasi">
-</a>
-                    <!-- Tambahkan lebih banyak foto jika ada -->
-                  </div>
-                </div>
-              </div>
-            </div>
+         <a href="https://www.facebook.com/share/19K6ZFiifj/">
+          <div class="layer">
+           <span>
+            <i class="fab fa-facebook-f">
+            </i>
+           </span>
           </div>
+         </a>
+         <a href="https://www.tiktok.com/@komsos_spmararos">
+          <div class="layer">
+           <span>
+            <i class="fab fa-tiktok">
+            </i>
+           </span>
+          </div>
+         </a>
+         <a href="https://www.instagram.com/komsosparokimodoinding">
+          <div class="layer">
+           <span>
+            <i class="fab fa-instagram">
+            </i>
+           </span>
+          </div>
+         </a>
         </div>
-      </section>
-    </main>
-  </div>
-
-  <!-- ========== FOOTER ========== -->
-  <footer>
-    © 2025 - Paroki SP Maria Ratu Rosari Modoinding. Dibuat oleh Sekretariat Paroki.
-  </footer>
-
-  <!-- ========== MODAL AGENDA ========== -->
-  <div class="modal fade" id="modalMisa" tabindex="-1" aria-labelledby="modalMisaLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
+        <div class="galeri-dokumentasi mt-5">
+         <h4 class="mb-3">
+          📷 Dokumentasi
+         </h4>
+         <div class="accordion" id="accordionDokumentasi">
+          <div class="accordion-item">
+           <h2 class="accordion-header" id="headingAdvent">
+            <button aria-controls="collapseAdvent" aria-expanded="false" class="accordion-button collapsed" data-bs-target="#collapseAdvent" data-bs-toggle="collapse" type="button">
+             <b>
+              Alm. P. Feighty Y. Boseke, Pr. - 28 Desember 2024
+             </b>
+            </button>
+           </h2>
+           <div aria-labelledby="headingAdvent" class="accordion-collapse collapse" data-bs-parent="#accordionDokumentasi" id="collapseAdvent">
+            <div class="accordion-body">
+             <div class="dokumentasi-grid" id="galeriDokumentasi">
+             </div>
+             <div class="dokumentasi-grid">
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (1).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (1).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (2).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (2).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (3).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (3).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (4).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (4).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (5).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (5).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (6).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (6).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (7).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (7).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (8).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (8).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (9).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (9).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (10).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (10).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (11).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (11).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (12).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (12).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (13).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (13).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (14).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (14).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (15).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (15).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (16).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (16).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (17).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (17).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (18).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (18).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (19).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (19).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (20).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (20).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (21).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (21).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (22).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (22).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (23).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (23).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (24).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (24).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (25).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (25).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (26).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (26).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (27).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (27).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (28).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (28).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (29).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (29).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (30).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (30).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (31).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (31).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (32).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (32).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (33).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (33).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (34).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (34).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (35).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (35).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (36).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (36).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (37).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (37).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (38).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (38).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (39).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (39).jpg"/>
+              </a>
+              <a class="glightbox" data-gallery="alm-feghty-boseke-pr" href="dokumentasi/alm-feghty-boseke-pr/foto (40).jpg">
+               <img alt="Dokumentasi" src="dokumentasi/alm-feghty-boseke-pr/foto (40).jpg"/>
+              </a>
+              <!-- Tambahkan lebih banyak foto jika ada -->
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </section>
+      </main>
+     </div>
+     <!-- ========== FOOTER ========== -->
+     <footer>
+      © 2025 - Paroki SP Maria Ratu Rosari Modoinding. Dibuat oleh Sekretariat Paroki.
+     </footer>
+     <!-- ========== MODAL AGENDA ========== -->
+     <div aria-hidden="true" aria-labelledby="modalMisaLabel" class="modal fade" id="modalMisa" tabindex="-1">
+      <div class="modal-dialog">
+       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="modalMisaLabel">Detail Misa Hari Raya</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+         <h5 class="modal-title" id="modalMisaLabel">
+          Detail Misa Hari Raya
+         </h5>
+         <button aria-label="Tutup" class="btn-close" data-bs-dismiss="modal" type="button">
+         </button>
         </div>
         <div class="modal-body">
-          Misa Hari Raya akan dilaksanakan pada Minggu, 9 Juni 2025 pukul 08:00 WITA di Gereja Paroki Modoinding. Umat diimbau datang lebih awal.
+         Misa Hari Raya akan dilaksanakan pada Minggu, 9 Juni 2025 pukul 08:00 WITA di Gereja Paroki Modoinding. Umat diimbau datang lebih awal.
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+         <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">
+          Tutup
+         </button>
         </div>
+       </div>
       </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="modalOMK" tabindex="-1" aria-labelledby="modalOMKLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
+     </div>
+     <div aria-hidden="true" aria-labelledby="modalOMKLabel" class="modal fade" id="modalOMK" tabindex="-1">
+      <div class="modal-dialog">
+       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="modalOMKLabel">Detail Pertemuan OMK</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+         <h5 class="modal-title" id="modalOMKLabel">
+          Detail Pertemuan OMK
+         </h5>
+         <button aria-label="Tutup" class="btn-close" data-bs-dismiss="modal" type="button">
+         </button>
         </div>
         <div class="modal-body">
-          Pertemuan OMK akan diadakan pada Sabtu, 8 Juni 2025 pukul 15:00 WITA di Aula Paroki. Mohon kehadiran semua anggota OMK.
+         Pertemuan OMK akan diadakan pada Sabtu, 8 Juni 2025 pukul 15:00 WITA di Aula Paroki. Mohon kehadiran semua anggota OMK.
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+         <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">
+          Tutup
+         </button>
         </div>
+       </div>
       </div>
-    </div>
-  </div>
-
-  <!-- ========== SCRIPT JAVASCRIPT ========== -->
-  <script src="script.js"></script>
-  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
-  <script>
-    // Particles config
+     </div>
+     <!-- ========== SCRIPT JAVASCRIPT ========== -->
+     <script src="script.js">
+     </script>
+     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js">
+     </script>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+     </script>
+     <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js">
+     </script>
+     <script>
+      // Particles config
     particlesJS("particles-js", {
       particles: {
         number: { value: 100, density: { enable: true, value_area: 1000 } },
@@ -413,9 +533,9 @@ Supaya kami dapat menikmati janji Kristus.</p>
         button.classList.add('active');
       });
     });
-  </script>
-  <script>
-  let lightbox = null;
+     </script>
+     <script>
+      let lightbox = null;
   const galeri = document.getElementById('galeriDokumentasi');
   const btnGroup = document.getElementById('btnKegiatan');
 
@@ -475,6 +595,9 @@ Supaya kami dapat menikmati janji Kristus.</p>
   if (defaultBtn) {
     loadGaleri(defaultBtn.getAttribute('data-json'), defaultBtn.getAttribute('data-folder'));
   }
-</script>
-</body>
+     </script>
+    </header>
+   </link>
+  </link>
+ </head>
 </html>

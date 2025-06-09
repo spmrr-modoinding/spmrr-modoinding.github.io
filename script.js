@@ -139,6 +139,3 @@ sidebarToggleBtn.addEventListener('click', () => {
 
 }
 });
-if (window.innerWidth <= 768 && sidebarMenu) {
-  sidebarMenu.classList.remove('active');
-}
