@@ -14,7 +14,6 @@ function activateTab(tabId) {
   }
 }
 
-
   const nav = document.querySelector('.nav');
 
   // Tambahkan konten Statistik Umat
