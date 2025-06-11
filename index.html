@@ -99,49 +99,100 @@
       </aside>
       <!-- ========== KONTEN TIAP TAB ========== -->
       <main>
-       <section class="tab-content active" id="beranda">
-        <h2>
-         Pastor Paroki &amp; Pastor Rekan
-        </h2>
-        <div class="pastors">
-         <div>
-          <img alt="P. Joseph Ansow" class="pastor-photo" src="pastor-joseph.jpg"/>
-          <p>
-           <b>
-            P. Joseph Ansow, Pr.
-           </b>
-          </p>
-         </div>
-         <div>
-          <img alt="P. Stenly Ambun" class="pastor-photo" src="pastor-stenly.jpg"/>
-          <p>
-           <b>
-            P. Stenly Ambun, Pr.
-           </b>
-          </p>
-         </div>
+<section class="tab-content active" id="beranda">
+     <h2 class="mt-5">Pastor Paroki &amp; Pastor Rekan</h2>
+    <div class="pastors">
+      <div>
+        <img alt="P. Joseph Ansow" class="pastor-photo" src="pastor-joseph.jpg"/>
+        <p><b>P. Joseph Ansow, Pr.</b></p>
+      </div>
+      <div>
+        <img alt="P. Stenly Ambun" class="pastor-photo" src="pastor-stenly.jpg"/>
+        <p><b>P. Stenly Ambun, Pr.</b></p>
+      </div>
+    </div>
+    <br>
+    <br>
+  <h2>Liturgi Hari Minggu Ini</h2>
+  <div id="liturgi-container"></div>
+  <div class="mt-4">
+    <a href="#" class="btn btn-outline-info glightbox" id="previewMingguDepan">
+      🔍 Preview Minggu Depan
+    </a>
+  </div>
+ 
+        <section class="tab-content active" id="beranda"> ... </section>
+        <section class="tab-content" id="agenda"> ... </section>
+        <section class="tab-content" id="angelus"> ... </section>
+        <section class="tab-content" id="pastor"> ... </section>
+        <section class="tab-content" id="sekretariat"> ... </section>
+<br>
+</section>
+
+<script>
+  fetch('liturgi_mingguan.json')
+    .then(res => res.json())
+    .then(data => {
+      const { minggu_ini, minggu_depan } = data;
+      const container = document.getElementById('liturgi-container');
+      container.innerHTML = `
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle text-start">
+            <tbody>
+              <tr>
+<td rowspan="6" class="text-center align-middle" style="width:80px">
+  <div class="fw-bold">${minggu_ini.tanggal}</div>
+</td>
+                <td><strong>Peringatan / Hari Raya</strong></td>
+                <td>${minggu_ini.peringatan}</td>
+              </tr>
+              <tr>
+                <td><strong>Bacaan 1</strong></td>
+                <td>${minggu_ini.bacaan1}</td>
+              </tr>
+              <tr>
+                <td><strong>Bacaan 2</strong></td>
+                <td>${minggu_ini.bacaan2}</td>
+              </tr>
+              <tr>
+                <td><strong>Mazmur Tanggapan</strong></td>
+                <td>${minggu_ini.mazmur}</td>
+              </tr>
+              <tr>
+                <td><strong>Bacaan Injil</strong></td>
+                <td>${minggu_ini.injil}</td>
+              </tr>
+              <tr>
+                <td><strong>Warna Liturgi</strong></td>
+                <td>${minggu_ini.warna}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <section id="doa">
-         <br/>
-         <b>
-          Matius 5:43-44
-         </b>
-         <p>
-          <i>
-           "Kamu telah mendengar firman: Kasihilah sesamamu manusia dan bencilah musuhmu. Tetapi Aku berkata kepadamu: Kasihilah musuhmu dan berdoalah bagi mereka yang menganiaya kamu."
-          </i>
-          <br/>
-          <br/>
-          <p style="text-align: justify;">
-           Musuh berarti seorang yang jahat kepada kita, sedangkan ‘Kasih’ (Agape) berarti perhatian dan perlakuan baik tanpa pamrih kepada seseorang. Dan Yesus memerintahkan untuk mengasihi dan mendoakan musuh kita, perintah yang sulit dan idealis. Namun alasan utama ajaran ini adalah karena Allah mengasihi setiap orang tanpa terkecuali, dan Ia memanggil kita untuk melakukan hal yang persis sama, karena bukankah kita diciptakan berdasarkan citra-Nya?
-           <br>
-            Kejahatan hanyalah mendatangkan penderitaan dan kerugian bagi diri sendiri. Maka pilihan yang ada bukan membalas kejahatan seseorang, namun berdoa baginya; mengasihinya dan memberikan pengampunan yang menyebuhkan. Mengasihi dan mendoakan kebaikan musuh pasti memberi rasa damai di hati, sambil percaya bahwa Allah akan ikut mengubah dan menyembuhkan dirinya. Membalas kejahatan dengan kebaikan pasti menghasikan hal positif bagi kedua pihak. “Berbahagialah orang yang damai karena mereka akan disebut anak – anak Allah” (Mat.5:9).
-            <br/>
-           </br>
-          </p>
-         </p>
-        </section>
-       </section>
+        <div class="mt-3">
+          <b><h5>Renungan</h5></b>
+          <p style="text-align: justify;">${minggu_ini.renungan}</p>
+        </div>`;
+
+      const preview = document.getElementById('previewMingguDepan');
+      preview.setAttribute('data-glightbox', `title: Bacaan & Renungan Minggu Depan; description:
+        <b>Tanggal:</b> ${minggu_depan.tanggal}<br/>
+        <b>Peringatan:</b> ${minggu_depan.peringatan}<br/>
+        <b>Bacaan 1:</b> ${minggu_depan.bacaan1}<br/>
+        <b>Bacaan 2:</b> ${minggu_depan.bacaan2}<br/>
+        <b>Mazmur Tanggapan:</b> ${minggu_depan.mazmur}<br/>
+        <b>Bacaan Injil:</b> ${minggu_depan.injil}<br/>
+        <b>Warna Liturgi:</b> ${minggu_depan.warna}<br/><br/>
+        <b>Renungan:</b><br/>${minggu_depan.renungan}`);
+
+      GLightbox({ selector: '.glightbox', touchNavigation: true, loop: false });
+    })
+    .catch(err => {
+      document.getElementById('liturgi-container').innerHTML = '<p class="text-danger">Gagal memuat data liturgi mingguan.</p>';
+      console.error(err);
+    });
+</script>
+
        <section class="tab-content" id="agenda">
         <h2>
          Agenda / Pengumuman Mingguan
