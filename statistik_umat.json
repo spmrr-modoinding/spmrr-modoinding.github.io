@@ -1,0 +1,32 @@
+{
+  "wilayah": [
+    {
+      "nama": "St. Fransiskus Asisi Sinisir",
+      "kk": 23,
+      "laki_laki": 41,
+      "perempuan": 30,
+      "jumlah": 71
+    },
+    {
+      "nama": "St. Dominikus Sinisir",
+      "kk": 22,
+      "laki_laki": 28,
+      "perempuan": 31,
+      "jumlah": 59
+    },
+    {
+      "nama": "St. Ignasius Sinisir",
+      "kk": 20,
+      "laki_laki": 24,
+      "perempuan": 25,
+      "jumlah": 49
+    },
+    {
+      "nama": "Sta. Skolastika Sinisir",
+      "kk": 26,
+      "laki_laki": 39,
+      "perempuan": 32,
+      "jumlah": 71
+    }
+  ]
+}

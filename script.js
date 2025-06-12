@@ -13,40 +13,143 @@ function activateTab(tabId) {
     sidebarMenu.classList.remove('active');
   }
 }
+fetch('agenda_pengumuman.json')
+  .then(res => res.json())
+  .then(data => {
+    const container = document.querySelector('#agenda .row');
+    container.innerHTML = ''; // Kosongkan dulu
+
+    data.agenda.forEach((item, i) => {
+      const card = document.createElement('div');
+      card.className = 'col';
+
+      card.innerHTML = `
+        <div class="card shadow-sm animate-fadein">
+          <div class="card-body">
+            <h5 class="card-title">${item.judul}</h5>
+            <p class="card-text">
+              <strong>Tanggal:</strong> ${item.tanggal}<br/>
+              <strong>Jam:</strong> ${item.jam}<br/>
+              <strong>Lokasi:</strong> ${item.lokasi}<br/>
+              <strong>Catatan:</strong> ${item.catatan}
+            </p>
+          </div>
+        </div>
+      `;
+
+      container.appendChild(card);
+    });
+  })
+  .catch(err => {
+    document.querySelector('#agenda .row').innerHTML =
+      '<p class="text-danger">Gagal memuat agenda.</p>';
+    console.error('Error loading agenda:', err);
+  });
 
   const nav = document.querySelector('.nav');
 
   // Tambahkan konten Statistik Umat
-  const statistikSection = document.createElement('section');
-  statistikSection.className = 'tab-content';
-  statistikSection.id = 'statistik';
-  statistikSection.innerHTML = `
-    <h2>Statistik Umat per Tahun</h2>
-    <div class="overflow-auto">
-      <table class="stats-table">
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Nama Wilayah</th>
-            <th>KK</th>
-            <th>Laki-laki</th>
-            <th>Perempuan</th>
-            <th>Jumlah Jiwa</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>1</td><td>St. Fransiskus Asisi Sinisir</td><td>23</td><td>41</td><td>30</td><td>71</td></tr>
-          <tr><td>2</td><td>St. Dominikus Sinisir</td><td>22</td><td>28</td><td>31</td><td>59</td></tr>
-          <tr><td>3</td><td>St. Ignasius Sinisir</td><td>20</td><td>24</td><td>25</td><td>49</td></tr>
-          <tr><td>4</td><td>Sta. Skolastika Sinisir</td><td>26</td><td>39</td><td>32</td><td>71</td></tr>
-          <tr style="font-weight:bold; background:#e0f7fa">
-            <td colspan="2">Jumlah</td><td>91</td><td>132</td><td>118</td><td>250</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  `;
-  document.querySelector('main').appendChild(statistikSection);
+fetch('statistik_umat.json')
+  .then(res => res.json())
+  .then(data => {
+    const wilayahList = data.wilayah;
+    let totalKK = 0, totalL = 0, totalP = 0, totalJiwa = 0;
+
+    const rows = wilayahList.map((w, i) => {
+      totalKK += w.kk;
+      totalL += w.laki_laki;
+      totalP += w.perempuan;
+      totalJiwa += w.jumlah;
+      return `<tr>
+        <td>${i + 1}</td>
+        <td>${w.nama}</td>
+        <td>${w.kk}</td>
+        <td>${w.laki_laki}</td>
+        <td>${w.perempuan}</td>
+        <td>${w.jumlah}</td>
+      </tr>`;
+    }).join('');
+
+    const totalRow = `<tr style="font-weight:bold; background:#e0f7fa">
+      <td colspan="2">Jumlah</td>
+      <td>${totalKK}</td>
+      <td>${totalL}</td>
+      <td>${totalP}</td>
+      <td>${totalJiwa}</td>
+    </tr>`;
+
+    const statistikHTML = `
+      <section class="tab-content" id="statistik">
+        <h2>Statistik Umat per Tahun</h2>
+        <div class="overflow-auto">
+          <table class="stats-table">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Nama Wilayah</th>
+                <th>KK</th>
+                <th>Laki-laki</th>
+                <th>Perempuan</th>
+                <th>Jumlah Jiwa</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows}
+              ${totalRow}
+            </tbody>
+          </table>
+        </div>
+      </section>`;
+
+    document.querySelector('main').insertAdjacentHTML('beforeend', statistikHTML);
+  })
+  .catch(err => {
+    console.error('Gagal memuat statistik umat:', err);
+  });
+
+fetch('pastor_kehadiran.json')
+  .then(res => res.json())
+  .then(data => {
+    const container = document.querySelector('#pastor');
+    container.innerHTML = `<h2>Kehadiran Pastor Hari Ini</h2>`;
+
+    const statusWrapper = document.createElement('div');
+    statusWrapper.className = 'pastor-status';
+
+    data.pastor.forEach(p => {
+      const hadir = p.kehadiran.trim().toLowerCase();
+      const status = hadir === 'ada' ? 'Di Tempat' : 'Tidak di Tempat';
+      const colorClass = hadir === 'ada' ? 'green' : 'red';
+
+      const item = document.createElement('div');
+      item.innerHTML = `
+        <img alt="${p.nama}" class="pastor-photo" src="${p.foto}" />
+        <p>${p.nama}</p>
+        <span class="indicator ${colorClass}">${status}</span>
+      `;
+      statusWrapper.appendChild(item);
+    });
+
+    container.appendChild(statusWrapper);
+
+    // Tambahkan keterangan
+    const keterangan = document.createElement('p');
+    keterangan.className = 'mt-3';
+    keterangan.style = 'font-size: 0.9rem; color: #555;';
+    keterangan.innerHTML = `
+      Keterangan:<br/>
+      <span class="indicator green" style="padding: 2px 10px;">Di Tempat</span> = Pastor berada di pastoran.<br/>
+      <span class="indicator red" style="padding: 2px 10px;">Tidak di Tempat</span> = Pastor sedang pelayanan di luar.
+    `;
+
+    container.appendChild(keterangan);
+  })
+  .catch(err => {
+    console.error('Gagal memuat data kehadiran pastor:', err);
+    document.querySelector('#pastor').innerHTML =
+      '<p class="text-danger">Gagal memuat informasi pastor.</p>';
+  });
+
 
   // Tambahkan konten Tentang Paroki
   const tentangSection = document.createElement('section');
@@ -108,13 +211,6 @@ function activateTab(tabId) {
   if (firstTab) activateTab(firstTab.dataset.tab);
 
   // Indikator kehadiran pastor
-  document.querySelectorAll('.indicator').forEach(indicator => {
-    const text = indicator.textContent.toLowerCase();
-    const isHadir = text.includes('ada');
-    indicator.classList.remove('green', 'red');
-    indicator.classList.add(isHadir ? 'green' : 'red');
-    indicator.textContent = isHadir ? 'Ada' : 'Tidak Ada';
-  });
 
   // Pengingat Doa Angelus
   setInterval(() => {

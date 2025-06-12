@@ -124,7 +124,6 @@
         <section class="tab-content active" id="beranda"> ... </section>
         <section class="tab-content" id="agenda"> ... </section>
         <section class="tab-content" id="angelus"> ... </section>
-        <section class="tab-content" id="pastor"> ... </section>
         <section class="tab-content" id="sekretariat"> ... </section>
 <br>
 </section>
@@ -198,18 +197,7 @@
          Agenda / Pengumuman Mingguan
         </h2>
         <div class="row row-cols-1 row-cols-md-2 g-4 mt-3">
-         <div class="col">
-          <div class="card shadow-sm">
-           <div class="card-body">
-            <h5 class="card-title">
-             Jadwal Misa
-            </h5>
-            <p class="card-text">
-             Minggu, ... Juni 2025 - 08:00 WITA
-            </p>
-           </div>
-          </div>
-         </div>
+
          <div class="col">
           <div class="card shadow-sm">
            <div class="card-body">
@@ -290,31 +278,10 @@
          </p>
         </p>
        </section>
-       <section class="tab-content" id="pastor">
-        <h2>
-         Status Kehadiran Pastor
-        </h2>
-        <div class="pastor-status">
-         <div>
-          <img alt="P. Joseph" class="pastor-photo" src="pastor-joseph.jpg"/>
-          <p>
-           P. Joseph Ansow, Pr.
-          </p>
-          <span class="indicator red">
-           Ada
-          </span>
-         </div>
-         <div>
-          <img alt="P. Stenly" class="pastor-photo" src="pastor-stenly.jpg"/>
-          <p>
-           P. Stenly Ambun, Pr.
-          </p>
-          <span class="indicator green">
-           Ada
-          </span>
-         </div>
-        </div>
-       </section>
+ <section class="tab-content" id="pastor">
+  <!-- Konten Kehadiran Pastor akan dimuat otomatis dari script.js -->
+</section>
+
        <section class="tab-content" id="sekretariat">
         <h2>
          Sekretariat / Komsos
@@ -411,14 +378,14 @@
       </div>
      </div>
      <!-- ========== SCRIPT JAVASCRIPT ========== -->
-     <script src="script.js">
-     </script>
      <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js">
      </script>
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
      </script>
      <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js">
      </script>
+  <script src="script.js" defer></script>
+
      <script>
       // Particles config
     particlesJS("particles-js", {
