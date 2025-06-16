@@ -1,0 +1,2402 @@
+[
+  {
+    "tanggal": "2025-01-01",
+    "judul": "⚪ [H] Santa Maria Bunda Allah",
+    "deskripsi": "(Santa Perawan Maria, Bunda Allah)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-01-02",
+    "judul": "⚪ [Pw] S. Basilius Agung dan Gregorius dari Nazianze, uskup dan p",
+    "deskripsi": "(Santo Basilius Agung dan Santo Gregorius Nazianzen, uskup dan pujangga Gereja)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-01-03",
+    "judul": "⚪ Jumat Pekan Natal II",
+    "deskripsi": "(Jumat Masa Natal)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-01-03",
+    "judul": "⚪ [Pfak] Nama Tersuci Yesus",
+    "deskripsi": "(Nama Tersuci Yesus)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-01-04",
+    "judul": "⚪ Sabtu Pekan Natal II",
+    "deskripsi": "(Sabtu Masa Natal)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-01-05",
+    "judul": "⚪ [H] Penampakan Tuhan",
+    "deskripsi": "(Penampakan Tuhan)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-01-06",
+    "judul": "⚪ Senin ses Penampakan Tuhan",
+    "deskripsi": "(Senin sesudah Penampakan Tuhan)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-01-07",
+    "judul": "⚪ Selasa ses Penampakan Tuhan",
+    "deskripsi": "(Selasa sesudah Penampakan Tuhan)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-01-07",
+    "judul": "⚪ [Pfak] S. Raimundus dari Penyafort, imam",
+    "deskripsi": "(Santo Raimundus dari Penyafort, imam)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-01-08",
+    "judul": "⚪ Rabu ses Penampakan Tuhan",
+    "deskripsi": "(Rabu sesudah Penampakan Tuhan)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-01-09",
+    "judul": "⚪ Kamis ses Penampakan Tuhan",
+    "deskripsi": "(Kamis sesudah Penampakan Tuhan)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-01-10",
+    "judul": "⚪ Jumat ses Penampakan Tuhan",
+    "deskripsi": "(Jumat sesudah Penampakan Tuhan)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-01-11",
+    "judul": "⚪ Sabtu ses Penampakan Tuhan",
+    "deskripsi": "(Sabtu sesudah Penampakan Tuhan)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-01-12",
+    "judul": "⚪ [P] Pembaptisan Tuhan",
+    "deskripsi": "(Pembaptisan Tuhan)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-01-13",
+    "judul": "🟢 Senin Pekan Biasa I",
+    "deskripsi": "(Senin dalam Pekan Biasa I)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-01-13",
+    "judul": "⚪ [Pfak] S. Hilarius, uskup dan pujangga Gereja",
+    "deskripsi": "(Santo Hilarius, uskup dan pujangga Gereja)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-01-14",
+    "judul": "🟢 Selasa Pekan Biasa I",
+    "deskripsi": "(Selasa dalam Pekan Biasa I)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-01-15",
+    "judul": "🟢 Rabu Pekan Biasa I",
+    "deskripsi": "(Rabu dalam Pekan Biasa I)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-01-16",
+    "judul": "🟢 Kamis Pekan Biasa I",
+    "deskripsi": "(Kamis dalam Pekan Biasa I)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-01-17",
+    "judul": "⚪ [Pw] S. Antonius, abas",
+    "deskripsi": "(Santo Antonius, abas)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-01-18",
+    "judul": "🟢 Sabtu Pekan Biasa I",
+    "deskripsi": "(Sabtu dalam Pekan Biasa I)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-01-18",
+    "judul": "⚪ [Pfak] Santa Perawan Maria",
+    "deskripsi": "(Santa Perawan Maria pada hari Sabtu)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-01-19",
+    "judul": "🟢 Hari Minggu Biasa II",
+    "deskripsi": "(Minggu Biasa II)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-01-20",
+    "judul": "🟢 Senin Pekan Biasa II",
+    "deskripsi": "(Senin dalam Pekan Biasa II)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-01-20",
+    "judul": "🔴 [Pfak] S. Fabianus, Paus dan martir",
+    "deskripsi": "(Santo Fabianus, Paus dan martir)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-01-20",
+    "judul": "🔴 [Pfak] S. Sebastianus, martir",
+    "deskripsi": "(Santo Sebastianus, martir)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-01-21",
+    "judul": "🔴 [Pw] S. Agnes, perawan dan martir",
+    "deskripsi": "(Santa Agnes, perawan dan martir)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-01-22",
+    "judul": "🟢 Rabu Pekan Biasa II",
+    "deskripsi": "(Rabu dalam Pekan Biasa II)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-01-22",
+    "judul": "🔴 [Pfak] S. Vinsensius, diakon dan martir",
+    "deskripsi": "(Santo Vinsensius, diakon dan martir)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-01-23",
+    "judul": "🟢 Kamis Pekan Biasa II",
+    "deskripsi": "(Kamis dalam Pekan Biasa II)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-01-24",
+    "judul": "⚪ [Pw] S. Fransiskus dari Sales, uskup dan pujangga Gereja",
+    "deskripsi": "(Santo Fransiskus de Sales, uskup dan pujangga Gereja)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-01-25",
+    "judul": "⚪ [P] Pertobatan S. Paulus, rasul",
+    "deskripsi": "(Pertobatan Santo Paulus, rasul)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-01-26",
+    "judul": "🟢 Hari Minggu Biasa III",
+    "deskripsi": "(Minggu Biasa III)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-01-27",
+    "judul": "🟢 Senin Pekan Biasa III",
+    "deskripsi": "(Senin dalam Pekan Biasa III)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-01-27",
+    "judul": "⚪ [Pfak] S. Angela Merici, perawan",
+    "deskripsi": "(Santa Angela Merici, perawan)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-01-28",
+    "judul": "⚪ [Pw] S. Tomas Aquino, imam dan pujangga Gereja",
+    "deskripsi": "(Santo Tomas Aquinas, imam dan pujangga Gereja)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-01-29",
+    "judul": "🟢 Rabu Pekan Biasa III",
+    "deskripsi": "(Rabu dalam Pekan Biasa III)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-01-30",
+    "judul": "🟢 Kamis Pekan Biasa III",
+    "deskripsi": "(Kamis dalam Pekan Biasa III)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-01-31",
+    "judul": "⚪ [Pw] S. Yohanes Bosko, imam",
+    "deskripsi": "(Santo Yohanes Bosco, imam)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-02-01",
+    "judul": "🟢 Sabtu Pekan Biasa III",
+    "deskripsi": "(Sabtu dalam Pekan Biasa III)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-02-01",
+    "judul": "⚪ [Pfak] Santa Perawan Maria",
+    "deskripsi": "(Santa Perawan Maria pada hari Sabtu)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-02-02",
+    "judul": "⚪ [P] Yesus Dipersembahkan di Kanisah",
+    "deskripsi": "(Persembahan Tuhan di Bait Suci)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-02-03",
+    "judul": "🟢 Senin Pekan Biasa IV",
+    "deskripsi": "(Senin dalam Pekan Biasa IV)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-02-03",
+    "judul": "⚪ [Pfak] S. Ansgarius, uskup",
+    "deskripsi": "(Santo Ansgarius, uskup)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-02-03",
+    "judul": "🔴 [Pfak] S. Blasius, uskup dan martir",
+    "deskripsi": "(Santo Blasius, uskup dan martir)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-02-04",
+    "judul": "🟢 Selasa Pekan Biasa IV",
+    "deskripsi": "(Selasa dalam Pekan Biasa IV)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-02-05",
+    "judul": "🔴 [Pw] S. Agata, perawan dan martir",
+    "deskripsi": "(Santa Agata, perawan dan martir)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-02-06",
+    "judul": "🔴 [Pw] S. Paulus Miki, imam, dan kawan-kawan, martir",
+    "deskripsi": "(Santo Paulus Miki dan para sahabatnya, martir)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-02-07",
+    "judul": "🟢 Jumat Pekan Biasa IV",
+    "deskripsi": "(Jumat dalam Pekan Biasa IV)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-02-08",
+    "judul": "🟢 Sabtu Pekan Biasa IV",
+    "deskripsi": "(Sabtu dalam Pekan Biasa IV)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-02-08",
+    "judul": "⚪ [Pfak] S. Hieronimus Emilianus",
+    "deskripsi": "(Santo Hieronimus Emilianus)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-02-08",
+    "judul": "⚪ [Pfak] S. Yosefina Bakhita, perawan",
+    "deskripsi": "(Santa Yosefina Bakhita, perawan)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-02-08",
+    "judul": "⚪ [Pfak] Santa Perawan Maria",
+    "deskripsi": "(Santa Perawan Maria pada hari Sabtu)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-02-09",
+    "judul": "🟢 Hari Minggu Biasa V",
+    "deskripsi": "(Minggu Biasa V)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-02-10",
+    "judul": "⚪ [Pw] S. Skolastika, perawan",
+    "deskripsi": "(Santa Skolastika, perawan)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-02-11",
+    "judul": "🟢 Selasa Pekan Biasa V",
+    "deskripsi": "(Selasa dalam Pekan Biasa V)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-02-11",
+    "judul": "⚪ [Pfak] Santa Perawan Maria dari Lourdes",
+    "deskripsi": "(Bunda Maria dari Lourdes)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-02-12",
+    "judul": "🟢 Rabu Pekan Biasa V",
+    "deskripsi": "(Rabu dalam Pekan Biasa V)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-02-13",
+    "judul": "🟢 Kamis Pekan Biasa V",
+    "deskripsi": "(Kamis dalam Pekan Biasa V)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-02-14",
+    "judul": "⚪ [Pw] S. Sirilus, rahib, dan Metodius, uskup",
+    "deskripsi": "(Santo Sirilus, rahib, dan Santo Metodius, uskup)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-02-15",
+    "judul": "🟢 Sabtu Pekan Biasa V",
+    "deskripsi": "(Sabtu dalam Pekan Biasa V)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-02-15",
+    "judul": "⚪ [Pfak] Santa Perawan Maria",
+    "deskripsi": "(Santa Perawan Maria pada hari Sabtu)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-02-16",
+    "judul": "🟢 Hari Minggu Biasa VI",
+    "deskripsi": "(Minggu Biasa VI)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-02-17",
+    "judul": "🟢 Senin Pekan Biasa VI",
+    "deskripsi": "(Senin dalam Pekan Biasa VI)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-02-17",
+    "judul": "⚪ [Pfak] Tujuh Santo Pendiri Ordo Hamba-hamba Santa Perwan Maria",
+    "deskripsi": "(Tujuh Pendiri Ordo Servit, biarawan)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-02-18",
+    "judul": "🟢 Selasa Pekan Biasa VI",
+    "deskripsi": "(Selasa dalam Pekan Biasa VI)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-02-19",
+    "judul": "🟢 Rabu Pekan Biasa VI",
+    "deskripsi": "(Rabu dalam Pekan Biasa VI)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-02-20",
+    "judul": "🟢 Kamis Pekan Biasa VI",
+    "deskripsi": "(Kamis dalam Pekan Biasa VI)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-02-21",
+    "judul": "🟢 Jumat Pekan Biasa VI",
+    "deskripsi": "(Jumat dalam Pekan Biasa VI)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-02-21",
+    "judul": "⚪ [Pfak] S. Petrus Damianus, uskup dan pujangga Gereja",
+    "deskripsi": "(Santo Petrus Damianus, uskup dan pujangga Gereja)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-02-22",
+    "judul": "⚪ [P] Takhta S. Petrus, rasul",
+    "deskripsi": "(Takhta Santo Petrus, rasul)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-02-23",
+    "judul": "🟢 Hari Minggu Biasa VII",
+    "deskripsi": "(Minggu Biasa VII)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-02-24",
+    "judul": "🟢 Senin Pekan Biasa VII",
+    "deskripsi": "(Senin dalam Pekan Biasa VII)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-02-25",
+    "judul": "🟢 Selasa Pekan Biasa VII",
+    "deskripsi": "(Selasa dalam Pekan Biasa VII)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-02-26",
+    "judul": "🟢 Rabu Pekan Biasa VII",
+    "deskripsi": "(Rabu dalam Pekan Biasa VII)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-02-27",
+    "judul": "🟢 Kamis Pekan Biasa VII",
+    "deskripsi": "(Kamis dalam Pekan Biasa VII)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-02-27",
+    "judul": "⚪ [Pfak] S. Gregorius dari Narek, abas dan pujangga Gereja",
+    "deskripsi": "(Santo Gregorius dari Narek, abas dan pujangga Gereja)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-02-28",
+    "judul": "🟢 Jumat Pekan Biasa VII",
+    "deskripsi": "(Jumat dalam Pekan Biasa VII)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-03-01",
+    "judul": "🟢 Sabtu Pekan Biasa VII",
+    "deskripsi": "(Sabtu dalam Pekan Biasa VII)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-03-01",
+    "judul": "⚪ [Pfak] Santa Perawan Maria",
+    "deskripsi": "(Santa Perawan Maria pada hari Sabtu)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-03-02",
+    "judul": "🟢 Hari Minggu Biasa VIII",
+    "deskripsi": "(Minggu Biasa VIII)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-03-03",
+    "judul": "🟢 Senin Pekan Biasa VIII",
+    "deskripsi": "(Senin dalam Pekan Biasa VIII)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-03-04",
+    "judul": "🟢 Selasa Pekan Biasa VIII",
+    "deskripsi": "(Selasa dalam Pekan Biasa VIII)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-03-04",
+    "judul": "⚪ [Pfak] S. Kasimirus",
+    "deskripsi": "(Santo Kasimirus)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-03-05",
+    "judul": "🟣 Rabu Abu",
+    "deskripsi": "(Rabu Abu)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-03-06",
+    "judul": "🟣 Hari Kamis ses Rabu Abu",
+    "deskripsi": "(Kamis sesudah Rabu Abu)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-03-07",
+    "judul": "🟣 Hari Jumat ses Rabu Abu",
+    "deskripsi": "(Jumat sesudah Rabu Abu)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-03-07",
+    "judul": "🟣 [Pfac*] S. Perpetua dan Felisitas, martir",
+    "deskripsi": "(Santa Perpetua dan Santa Felisitas, martir)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-03-08",
+    "judul": "🟣 Hari Sabtu ses Rabu Abu",
+    "deskripsi": "(Sabtu sesudah Rabu Abu)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-03-08",
+    "judul": "🟣 [Pfac*] S. Yohanes a Deo, biarawan",
+    "deskripsi": "(Santo Yohanes a Deo, biarawan)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-03-09",
+    "judul": "🟣 Hari Minggu Prapaskah I",
+    "deskripsi": "(Minggu Prapaskah I)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-03-10",
+    "judul": "🟣 Senin Pekan Prapaskah I",
+    "deskripsi": "(Senin dalam Pekan Prapaskah I)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-03-11",
+    "judul": "🟣 Selasa Pekan Prapaskah I",
+    "deskripsi": "(Selasa dalam Pekan Prapaskah I)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-03-12",
+    "judul": "🟣 Rabu Pekan Prapaskah I",
+    "deskripsi": "(Rabu dalam Pekan Prapaskah I)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-03-13",
+    "judul": "🟣 Kamis Pekan Prapaskah I",
+    "deskripsi": "(Kamis dalam Pekan Prapaskah I)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-03-14",
+    "judul": "🟣 Jumat Pekan Prapaskah I",
+    "deskripsi": "(Jumat dalam Pekan Prapaskah I)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-03-15",
+    "judul": "🟣 Sabtu Pekan Prapaskah I",
+    "deskripsi": "(Sabtu dalam Pekan Prapaskah I)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-03-16",
+    "judul": "🟣 Hari Minggu Prapaskah II",
+    "deskripsi": "(Minggu Prapaskah II)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-03-17",
+    "judul": "🟣 Senin Pekan Prapaskah II",
+    "deskripsi": "(Senin dalam Pekan Prapaskah II)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-03-17",
+    "judul": "🟣 [Pfac*] S. Patrik, uskup",
+    "deskripsi": "(Santo Patrik, uskup)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-03-18",
+    "judul": "🟣 Selasa Pekan Prapaskah II",
+    "deskripsi": "(Selasa dalam Pekan Prapaskah II)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-03-18",
+    "judul": "🟣 [Pfac*] S. Sirilus dari Yerusalem, uskup dan pujangga Gereja",
+    "deskripsi": "(Santo Sirilus dari Yerusalem, uskup dan pujangga Gereja)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-03-19",
+    "judul": "⚪ [H] S. Yusuf, Suami Santa Maria",
+    "deskripsi": "(Santo Yusuf, suami Maria)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-03-20",
+    "judul": "🟣 Kamis Pekan Prapaskah II",
+    "deskripsi": "(Kamis dalam Pekan Prapaskah II)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-03-21",
+    "judul": "🟣 Jumat Pekan Prapaskah II",
+    "deskripsi": "(Jumat dalam Pekan Prapaskah II)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-03-22",
+    "judul": "🟣 Sabtu Pekan Prapaskah II",
+    "deskripsi": "(Sabtu dalam Pekan Prapaskah II)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-03-23",
+    "judul": "🟣 Hari Minggu Prapaskah III",
+    "deskripsi": "(Minggu Prapaskah III)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-03-24",
+    "judul": "🟣 Senin Pekan Prapaskah III",
+    "deskripsi": "(Senin dalam Pekan Prapaskah III)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-03-25",
+    "judul": "⚪ [H] Kabar Sukacita",
+    "deskripsi": "(Kabar Sukacita Tuhan)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-03-26",
+    "judul": "🟣 Rabu Pekan Prapaskah III",
+    "deskripsi": "(Rabu dalam Pekan Prapaskah III)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-03-27",
+    "judul": "🟣 Kamis Pekan Prapaskah III",
+    "deskripsi": "(Kamis dalam Pekan Prapaskah III)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-03-28",
+    "judul": "🟣 Jumat Pekan Prapaskah III",
+    "deskripsi": "(Jumat dalam Pekan Prapaskah III)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-03-29",
+    "judul": "🟣 Sabtu Pekan Prapaskah III",
+    "deskripsi": "(Sabtu dalam Pekan Prapaskah III)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-03-30",
+    "judul": "🟣 Hari Minggu Prapaskah IV",
+    "deskripsi": "(Minggu Prapaskah IV (Laetare))\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-03-31",
+    "judul": "🟣 Senin Pekan Prapaskah IV",
+    "deskripsi": "(Senin dalam Pekan Prapaskah IV)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-04-01",
+    "judul": "🟣 Selasa Pekan Prapaskah IV",
+    "deskripsi": "(Selasa dalam Pekan Prapaskah IV)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-04-02",
+    "judul": "🟣 Rabu Pekan Prapaskah IV",
+    "deskripsi": "(Rabu dalam Pekan Prapaskah IV)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-04-02",
+    "judul": "🟣 [Pfac*] S. Fransiskus dari Paola, pertapa",
+    "deskripsi": "(Santo Fransiskus dari Paola, pertapa)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-04-03",
+    "judul": "🟣 Kamis Pekan Prapaskah IV",
+    "deskripsi": "(Kamis dalam Pekan Prapaskah IV)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-04-04",
+    "judul": "🟣 Jumat Pekan Prapaskah IV",
+    "deskripsi": "(Jumat dalam Pekan Prapaskah IV)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-04-04",
+    "judul": "🟣 [Pfac*] S. Isidorus, uskup dan pujangga Gereja",
+    "deskripsi": "(Santo Isidorus, uskup dan pujangga Gereja)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-04-05",
+    "judul": "🟣 Sabtu Pekan Prapaskah IV",
+    "deskripsi": "(Sabtu dalam Pekan Prapaskah IV)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-04-05",
+    "judul": "🟣 [Pfac*] S. Vincensius Ferrer, imam",
+    "deskripsi": "(Santo Vincensius Ferrer, imam)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-04-06",
+    "judul": "🟣 Hari Minggu Prapaskah V",
+    "deskripsi": "(Minggu Prapaskah V)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-04-07",
+    "judul": "🟣 Senin Pekan Prapaskah V",
+    "deskripsi": "(Senin dalam Pekan Prapaskah V)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-04-07",
+    "judul": "🟣 [Pfac*] S. Yohanes Baptista de La Salle, imam",
+    "deskripsi": "(Santo Yohanes Baptista de La Salle, imam)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-04-08",
+    "judul": "🟣 Selasa Pekan Prapaskah V",
+    "deskripsi": "(Selasa dalam Pekan Prapaskah V)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-04-09",
+    "judul": "🟣 Rabu Pekan Prapaskah V",
+    "deskripsi": "(Rabu dalam Pekan Prapaskah V)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-04-10",
+    "judul": "🟣 Kamis Pekan Prapaskah V",
+    "deskripsi": "(Kamis dalam Pekan Prapaskah V)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-04-11",
+    "judul": "🟣 Jumat Pekan Prapaskah V",
+    "deskripsi": "(Jumat dalam Pekan Prapaskah V)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-04-11",
+    "judul": "🟣 [Pfac*] S. Stanislaus, uskup dan martir",
+    "deskripsi": "(Santo Stanislaus, uskup dan martir)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-04-12",
+    "judul": "🟣 Sabtu Pekan Prapaskah V",
+    "deskripsi": "(Sabtu dalam Pekan Prapaskah V)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-04-13",
+    "judul": "🔴 Hari Minggu Palma Mengenangkan Sengsara Tuhan",
+    "deskripsi": "(Minggu Palma Sengsara Tuhan)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-04-14",
+    "judul": "🟣 Hari Senin dalam Pekan Suci",
+    "deskripsi": "(Senin dalam Pekan Suci)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-04-15",
+    "judul": "🟣 Hari Selasa dalam Pekan Suci",
+    "deskripsi": "(Selasa dalam Pekan Suci)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-04-16",
+    "judul": "🟣 Hari Rabu dalam Pekan Suci",
+    "deskripsi": "(Rabu dalam Pekan Suci)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-04-17",
+    "judul": "⚪ Kamas Putih",
+    "deskripsi": "(Kamis Putih Perjamuan Tuhan)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-04-18",
+    "judul": "🔴 Hari Jumat Agung",
+    "deskripsi": "(Jumat Agung Sengsara Tuhan)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-04-19",
+    "judul": "⚪ Hari Sabtu Suci",
+    "deskripsi": "(Sabtu Suci)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-04-20",
+    "judul": "⚪ Paskah Kebangkitan Tuhan",
+    "deskripsi": "(Minggu Paskah Kebangkitan Tuhan)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-04-21",
+    "judul": "⚪ [H] Hari Senin dalam Oktaf Paskah",
+    "deskripsi": "(Senin dalam Oktaf Paskah)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-04-22",
+    "judul": "⚪ [H] Hari Selasa dalam Oktaf Paskah",
+    "deskripsi": "(Selasa dalam Oktaf Paskah)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-04-23",
+    "judul": "⚪ [H] Hari Rabu dalam Oktaf Paskah",
+    "deskripsi": "(Rabu dalam Oktaf Paskah)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-04-24",
+    "judul": "⚪ [H] Hari Kamis dalam Oktaf Paskah",
+    "deskripsi": "(Kamis dalam Oktaf Paskah)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-04-25",
+    "judul": "⚪ [H] Hari Jumat dalam Oktaf Paskah",
+    "deskripsi": "(Jumat dalam Oktaf Paskah)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-04-26",
+    "judul": "⚪ [H] Hari Sabtu dalam Oktaf Paskah",
+    "deskripsi": "(Sabtu dalam Oktaf Paskah)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-04-27",
+    "judul": "⚪ Hari Minggu Paskah II",
+    "deskripsi": "(Minggu Paskah II (Kerohanian Ilahi))\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-04-28",
+    "judul": "⚪ Senin Pekan Paskah II",
+    "deskripsi": "(Senin dalam Pekan Paskah II)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-04-28",
+    "judul": "⚪ [Pfak] S. Louis-Mariæ Grignion de Montfort, imam",
+    "deskripsi": "(Santo Louis Grignion de Montfort, imam)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-04-28",
+    "judul": "🔴 [Pfak] S. Petrus Chanel, imam dan martir",
+    "deskripsi": "(Santo Petrus Chanel, imam dan martir)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-04-29",
+    "judul": "⚪ [Pw] S. Katarina dari Siena, perawan dan pujangga Gereja",
+    "deskripsi": "(Santa Katarina dari Siena, perawan dan pujangga Gereja)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-04-30",
+    "judul": "⚪ Rabu Pekan Paskah II",
+    "deskripsi": "(Rabu dalam Pekan Paskah II)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-04-30",
+    "judul": "⚪ [Pfak] S. Pius V, Paus",
+    "deskripsi": "(Santo Pius V, Paus)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-05-01",
+    "judul": "⚪ Kamis Pekan Paskah II",
+    "deskripsi": "(Kamis dalam Pekan Paskah II)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-05-01",
+    "judul": "⚪ [Pfak] S. Yusuf, Pekerja",
+    "deskripsi": "(Santo Yusuf Pekerja)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-05-02",
+    "judul": "⚪ [Pw] S. Atanasius, uskup dan pujangga Gereja",
+    "deskripsi": "(Santo Atanasius, uskup dan pujangga Gereja)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-05-03",
+    "judul": "🔴 [P] S. Filipus dan Yakobus, rasul",
+    "deskripsi": "(Santo Filipus dan Santo Yakobus, rasul)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-05-04",
+    "judul": "⚪ Hari Minggu Paskah III",
+    "deskripsi": "(Minggu Paskah III)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-05-05",
+    "judul": "⚪ Senin Pekan Paskah III",
+    "deskripsi": "(Senin dalam Pekan Paskah III)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-05-06",
+    "judul": "⚪ Selasa Pekan Paskah III",
+    "deskripsi": "(Selasa dalam Pekan Paskah III)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-05-07",
+    "judul": "⚪ Rabu Pekan Paskah III",
+    "deskripsi": "(Rabu dalam Pekan Paskah III)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-05-08",
+    "judul": "⚪ Kamis Pekan Paskah III",
+    "deskripsi": "(Kamis dalam Pekan Paskah III)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-05-09",
+    "judul": "⚪ Jumat Pekan Paskah III",
+    "deskripsi": "(Jumat dalam Pekan Paskah III)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-05-10",
+    "judul": "⚪ Sabtu Pekan Paskah III",
+    "deskripsi": "(Sabtu dalam Pekan Paskah III)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-05-10",
+    "judul": "⚪ [Pfak] S. Yohanes dari Avila, imam dan pujangga Gereja",
+    "deskripsi": "(Santo Yohanes dari Avila, imam dan pujangga Gereja)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-05-11",
+    "judul": "⚪ Hari Minggu Paskah IV",
+    "deskripsi": "(Minggu Paskah IV)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-05-12",
+    "judul": "⚪ Senin Pekan Paskah IV",
+    "deskripsi": "(Senin dalam Pekan Paskah IV)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-05-12",
+    "judul": "🔴 [Pfak] S. Nereus dan Akhilleus, martir",
+    "deskripsi": "(Santo Nereus dan Santo Akhilleus, martir)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-05-12",
+    "judul": "🔴 [Pfak] S. Pankrasius, martir",
+    "deskripsi": "(Santo Pankrasius, martir)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-05-13",
+    "judul": "⚪ Selasa Pekan Paskah IV",
+    "deskripsi": "(Selasa dalam Pekan Paskah IV)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-05-13",
+    "judul": "⚪ [Pfak] Santa Perawan Maria dari Fatima",
+    "deskripsi": "(Bunda Maria dari Fatima)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-05-14",
+    "judul": "🔴 [P] S. Matias, rasul",
+    "deskripsi": "(Santo Matias, rasul)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-05-15",
+    "judul": "⚪ Kamis Pekan Paskah IV",
+    "deskripsi": "(Kamis dalam Pekan Paskah IV)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-05-16",
+    "judul": "⚪ Jumat Pekan Paskah IV",
+    "deskripsi": "(Jumat dalam Pekan Paskah IV)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-05-17",
+    "judul": "⚪ Sabtu Pekan Paskah IV",
+    "deskripsi": "(Sabtu dalam Pekan Paskah IV)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-05-18",
+    "judul": "⚪ Hari Minggu Paskah V",
+    "deskripsi": "(Minggu Paskah V)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-05-19",
+    "judul": "⚪ Senin Pekan Paskah V",
+    "deskripsi": "(Senin dalam Pekan Paskah V)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-05-20",
+    "judul": "⚪ Selasa Pekan Paskah V",
+    "deskripsi": "(Selasa dalam Pekan Paskah V)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-05-20",
+    "judul": "⚪ [Pfak] S. Bernardinus dari Siena, imam",
+    "deskripsi": "(Santo Bernardinus dari Siena, imam)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-05-21",
+    "judul": "⚪ Rabu Pekan Paskah V",
+    "deskripsi": "(Rabu dalam Pekan Paskah V)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-05-21",
+    "judul": "🔴 [Pfak] S. Kristoforus Magallanes, imam, dan kawan-kawan, ma",
+    "deskripsi": "(Santo Kristoforus Magallanes, imam, dan para sahabatnya, martir)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-05-22",
+    "judul": "⚪ Kamis Pekan Paskah V",
+    "deskripsi": "(Kamis dalam Pekan Paskah V)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-05-22",
+    "judul": "⚪ [Pfak] S. Rita dari Cascia, biarawati",
+    "deskripsi": "(Santa Rita dari Cascia, biarawati)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-05-23",
+    "judul": "⚪ Jumat Pekan Paskah V",
+    "deskripsi": "(Jumat dalam Pekan Paskah V)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-05-24",
+    "judul": "⚪ Sabtu Pekan Paskah V",
+    "deskripsi": "(Sabtu dalam Pekan Paskah V)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-05-25",
+    "judul": "⚪ Hari Minggu Paskah VI",
+    "deskripsi": "(Minggu Paskah VI)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-05-26",
+    "judul": "⚪ [Pw] S. Filipus Neri, imam",
+    "deskripsi": "(Santo Filipus Neri, imam)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-05-27",
+    "judul": "⚪ Selasa Pekan Paskah VI",
+    "deskripsi": "(Selasa dalam Pekan Paskah VI)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-05-27",
+    "judul": "⚪ [Pfak] S. Agustinus dari Canterbury, uskup",
+    "deskripsi": "(Santo Agustinus dari Canterbury, uskup)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-05-28",
+    "judul": "⚪ Rabu Pekan Paskah VI",
+    "deskripsi": "(Rabu dalam Pekan Paskah VI)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-05-29",
+    "judul": "⚪ [H] Kenaikan Tuhan",
+    "deskripsi": "(Kenaikan Tuhan)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-05-30",
+    "judul": "⚪ Jumat Pekan Paskah VI",
+    "deskripsi": "(Jumat dalam Pekan Paskah VI)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-05-31",
+    "judul": "⚪ [P] Santa Perawan Maria Mengunjungi Elisabet Saudaranya",
+    "deskripsi": "(Kunjungan Santa Perawan Maria kepada Elisabet Saudarinya)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-06-01",
+    "judul": "⚪ Hari Minggu Paskah VII",
+    "deskripsi": "(Minggu Paskah VII)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-06-02",
+    "judul": "⚪ Senin Pekan Paskah VII",
+    "deskripsi": "(Senin dalam Pekan Paskah VII)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-06-02",
+    "judul": "🔴 [Pfak] S. Marselinus dan Petrus, martir",
+    "deskripsi": "(Santo Marselinus dan Santo Petrus, martir)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-06-03",
+    "judul": "🔴 [Pw] S. Karolus Lwanga dan kawan-kawan, martir",
+    "deskripsi": "(Santo Karolus Lwanga dan para sahabatnya, martir)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-06-04",
+    "judul": "⚪ Rabu Pekan Paskah VII",
+    "deskripsi": "(Rabu dalam Pekan Paskah VII)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-06-05",
+    "judul": "🔴 [Pw] S. Bonifasius, uskup dan martir",
+    "deskripsi": "(Santo Bonifasius, uskup dan martir)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-06-06",
+    "judul": "⚪ Jumat Pekan Paskah VII",
+    "deskripsi": "(Jumat dalam Pekan Paskah VII)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-06-06",
+    "judul": "⚪ [Pfak] S. Norbertus, uskup",
+    "deskripsi": "(Santo Norbertus, uskup)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-06-07",
+    "judul": "⚪ Sabtu Pekan Paskah VII",
+    "deskripsi": "(Sabtu dalam Pekan Paskah VII)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-06-08",
+    "judul": "🔴 [H] Pentakosta",
+    "deskripsi": "(Minggu Pentakosta)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-06-09",
+    "judul": "⚪ [Pw] Santa Perawan Maria, Bunda Gereja",
+    "deskripsi": "(Santa Perawan Maria, Bunda Gereja)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-06-10",
+    "judul": "🟢 Selasa Pekan Biasa X",
+    "deskripsi": "(Selasa dalam Pekan Biasa X)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-06-11",
+    "judul": "🔴 [Pw] S. Barnabas, rasul",
+    "deskripsi": "(Santo Barnabas, rasul)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-06-12",
+    "judul": "🟢 Kamis Pekan Biasa X",
+    "deskripsi": "(Kamis dalam Pekan Biasa X)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-06-13",
+    "judul": "⚪ [Pw] S. Antonius dari Padua, imam dan pujangga Gereja",
+    "deskripsi": "(Santo Antonius dari Padua, imam dan pujangga Gereja)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-06-14",
+    "judul": "🟢 Sabtu Pekan Biasa X",
+    "deskripsi": "(Sabtu dalam Pekan Biasa X)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-06-14",
+    "judul": "⚪ [Pfak] Santa Perawan Maria",
+    "deskripsi": "(Santa Perawan Maria pada hari Sabtu)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-06-15",
+    "judul": "⚪ [H] Tritunggal Maha Kudus",
+    "deskripsi": "(Tritunggal Maha Kudus)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-06-16",
+    "judul": "🟢 Senin Pekan Biasa XI",
+    "deskripsi": "(Senin dalam Pekan Biasa XI)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-06-17",
+    "judul": "🟢 Selasa Pekan Biasa XI",
+    "deskripsi": "(Selasa dalam Pekan Biasa XI)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-06-18",
+    "judul": "🟢 Rabu Pekan Biasa XI",
+    "deskripsi": "(Rabu dalam Pekan Biasa XI)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-06-19",
+    "judul": "🟢 Kamis Pekan Biasa XI",
+    "deskripsi": "(Kamis dalam Pekan Biasa XI)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-06-19",
+    "judul": "⚪ [Pfak] S. Romualdus, abas",
+    "deskripsi": "(Santo Romualdus, abas)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-06-20",
+    "judul": "🟢 Jumat Pekan Biasa XI",
+    "deskripsi": "(Jumat dalam Pekan Biasa XI)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-06-21",
+    "judul": "⚪ [Pw] S. Aloisius Gonzaga, biarawan",
+    "deskripsi": "(Santo Aloisius Gonzaga, biarawan)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-06-22",
+    "judul": "⚪ [H] Tubuh dan Darah Kristus",
+    "deskripsi": "(Tubuh dan Darah Kristus Yang Mahakudus)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-06-23",
+    "judul": "🟢 Senin Pekan Biasa XII",
+    "deskripsi": "(Senin dalam Pekan Biasa XII)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-06-24",
+    "judul": "⚪ [H] Kelahiran S. Yohanes Pembaptis",
+    "deskripsi": "(Kelahiran Santo Yohanes Pembaptis)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-06-25",
+    "judul": "🟢 Rabu Pekan Biasa XII",
+    "deskripsi": "(Rabu dalam Pekan Biasa XII)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-06-26",
+    "judul": "🟢 Kamis Pekan Biasa XII",
+    "deskripsi": "(Kamis dalam Pekan Biasa XII)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-06-27",
+    "judul": "⚪ [H] Hati Yesus Yang Mahakudus",
+    "deskripsi": "(Hati Yesus Yang Mahakudus)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-06-28",
+    "judul": "⚪ [Pfak] Hati Tak Bernoda Santa Perawan Maria",
+    "deskripsi": "(Hati Tak Bernoda Santa Perawan Maria)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-06-28",
+    "judul": "🔴 [Pfak] S. Ireneus, uskup, martir dan pujangga Gereja",
+    "deskripsi": "(Santo Ireneus, uskup, martir dan pujangga Gereja)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-06-29",
+    "judul": "🔴 [H] S. Petrus dan Paulus, rasul",
+    "deskripsi": "(Santo Petrus dan Santo Paulus, rasul)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-06-30",
+    "judul": "🟢 Senin Pekan Biasa XIII",
+    "deskripsi": "(Senin dalam Pekan Biasa XIII)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-06-30",
+    "judul": "🔴 [Pfak] Para Martir Pertama Gereja Roma yang Kudus",
+    "deskripsi": "(Para Martir Pertama Gereja Roma)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-07-01",
+    "judul": "🟢 Selasa Pekan Biasa XIII",
+    "deskripsi": "(Selasa dalam Pekan Biasa XIII)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-07-02",
+    "judul": "🟢 Rabu Pekan Biasa XIII",
+    "deskripsi": "(Rabu dalam Pekan Biasa XIII)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-07-03",
+    "judul": "🔴 [P] S. Tomas, rasul",
+    "deskripsi": "(Santo Tomas, rasul)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-07-04",
+    "judul": "🟢 Jumat Pekan Biasa XIII",
+    "deskripsi": "(Jumat dalam Pekan Biasa XIII)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-07-04",
+    "judul": "⚪ [Pfak] S. Elisabet dari Portugal",
+    "deskripsi": "(Santa Elisabet dari Portugal)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-07-05",
+    "judul": "🟢 Sabtu Pekan Biasa XIII",
+    "deskripsi": "(Sabtu dalam Pekan Biasa XIII)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-07-05",
+    "judul": "⚪ [Pfak] S. Antonius Maria Zakkaria, imam",
+    "deskripsi": "(Santo Antonius Maria Zakkaria, imam)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-07-05",
+    "judul": "⚪ [Pfak] Santa Perawan Maria",
+    "deskripsi": "(Santa Perawan Maria pada hari Sabtu)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-07-06",
+    "judul": "🟢 Hari Minggu Biasa XIV",
+    "deskripsi": "(Minggu Biasa XIV)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-07-07",
+    "judul": "🟢 Senin Pekan Biasa XIV",
+    "deskripsi": "(Senin dalam Pekan Biasa XIV)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-07-08",
+    "judul": "🟢 Selasa Pekan Biasa XIV",
+    "deskripsi": "(Selasa dalam Pekan Biasa XIV)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-07-09",
+    "judul": "🟢 Rabu Pekan Biasa XIV",
+    "deskripsi": "(Rabu dalam Pekan Biasa XIV)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-07-09",
+    "judul": "🔴 [Pfak] S. Agustinus Zhao Rong, imam, dan kawan-kawan, martir",
+    "deskripsi": "(Santo Agustinus Zhao Rong, imam, dan para sahabatnya, martir)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-07-10",
+    "judul": "🟢 Kamis Pekan Biasa XIV",
+    "deskripsi": "(Kamis dalam Pekan Biasa XIV)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-07-11",
+    "judul": "⚪ [Pw] S. Benediktus, abas",
+    "deskripsi": "(Santo Benediktus, abas)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-07-12",
+    "judul": "🟢 Sabtu Pekan Biasa XIV",
+    "deskripsi": "(Sabtu dalam Pekan Biasa XIV)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-07-12",
+    "judul": "⚪ [Pfak] Santa Perawan Maria",
+    "deskripsi": "(Santa Perawan Maria pada hari Sabtu)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-07-13",
+    "judul": "🟢 Hari Minggu Biasa XV",
+    "deskripsi": "(Minggu Biasa XV)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-07-14",
+    "judul": "🟢 Senin Pekan Biasa XV",
+    "deskripsi": "(Senin dalam Pekan Biasa XV)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-07-14",
+    "judul": "⚪ [Pfak] S. Kamillus de Lellis, imam",
+    "deskripsi": "(Santo Kamillus de Lellis, imam)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-07-15",
+    "judul": "⚪ [Pw] S. Bonaventura, uskup dan pujangga Gereja",
+    "deskripsi": "(Santo Bonaventura, uskup dan pujangga Gereja)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-07-16",
+    "judul": "🟢 Rabu Pekan Biasa XV",
+    "deskripsi": "(Rabu dalam Pekan Biasa XV)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-07-16",
+    "judul": "⚪ [Pfak] Bunda Maria dari Gunung Karmel",
+    "deskripsi": "(Bunda Maria dari Gunung Karmel)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-07-17",
+    "judul": "🟢 Kamis Pekan Biasa XV",
+    "deskripsi": "(Kamis dalam Pekan Biasa XV)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-07-18",
+    "judul": "🟢 Jumat Pekan Biasa XV",
+    "deskripsi": "(Jumat dalam Pekan Biasa XV)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-07-19",
+    "judul": "🟢 Sabtu Pekan Biasa XV",
+    "deskripsi": "(Sabtu dalam Pekan Biasa XV)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-07-19",
+    "judul": "⚪ [Pfak] Santa Perawan Maria",
+    "deskripsi": "(Santa Perawan Maria pada hari Sabtu)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-07-20",
+    "judul": "🟢 Hari Minggu Biasa XVI",
+    "deskripsi": "(Minggu Biasa XVI)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-07-21",
+    "judul": "🟢 Senin Pekan Biasa XVI",
+    "deskripsi": "(Senin dalam Pekan Biasa XVI)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-07-21",
+    "judul": "⚪ [Pfak] S. Laurensius dari Brindisi, imam dan pujangga Gereja",
+    "deskripsi": "(Santo Laurensius dari Brindisi, imam dan pujangga Gereja)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-07-22",
+    "judul": "⚪ [P] S. Maria Magdalena",
+    "deskripsi": "(Santa Maria Magdalena)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-07-23",
+    "judul": "🟢 Rabu Pekan Biasa XVI",
+    "deskripsi": "(Rabu dalam Pekan Biasa XVI)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-07-23",
+    "judul": "⚪ [Pfak] S. Birgitta, biarawati",
+    "deskripsi": "(Santa Birgitta, biarawati)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-07-24",
+    "judul": "🟢 Kamis Pekan Biasa XVI",
+    "deskripsi": "(Kamis dalam Pekan Biasa XVI)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-07-24",
+    "judul": "⚪ [Pfak] S. Sharbel Makhlūf, imam",
+    "deskripsi": "(Santo Sharbel Makhlūf, imam)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-07-25",
+    "judul": "🔴 [P] S. Yakobus, rasul",
+    "deskripsi": "(Santo Yakobus, rasul)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-07-26",
+    "judul": "⚪ [Pw] S. Yoakim dan Anna, orang tua Santa Perawan Maria",
+    "deskripsi": "(Santo Yoakim dan Santa Anna, orang tua Santa Perawan Maria)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-07-27",
+    "judul": "🟢 Hari Minggu Biasa XVII",
+    "deskripsi": "(Minggu Biasa XVII)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-07-28",
+    "judul": "🟢 Senin Pekan Biasa XVII",
+    "deskripsi": "(Senin dalam Pekan Biasa XVII)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-07-29",
+    "judul": "⚪ [Pw] S. Marta, Maria, dan Lazarus",
+    "deskripsi": "(Santa Marta, Santa Maria, dan Santo Lazarus)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-07-30",
+    "judul": "🟢 Rabu Pekan Biasa XVII",
+    "deskripsi": "(Rabu dalam Pekan Biasa XVII)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-07-30",
+    "judul": "⚪ [Pfak] S. Petrus Krisologus, uskup dan pujangga Gereja",
+    "deskripsi": "(Santo Petrus Krisologus, uskup dan pujangga Gereja)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-07-31",
+    "judul": "⚪ [Pw] S. Ignasius dari Loyola, imam",
+    "deskripsi": "(Santo Ignasius dari Loyola, imam)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-08-01",
+    "judul": "⚪ [Pw] S. Alfonsus Maria de Liguori, uskup dan pujangga Gereja",
+    "deskripsi": "(Santo Alfonsus Maria de Liguori, uskup dan pujangga Gereja)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-08-02",
+    "judul": "🟢 Sabtu Pekan Biasa XVII",
+    "deskripsi": "(Sabtu dalam Pekan Biasa XVII)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-08-02",
+    "judul": "⚪ [Pfak] S. Eusebius Vercelli, uskup",
+    "deskripsi": "(Santo Eusebius Vercelli, uskup)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-08-02",
+    "judul": "⚪ [Pfak] S. Petrus Yulianus Eymard, imam",
+    "deskripsi": "(Santo Petrus Yulianus Eymard, imam)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-08-02",
+    "judul": "⚪ [Pfak] Santa Perawan Maria",
+    "deskripsi": "(Santa Perawan Maria pada hari Sabtu)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-08-03",
+    "judul": "🟢 Hari Minggu Biasa XVIII",
+    "deskripsi": "(Minggu Biasa XVIII)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-08-04",
+    "judul": "⚪ [Pw] S. Yohanes Maria Vianney, imam",
+    "deskripsi": "(Santo Yohanes Maria Vianney, imam)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-08-05",
+    "judul": "🟢 Selasa Pekan Biasa XVIII",
+    "deskripsi": "(Selasa dalam Pekan Biasa XVIII)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-08-05",
+    "judul": "⚪ [Pfak] Pemberkatan Gereja Basilika Santa Maria Maggiore",
+    "deskripsi": "(Pemberkatan Basilika Santa Maria Maggiore di Roma)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-08-06",
+    "judul": "⚪ [P] Yesus Menampakkan Kemuliaan-Nya",
+    "deskripsi": "(Transfigurasi Tuhan)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-08-07",
+    "judul": "🟢 Kamis Pekan Biasa XVIII",
+    "deskripsi": "(Kamis dalam Pekan Biasa XVIII)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-08-07",
+    "judul": "⚪ [Pfak] S. Kayetanus, imam",
+    "deskripsi": "(Santo Kayetanus, imam)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-08-07",
+    "judul": "🔴 [Pfak] S. Sikstus II, Paus, dan kawan-kawan, martir",
+    "deskripsi": "(Santo Sikstus II, Paus, dan para sahabatnya, martir)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-08-08",
+    "judul": "⚪ [Pw] S. Dominikus, imam",
+    "deskripsi": "(Santo Dominikus, imam)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-08-09",
+    "judul": "🟢 Sabtu Pekan Biasa XVIII",
+    "deskripsi": "(Sabtu dalam Pekan Biasa XVIII)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-08-09",
+    "judul": "🔴 [Pfak] S. Teresia Benedikta dari Salib, perawan dan martir",
+    "deskripsi": "(Santa Teresia Benedikta dari Salib, perawan dan martir)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-08-09",
+    "judul": "⚪ [Pfak] Santa Perawan Maria",
+    "deskripsi": "(Santa Perawan Maria pada hari Sabtu)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-08-10",
+    "judul": "⚪ [H] Santa Perawan Maria Diangkat ke Surga",
+    "deskripsi": "(Pengangkatan Santa Perawan Maria ke Surga)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-08-11",
+    "judul": "⚪ [Pw] S. Klara, perawan",
+    "deskripsi": "(Santa Klara, perawan)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-08-12",
+    "judul": "🟢 Selasa Pekan Biasa XIX",
+    "deskripsi": "(Selasa dalam Pekan Biasa XIX)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-08-12",
+    "judul": "⚪ [Pfak] S. Yohana Fransiska de Chantal, biarawati",
+    "deskripsi": "(Santa Yohana Fransiska de Chantal, biarawati)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-08-13",
+    "judul": "🟢 Rabu Pekan Biasa XIX",
+    "deskripsi": "(Rabu dalam Pekan Biasa XIX)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-08-13",
+    "judul": "🔴 [Pfak] S. Pontianus, Paus, dan S. Hipolitus, imam, martir",
+    "deskripsi": "(Santo Pontianus, Paus, dan Santo Hipolitus, imam, martir)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-08-14",
+    "judul": "🔴 [Pw] S. Maksimilianus Maria Kolbe, imam dan martir",
+    "deskripsi": "(Santo Maksimilianus Maria Kolbe, imam dan martir)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-08-15",
+    "judul": "🟢 Jumat Pekan Biasa XIX",
+    "deskripsi": "(Jumat dalam Pekan Biasa XIX)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-08-15",
+    "judul": "🔴 [Pfak] S. Tarsisius, martir",
+    "deskripsi": "(Santo Tarsisius, martir)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-08-16",
+    "judul": "🟢 Sabtu Pekan Biasa XIX",
+    "deskripsi": "(Sabtu dalam Pekan Biasa XIX)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-08-16",
+    "judul": "⚪ [Pfak] S. Stefanus dari Hungaria",
+    "deskripsi": "(Santo Stefanus dari Hungaria)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-08-16",
+    "judul": "⚪ [Pfak] Santa Perawan Maria",
+    "deskripsi": "(Santa Perawan Maria pada hari Sabtu)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-08-17",
+    "judul": "⚪ Kemerdekaan Republik Indonesia",
+    "deskripsi": "(Hari Kemerdekaan Republik Indonesia)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-08-18",
+    "judul": "🟢 Senin Pekan Biasa XX",
+    "deskripsi": "(Senin dalam Pekan Biasa XX)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-08-19",
+    "judul": "🟢 Selasa Pekan Biasa XX",
+    "deskripsi": "(Selasa dalam Pekan Biasa XX)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-08-19",
+    "judul": "⚪ [Pfak] S. Yohanes Eudes, imam",
+    "deskripsi": "(Santo Yohanes Eudes, imam)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-08-20",
+    "judul": "⚪ [Pw] S. Bernardus, abas dan pujangga Gereja",
+    "deskripsi": "(Santo Bernardus, abas dan pujangga Gereja)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-08-21",
+    "judul": "⚪ [Pw] S. Pius X, Paus",
+    "deskripsi": "(Santo Pius X, Paus)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-08-22",
+    "judul": "⚪ [Pw] Santa Perawan Maria, Ratu",
+    "deskripsi": "(Kemuliaan Santa Perawan Maria, Ratu)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-08-23",
+    "judul": "🟢 Sabtu Pekan Biasa XX",
+    "deskripsi": "(Sabtu dalam Pekan Biasa XX)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-08-23",
+    "judul": "⚪ [Pfak] S. Rosa dari Lima, perawan",
+    "deskripsi": "(Santa Rosa dari Lima, perawan)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-08-23",
+    "judul": "⚪ [Pfak] Santa Perawan Maria",
+    "deskripsi": "(Santa Perawan Maria pada hari Sabtu)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-08-24",
+    "judul": "🟢 Hari Minggu Biasa XXI",
+    "deskripsi": "(Minggu Biasa XXI)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-08-25",
+    "judul": "🟢 Senin Pekan Biasa XXI",
+    "deskripsi": "(Senin dalam Pekan Biasa XXI)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-08-25",
+    "judul": "⚪ [Pfak] S. Louis IX, raja",
+    "deskripsi": "(Santo Louis IX, raja)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-08-25",
+    "judul": "⚪ [Pfak] S. Yosef dari Calasanz, imam",
+    "deskripsi": "(Santo Yosef dari Calasanz, imam)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-08-26",
+    "judul": "🟢 Selasa Pekan Biasa XXI",
+    "deskripsi": "(Selasa dalam Pekan Biasa XXI)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-08-27",
+    "judul": "⚪ [Pw] S. Monika",
+    "deskripsi": "(Santa Monika)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-08-28",
+    "judul": "⚪ [Pw] S. Agustinus, uskup dan pujangga Gereja",
+    "deskripsi": "(Santo Agustinus, uskup dan pujangga Gereja)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-08-29",
+    "judul": "🔴 [Pw] Kemartiran S. Yohanes Pembaptis",
+    "deskripsi": "(Kemartiran Santo Yohanes Pembaptis)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-08-30",
+    "judul": "🟢 Sabtu Pekan Biasa XXI",
+    "deskripsi": "(Sabtu dalam Pekan Biasa XXI)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-08-30",
+    "judul": "⚪ [Pfak] Santa Perawan Maria",
+    "deskripsi": "(Santa Perawan Maria pada hari Sabtu)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-08-31",
+    "judul": "🟢 Hari Minggu Biasa XXII",
+    "deskripsi": "(Minggu Biasa XXII)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-09-01",
+    "judul": "🟢 Senin Pekan Biasa XXII",
+    "deskripsi": "(Senin dalam Pekan Biasa XXII)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-09-02",
+    "judul": "🟢 Selasa Pekan Biasa XXII",
+    "deskripsi": "(Selasa dalam Pekan Biasa XXII)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-09-03",
+    "judul": "⚪ [Pw] S. Gregorius Agung, Paus dan pujangga Gereja",
+    "deskripsi": "(Santo Gregorius Agung, Paus dan pujangga Gereja)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-09-04",
+    "judul": "🟢 Kamis Pekan Biasa XXII",
+    "deskripsi": "(Kamis dalam Pekan Biasa XXII)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-09-05",
+    "judul": "🟢 Jumat Pekan Biasa XXII",
+    "deskripsi": "(Jumat dalam Pekan Biasa XXII)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-09-05",
+    "judul": "⚪ [Pfak] S. Teresa dari Kalkuta, perawan",
+    "deskripsi": "(Santa Teresa dari Kalkuta, perawan)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-09-06",
+    "judul": "🟢 Sabtu Pekan Biasa XXII",
+    "deskripsi": "(Sabtu dalam Pekan Biasa XXII)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-09-06",
+    "judul": "⚪ [Pfak] Santa Perawan Maria",
+    "deskripsi": "(Santa Perawan Maria pada hari Sabtu)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-09-07",
+    "judul": "🟢 Hari Minggu Biasa XXIII",
+    "deskripsi": "(Minggu Biasa XXIII)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-09-08",
+    "judul": "⚪ [P] Kelahiran Santa Perawan Maria",
+    "deskripsi": "(Kelahiran Santa Perawan Maria)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-09-09",
+    "judul": "🟢 Selasa Pekan Biasa XXIII",
+    "deskripsi": "(Selasa dalam Pekan Biasa XXIII)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-09-09",
+    "judul": "⚪ [Pfak] S. Petrus Klaver, imam",
+    "deskripsi": "(Santo Petrus Klaver, imam)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-09-10",
+    "judul": "🟢 Rabu Pekan Biasa XXIII",
+    "deskripsi": "(Rabu dalam Pekan Biasa XXIII)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-09-11",
+    "judul": "🟢 Kamis Pekan Biasa XXIII",
+    "deskripsi": "(Kamis dalam Pekan Biasa XXIII)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-09-12",
+    "judul": "🟢 Jumat Pekan Biasa XXIII",
+    "deskripsi": "(Jumat dalam Pekan Biasa XXIII)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-09-12",
+    "judul": "⚪ [Pfak] Nama Tersuci Santa Perawan Maria",
+    "deskripsi": "(Nama Tersuci Santa Perawan Maria)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-09-13",
+    "judul": "⚪ [Pw] S. Yohanes Krisostomus, uskup dan pujangga Gereja",
+    "deskripsi": "(Santo Yohanes Krisostomus, uskup dan pujangga Gereja)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-09-14",
+    "judul": "🔴 [P] Salib Suci",
+    "deskripsi": "(Peninggian Salib Suci)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-09-15",
+    "judul": "⚪ [Pw] Santa Perawan Maria Berdukacita",
+    "deskripsi": "(Bunda Maria Berdukacita)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-09-16",
+    "judul": "🔴 [Pw] S. Kornelius, Paus, dan S. Siprianus, uskup, martir",
+    "deskripsi": "(Santo Kornelius, Paus, dan Santo Siprianus, uskup, martir)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-09-17",
+    "judul": "🟢 Rabu Pekan Biasa XXIV",
+    "deskripsi": "(Rabu dalam Pekan Biasa XXIV)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-09-17",
+    "judul": "⚪ [Pfak] S. Hildegard dari Bingen, perawan dan pujangga Gereja",
+    "deskripsi": "(Santa Hildegard dari Bingen, perawan dan pujangga Gereja)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-09-17",
+    "judul": "⚪ [Pfak] S. Robertus Bellarminus, uskup dan pujangga Gereja",
+    "deskripsi": "(Santo Robertus Bellarminus, uskup dan pujangga Gereja)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-09-18",
+    "judul": "🟢 Kamis Pekan Biasa XXIV",
+    "deskripsi": "(Kamis dalam Pekan Biasa XXIV)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-09-19",
+    "judul": "🟢 Jumat Pekan Biasa XXIV",
+    "deskripsi": "(Jumat dalam Pekan Biasa XXIV)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-09-19",
+    "judul": "🔴 [Pfak] S. Yanuarius, uskup dan martir",
+    "deskripsi": "(Santo Yanuarius, uskup dan martir)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-09-20",
+    "judul": "🔴 [Pw] S. Andreas Kim Tae-gŏn, imam, Paulus Chŏng Ha-sang,",
+    "deskripsi": "(Santo Andreas Kim Taegŏn, imam, Santo Paulus Chŏng Hasang dan para sahabatnya, martir)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-09-21",
+    "judul": "🟢 Hari Minggu Biasa XXV",
+    "deskripsi": "(Minggu Biasa XXV)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-09-22",
+    "judul": "🟢 Senin Pekan Biasa XXV",
+    "deskripsi": "(Senin dalam Pekan Biasa XXV)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-09-23",
+    "judul": "⚪ [Pw] S. Pius dari Pietrelcina, imam",
+    "deskripsi": "(Santo Pius dari Pietrelcina, imam)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-09-24",
+    "judul": "🟢 Rabu Pekan Biasa XXV",
+    "deskripsi": "(Rabu dalam Pekan Biasa XXV)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-09-25",
+    "judul": "🟢 Kamis Pekan Biasa XXV",
+    "deskripsi": "(Kamis dalam Pekan Biasa XXV)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-09-26",
+    "judul": "🟢 Jumat Pekan Biasa XXV",
+    "deskripsi": "(Jumat dalam Pekan Biasa XXV)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-09-26",
+    "judul": "🔴 [Pfak] S. Kosmas dan Damianus, uskup, martir",
+    "deskripsi": "(Santo Kosmas dan Santo Damianus, martir)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-09-27",
+    "judul": "⚪ [Pw] S. Vinsensius a Paulo, imam",
+    "deskripsi": "(Santo Vinsensius a Paulo, imam)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-09-28",
+    "judul": "🟢 Hari Minggu Biasa XXVI",
+    "deskripsi": "(Minggu Biasa XXVI)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-09-29",
+    "judul": "⚪ [P] S. Mikael, Gabriel, dan Rafael, Malaikat Agung",
+    "deskripsi": "(Santo Mikael, Santo Gabriel, dan Santo Rafael, Malaikat Agung)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-09-30",
+    "judul": "⚪ [Pw] S. Hieronimus, imam dan pujangga Gereja",
+    "deskripsi": "(Santo Hieronimus, imam dan pujangga Gereja)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-10-01",
+    "judul": "⚪ [P] S. Teresia dari Kanak-Kanak Yesus, perawan dan pujangga Ger",
+    "deskripsi": "(Santa Teresia dari Kanak-Kanak Yesus, perawan dan pujangga Gereja)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-10-02",
+    "judul": "⚪ [Pw] Para Malaikat Pelindung",
+    "deskripsi": "(Para Malaikat Pelindung Kudus)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-10-03",
+    "judul": "🟢 Jumat Pekan Biasa XXVI",
+    "deskripsi": "(Jumat dalam Pekan Biasa XXVI)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-10-04",
+    "judul": "⚪ [Pw] S. Fransiskus dari Assisi",
+    "deskripsi": "(Santo Fransiskus dari Assisi, biarawan)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-10-05",
+    "judul": "🟢 Hari Minggu Biasa XXVII",
+    "deskripsi": "(Minggu Biasa XXVII)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-10-06",
+    "judul": "🟢 Senin Pekan Biasa XXVII",
+    "deskripsi": "(Senin dalam Pekan Biasa XXVII)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-10-06",
+    "judul": "⚪ [Pfak] S. Bruno, imam",
+    "deskripsi": "(Santo Bruno, imam)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-10-07",
+    "judul": "⚪ [Pw] Santa Perawan Maria, Ratu Rosario",
+    "deskripsi": "(Bunda Maria dari Rosario)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-10-08",
+    "judul": "🟢 Rabu Pekan Biasa XXVII",
+    "deskripsi": "(Rabu dalam Pekan Biasa XXVII)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-10-09",
+    "judul": "🟢 Kamis Pekan Biasa XXVII",
+    "deskripsi": "(Kamis dalam Pekan Biasa XXVII)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-10-09",
+    "judul": "🔴 [Pfak] S. Dionisius, uskup, dan kawan-kawan, martir",
+    "deskripsi": "(Santo Dionisius, uskup, dan para sahabatnya, martir)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-10-09",
+    "judul": "⚪ [Pfak] S. Yohanes Leonardus, imam",
+    "deskripsi": "(Santo Yohanes Leonardi, imam)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-10-10",
+    "judul": "🟢 Jumat Pekan Biasa XXVII",
+    "deskripsi": "(Jumat dalam Pekan Biasa XXVII)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-10-11",
+    "judul": "🟢 Sabtu Pekan Biasa XXVII",
+    "deskripsi": "(Sabtu dalam Pekan Biasa XXVII)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-10-11",
+    "judul": "⚪ [Pfak] S. Yohanes XXIII, Paus",
+    "deskripsi": "(Santo Yohanes XXIII, Paus)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-10-11",
+    "judul": "⚪ [Pfak] Santa Perawan Maria",
+    "deskripsi": "(Santa Perawan Maria pada hari Sabtu)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-10-12",
+    "judul": "🟢 Hari Minggu Biasa XXVIII",
+    "deskripsi": "(Minggu Biasa XXVIII)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-10-13",
+    "judul": "🟢 Senin Pekan Biasa XXVIII",
+    "deskripsi": "(Senin dalam Pekan Biasa XXVIII)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-10-14",
+    "judul": "🟢 Selasa Pekan Biasa XXVIII",
+    "deskripsi": "(Selasa dalam Pekan Biasa XXVIII)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-10-14",
+    "judul": "🔴 [Pfak] S. Kalistus I, Paus dan martir",
+    "deskripsi": "(Santo Kalistus I, Paus dan martir)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-10-15",
+    "judul": "⚪ [Pw] S. Teresia dari Avila, perawan dan pujangga Gereja",
+    "deskripsi": "(Santa Teresia dari Yesus, perawan dan pujangga Gereja)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-10-16",
+    "judul": "🟢 Kamis Pekan Biasa XXVIII",
+    "deskripsi": "(Kamis dalam Pekan Biasa XXVIII)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-10-16",
+    "judul": "⚪ [Pfak] S. Hedwig, biarawati",
+    "deskripsi": "(Santa Hedwig, biarawati)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-10-16",
+    "judul": "⚪ [Pfak] S. Margarita Maria Alacoque, perawan",
+    "deskripsi": "(Santa Margarita Maria Alacoque, perawan)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-10-17",
+    "judul": "🔴 [Pw] S. Ignasius dari Antiokhia, uskup dan martir",
+    "deskripsi": "(Santo Ignasius dari Antiokhia, uskup dan martir)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-10-18",
+    "judul": "🔴 [P] S. Lukas, penulis Injil",
+    "deskripsi": "(Santo Lukas, penginjil)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-10-19",
+    "judul": "🟢 Hari Minggu Biasa XXIX",
+    "deskripsi": "(Minggu Biasa XXIX)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-10-20",
+    "judul": "🟢 Senin Pekan Biasa XXIX",
+    "deskripsi": "(Senin dalam Pekan Biasa XXIX)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-10-21",
+    "judul": "🟢 Selasa Pekan Biasa XXIX",
+    "deskripsi": "(Selasa dalam Pekan Biasa XXIX)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-10-22",
+    "judul": "🟢 Rabu Pekan Biasa XXIX",
+    "deskripsi": "(Rabu dalam Pekan Biasa XXIX)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-10-22",
+    "judul": "⚪ [Pfak] S. Yohanes Paulus II, Paus",
+    "deskripsi": "(Santo Yohanes Paulus II, Paus)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-10-23",
+    "judul": "🟢 Kamis Pekan Biasa XXIX",
+    "deskripsi": "(Kamis dalam Pekan Biasa XXIX)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-10-23",
+    "judul": "⚪ [Pfak] S. Yohanes dari Capestrano, imam",
+    "deskripsi": "(Santo Yohanes dari Capestrano, imam)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-10-24",
+    "judul": "🟢 Jumat Pekan Biasa XXIX",
+    "deskripsi": "(Jumat dalam Pekan Biasa XXIX)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-10-24",
+    "judul": "⚪ [Pfak] S. Antonius Maria Claret, uskup",
+    "deskripsi": "(Santo Antonius Maria Claret, uskup)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-10-25",
+    "judul": "🟢 Sabtu Pekan Biasa XXIX",
+    "deskripsi": "(Sabtu dalam Pekan Biasa XXIX)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-10-25",
+    "judul": "⚪ [Pfak] Santa Perawan Maria",
+    "deskripsi": "(Santa Perawan Maria pada hari Sabtu)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-10-26",
+    "judul": "🟢 Hari Minggu Biasa XXX",
+    "deskripsi": "(Minggu Biasa XXX)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-10-27",
+    "judul": "🟢 Senin Pekan Biasa XXX",
+    "deskripsi": "(Senin dalam Pekan Biasa XXX)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-10-28",
+    "judul": "🔴 [P] S. Simon dan Yudas, rasul",
+    "deskripsi": "(Santo Simon dan Santo Yudas, rasul)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-10-29",
+    "judul": "🟢 Rabu Pekan Biasa XXX",
+    "deskripsi": "(Rabu dalam Pekan Biasa XXX)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-10-30",
+    "judul": "🟢 Kamis Pekan Biasa XXX",
+    "deskripsi": "(Kamis dalam Pekan Biasa XXX)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-10-31",
+    "judul": "🟢 Jumat Pekan Biasa XXX",
+    "deskripsi": "(Jumat dalam Pekan Biasa XXX)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-11-01",
+    "judul": "⚪ [H] Semua Orang Kudus",
+    "deskripsi": "(Hari Raya Semua Orang Kudus)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-11-02",
+    "judul": "🟣 Arwah Semua Orang Beriman",
+    "deskripsi": "(Peringatan Semua Arwah Orang Beriman)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-11-03",
+    "judul": "🟢 Senin Pekan Biasa XXXI",
+    "deskripsi": "(Senin dalam Pekan Biasa XXXI)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-11-03",
+    "judul": "⚪ [Pfak] S. Martinus de Porres, biarawan",
+    "deskripsi": "(Santo Martinus de Porres, biarawan)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-11-04",
+    "judul": "⚪ [Pw] S. Carolus Borromeus, uskup",
+    "deskripsi": "(Santo Carolus Borromeus, uskup)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-11-05",
+    "judul": "🟢 Rabu Pekan Biasa XXXI",
+    "deskripsi": "(Rabu dalam Pekan Biasa XXXI)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-11-06",
+    "judul": "🟢 Kamis Pekan Biasa XXXI",
+    "deskripsi": "(Kamis dalam Pekan Biasa XXXI)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-11-07",
+    "judul": "🟢 Jumat Pekan Biasa XXXI",
+    "deskripsi": "(Jumat dalam Pekan Biasa XXXI)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-11-08",
+    "judul": "🟢 Sabtu Pekan Biasa XXXI",
+    "deskripsi": "(Sabtu dalam Pekan Biasa XXXI)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-11-08",
+    "judul": "⚪ [Pfak] Santa Perawan Maria",
+    "deskripsi": "(Santa Perawan Maria pada hari Sabtu)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-11-09",
+    "judul": "⚪ [P] Pemberkatan Gereja Basilik Lateran",
+    "deskripsi": "(Pemberkatan Basilika Lateran di Roma)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-11-10",
+    "judul": "⚪ [Pw] S. Leo Agung, Paus dan pujangga Gereja",
+    "deskripsi": "(Santo Leo Agung, Paus dan pujangga Gereja)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-11-11",
+    "judul": "⚪ [Pw] S. Martinus dari Tours, uskup",
+    "deskripsi": "(Santo Martinus dari Tours, uskup)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-11-12",
+    "judul": "🔴 [Pw] S. Yosafat, uskup dan martir",
+    "deskripsi": "(Santo Yosafat, uskup dan martir)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-11-13",
+    "judul": "🟢 Kamis Pekan Biasa XXXII",
+    "deskripsi": "(Kamis dalam Pekan Biasa XXXII)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-11-14",
+    "judul": "🟢 Jumat Pekan Biasa XXXII",
+    "deskripsi": "(Jumat dalam Pekan Biasa XXXII)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-11-15",
+    "judul": "🟢 Sabtu Pekan Biasa XXXII",
+    "deskripsi": "(Sabtu dalam Pekan Biasa XXXII)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-11-15",
+    "judul": "⚪ [Pfak] S. Albertus Agung, uskup dan pujangga Gereja",
+    "deskripsi": "(Santo Albertus Agung, uskup dan pujangga Gereja)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-11-15",
+    "judul": "⚪ [Pfak] Santa Perawan Maria",
+    "deskripsi": "(Santa Perawan Maria pada hari Sabtu)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-11-16",
+    "judul": "🟢 Hari Minggu Biasa XXXIII",
+    "deskripsi": "(Minggu Biasa XXXIII)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-11-17",
+    "judul": "⚪ [Pw] S. Elisabet dari Hungaria, biarawati",
+    "deskripsi": "(Santa Elisabet dari Hungaria, biarawati)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-11-18",
+    "judul": "🟢 Selasa Pekan Biasa XXXIII",
+    "deskripsi": "(Selasa dalam Pekan Biasa XXXIII)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-11-18",
+    "judul": "⚪ [Pfak] Pemberkatan Basilika Santo Petrus Rasul dan Basilika Sant",
+    "deskripsi": "(Pemberkatan Basilika Santo Petrus dan Santo Paulus di Roma, rasul)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-11-19",
+    "judul": "🟢 Rabu Pekan Biasa XXXIII",
+    "deskripsi": "(Rabu dalam Pekan Biasa XXXIII)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-11-20",
+    "judul": "🟢 Kamis Pekan Biasa XXXIII",
+    "deskripsi": "(Kamis dalam Pekan Biasa XXXIII)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-11-21",
+    "judul": "⚪ [Pw] Santa Perawan Maria Dipersembahkan dalam Kanisah",
+    "deskripsi": "(Persembahan Santa Perawan Maria di Bait Suci)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-11-22",
+    "judul": "🔴 [Pw] S. Sesilia, perawan dan martir",
+    "deskripsi": "(Santa Sesilia, perawan dan martir)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-11-23",
+    "judul": "⚪ [H] Tuhan Kita Yesus Kristus Raja Semesta Alam",
+    "deskripsi": "(Tuhan Kita Yesus Kristus Raja Semesta Alam)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-11-24",
+    "judul": "🔴 [Pw] S. Andreas Dũng Lac, imam, dan kawan-kawan, martir",
+    "deskripsi": "(Santo Andreas Dũng Lac, imam, dan para sahabatnya, martir)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-11-25",
+    "judul": "🟢 Selasa Pekan Biasa XXXIV",
+    "deskripsi": "(Selasa dalam Pekan Biasa XXXIV)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-11-25",
+    "judul": "🔴 [Pfak] S. Katarina dari Aleksandria, perawan dan martir",
+    "deskripsi": "(Santa Katarina dari Aleksandria, perawan dan martir)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-11-26",
+    "judul": "🟢 Rabu Pekan Biasa XXXIV",
+    "deskripsi": "(Rabu dalam Pekan Biasa XXXIV)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-11-27",
+    "judul": "🟢 Kamis Pekan Biasa XXXIV",
+    "deskripsi": "(Kamis dalam Pekan Biasa XXXIV)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-11-28",
+    "judul": "🟢 Jumat Pekan Biasa XXXIV",
+    "deskripsi": "(Jumat dalam Pekan Biasa XXXIV)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-11-29",
+    "judul": "🟢 Sabtu Pekan Biasa XXXIV",
+    "deskripsi": "(Sabtu dalam Pekan Biasa XXXIV)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-11-29",
+    "judul": "⚪ [Pfak] Santa Perawan Maria",
+    "deskripsi": "(Santa Perawan Maria pada hari Sabtu)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-11-30",
+    "judul": "🟣 Hari Minggu Adven I",
+    "deskripsi": "(Minggu Adven I)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-12-01",
+    "judul": "🔴 [Pw] B. Dionisius dan Redemptus, biarawan dan martir",
+    "deskripsi": "(Beato Dionisius dan Beato Redemptus, martir)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-12-02",
+    "judul": "🟣 Selasa Pekan Adven I",
+    "deskripsi": "(Selasa dalam Pekan Adven I)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-12-03",
+    "judul": "⚪ [P] S. Fransiskus Xaverius, imam",
+    "deskripsi": "(Santo Fransiskus Xaverius, imam)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-12-04",
+    "judul": "🟣 Kamis Pekan Adven I",
+    "deskripsi": "(Kamis dalam Pekan Adven I)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-12-04",
+    "judul": "⚪ [Pfak] S. Yohanes dari Damsyik, imam dan pujangga Gereja",
+    "deskripsi": "(Santo Yohanes dari Damsyik, imam dan pujangga Gereja)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-12-05",
+    "judul": "🟣 Jumat Pekan Adven I",
+    "deskripsi": "(Jumat dalam Pekan Adven I)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-12-06",
+    "judul": "🟣 Sabtu Pekan Adven I",
+    "deskripsi": "(Sabtu dalam Pekan Adven I)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-12-06",
+    "judul": "⚪ [Pfak] S. Nikolaus, uskup",
+    "deskripsi": "(Santo Nikolaus, uskup)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-12-07",
+    "judul": "🟣 Hari Minggu Adven II",
+    "deskripsi": "(Minggu Adven II)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-12-08",
+    "judul": "⚪ [H] Santa Perawan Maria Dikandung Tanpa Noda",
+    "deskripsi": "(Santa Perawan Maria Dikandung Tanpa Noda)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-12-09",
+    "judul": "🟣 Selasa Pekan Adven III",
+    "deskripsi": "(Selasa dalam Pekan Adven II)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-12-09",
+    "judul": "⚪ [Pfak] S. Juan Diego Cuauhtlatoatzin",
+    "deskripsi": "(Santo Juan Diego Cuauhtlatoatzin)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-12-10",
+    "judul": "🟣 Rabu Pekan Adven III",
+    "deskripsi": "(Rabu dalam Pekan Adven II)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-12-10",
+    "judul": "⚪ [Pfak] Santa Perawan Maria dari Loreto",
+    "deskripsi": "(Bunda Maria dari Loreto)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-12-11",
+    "judul": "🟣 Kamis Pekan Adven III",
+    "deskripsi": "(Kamis dalam Pekan Adven II)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-12-11",
+    "judul": "⚪ [Pfak] S. Damasus I, Paus",
+    "deskripsi": "(Santo Damasus I, Paus)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-12-12",
+    "judul": "🟣 Jumat Pekan Adven III",
+    "deskripsi": "(Jumat dalam Pekan Adven II)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-12-12",
+    "judul": "⚪ [Pfak] Santa Perawan Maria Guadalupe",
+    "deskripsi": "(Bunda Maria Guadalupe)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-12-13",
+    "judul": "🔴 [Pw] S. Lusia, perawan dan martir",
+    "deskripsi": "(Santa Lusia, perawan dan martir)\nPekan Psalter II"
+  },
+  {
+    "tanggal": "2025-12-14",
+    "judul": "🟣 Hari Minggu Adven III",
+    "deskripsi": "(Minggu Adven III (Gaudete))\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-12-15",
+    "judul": "🟣 Senin Pekan Adven III",
+    "deskripsi": "(Senin dalam Pekan Adven III)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-12-16",
+    "judul": "🟣 Selasa Pekan Adven III",
+    "deskripsi": "(Selasa dalam Pekan Adven III)\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-12-17",
+    "judul": "🟣 Hari Biasa Khusus Adven (17 Desember)",
+    "deskripsi": "(Hari Biasa Adven (17 Desember))\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-12-18",
+    "judul": "🟣 Hari Biasa Khusus Adven (18 Desember)",
+    "deskripsi": "(Hari Biasa Adven (18 Desember))\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-12-19",
+    "judul": "🟣 Hari Biasa Khusus Adven (19 Desember)",
+    "deskripsi": "(Hari Biasa Adven (19 Desember))\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-12-20",
+    "judul": "🟣 Hari Biasa Khusus Adven (20 Desember)",
+    "deskripsi": "(Hari Biasa Adven (20 Desember))\nPekan Psalter III"
+  },
+  {
+    "tanggal": "2025-12-21",
+    "judul": "🟣 Hari Minggu Adven IV",
+    "deskripsi": "(Minggu Adven IV)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-12-22",
+    "judul": "🟣 Hari Biasa Khusus Adven (22 Desember)",
+    "deskripsi": "(Hari Biasa Adven (22 Desember))\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-12-23",
+    "judul": "🟣 Hari Biasa Khusus Adven (23 Desember)",
+    "deskripsi": "(Hari Biasa Adven (23 Desember))\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-12-23",
+    "judul": "🟣 [Pfac*] S. Yohanes Kansius, imam",
+    "deskripsi": "(Santo Yohanes Kansius, imam)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-12-24",
+    "judul": "🟣 Hari Biasa Khusus Adven (24 Desember)",
+    "deskripsi": "(Hari Biasa Adven (24 Desember))\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-12-25",
+    "judul": "⚪ [H] Natal",
+    "deskripsi": "(Natal Tuhan)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-12-26",
+    "judul": "🔴 [P] S. Stefanus, martir pertama",
+    "deskripsi": "(Santo Stefanus, martir pertama)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-12-27",
+    "judul": "⚪ [P] S. Yohanes, rasul dan penulis Injil",
+    "deskripsi": "(Santo Yohanes, rasul dan penginjil)\nPekan Psalter IV"
+  },
+  {
+    "tanggal": "2025-12-28",
+    "judul": "⚪ [P] Keluarga Kudus, Yesus, Maria dan Yusuf",
+    "deskripsi": "(Keluarga Kudus Yesus, Maria dan Yusuf)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-12-29",
+    "judul": "⚪ Hari Kelima Dalam Oktaf Natal",
+    "deskripsi": "(Hari ke-5 dalam Oktaf Natal)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-12-29",
+    "judul": "⚪ [Pfac*] S. Thomas Becket, uskup dan martir",
+    "deskripsi": "(Santo Thomas Becket, uskup dan martir)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-12-30",
+    "judul": "⚪ Hari Keenam Dalam Oktaf Natal",
+    "deskripsi": "(Hari ke-6 dalam Oktaf Natal)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-12-31",
+    "judul": "⚪ Hari Ketujuh Dalam Oktaf Natal",
+    "deskripsi": "(Hari ke-7 dalam Oktaf Natal)\nPekan Psalter I"
+  },
+  {
+    "tanggal": "2025-12-31",
+    "judul": "⚪ [Pfac*] S. Silvester I, Paus",
+    "deskripsi": "(Santo Silvester I, Paus)\nPekan Psalter I"
+  }
+]

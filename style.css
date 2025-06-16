@@ -408,3 +408,174 @@ footer {
   transform: scale(1.2);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
 }
+
+/* ======== GAYA BARU UNTUK TABEL KALENDER LITURGI (gcatholic.org style) ======== */
+
+/* Gaya Umum untuk Tabel Kalender */
+.liturgical-calendar-table {
+    width: 100%;
+    border-collapse: collapse; /* Menghapus spasi antar border cell */
+    margin-top: 1rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow: hidden; /* Penting untuk border-radius di tabel */
+}
+
+.liturgical-calendar-table th,
+.liturgical-calendar-table td {
+    padding: 8px 12px;
+    border: 1px solid #dee2e6; /* Border seperti Bootstrap table-bordered */
+    vertical-align: top; /* Konten rata atas */
+}
+
+.liturgical-calendar-table thead th {
+    background-color: #f8f9fa; /* Warna header */
+    font-weight: bold;
+    text-align: left;
+}
+
+/* Gaya untuk Kolom Tanggal */
+.date-cell {
+    font-weight: bold;
+    background-color: #f0f0f0; /* Latar belakang untuk tanggal */
+    text-align: center;
+    vertical-align: middle; /* Pastikan tanggal di tengah secara vertikal */
+    padding: 0; /* Hapus padding default */
+    width: 150px; /* Lebar tetap untuk kolom tanggal */
+}
+
+.date-cell .date-display {
+    padding: 8px 12px; /* Padding untuk konten tanggal */
+}
+
+
+/* Gaya untuk Dot Warna Liturgi */
+.liturgical-color-dot-cell {
+    width: 25px; /* Lebar kolom dot warna */
+    text-align: center;
+    vertical-align: middle;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.liturgical-color-dot {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 1px solid #ccc; /* Border default untuk dot */
+}
+
+/* Warna-warna liturgi */
+.liturgical-color-dot.white { background-color: #fff; border-color: #bbb; }
+.liturgical-color-dot.red { background-color: #dc3545; } /* Merah terang */
+.liturgical-color-dot.green { background-color: #28a745; } /* Hijau terang */
+.liturgical-color-dot.purple { background-color: #6f42c1; } /* Ungu */
+.liturgical-color-dot.black { background-color: #343a40; } /* Hitam */
+.liturgical-color-dot.rose { background-color: #e83e8c; } /* Mawar (pink) */
+.liturgical-color-dot.blue { background-color: #007bff; } /* Biru */
+.liturgical-color-dot.default { background-color: #ccc; } /* Warna default jika tidak dikenali */
+
+
+/* Gaya untuk Nama Perayaan */
+.liturgical-celebration {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Gaya untuk Indikator (e.g., [H], [Pw]) */
+.liturgical-indicator {
+    font-size: 0.8em;
+    font-weight: normal;
+    background-color: #e9ecef;
+    padding: 2px 5px;
+    border-radius: 3px;
+    margin-right: 5px;
+    color: #6c757d;
+}
+
+/* Gaya untuk Deskripsi Utama */
+.liturgical-description-cell {
+    font-size: 0.9em;
+    color: #555;
+    text-align: justify;
+    padding-top: 0; /* Kurangi padding atas */
+}
+
+/* Gaya untuk Psalter Week */
+.liturgical-psalter-week-cell {
+    font-size: 0.85em;
+    font-style: italic;
+    color: #777;
+    padding-top: 0; /* Kurangi padding atas */
+    border-top: none; /* Hapus border atas untuk membuatnya terlihat menyatu */
+}
+
+/* Penyesuaian untuk border antar baris yang berbeda kategori */
+.liturgical-calendar-table tr td {
+    border-top: 1px solid #dee2e6;
+}
+/* Hapus border atas untuk sel deskripsi dan psalter week jika langsung di bawah perayaan */
+.liturgical-calendar-table tr .liturgical-description-cell,
+.liturgical-calendar-table tr .liturgical-psalter-week-cell {
+    border-top: none;
+}
+
+/* Responsif untuk tabel kalender pada layar kecil */
+@media (max-width: 600px) {
+    .liturgical-calendar-table {
+        font-size: 0.9em;
+    }
+    .liturgical-calendar-table th,
+    .liturgical-calendar-table td {
+        padding: 6px 8px;
+    }
+    .date-cell {
+        width: 120px; /* Sesuaikan lebar kolom tanggal untuk layar kecil */
+    }
+    .liturgical-color-dot {
+        width: 12px;
+        height: 12px;
+    }
+    .liturgical-indicator {
+        font-size: 0.7em;
+        padding: 1px 3px;
+    }
+    .liturgical-description-cell,
+    .liturgical-psalter-week-cell {
+        font-size: 0.8em;
+    }
+}
+
+/* Gaya untuk Tabel Sejarah Paus */
+.popes-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow: hidden; /* Penting untuk border-radius di tabel */
+}
+
+.popes-table th,
+.popes-table td {
+    padding: 10px 15px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.popes-table thead th {
+    background-color: var(--blue-bg);
+    color: var(--blue-main);
+    font-weight: bold;
+}
+
+.popes-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.popes-table tbody tr:hover {
+    background-color: var(--blue-hover);
+}
