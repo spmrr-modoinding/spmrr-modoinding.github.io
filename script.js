@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // Remove source information (Provided by GCatholic.org and URL)
-      mainDescription = mainDescription.replace(/𝘗𝘳𝘰𝘷𝘪𝘥𝘦𝘥 𝘣𝘺 𝐆𝐂𝐚𝐭𝐡𝐨𝘭𝐢𝘤\.𝐨𝐫𝐠.*|https:\/\/gcatholic\.org.*|Add calendar of 2025:.*|Add calendar of 2026:.*|https:\/\/g catholic\.org.*/g, '').trim();
+      mainDescription = mainDescription.replace(/𝘗𝘳𝘰𝘷𝘪𝘥𝘦𝘥 𝘣𝘺 𝐆𝐂𝐚𝘵𝐡𝘰𝐥𝐢𝘤\.𝐨𝐫𝐠.*|https:\/\/gcatholic\.org.*|Add calendar of 2025:.*|Add calendar of 2026:.*|https:\/\/g catholic\.org.*/g, '').trim();
 
 
       // Replace remaining single newlines with <br> for HTML display
@@ -527,15 +527,121 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-  // --- PENGINGAT DOA ANGELUS ---
-  // Pastikan Anda tidak menggunakan alert() karena tidak akan terlihat di iframe
-  // Ganti dengan modal kustom jika ingin menampilkan pengingat visual
-  // setInterval(() => {
-  //   const now = new Date();
-  //   if ([6, 12, 18].includes(now.getHours()) && now.getMinutes() === 0 && now.getSeconds() === 0) {
-  //     alert('Waktu Doa Angelus telah tiba. Mari berdoa bersama.');
-  //   }
-  // }, 1000);
+  // --- LOGIKA PUSH NOTIFICATIONS (MENGGUNAKAN FCM) ---
+  const enablePushBtn = document.getElementById('enablePushNotification');
+  const notificationStatus = document.getElementById('notificationStatus');
+
+  // Konfigurasi Firebase Anda
+ // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBa4bYrJwIBYmq0E7pRg4k_xVDXvN9A9sM",
+  authDomain: "parokispmrrmodoinding.firebaseapp.com",
+  projectId: "parokispmrrmodoinding",
+  storageBucket: "parokispmrrmodoinding.firebasestorage.app",
+  messagingSenderId: "193278500984",
+  appId: "1:193278500984:web:0720d3c4406d1f33324d8d",
+  measurementId: "G-D977VXQHLW"
+};
+  // Inisialisasi Firebase
+  firebase.initializeApp(firebaseConfig);
+  const messaging = firebase.messaging();
+
+  // Kunci publik VAPID Anda (yang Anda berikan)
+  const VAPID_PUBLIC_KEY = 'BP4gSqaq-nxv2XWA2YOdZE4B4VkJnHmWhFOtyJBpGaIN0zqz7ADJzilqD9_vcRrFZtJlwFxeXW0nKABAtQESx1o';
+
+  // Fungsi untuk mengonversi Base64 URL menjadi Uint8Array
+  function urlB64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding)
+      .replace(/\-/g, '+')
+      .replace(/_/g, '/');
+
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+
+    for (let i = 0; i < rawData.length; ++i) {
+      outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+  }
+
+  // Fungsi untuk mendaftarkan Service Worker dan meminta izin notifikasi FCM
+  async function subscribeUserToPush() {
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+      notificationStatus.textContent = 'Notifikasi dorong tidak didukung di browser ini.';
+      console.warn('Push messaging tidak didukung.');
+      return;
+    }
+
+    notificationStatus.textContent = 'Mendaftarkan Service Worker...';
+
+    try {
+      // Daftarkan Service Worker
+      // Penting: Service Worker untuk FCM harus bernama 'firebase-messaging-sw.js'
+      const registration = await navigator.serviceWorker.register('firebase-messaging-sw.js');
+      console.log('Service Worker berhasil didaftarkan:', registration);
+
+      // Gunakan Service Worker yang baru terdaftar untuk FCM
+      messaging.useServiceWorker(registration);
+
+      notificationStatus.textContent = 'Meminta izin notifikasi...';
+      const permission = await Notification.requestPermission();
+
+      if (permission === 'granted') {
+        notificationStatus.textContent = 'Izin notifikasi diberikan. Berlangganan push...';
+
+        // Dapatkan token registrasi FCM
+        const token = await messaging.getToken({ vapidKey: VAPID_PUBLIC_KEY });
+        console.log('FCM Registration Token:', token);
+
+        // --- PENTING ---
+        // Anda HARUS mengirim 'token' ini ke server backend Anda
+        // Server Anda akan menggunakan token ini untuk mengirim notifikasi push melalui FCM.
+        // Jika Anda menggunakan Firebase Cloud Functions, Anda bisa menyimpan token ini ke Firestore atau Realtime Database.
+        // Contoh placeholder:
+        // await fetch('/api/save-fcm-token', {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify({ token: token })
+        // });
+        // --- AKHIR PENTING ---
+
+        notificationStatus.textContent = 'Notifikasi Angelus berhasil diaktifkan!';
+        enablePushBtn.disabled = true; // Nonaktifkan tombol setelah sukses
+        enablePushBtn.textContent = 'Notifikasi Aktif';
+
+      } else {
+        notificationStatus.textContent = 'Izin notifikasi ditolak. Tidak dapat mengaktifkan notifikasi.';
+        console.warn('Izin notifikasi ditolak.');
+      }
+    } catch (error) {
+      notificationStatus.textContent = 'Gagal mengaktifkan notifikasi. Silakan coba lagi.';
+      console.error('Gagal mendaftarkan Service Worker atau mendapatkan token:', error);
+    }
+  }
+
+  // Event listener untuk tombol aktivasi notifikasi
+  if (enablePushBtn) {
+    enablePushBtn.addEventListener('click', subscribeUserToPush);
+
+    // Cek status izin notifikasi saat halaman dimuat
+    if ('Notification' in window) {
+      if (Notification.permission === 'granted') {
+        notificationStatus.textContent = 'Notifikasi sudah diaktifkan.';
+        enablePushBtn.disabled = true;
+        enablePushBtn.textContent = 'Notifikasi Aktif';
+      } else if (Notification.permission === 'denied') {
+        notificationStatus.textContent = 'Notifikasi diblokir. Harap izinkan notifikasi di pengaturan browser Anda.';
+        enablePushBtn.disabled = true;
+      } else { // 'default'
+        notificationStatus.textContent = 'Klik tombol untuk mengaktifkan notifikasi Angelus.';
+      }
+    } else {
+      notificationStatus.textContent = 'Browser ini tidak mendukung notifikasi.';
+      enablePushBtn.disabled = true;
+    }
+  }
+
 
   // --- TOGGLE SIDEBAR ---
   const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');

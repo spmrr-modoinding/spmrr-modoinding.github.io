@@ -13,6 +13,12 @@
    <script crossorigin="anonymous" src="https://kit.fontawesome.com/a2ec24cfcd.js">
    </script>
    <link href="style.css" rel="stylesheet">
+
+   <!-- Firebase SDK -->
+   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging-compat.js"></script>
+   <!-- End Firebase SDK -->
+
     <header style="position: relative; z-index: 1;">
      <div id="particles-js">
      </div>
@@ -205,6 +211,14 @@
                Doa Angelus dibaca tiga kali sehari, pada pukul 6 pagi, 12 siang, dan 6 sore, untuk menghormati peristiwa inkarnasi, sengsara Kristus, dan kebangkitan-Nya.
            </p>
            </p>
+
+           <hr class="my-4">
+
+           <h4>Aktifkan Notifikasi Angelus (Push Notification)</h4>
+           <p class="text-muted">Dapatkan pengingat Doa Angelus bahkan saat browser ditutup. Membutuhkan izin notifikasi dan koneksi internet.</p>
+           <button id="enablePushNotification" class="btn btn-primary btn-lg"><i class="bi bi-bell-fill me-2"></i>Aktifkan Notifikasi</button>
+           <p id="notificationStatus" class="mt-2 text-info"></p>
+
        </section>
 
        <section class="tab-content" id="pastor">
