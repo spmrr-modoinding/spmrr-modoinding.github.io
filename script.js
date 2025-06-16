@@ -15,6 +15,76 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // --- HELPER FUNCTION: Parsing data Liturgi dari JSON ---
+  // Fungsi ini digunakan untuk kalender liturgi (kalender_liturgi_2025.json)
+  // karena format judulnya mengandung simbol dan indikator yang perlu di-parse.
+  function parseLiturgicalData(item) {
+      const colorMap = {
+          '⚪': 'white', // Putih
+          '🔴': 'red',   // Merah
+          '🟢': 'green',  // Hijau
+          '💜': 'purple', // Ungu
+          '⚫': 'black',  // Hitam
+          '🟪': 'rose',   // Mawar
+          '🔵': 'blue'    // Biru
+      };
+
+      let titleText = item.judul || '';
+      let colorSymbol = '';
+      let indicator = '';
+
+      // Extract color symbol and remove from titleText
+      const colorRegex = /^(⚪|🔴|🟢|💜|⚫|🟪|🔵)\s*/;
+      const colorMatch = titleText.match(colorRegex);
+      if (colorMatch) {
+          colorSymbol = colorMatch[1];
+          titleText = titleText.substring(colorSymbol.length).trim();
+      }
+
+      // Extract indicator (e.g., [H], [Pw]) and remove from titleText
+      const indicatorRegex = /^\[(.*?)\]\s*(.*)/;
+      const indicatorMatch = titleText.match(indicatorRegex);
+      if (indicatorMatch) {
+          indicator = indicatorMatch[1];
+          titleText = indicatorMatch[2].trim();
+      }
+
+      let rawDescription = typeof item.deskripsi === 'string' ? item.deskripsi : "";
+      // Replace double backslashes first, then single newlines
+      rawDescription = rawDescription.replace(/\\\\n/g, "\n").replace(/\\\\/g, "\\");
+
+      let psalterWeek = '';
+      let mainDescription = rawDescription;
+
+      // Extract Psalter Week (and clean it up)
+      const psalterWeekRegex = /(Pekan Psalter|Psalter Week)\s+([IVXLCDM]+|[0-9]+)\s*/i; // Capture "Pekan Psalter" or "Psalter Week" + Roman/Arabic numeral
+      const psalterMatch = rawDescription.match(psalterWeekRegex);
+      if (psalterMatch) {
+          psalterWeek = psalterMatch[0].trim(); // Get the matched part
+          // Remove psalter week from main description
+          mainDescription = mainDescription.replace(psalterWeekRegex, '').trim();
+      }
+
+      // Remove source information (Provided by GCatholic.org and URL)
+      mainDescription = mainDescription.replace(/𝘗𝘳𝘰𝘷𝘪𝘥𝘦𝘥 𝘣𝘺 𝐆𝐂𝐚𝐭𝐡𝐨𝘭𝐢𝘤\.𝐨𝐫𝐠.*|https:\/\/gcatholic\.org.*|Add calendar of 2025:.*|Add calendar of 2026:.*|https:\/\/g catholic\.org.*/g, '').trim();
+
+
+      // Replace remaining single newlines with <br> for HTML display
+      mainDescription = mainDescription.replace(/\n/g, '<br>');
+
+      // Clean up empty parentheses if they remain
+      mainDescription = mainDescription.replace(/^\s*\(\s*\)\s*$/, '').trim();
+
+      return {
+          tanggal: item.tanggal,
+          perayaan: titleText,
+          color: colorMap[colorSymbol] || 'default', // Fallback color
+          indicator: indicator,
+          mainDescription: mainDescription,
+          psalterWeek: psalterWeek
+      };
+  }
+
   // --- LITURGI MINGGUAN ---
   // Memuat data liturgi minggu ini dan minggu depan
   fetch('liturgi_mingguan.json')
@@ -23,46 +93,46 @@ document.addEventListener('DOMContentLoaded', () => {
       const { minggu_ini, minggu_depan } = data;
       const container = document.getElementById('liturgi-container');
       if (container) { // Pastikan kontainer ada
+
+        // Map warna dari bahasa Indonesia ke kelas CSS yang sesuai
+        const colorNameToClassMap = {
+            "Hijau": "green",
+            "Merah": "red",
+            "Putih": "white",
+            "Ungu": "purple",
+            "Hitam": "black",
+            "Mawar": "rose",
+            "Biru": "blue"
+        };
+        const liturgiColorClass = colorNameToClassMap[minggu_ini.warna] || 'default';
+
+
+        // Tampilan baru untuk Liturgi Minggu Ini
         container.innerHTML = `
-            <div class="table-responsive">
-              <table class="table table-bordered align-middle text-start">
-                <tbody>
-                  <tr>
-                    <td rowspan="6" class="text-center align-middle" style="width:80px">
-                      <div class="fw-bold">${minggu_ini.tanggal}</div>
-                    </td>
-                    <td><strong>Peringatan / Hari Raya</strong></td>
-                    <td>${minggu_ini.peringatan}</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Bacaan 1</strong></td>
-                    <td>${minggu_ini.bacaan1}</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Bacaan 2</strong></td>
-                    <td>${minggu_ini.bacaan2}</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Mazmur Tanggapan</strong></td>
-                    <td>${minggu_ini.mazmur}</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Bacaan Injil</strong></td>
-                    <td>${minggu_ini.injil}</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Warna Liturgi</strong></td>
-                    <td>${minggu_ini.warna}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="mt-3">
-              <b><h5>Renungan</h5></b>
-              <p style="text-align: justify;">${minggu_ini.renungan}</p>
-            </div>`;
+          <div class="liturgi-card">
+              <div class="liturgi-header">
+                  <span class="liturgi-date">${minggu_ini.tanggal}</span>
+                  <span class="liturgi-color-dot ${liturgiColorClass}"></span>
+              </div>
+              <div class="liturgi-body">
+                  <h5 class="liturgi-perayaan">${minggu_ini.peringatan}</h5>
+                  <div class="liturgi-detail">
+                      <p><i class="bi bi-book-fill me-2"></i><strong>Bacaan 1:</strong> ${minggu_ini.bacaan1}</p>
+                      <p><i class="bi bi-book-fill me-2"></i><strong>Bacaan 2:</strong> ${minggu_ini.bacaan2}</p>
+                      <p><i class="bi bi-music-note-beamed me-2"></i><strong>Mazmur Tanggapan:</strong> ${minggu_ini.mazmur}</p>
+                      <p><i class="bi bi-journal-medical me-2"></i><strong>Bacaan Injil:</strong> ${minggu_ini.injil}</p>
+                      <p><i class="bi bi-palette-fill me-2"></i><strong>Warna Liturgi:</strong> ${minggu_ini.warna}</p>
+                  </div>
+                  <div class="liturgi-renungan">
+                      <h6><i class="bi bi-lightbulb-fill me-2"></i>Renungan</h6>
+                      <p style="text-align: justify;">${minggu_ini.renungan}</p>
+                  </div>
+              </div>
+          </div>
+        `;
       }
 
+      // Preview Minggu Depan tetap menggunakan GLightbox
       const preview = document.getElementById('previewMingguDepan');
       if (preview) { // Pastikan tombol preview ada
         preview.setAttribute('data-glightbox', `title: Bacaan & Renungan Minggu Depan; description:
@@ -88,37 +158,58 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // --- AGENDA / PENGUMUMAN ---
-  // Memuat data agenda dan menampilkannya
+  // Memuat data agenda dan menampilkannya dengan desain baru dan GLightbox
   fetch('agenda_pengumuman.json')
     .then(res => res.json())
     .then(data => {
-      const container = document.querySelector('#agenda .row');
-      if (container) { // Pastikan kontainer ada
+      const container = document.querySelector('#agenda-container'); // Menggunakan ID yang lebih spesifik
+      if (container) {
         container.innerHTML = ''; // Kosongkan dulu
 
         data.agenda.forEach((item, i) => {
           const card = document.createElement('div');
-          card.className = 'col';
+          card.className = 'col-lg-6 col-md-12 mb-4'; // Menyesuaikan lebar kolom untuk responsive
+
+          // Konten GLightbox
+          const glightboxContent = `
+            <h6><i class="bi bi-calendar-event me-2"></i><strong>Judul:</strong> ${item.judul}</h6>
+            <p><i class="bi bi-calendar me-2"></i><strong>Tanggal:</strong> ${item.tanggal}</p>
+            <p><i class="bi bi-clock me-2"></i><strong>Jam:</strong> ${item.jam}</p>
+            <p><i class="bi bi-geo-alt me-2"></i><strong>Lokasi:</strong> ${item.lokasi}</p>
+            <p><i class="bi bi-info-circle me-2"></i><strong>Catatan:</strong> ${item.catatan}</p>
+          `;
 
           card.innerHTML = `
-                <div class="card shadow-sm animate-fadein">
-                  <div class="card-body">
-                    <h5 class="card-title">${item.judul}</h5>
-                    <p class="card-text">
-                      <strong>Tanggal:</strong> ${item.tanggal}<br/>
-                      <strong>Jam:</strong> ${item.jam}<br/>
-                      <strong>Lokasi:</strong> ${item.lokasi}<br/>
-                      <strong>Catatan:</strong> ${item.catatan}
-                    </p>
-                  </div>
-                </div>
-              `;
+            <div class="card shadow-sm h-100 agenda-card animate-fadein">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title text-primary"><i class="bi bi-bookmark-fill me-2"></i>${item.judul}</h5>
+                <p class="card-text">
+                  <small class="text-muted"><i class="bi bi-calendar me-1"></i> ${item.tanggal} | <i class="bi bi-clock me-1"></i> ${item.jam}</small><br>
+                  <small class="text-muted"><i class="bi bi-geo-alt me-1"></i> ${item.lokasi}</small>
+                </p>
+                <!-- Tombol Lihat Detail sekarang di dalam aliran dokumen, bukan absolut -->
+                <a href="#" class="btn btn-sm btn-outline-primary agenda-detail-btn mt-auto"
+                   data-glightbox="title: ${item.judul}; description: ${glightboxContent}">
+                  Lihat Detail <i class="bi bi-arrow-right-circle-fill ms-1"></i>
+                </a>
+              </div>
+            </div>
+          `;
           container.appendChild(card);
+        });
+
+        // Inisialisasi GLightbox setelah semua elemen agenda dimuat
+        GLightbox({
+          selector: '.agenda-detail-btn',
+          touchNavigation: true,
+          loop: false,
+          zoomable: false,
+          autoplayVideos: false,
         });
       }
     })
     .catch(err => {
-      const container = document.querySelector('#agenda .row');
+      const container = document.querySelector('#agenda-container');
       if (container) {
         container.innerHTML = '<p class="text-danger">Gagal memuat agenda.</p>';
       }
@@ -302,74 +393,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Aktifkan tab pertama saat DOMContentLoaded
     const firstTab = nav.querySelector('.tab-button');
     if (firstTab) activateTab(firstTab.dataset.tab);
-  }
-
-  // --- HELPER FUNCTION: Parsing data Liturgi dari JSON ---
-  function parseLiturgicalData(item) {
-      const colorMap = {
-          '⚪': 'white', // Putih
-          '🔴': 'red',   // Merah
-          '🟢': 'green',  // Hijau
-          '💜': 'purple', // Ungu
-          '⚫': 'black',  // Hitam
-          '🟪': 'rose',   // Mawar
-          '🔵': 'blue'    // Biru
-      };
-
-      let titleText = item.judul || '';
-      let colorSymbol = '';
-      let indicator = '';
-
-      // Extract color symbol and remove from titleText
-      const colorRegex = /^(⚪|🔴|🟢|💜|⚫|🟪|🔵)\s*/;
-      const colorMatch = titleText.match(colorRegex);
-      if (colorMatch) {
-          colorSymbol = colorMatch[1];
-          titleText = titleText.substring(colorSymbol.length).trim();
-      }
-
-      // Extract indicator (e.g., [H], [Pw]) and remove from titleText
-      const indicatorRegex = /^\[(.*?)\]\s*(.*)/;
-      const indicatorMatch = titleText.match(indicatorRegex);
-      if (indicatorMatch) {
-          indicator = indicatorMatch[1];
-          titleText = indicatorMatch[2].trim();
-      }
-
-      let rawDescription = typeof item.deskripsi === 'string' ? item.deskripsi : "";
-      // Replace double backslashes first, then single newlines
-      rawDescription = rawDescription.replace(/\\\\n/g, "\n").replace(/\\\\/g, "\\");
-
-      let psalterWeek = '';
-      let mainDescription = rawDescription;
-
-      // Extract Psalter Week (and clean it up)
-      const psalterWeekRegex = /(Pekan Psalter|Psalter Week)\s+([IVXLCDM]+|[0-9]+)\s*/i; // Capture "Pekan Psalter" or "Psalter Week" + Roman/Arabic numeral
-      const psalterMatch = rawDescription.match(psalterWeekRegex);
-      if (psalterMatch) {
-          psalterWeek = psalterMatch[0].trim(); // Get the matched part
-          // Remove psalter week from main description
-          mainDescription = mainDescription.replace(psalterWeekRegex, '').trim();
-      }
-
-      // Remove source information (Provided by GCatholic.org and URL)
-      mainDescription = mainDescription.replace(/𝘗𝘳𝘰𝘷𝘪𝘥𝘦𝘥 𝘣𝘺 𝐆𝐂𝐚𝘵𝐡𝐨𝐥𝐢𝘤\.𝐨𝐫𝐠.*|https:\/\/gcatholic\.org.*|Add calendar of 2025:.*|Add calendar of 2026:.*|https:\/\/g catholic\.org.*/g, '').trim();
-
-
-      // Replace remaining single newlines with <br> for HTML display
-      mainDescription = mainDescription.replace(/\n/g, '<br>');
-
-      // Clean up empty parentheses if they remain
-      mainDescription = mainDescription.replace(/^\s*\(\s*\)\s*$/, '').trim();
-
-      return {
-          tanggal: item.tanggal,
-          perayaan: titleText,
-          color: colorMap[colorSymbol] || 'default', // Fallback color
-          indicator: indicator,
-          mainDescription: mainDescription,
-          psalterWeek: psalterWeek
-      };
   }
 
   // --- KALENDER LITURGI ---

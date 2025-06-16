@@ -18,7 +18,7 @@
      </div>
      <img alt="Logo Paroki" class="logo" src="logo-paroki.png"/>
      <h1>
-      Paroki St. Perawan Maria Ratu Rosari - Modoinding
+      <b>Paroki Sta. Perawan Maria Ratu Rosari Modoinding</b>
      </h1>
      <p>
       Jl. Trans Sulawesi, Desa Sinisir, Jaga VIII, Kecamatan Modoinding, Kabupaten Minahasa Selatan 95358
@@ -107,24 +107,26 @@
      <!-- ========== KONTEN TIAP TAB ========== -->
      <main>
        <section class="tab-content active" id="beranda">
-           <h2 class="mt-5">Pastor Paroki &amp; Pastor Rekan</h2>
-           <div class="pastors">
-               <div>
+           <h2 class="text-center pastor-title">Pastor Paroki &amp; Pastor Rekan</h2>
+           <div class="pastors-beranda">
+               <div class="pastor-item-beranda">
                    <img alt="P. Joseph Ansow" class="pastor-photo" src="pastor-joseph.jpg"/>
                    <p><b>P. Joseph Ansow, Pr.</b></p>
                </div>
-               <div>
+               <div class="pastor-item-beranda">
                    <img alt="P. Stenly Ambun" class="pastor-photo" src="pastor-stenly.jpg"/>
                    <p><b>P. Stenly Ambun, Pr.</b></p>
                </div>
            </div>
            <br>
            <br>
-           <h2>Liturgi Hari Minggu Ini</h2>
-           <div id="liturgi-container"></div>
-           <div class="mt-4">
+           <h2><p style="text-align: center;">Liturgi Hari Minggu Ini</p></h2>
+           <div id="liturgi-container" class="liturgi-cards-container">
+               <!-- Konten liturgi akan dimuat di sini oleh script.js -->
+           </div>
+           <div class="mt-4 text-center">
                <a href="#" class="btn btn-outline-info glightbox" id="previewMingguDepan">
-               🔍 Preview Minggu Depan
+               🔍 Preview Liturgi Minggu Depan
                </a>
            </div>
        </section>
@@ -133,7 +135,7 @@
            <h2>
            Agenda / Pengumuman Mingguan
            </h2>
-           <div class="row row-cols-1 row-cols-md-2 g-4 mt-3">
+           <div class="row row-cols-1 row-cols-md-2 g-4 mt-3" id="agenda-container">
            <!-- Konten agenda akan dimuat oleh script.js -->
            </div>
        </section>
@@ -211,7 +213,7 @@
 
        <section class="tab-content" id="sekretariat">
            <h2>
-           Sekretariat / Komsos
+           <b><h2><p style="text-align: center;">Sekretariat x Komsos</p></h2></b>
            </h2>
            <div class="social-icons">
                <a href="https://www.facebook.com/share/19K6ZFiifj/" target="_blank" class="social-icon fb">
@@ -273,7 +275,7 @@
     </div>
     <!-- ========== FOOTER ========== -->
     <footer>
-     © 2025 - Paroki SP Maria Ratu Rosari Modoinding. Dibuat oleh Sekretariat Paroki.
+     © 2025 - Paroki Sta. Perawan Maria Ratu Rosari Modoinding. Dibuat oleh Sekretariat Paroki.
     </footer>
     <!-- ========== MODAL AGENDA ========== -->
     <div aria-hidden="true" aria-labelledby="modalMisaLabel" class="modal fade" id="modalMisa" tabindex="-1">
