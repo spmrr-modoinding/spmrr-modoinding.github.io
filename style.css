@@ -9,8 +9,6 @@
   --green: #4caf50;
   --red: #f44336;
   --white: #ffffff;
-
-  --sidebar-bg: var(--blue-bg);
   --sidebar-active-border: var(--blue-main);
 }
 
@@ -25,7 +23,6 @@ html, body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow-x: auto;
 }
 
 /* ========== HEADER ========== */
@@ -43,16 +40,8 @@ header {
   transition: transform 0.5s ease;
 }
 .logo:hover { transform: scale(1.1); }
-
-/* Menyesuaikan ukuran font untuk H1 dan P di header secara terpisah */
-header h1 {
-  margin: 0.2rem 0 0;
-  font-size: 1.5rem; /* Ukuran font lebih besar untuk judul utama */
-}
-header p {
-  margin: 0.2rem 0 0;
-  font-size: 0.9rem; /* Ukuran font lebih kecil untuk alamat/subtitle */
-}
+header h1 { font-size: 1.5rem; margin: 0.2rem 0 0; }
+header p { font-size: 0.9rem; margin: 0.2rem 0 0; }
 
 /* ========== LAYOUT UTAMA ========== */
 .container {
@@ -66,60 +55,39 @@ header p {
   transition: margin-left 0.3s ease;
   margin-left: 0;
   position: relative;
-  z-index: 1;
-}
-.foto-wrapper {
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  gap: 1rem;
-  padding: 1rem;
-  -webkit-overflow-scrolling: touch;
-  scroll-snap-type: x mandatory;
-}
-.foto-item {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.5rem;
-  min-width: max-content;
-  scroll-snap-align: start;
-}
-.foto-item img {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  border-radius: 50%;
 }
 
-/* ========== SIDEBAR ========== */
+/* ========== SIDEBAR (GAYA BARU: TRANSPARAN & FLOATING) ========== */
 .sidebar {
   position: fixed;
-  top: 0;
+  top: 15px;
   left: 0;
-  height: 100vh;
+  height: auto;
+  max-height: 90vh;
   width: 250px;
-  background-color: var(--blue-light);
-  color: var(--blue-main); /* Opsional: agar teks sidebar tetap kontras */
-  color: white;
+  background-color: rgba(179, 217, 255, 0.85);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  color: var(--blue-main);
   padding: 0.5rem;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   overflow-y: auto;
-  transition: transform 0.3s ease, width 0.3s ease;
+  transition: transform 0.3s ease-in-out;
   z-index: 1040;
   transform: translateX(-100%);
 }
-.sidebar.active {
-  transform: translateX(0);
-}
+.sidebar.active { transform: translateX(0); }
 .tab-button {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   width: 100%;
   padding: 1rem;
   border: none;
   background: none;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   cursor: pointer;
   color: var(--blue-main);
   font-weight: bold;
@@ -130,7 +98,7 @@ header p {
 }
 .tab-button:hover,
 .tab-button.active {
-  background-color: var(--blue-light);
+  background-color: var(--blue-hover);
   color: #002a66;
   border-left-color: var(--sidebar-active-border);
   outline: none;
@@ -144,77 +112,30 @@ main {
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   position: relative;
-  overflow-y: auto;
-  max-height: calc(100vh - 80px);
-}
-
-/* Tab content */
-.tab-content {
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  height: 0;
   overflow: hidden;
-  position: absolute;
-  width: 100%;
-  pointer-events: none;
-  top: 0;
-  left: 0;
-}
-.tab-content.active {
-  opacity: 1;
-  height: auto;
-  position: relative;
-  pointer-events: auto;
 }
 
-/* ========== PASTOR (Foto & Status) di Profil Pastor ========== */
-/* Ini adalah bagian .pastor-status yang dimuat oleh script.js di tab "Profil Pastor" */
-.pastor-status {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
-}
-.pastor-status .pastor-photo {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #FFF44F;
-  transition: transform 0.3s ease;
-}
-.pastor-status .pastor-photo:hover { transform: scale(1.1); }
-.pastor-status .indicator {
-  display: inline-block;
-  margin-top: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 999px;
-  font-weight: bold;
-  font-size: 0.9rem;
-  color: white;
-}
-.pastor-status .indicator.green { background-color: var(--green); }
-.pastor-status .indicator.red { background-color: var(--red); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
 
 
 /* ========== PASTOR DI BERANDA (FOTO BERJEJER TENGAH) ========== */
-/* Gaya untuk container foto pastor di beranda */
 .pastors-beranda {
   display: flex;
-  justify-content: center; /* Pusatkan item secara horizontal */
-  align-items: flex-start; /* Sejajarkan item di bagian atas (untuk tulisan di bawahnya) */
-  gap: 3rem; /* Jarak antara dua foto pastor */
-  flex-wrap: wrap; /* Izinkan wrapping pada layar kecil */
-  margin-top: 1rem; /* MENGURANGI JARAK DARI JUDUL (sebelumnya 1.5rem) */
-  position: relative; /* Diperlukan untuk penempatan pseudo-element */
-  z-index: 1; /* Memastikan konten di atas latar belakang */
-  padding: 20px; /* Menambahkan padding agar background terlihat */
-  border-radius: 12px; /* Mempertahankan sudut melengkung */
-  overflow: hidden; /* Memastikan gambar latar belakang tidak meluber dari border-radius */
-  background-color: rgba(255, 255, 255, 0.8); /* Warna dasar dengan sedikit transparansi untuk blending */
+  justify-content: center;
+  align-items: flex-start;
+  gap: 3rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  position: relative; /* Diperlukan untuk posisi ::before */
+  z-index: 1; /* Konten di atas background */
+  padding: 20px;
+  border-radius: 12px;
+  overflow: hidden; /* Penting agar ::before tidak keluar dari border */
+  background-color: rgba(255, 255, 255, 0.7); /* Latar belakang semi-transparan agar gambar gereja terlihat */
 }
 
-/* Pseudo-element untuk gambar latar belakang */
+/* FITUR LATAR BELAKANG GAMBAR GEREJA ADA DI SINI */
 .pastors-beranda::before {
   content: '';
   position: absolute;
@@ -222,128 +143,30 @@ main {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('gereja.jpeg'); /* GANTI DENGAN NAMA FILE GAMBAR GEREJA ANDA */
-  background-size: 100% 150%; /* Memaksa lebar 100%, tinggi 150% dari container */
-  background-position: top center; /* Menempatkan bagian atas gambar di tengah */
-  opacity: 0.3; /* Mengatur transparansi gambar (0.3 = 30% opasitas) */
-  z-index: -1; /* Memposisikan gambar di belakang konten */
-  border-radius: inherit; /* Mewarisi border-radius dari parent */
+  
+  /* --- GANTI 'gereja.jpeg' DENGAN NAMA FILE GAMBAR GEREJA ANDA --- */
+  background-image: url('gereja.jpeg');
+  
+  background-size: cover;
+  background-position: center;
+  opacity: 0.3; /* Sesuaikan tingkat transparansi gambar (0.1 - 1.0) */
+  z-index: -1; /* Posisikan gambar di belakang konten foto pastor */
+  border-radius: inherit;
 }
 
-/* Gaya untuk setiap item pastor di beranda */
-.pastor-item-beranda {
-  text-align: center; /* Pusatkan teks dan foto di dalam setiap item */
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Pusatkan konten vertikal di dalam item */
-}
-
-/* Gaya untuk foto pastor di beranda */
-.pastors-beranda .pastor-photo {
-  width: 120px; /* Ukuran foto yang sedikit lebih besar */
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid var(--blue-main); /* Border dengan warna utama */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Tambahkan sedikit bayangan */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.pastors-beranda .pastor-photo:hover {
-  transform: scale(1.05); /* Efek zoom in saat hover */
-  box-shadow: 0 6px 12px rgba(0,0,0,0.25);
-}
-
-/* Gaya untuk nama pastor di beranda */
-.pastors-beranda p {
-  margin-top: 0.75rem; /* Jarak antara foto dan nama */
-  font-size: 1.1rem; /* Ukuran font nama */
-  color: #333;
-}
-
-/* Gaya untuk judul "Pastor Paroki & Pastor Rekan" */
-.pastor-title {
-  font-size: 1.4rem; /* Mengurangi ukuran sedikit */
-  font-weight: bold;
-  color: var(--blue-main);
-  text-align: center; /* Pusatkan teks judul */
-  margin-bottom: 0.5rem; /* Tetap sama atau bisa dikurangi jika ingin lebih dekat lagi */
-  margin-top: 2rem; /* MENAMBAH JARAK DARI ATAS KONTEN UTAMA */
-  position: relative; /* Penting untuk z-index */
-  z-index: 2; /* Pastikan judul di atas latar belakang */
-}
-
-/* Pseudo-element untuk gambar latar belakang pada seluruh section beranda */
-#beranda {
-  position: relative; /* Penting untuk posisi absolut pseudo-element */
-  /* Atur padding-top yang cukup jika ingin ada ruang di atas gambar */
-  padding-top: 1.5rem; /* Pastikan ada padding agar konten tidak terlalu dekat tepi */
-}
-
-#beranda::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%; /* Memenuhi seluruh tinggi section beranda */
-  background-image: url('NAMA_FILE_GAMBAR_GEREJA_ANDA.jpg'); /* GANTI DENGAN NAMA FILE GAMBAR GEREJA ANDA */
-  background-size: 100% auto; /* Lebar 100%, tinggi otomatis agar proporsional */
-  background-position: center top; /* Pusatkan secara horizontal, mulai dari atas */
-  opacity: 0.3; /* Mengatur transparansi gambar (0.3 = 30% opasitas) */
-  z-index: 1; /* Memposisikan gambar di belakang konten judul dan foto */
-  border-radius: inherit; /* Mewarisi border-radius dari parent */
-}
+.pastor-item-beranda { text-align: center; }
+.pastors-beranda .pastor-photo { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid var(--blue-main); box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition: transform 0.3s ease; cursor: pointer; }
+.pastors-beranda .pastor-photo:hover { transform: scale(1.05); }
+.pastors-beranda p { margin-top: 0.75rem; font-size: 1.1rem; }
+.pastor-title { font-size: 1.4rem; font-weight: bold; color: var(--blue-main); text-align: center; margin-bottom: 0.5rem; }
 
 
-/* ========== DESAIN ULANG LITURGI HARI MINGGU INI ========== */
-.liturgi-cards-container {
-  display: flex;
-  flex-direction: column; /* Tumpuk kartu secara vertikal */
-  gap: 1.5rem; /* Jarak antar kartu */
-  margin-top: 1.5rem;
-}
-
-.liturgi-card {
-  background-color: var(--white);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.liturgi-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-}
-
-.liturgi-header {
-  background-color: var(--blue-main);
-  color: var(--white);
-  padding: 1rem 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between; /* Menjaga tanggal dan dot di ujung */
-  font-size: 1.1em;
-  font-weight: bold;
-  border-bottom: 3px solid var(--blue-border);
-}
-
-.liturgi-date {
-  flex-grow: 1; /* Memastikan tanggal mengambil ruang yang tersedia */
-  text-align: left;
-}
-
-.liturgi-color-dot {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 2px solid var(--white);
-  margin-left: 10px; /* Jarak dari tanggal */
-}
-
-/* Warna-warna liturgi untuk dot */
+/* Sisa kode CSS lainnya ... */
+/* Kartu Liturgi di Beranda */
+.liturgi-cards-container { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1.5rem; }
+.liturgi-card { background-color: var(--white); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden; }
+.liturgi-header { background-color: var(--blue-main); color: var(--white); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+.liturgi-color-dot { display: inline-block; width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--white); }
 .liturgi-color-dot.white { background-color: #fff; border-color: #bbb; }
 .liturgi-color-dot.red { background-color: #dc3545; }
 .liturgi-color-dot.green { background-color: #28a745; }
@@ -351,599 +174,48 @@ main {
 .liturgi-color-dot.black { background-color: #343a40; }
 .liturgi-color-dot.rose { background-color: #e83e8c; }
 .liturgi-color-dot.blue { background-color: #007bff; }
-.liturgi-color-dot.default { background-color: #ccc; }
+.liturgi-body { padding: 1.5rem; }
+.liturgi-perayaan { font-size: 1.3em; color: var(--blue-main); margin-bottom: 1rem; border-bottom: 2px dashed var(--blue-soft); padding-bottom: 0.5rem; }
+.liturgi-detail p { margin-bottom: 0.5rem; display: flex; align-items: center; }
+.liturgi-detail p i { color: var(--blue-main); margin-right: 8px; }
+.liturgi-renungan { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--blue-bg); }
+.liturgi-renungan h6 { color: var(--blue-main); }
+.liturgi-renungan p { text-align: justify; }
 
-.liturgi-body {
-  padding: 1.5rem;
-}
+/* Kartu Agenda */
+.agenda-card { border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: all 0.3s ease; }
+.agenda-card:hover { transform: translateY(-8px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+.agenda-detail-btn { margin-top: auto; }
 
-.liturgi-perayaan {
-  font-size: 1.3em;
-  color: var(--blue-main);
-  margin-bottom: 1rem;
-  border-bottom: 2px dashed var(--blue-soft);
-  padding-bottom: 0.5rem;
-}
+/* Tabel (Statistik, Kalender, Paus) */
+.stats-table, .liturgical-calendar-table, .popes-table { width: 100%; border-collapse: collapse; margin-top: 1rem; background: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden; }
+.stats-table th, .stats-table td, .liturgical-calendar-table th, .liturgical-calendar-table td, .popes-table th, .popes-table td { padding: 12px 15px; border: 1px solid #dee2e6; }
+.stats-table thead, .liturgical-calendar-table thead, .popes-table thead { background-color: var(--blue-bg); color: var(--blue-main); }
+.liturgical-celebration { font-weight: bold; }
+.liturgical-description-cell { font-size: 0.9em; color: #555; display: block; margin-top: 5px; }
+.liturgical-psalter-week-cell { font-size: 0.85em; font-style: italic; color: #777; display: block; }
+.liturgical-indicator { font-size: 0.8em; background-color: #e9ecef; padding: 2px 5px; border-radius: 3px; color: #6c757d; }
 
-.liturgi-detail p {
-  margin-bottom: 0.5rem;
-  font-size: 0.95em;
-  display: flex;
-  align-items: center;
-}
+/* Profil Pastor */
+.pastor-status { display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; }
+.pastor-status img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #FFF44F; }
+.pastor-status .indicator { display: inline-block; margin-top: 0.5rem; padding: 0.5rem 1rem; border-radius: 999px; font-weight: bold; color: white; }
+.pastor-status .indicator.green { background-color: var(--green); }
+.pastor-status .indicator.red { background-color: var(--red); }
 
-.liturgi-detail p strong {
-  min-width: 120px; /* Memastikan label rata */
-  display: inline-block;
-  margin-right: 5px;
-}
+/* ========== FOOTER & PARTIKEL ========== */
+footer { text-align: center; padding: 1rem; background-color: var(--blue-soft); font-size: 0.9rem; color: #555; border-top: 2px solid var(--blue-border); margin-top: auto; }
+#particles-js { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
 
-.liturgi-detail i {
-  font-size: 1.1em;
-  color: var(--blue-main);
-  margin-right: 8px;
-}
+/* ========== SIDEBAR TOGGLE & RESPONSIVE ========== */
+.sidebar-toggle { position: fixed; top: 10px; left: 10px; z-index: 1100; background-color: var(--blue-main); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease-in-out, left 0.3s ease-in-out; }
+.sidebar-toggle.active { transform: rotate(90deg); left: 260px; }
+body.sidebar-open::before { content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); z-index: 1035; }
 
-.liturgi-renungan {
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--blue-bg);
-}
-
-.liturgi-renungan h6 {
-  color: var(--blue-main);
-  font-size: 1.1em;
-  margin-bottom: 0.8rem;
-  display: flex;
-  align-items: center;
-}
-
-.liturgi-renungan p {
-  line-height: 1.6;
-  color: #555;
-  text-align: justify;
-}
-
-/* Responsive untuk liturgi di layar kecil */
-@media (max-width: 600px) {
-  .liturgi-header {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0.8rem 1rem;
-  }
-  .liturgi-date {
-    width: 100%;
-    margin-bottom: 0.5rem;
-    text-align: center;
-  }
-  .liturgi-color-dot {
-    margin-left: 0;
-    align-self: center; /* Pusatkan dot di bawah tanggal */
-  }
-  .liturgi-body {
-    padding: 1rem;
-  }
-  .liturgi-perayaan {
-    font-size: 1.1em;
-  }
-  .liturgi-detail p {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .liturgi-detail p strong {
-    min-width: unset;
-    margin-right: 0;
-    margin-bottom: 5px;
-  }
-  .liturgi-renungan h6 {
-    font-size: 1em;
-  }
-}
-
-/* ========== DESAIN AGENDA / PENGUMUMAN BARU ========== */
-.agenda-card {
-    border: none; /* Hapus border default card */
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-    background-color: var(--white);
-    overflow: hidden;
-    /* position: relative; DIHAPUS karena tombol tidak lagi absolut */
-    display: flex;
-    flex-direction: column;
-}
-
-.agenda-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-}
-
-.agenda-card .card-body {
-    display: flex;
-    flex-direction: column;
-    padding: 1.5rem; /* Padding standar */
-    min-height: 180px; /* Pertahankan min-height untuk konsistensi */
-    /* position: relative; TIDAK DIBUTUHKAN LAGI JIKA TIDAK ADA ELEMEN ABSOLUT DI SINI */
-}
-
-.agenda-card .card-title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: var(--blue-main); /* Menggunakan warna tema */
-    margin-bottom: 0.75rem;
-    display: flex;
-    align-items: center;
-}
-
-.agenda-card .card-title i {
-    font-size: 1.5rem;
-    margin-right: 10px;
-    color: var(--blue-main); /* Sesuaikan ikon dengan warna tema */
-}
-
-.agenda-card .card-text {
-    flex-grow: 1; /* Memungkinkan teks untuk mengisi ruang yang tersedia */
-    overflow: hidden; /* Sembunyikan teks yang melampaui batas */
-    text-overflow: ellipsis; /* Tambahkan elipsis (...) jika teks terpotong */
-    display: -webkit-box;
-    -webkit-line-clamp: 3; /* Batasi hingga 3 baris */
-    -webkit-box-orient: vertical;
-    white-space: normal; /* Pastikan teks membungkus */
-    margin-bottom: 0.5rem; /* Jarak bawah yang sedikit untuk memastikan ada spasi */
-    max-height: 4.5em; /* MENAMBAH MAX-HEIGHT UNTUK TEKS (sekitar 3 baris * line-height) */
-    line-height: 1.5em; /* Pastikan line-height konsisten */
-    /* Pastikan padding bawah cukup untuk teks */
-    padding-bottom: 1rem; /* Tambahkan padding agar teks tidak terlalu dekat dengan tombol */
-}
-
-.agenda-card .card-text small {
-    display: block;
-    color: #6c757d;
-    font-size: 0.85rem;
-    word-wrap: break-word; /* Pastikan teks membungkus */
-    overflow-wrap: break-word; /* Properti modern untuk wrapping */
-}
-
-.agenda-card .card-text small i {
-    color: var(--blue-main); /* Warna ikon kecil */
-}
-
-.agenda-detail-btn {
-    /* HAPUS SEMUA PROPERTI POSISI ABSOLUT */
-    /* position: absolute; */
-    /* bottom: 15px; */
-    /* left: 15px; */
-    /* right: 15px; */
-    /* width: auto; */
-    /* transform: none; */
-    display: block; /* Pastikan tombol menjadi block-level untuk mengambil lebar penuh */
-    margin-top: auto; /* PENTING: Mendorong tombol ke bawah dalam flex column */
-    width: 100%; /* Tombol mengambil lebar penuh dari parent */
-    padding: 0.6rem 1rem; /* Sesuaikan padding tombol */
-    font-weight: bold;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    text-align: center; /* Pusatkan teks di tombol */
-}
-
-.agenda-detail-btn:hover {
-    background-color: var(--blue-main);
-    color: var(--white);
-}
-
-
-/* ========== TABEL STATISTIK ========== */
-.stats-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  overflow-x: auto;
-  display: block;
-}
-.stats-table th, .stats-table td {
-  padding: 1rem;
-  text-align: left;
-  border-bottom: 1px solid #d0e8ff;
-}
-.stats-table th {
-  background-color: var(--blue-bg);
-  color: var(--blue-main);
-}
-.stats-table tbody tr:nth-child(even) {
-  background-color: #f0f6ff;
-}
-.stats-table tbody tr:hover {
-  background-color: var(--blue-hover);
-}
-
-/* ========== FOOTER ========== */
-footer {
-  text-align: center;
-  padding: 1rem;
-  background-color: var(--blue-soft);
-  font-size: 0.9rem;
-  color: #555;
-  border-top: 2px solid var(--blue-border);
-  margin-top: auto;
-}
-
-/* ========== PARTIKEL LAYER ========== */
-#particles-js {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-}
-
-/* ========== TOGGLE SIDEBAR BUTTON ========== */
-.sidebar-toggle {
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  z-index: 1100;
-  background-color: var(--blue-main);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-  font-size: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ========== RESPONSIF UNTUK LAYAR KECIL ========== */
 @media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-    padding: 0 1rem;
-    width: 100%;
-    margin-bottom: 1rem;
-    margin-left: 0;
-  }
-  .sidebar {
-    width: 180px;
-    height: auto;
-    max-height: 80vh;
-    top: 50px;
-    border-radius: 0 0 10px 0;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.3);
-    transform: translateX(-100%);
-  }
-  .sidebar.active {
-    transform: translateX(0);
-  }
-
-  body.sidebar-open::before {
-    content: "";
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.4);
-    z-index: 1035;
-  }
-
-  .tab-button {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  justify-content: flex-start;
-  text-align: left;
-  width: 100%;
-  padding: 1rem 1.2rem;
-  border: none;
-  background: none;
-  font-size: 0.9rem;
-  cursor: pointer;
-  color: #0d6efd; /* warna biru bootstrap */
-  font-weight: 600;
-  border-left: 4px solid transparent;
-  transition: background-color 0.3s, border-left-color 0.3s, color 0.3s;
-  user-select: none;
-}
-  .tab-button.active {
-    border-bottom: 3px solid var(--blue-main);
-  }
-
-  main {
-    padding: 0.5rem;
-    width: 100%;
-    max-height: none;
-  }
-
-  /* Responsif untuk foto pastor di beranda */
-  .pastors-beranda {
-    flex-direction: column; /* Ubah menjadi kolom pada layar kecil */
-    align-items: center; /* Pusatkan secara horizontal */
-    gap: 1.5rem; /* Kurangi jarak antar foto */
-    padding: 15px; /* Sedikit lebih kecil di mobile */
-    margin-top: 0.8rem; /* Kurangi jarak lagi di mobile */
-  }
-
-  /* Pseudo-element di mobile: pastikan tampilannya tetap baik */
-  #beranda::before {
-    background-size: 100% auto; /* Tetap 100% lebar, tinggi otomatis */
-    opacity: 0.2; /* Mungkin sedikit lebih transparan di mobile agar konten lebih menonjol */
-    background-position: center top; /* Sesuaikan posisi agar tampak lebih baik di mobile */
-  }
-
-  .pastors-beranda .pastor-photo {
-    width: 100px; /* Sedikit lebih kecil di mobile */
-    height: 100px;
-  }
-
-  .pastors-beranda p {
-    font-size: 1rem; /* Ukuran font standar di mobile */
-  }
-
-  .pastor-title {
-    font-size: 1.2rem; /* Ukuran font yang lebih kecil di mobile */
-    margin-top: 1.5rem; /* Sesuaikan jarak di mobile */
-  }
-
-  footer {
-    font-size: 0.8rem;
-    padding: 1.2rem 0.8rem;
-  }
-
-  /* Responsif untuk Agenda Card di layar kecil */
-  .agenda-card .card-body {
-    min-height: 170px; /* Sesuaikan tinggi minimum untuk mobile */
-    /* padding-bottom: 1.5rem; DIHAPUS, flexbox akan mengurusnya */
-  }
+  .container { flex-direction: column; padding: 0 1rem; margin-left: 0; }
+  .sidebar { width: 220px; }
+  .sidebar-toggle.active { left: 230px; }
+  main { padding: 1rem; }
 }
 
-/* ========== TAMBAHAN UNTUK BERBAGAI LAYAR KECIL LAINNYA ========== */
-@media (max-width: 1440px), (max-width: 1080px), (max-width: 720px), (max-width: 480px) {
-  .pastor-name {
-    font-weight: bold;
-    text-align: center;
-    margin-top: 0.3rem;
-  }
-  .tab-button {
-    font-size: 0.75rem;
-    padding: 0.8rem 1rem;
-  }
-}
-.dokumentasi-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  gap: 8px;
-}
-
-.dokumentasi-grid a img {
-  width: 100%;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: transform 0.25s ease;
-}
-
-.dokumentasi-grid a img:hover {
-  transform: scale(1.05);
-}
-
-@media (max-width: 600px) {
-  .dokumentasi-grid a img {
-    height: 60px;
-  }
-}
-@media (min-width: 769px) {
-  .sidebar.collapsed {
-    width: 60px;
-    overflow-x: hidden;
-    transform: translateX(0);
-  }
-
-  .sidebar.collapsed .tab-button span {
-    display: none;
-  }
-}
-.social-icons {
-  display: flex;
-  justify-content: center;
-  gap: 1.2rem;
-  margin-top: 1rem;
-  flex-wrap: wrap;
-}
-
-.social-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  font-size: 1.5rem;
-  color: white;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  text-decoration: none;
-}
-
-.social-icon.fb { background-color: #3b5998; }
-.social-icon.tiktok { background-color: #000000; }
-.social-icon.ig {
-  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-}
-
-.social-icon:hover {
-  transform: scale(1.2);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
-}
-
-/* ======== GAYA BARU UNTUK TABEL KALENDER LITURGI (gcatholic.org style) ======== */
-
-/* Gaya Umum untuk Tabel Kalender */
-.liturgical-calendar-table {
-    width: 100%;
-    border-collapse: collapse; /* Menghapus spasi antar border cell */
-    margin-top: 1rem;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    overflow: hidden; /* Penting untuk border-radius di tabel */
-}
-
-.liturgical-calendar-table th,
-.liturgical-calendar-table td {
-    padding: 8px 12px;
-    border: 1px solid #dee2e6; /* Border seperti Bootstrap table-bordered */
-    vertical-align: top; /* Konten rata atas */
-}
-
-.liturgical-calendar-table thead th {
-    background-color: #f8f9fa; /* Warna header */
-    font-weight: bold;
-    text-align: left;
-}
-
-/* Gaya untuk Kolom Tanggal */
-.date-cell {
-    font-weight: bold;
-    background-color: #f0f0f0; /* Latar belakang untuk tanggal */
-    text-align: center;
-    vertical-align: middle;
-    padding: 0; /* Hapus padding default */
-    width: 150px; /* Lebar tetap untuk kolom tanggal */
-}
-
-.date-cell .date-display {
-    padding: 8px 12px; /* Padding untuk konten tanggal */
-}
-
-
-/* Gaya untuk Dot Warna Liturgi */
-.liturgical-color-dot-cell {
-    width: 25px; /* Lebar kolom dot warna */
-    text-align: center;
-    vertical-align: middle;
-    padding-left: 0;
-    padding-right: 0;
-}
-
-.liturgical-color-dot {
-    display: inline-block;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    border: 1px solid #ccc; /* Border default untuk dot */
-}
-
-/* Warna-warna liturgi */
-.liturgical-color-dot.white { background-color: #fff; border-color: #bbb; }
-.liturgical-color-dot.red { background-color: #dc3545; }
-.liturgical-color-dot.green { background-color: #28a745; }
-.liturgical-color-dot.purple { background-color: #6f42c1; }
-.liturgical-color-dot.black { background-color: #343a40; }
-.liturgical-color-dot.rose { background-color: #e83e8c; }
-.liturgical-color-dot.blue { background-color: #007bff; }
-.liturgical-color-dot.default { background-color: #ccc; }
-
-
-/* Gaya untuk Nama Perayaan */
-.liturgical-celebration {
-    font-weight: bold;
-    color: #333;
-}
-
-/* Gaya untuk Indikator (e.g., [H], [Pw]) */
-.liturgical-indicator {
-    font-size: 0.8em;
-    font-weight: normal;
-    background-color: #e9ecef;
-    padding: 2px 5px;
-    border-radius: 3px;
-    margin-right: 5px;
-    color: #6c757d;
-}
-
-/* Gaya untuk Deskripsi Utama */
-.liturgical-description-cell {
-    font-size: 0.9em;
-    color: #555;
-    text-align: justify;
-    padding-top: 0; /* Kurangi padding atas */
-}
-
-/* Gaya untuk Psalter Week */
-.liturgical-psalter-week-cell {
-    font-size: 0.85em;
-    font-style: italic;
-    color: #777;
-    padding-top: 0; /* Kurangi padding atas */
-    border-top: none; /* Hapus border atas untuk membuatnya terlihat menyatu */
-}
-
-/* Penyesuaian untuk border antar baris yang berbeda kategori */
-.liturgical-calendar-table tr td {
-    border-top: 1px solid #dee2e6;
-}
-/* Hapus border atas untuk sel deskripsi dan psalter week jika langsung di bawah perayaan */
-.liturgical-calendar-table tr .liturgical-description-cell,
-.liturgical-calendar-table tr .liturgical-psalter-week-cell {
-    border-top: none;
-}
-
-/* Responsif untuk tabel kalender pada layar kecil */
-@media (max-width: 600px) {
-    .liturgical-calendar-table {
-        font-size: 0.9em;
-    }
-    .liturgical-calendar-table th,
-    .liturgical-calendar-table td {
-        padding: 6px 8px;
-    }
-    .date-cell {
-        width: 120px; /* Sesuaikan lebar kolom tanggal untuk layar kecil */
-    }
-    .liturgical-color-dot {
-        width: 12px;
-        height: 12px;
-    }
-    .liturgical-indicator {
-        font-size: 0.7em;
-        padding: 1px 3px;
-    }
-    .liturgical-description-cell,
-    .liturgical-psalter-week-cell {
-        font-size: 0.8em;
-    }
-}
-
-/* Gaya untuk Tabel Sejarah Paus */
-.popes-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    overflow: hidden; /* Penting untuk border-radius di tabel */
-}
-
-.popes-table th,
-.popes-table td {
-    padding: 10px 15px;
-    text-align: left;
-    border-bottom: 1px solid #dee2e6;
-}
-
-.popes-table thead th {
-    background-color: var(--blue-bg);
-    color: var(--blue-main);
-    font-weight: bold;
-}
-
-.popes-table tbody tr:nth-child(even) {
-    background-color: #f8f9fa;
-}
-
-.popes-table tbody tr:hover {
-    background-color: var(--blue-hover);
-}
