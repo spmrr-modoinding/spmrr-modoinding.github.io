@@ -57,6 +57,80 @@
         </div>
     </main>
 
+    <div id="add-program-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Tambah Program Kerja Baru</h2>
+                <button class="close-modal-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="modal-program-form">
+                    <div class="form-section">
+                        <div class="input-group">
+                            <label for="modal-nama-unit">Wilayah Rohani / Kelompok Kategorial</label>
+                            <input type="text" id="modal-nama-unit" name="nama_unit" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="modal-bidang">Bidang Program</label>
+                            <select id="modal-bidang" name="bidang" required>
+                                <option value="" disabled selected>Pilih Bidang...</option>
+                                <option value="BIDANG I">BIDANG I: Menjaga Persekutuan dan Kepemimpinan</option>
+                                <option value="BIDANG II">BIDANG II: Menjaga Perbendaharaan Iman</option>
+                                <option value="BIDANG III">BIDANG III: Pelayanan Sabda Dan Sakramen</option>
+                                <option value="BIDANG IV">BIDANG IV: Memajukan Martabat & Peran Kaum Awam</option>
+                                <option value="BIDANG V">BIDANG V: Pendidikan Katolik</option>
+                                <option value="BIDANG VI">BIDANG VI: Pengelolaan Harta Benda Gereja</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="modal-nama_kegiatan">Nama Program / Kegiatan</label>
+                            <input type="text" id="modal-nama_kegiatan" name="nama_kegiatan" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="modal-sasaran">Sasaran</label>
+                            <input type="text" id="modal-sasaran" name="sasaran">
+                        </div>
+                         <div class="input-group">
+                            <label for="modal-indikator">Indikator Keberhasilan</label>
+                            <input type="text" id="modal-indikator" name="indikator">
+                        </div>
+                         <div class="input-group">
+                            <label for="modal-model">Model / Materi</label>
+                            <input type="text" id="modal-model" name="model">
+                        </div>
+                        <div class="input-group">
+                            <label for="modal-waktu">Tempat & Waktu</label>
+                            <input type="text" id="modal-waktu" name="waktu">
+                        </div>
+                        <div class="input-group">
+                            <label for="modal-pic">Penanggung Jawab (PIC)</label>
+                            <input type="text" id="modal-pic" name="pic">
+                        </div>
+                        <div class="input-group">
+                            <label for="modal-sumber_dana">Sumber Dana Utama</label>
+                            <input type="text" id="modal-sumber_dana" name="sumber_dana">
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h3>Rincian Anggaran</h3>
+                        <div id="modal-anggaran-items-container"></div>
+                        <button type="button" id="modal-add-anggaran-btn" class="add-btn">
+                            <i class="bi bi-plus-circle"></i> Tambah Rincian
+                        </button>
+                        <div class="total-anggaran">
+                            <strong>Total: <span id="modal-total-anggaran-display">Rp 0</span></strong>
+                        </div>
+                    </div>
+                    <div class="submit-section">
+                        <button type="submit" class="submit-btn">Simpan Program</button>
+                        <p id="modal-form-message" class="form-message"></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
