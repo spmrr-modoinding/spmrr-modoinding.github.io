@@ -4,7 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
   function activateTab(tabId) {
     // Menandai tombol sidebar yang aktif
     document.querySelectorAll('.tab-button').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.tab === tabId);
+      // Hanya ubah status 'active' jika tombol memiliki data-tab
+      if (btn.dataset.tab) {
+        btn.classList.toggle('active', btn.dataset.tab === tabId);
+      }
     });
     // Menampilkan konten yang sesuai
     document.querySelectorAll('.tab-content').forEach(content => {
@@ -74,8 +77,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // 2. Tombol Navigasi Tab di Sidebar
   const sidebarNav = document.querySelector('#sidebarMenu .nav');
   if (sidebarNav) {
-    sidebarNav.querySelectorAll('.tab-button').forEach(button => {
+    // === PERUBAHAN DI SINI: Hanya pilih tombol yang memiliki atribut 'data-tab' ===
+    sidebarNav.querySelectorAll('.tab-button[data-tab]').forEach(button => {
       button.addEventListener('click', () => {
+        // Mencegah link default jika tombol adalah <a> (meskipun saat ini kita pakai <button>)
+        event.preventDefault(); 
         activateTab(button.dataset.tab);
       });
     });

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Pelaporan</title>
+    <link href="logo-paroki2.png" rel="icon" type="image/png"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <header class="dashboard-header">
+        <div class="header-content">
+            <div class="welcome-message">
+                <img src="logo-paroki.png" alt="Logo">
+                <h1 id="welcome-title">Dashboard Pelaporan</h1>
+            </div>
+            <button id="logout-button" class="logout-button">
+                <i class="bi bi-box-arrow-right"></i> Logout
+            </button>
+        </div>
+    </header>
+
+    <main class="dashboard-main">
+        <div class="form-container">
+            <h2><i class="bi bi-file-earmark-plus-fill"></i> Input Program Kerja Baru</h2>
+            <form id="program-form">
+                <div class="form-section">
+                    <h3>Informasi Kegiatan</h3>
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label for="bidang">Bidang Program</label>
+                            <select id="bidang" name="bidang" required>
+                                <option value="" disabled selected>Pilih Bidang...</option>
+                                <option value="BIDANG I">BIDANG I: Menjaga Persekutuan dan Kepemimpinan</option>
+                                <option value="BIDANG II">BIDANG II: Menjaga Perbendaharaan Iman</option>
+                                <option value="BIDANG III">BIDANG III: Pelayanan Sabda Dan Sakramen</option>
+                                <option value="BIDANG IV">BIDANG IV: Memajukan Martabat & Peran Kaum Awam</option>
+                                <option value="BIDANG V">BIDANG V: Pendidikan Katolik</option>
+                                <option value="BIDANG VI">BIDANG VI: Pengelolaan Harta Benda Gereja</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="nama_kegiatan">Nama Program / Kegiatan</label>
+                            <input type="text" id="nama_kegiatan" name="nama_kegiatan" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="sasaran">Sasaran</label>
+                            <input type="text" id="sasaran" name="sasaran">
+                        </div>
+                        <div class="input-group">
+                            <label for="indikator">Indikator Keberhasilan</label>
+                            <input type="text" id="indikator" name="indikator">
+                        </div>
+                        <div class="input-group">
+                            <label for="model">Model / Materi</label>
+                            <input type="text" id="model" name="model">
+                        </div>
+                        <div class="input-group">
+                            <label for="waktu">Tempat & Waktu</label>
+                            <input type="text" id="waktu" name="waktu">
+                        </div>
+                        <div class="input-group">
+                            <label for="pic">Penanggung Jawab (PIC)</label>
+                            <input type="text" id="pic" name="pic">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Rincian Anggaran</h3>
+                    <div id="anggaran-items-container">
+                        </div>
+                    <button type="button" id="add-anggaran-btn" class="add-btn"><i class="bi bi-plus-circle"></i> Tambah Rincian Anggaran</button>
+                    <div class="total-anggaran">
+                        <strong>Total Anggaran: <span id="total-anggaran-display">Rp 0</span></strong>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Sumber Dana</h3>
+                    <div class="form-grid">
+                         <div class="input-group">
+                            <label for="sumber_dana">Sumber Dana Utama</label>
+                            <input type="text" id="sumber_dana" name="sumber_dana" placeholder="Contoh: Swadaya, Kas Kategorial, dll.">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="submit-section">
+                    <button type="submit" class="submit-btn"><i class="bi bi-check-circle-fill"></i> Simpan Program Kerja</button>
+                    <p id="form-message" class="form-message"></p>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <script src="dashboard.js"></script>
+</body>
+</html>

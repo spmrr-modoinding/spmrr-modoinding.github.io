@@ -6,13 +6,11 @@
     <title>Paroki SP Maria Ratu Rosari Modoinding</title>
     <link href="logo-paroki2.png" rel="icon" type="image/png"/>
     
-    <!-- Frameworks & Libraries -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a2ec24cfcd.js" crossorigin="anonymous"></script>
 
-    <!-- Custom CSS -->
     <link href="style.css" rel="stylesheet">
 </head>
 <body>
@@ -23,7 +21,6 @@
         <p>Jl. Trans Sulawesi, Desa Sinisir, Jaga VIII, Kecamatan Modoinding, Kabupaten Minahasa Selatan 95358</p>
     </header>
 
-    <!-- Alert Info -->
     <div class="container mt-2">
         <div class="alert alert-info alert-dismissible fade show" role="alert">
             <strong>Informasi:</strong> Ini website masih sementara ja beking.
@@ -31,16 +28,18 @@
         </div>
     </div>
 
-    <!-- Konten Utama: Sidebar & Tab Konten -->
     <div class="container">
-        <!-- Tombol Toggle Sidebar -->
-        <button class="btn btn-primary sidebar-toggle" id="sidebarToggleBtn" type="button">
+        <button class="btn btn-primary sidebar-toggle" id="sidebarToggleBtn" type="button" aria-label="Buka atau Tutup Menu">
             <i class="bi bi-list"></i>
         </button>
 
-        <!-- Sidebar -->
         <aside class="sidebar" id="sidebarMenu">
             <nav class="nav d-flex flex-column">
+                <a href="login.html" class="tab-button" style="padding-bottom: 0.8rem; margin-bottom: 0.8rem; border-bottom: 1px solid var(--blue-border);">
+                    <i class="bi bi-key-fill"></i>
+                    <span>Login</span>
+                </a>
+                
                 <button class="tab-button active" data-tab="beranda"><i class="bi bi-house-door-fill"></i><span>Beranda</span></button>
                 <button class="tab-button" data-tab="agenda"><i class="bi bi-calendar-event"></i><span>Agenda / Pengumuman</span></button>
                 <button class="tab-button" data-tab="angelus"><i class="bi bi-heart-fill"></i><span>Angelus</span></button>
@@ -50,33 +49,31 @@
                 <button class="tab-button" data-tab="tentang"><i class="bi bi-info-circle-fill"></i><span>Tentang Paroki</span></button>
                 <button class="tab-button" data-tab="kalender"><i class="bi bi-calendar-check-fill"></i><span>Kalender Paroki 2025</span></button>
                 <button class="tab-button" data-tab="sejarah-paus"><i class="bi bi-person-badge-fill"></i><span>Sejarah Paus</span></button>
-            </nav>
+                
+                </nav>
         </aside>
 
-        <!-- Konten Tiap Tab -->
         <main>
-            <!-- TAB: BERANDA -->
             <section class="tab-content active" id="beranda">
                 <h2 class="text-center pastor-title">Pastor Paroki & Pastor Rekan</h2>
                 <div class="pastors-beranda">
                     <div class="pastor-item-beranda">
                         <a href="pastor-joseph.jpg" class="glightbox" data-gallery="pastor-beranda">
-                            <img alt="P. Joseph Ansow" class="pastor-photo" src="pastor-joseph.jpg"/>
+                            <img alt="Foto Pastor Joseph Ansow, Pr." class="pastor-photo" src="pastor-joseph.jpg"/>
                         </a>
                         <p><b>P. Joseph Ansow, Pr.</b></p>
                     </div>
                     <div class="pastor-item-beranda">
                         <a href="pastor-stenly.jpg" class="glightbox" data-gallery="pastor-beranda">
-                            <img alt="P. Stenly Ambun" class="pastor-photo" src="pastor-stenly.jpg"/>
+                            <img alt="Foto Pastor Stenly Ambun, Pr." class="pastor-photo" src="pastor-stenly.jpg"/>
                         </a>
                         <p><b>P. Stenly Ambun, Pr.</b></p>
                     </div>
                 </div>
                 <br><br>
-                <h2><p style="text-align: center;">Liturgi Hari Minggu Ini</p></h2>
+                <h2 style="text-align: center;">Liturgi Hari Minggu Ini</h2>
                 <div id="liturgi-container" class="liturgi-cards-container">
-                    <!-- Konten liturgi akan dimuat di sini oleh script.js -->
-                </div>
+                    </div>
                 <div class="mt-4 text-center">
                     <a href="#" class="btn btn-outline-info glightbox" id="previewMingguDepan">
                         🔍 Preview Liturgi Minggu Depan
@@ -84,15 +81,12 @@
                 </div>
             </section>
 
-            <!-- TAB: AGENDA / PENGUMUMAN -->
             <section class="tab-content" id="agenda">
                 <h2>Agenda / Pengumuman Mingguan</h2>
                 <div class="row row-cols-1 row-cols-md-2 g-4 mt-3" id="agenda-container">
-                    <!-- Konten agenda akan dimuat oleh script.js -->
-                </div>
+                    </div>
             </section>
 
-            <!-- TAB: ANGELUS -->
             <section class="tab-content" id="angelus">
                 <h2>Doa Malaikat Tuhan</h2>
                 <p>Maria diberi kabar oleh malaikat Tuhan,</p>
@@ -118,17 +112,13 @@
                     <b>Doa Tiga Kali Sehari:</b>
                     <p>Doa Angelus dibaca tiga kali sehari, pada pukul 6 pagi, 12 siang, dan 6 sore, untuk menghormati peristiwa inkarnasi, sengsara Kristus, dan kebangkitan-Nya.</p>
                 </p>
-                <!-- Bagian Push Notification telah dihapus -->
-            </section>
+                </section>
 
-            <!-- TAB: PROFIL PASTOR -->
             <section class="tab-content" id="pastor">
-                <!-- Konten Kehadiran Pastor akan dimuat otomatis dari script.js -->
-            </section>
+                </section>
 
-            <!-- TAB: SEKRETARIAT -->
             <section class="tab-content" id="sekretariat">
-                <h2><p style="text-align: center;"><b>Sekretariat x Komsos</b></p></h2>
+                <h2 style="text-align: center;"><b>Sekretariat x Komsos</b></h2>
                 <div class="social-icons">
                     <a href="https://www.facebook.com/share/19K6ZFiifj/" target="_blank" class="social-icon fb"><i class="fab fa-facebook-f"></i></a>
                     <a href="https://www.tiktok.com/@komsos_spmararos" target="_blank" class="social-icon tiktok"><i class="fab fa-tiktok"></i></a>
@@ -157,23 +147,17 @@
                 </div>
             </section>
             
-            <!-- TAB: STATISTIK (Container Kosong) -->
             <section class="tab-content" id="statistik">
-                <!-- Konten Statistik akan dimuat di sini oleh script.js -->
-            </section>
+                </section>
 
-            <!-- TAB: TENTANG (Container Kosong) -->
             <section class="tab-content" id="tentang">
-                <!-- Konten Tentang Paroki akan dimuat di sini -->
-            </section>
+                </section>
 
-            <!-- TAB: KALENDER PAROKI -->
             <section class="tab-content" id="kalender">
                 <h2>Kalender Paroki</h2>
                 <div id="kalender-paroki-container" class="mt-3"></div>
             </section>
             
-            <!-- TAB: SEJARAH PAUS -->
             <section class="tab-content" id="sejarah-paus">
                 <h2>Sejarah Paus</h2>
                 <div id="popes-container" class="mt-3"></div>
@@ -181,12 +165,10 @@
         </main>
     </div>
 
-    <!-- Footer -->
     <footer>
         © 2025 - Paroki Sta. Perawan Maria Ratu Rosari Modoinding. Dibuat oleh Sekretariat Paroki.
     </footer>
 
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>

@@ -95,6 +95,7 @@ header p { font-size: 0.9rem; margin: 0.2rem 0 0; }
   border-left: 5px solid transparent;
   transition: background-color 0.3s, border-left-color 0.3s, color 0.3s;
   user-select: none;
+  text-decoration: none; /* Menambahkan ini agar link tidak bergaris bawah */
 }
 .tab-button:hover,
 .tab-button.active {
@@ -218,4 +219,3 @@ body.sidebar-open::before { content: ""; position: fixed; top: 0; left: 0; right
   .sidebar-toggle.active { left: 230px; }
   main { padding: 1rem; }
 }
-
