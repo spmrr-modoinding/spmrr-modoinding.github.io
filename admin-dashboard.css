@@ -117,14 +117,16 @@ table {
 
 th, td {
     padding: 12px 15px;
-    border: 1px solid #ddd;
+    border: 1px solid #000;
     text-align: left;
     vertical-align: top;
 }
 
 th {
-    background-color: #004a99;
-    color: white;
+    background-color: #e0e0e0;
+    color: black;
+    font-weight: bold;
+    text-align: center;
     position: sticky;
     top: 0;
 }
@@ -135,6 +137,20 @@ tbody tr:nth-child(even) {
 
 tbody tr:hover {
     background-color: #e9ecef;
+}
+
+tbody tr.group-header-bidang td {
+    background-color: #d9e2f3 !important;
+    font-weight: bold;
+    text-align: left !important;
+    padding-left: 1rem;
+}
+
+tbody tr.group-header-sub td {
+    background-color: #fff2cc !important;
+    font-style: italic;
+    text-align: left !important;
+    padding-left: 2rem;
 }
 
 .anggaran-detail {
@@ -151,101 +167,99 @@ tbody tr:hover {
     border-radius: 4px;
     border: 1px solid;
     cursor: pointer;
+    width: 50px;
+    margin-bottom: 5px;
 }
 .edit { background-color: #ffc107; border-color: #ffc107; }
 .delete { background-color: #dc3545; border-color: #dc3545; color: white; }
 
-@media (max-width: 768px) {
-    .dashboard-header {
-        padding: 1rem;
-        position: static;
-    }
-    .header-content, .table-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-    .welcome-message h1, .table-header h2 {
-        font-size: 1.2rem;
-    }
-
-    .dashboard-main {
-        padding: 1rem;
-    }
-    .table-container {
-        padding: 1rem;
-    }
-    th, td {
-        padding: 8px 10px;
-        font-size: 0.9em;
-    }
-}
-
-/* === GAYA UNTUK MODAL TAMBAH PROGRAM === */
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.6); display: flex;
+    justify-content: center; align-items: center; z-index: 2000;
 }
-
-.modal-overlay.hidden {
-    display: none;
-}
-
+.modal-overlay.hidden { display: none; }
 .modal-content {
-    background-color: white;
-    width: 90%;
-    max-width: 800px;
-    max-height: 90vh;
-    border-radius: 12px;
-    box-shadow: 0 5px 25px rgba(0,0,0,0.3);
-    display: flex;
-    flex-direction: column;
+    background-color: white; width: 90%; max-width: 800px; max-height: 90vh;
+    border-radius: 12px; box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+    display: flex; flex-direction: column;
 }
-
 .modal-header {
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid #eee;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 1rem 1.5rem; border-bottom: 1px solid #eee; display: flex;
+    justify-content: space-between; align-items: center;
 }
-
-.modal-header h2 {
-    margin: 0;
-    color: #004a99;
-}
-
-.close-modal-btn {
-    background: none;
-    border: none;
-    font-size: 2rem;
-    cursor: pointer;
-    color: #aaa;
-}
-
-.modal-body {
-    padding: 1.5rem;
-    overflow-y: auto;
-}
-
+.modal-header h2 { margin: 0; color: #004a99; }
+.close-modal-btn { background: none; border: none; font-size: 2rem; cursor: pointer; color: #aaa; }
+.modal-body { padding: 1.5rem; overflow-y: auto; }
 .modal-body .form-section { margin-bottom: 1rem; }
 .modal-body .input-group { margin-bottom: 1rem; }
 .modal-body .add-btn { font-size: 0.9rem; padding: 0.4rem 0.8rem; }
 .modal-body .total-anggaran { font-size: 1rem; }
 .modal-body #modal-anggaran-items-container .anggaran-item {
-    display: grid;
-    grid-template-columns: 3fr 1fr 1fr 1.5fr 2fr 0.5fr;
-    gap: 10px;
-    align-items: center;
-    margin-bottom: 10px;
+    display: grid; grid-template-columns: 3fr 1fr 1fr 1.5fr 2fr 0.5fr;
+    gap: 10px; align-items: center; margin-bottom: 10px;
 }
 .modal-body .submit-btn { font-size: 1rem; padding: 0.7rem 1.5rem; }
-.form-message { min-height: 20px; }
+.form-message { min-height: 20px; margin-top: 1rem; font-weight: bold; }
+.form-message.success { color: #4caf50; }
+.form-message.error { color: #f44336; }
+
+
+@media (max-width: 768px) {
+    .dashboard-header { padding: 1rem; position: static; }
+    .header-content, .table-header { flex-direction: column; align-items: flex-start; gap: 15px; }
+    .welcome-message h1, .table-header h2 { font-size: 1.2rem; }
+    .dashboard-main { padding: 1rem; }
+    .table-container { padding: 1rem; }
+    th, td { padding: 8px 10px; font-size: 0.9em; }
+    .modal-body #modal-anggaran-items-container .anggaran-item {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}
+
+@media print {
+    @page {
+        size: 210mm 330mm landscape;
+        margin: 15mm;
+    }
+    body {
+        background-color: white !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    .no-print {
+        display: none !important;
+    }
+    .dashboard-main, .table-container {
+        padding: 0; margin: 0;
+        box-shadow: none; border: none;
+        max-width: 100%;
+    }
+    .table-header {
+        display: block;
+    }
+    .table-header h2 {
+        text-align: center; width: 100%;
+        font-size: 14pt; margin-bottom: 10px;
+    }
+    table {
+        white-space: normal;
+        font-size: 9pt;
+        width: 100%;
+    }
+    th, td {
+        padding: 5px;
+        border: 1px solid #000 !important;
+    }
+    th {
+        background-color: #e0e0e0 !important;
+    }
+    tfoot > tr > td {
+        font-weight: bold;
+        background-color: #f2f2f2 !important;
+    }
+    tr.group-header-bidang td, tr.group-header-sub td {
+        background-color: inherit !important;
+    }
+}

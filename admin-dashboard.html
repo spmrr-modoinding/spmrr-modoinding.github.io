@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="admin-dashboard.css">
 </head>
 <body>
-    <header class="dashboard-header">
+    <header class="dashboard-header no-print">
         <div class="header-content">
             <div class="welcome-message">
                 <img src="logo-paroki.png" alt="Logo">
@@ -24,8 +24,8 @@
     <main class="dashboard-main">
         <div class="table-container">
             <div class="table-header">
-                <h2><i class="bi bi-file-earmark-text-fill"></i> Rekapitulasi Program Kerja 2025</h2>
-                <div class="action-buttons">
+                <h2><i class="bi bi-file-earmark-text-fill"></i> PROGRAM KERJA PAROKI TAHUN 2025</h2>
+                <div class="action-buttons no-print">
                     <button class="action-btn" id="add-program-btn"><i class="bi bi-plus-square-fill"></i> Tambah Program</button>
                     <button class="action-btn" id="print-btn"><i class="bi bi-printer-fill"></i> Print Laporan</button>
                 </div>
@@ -34,91 +34,152 @@
                 <table id="programs-table">
                     <thead>
                         <tr>
-                            <th>Wilayah Rohani/Kategorial</th>
-                            <th>Program/Kegiatan</th>
-                            <th>Sasaran</th>
-                            <th>Indikator Keberhasilan</th>
-                            <th>Model/Materi</th>
-                            <th>Waktu & Tempat</th>
-                            <th>PIC</th>
-                            <th>Rincian Anggaran</th>
-                            <th>Total</th>
-                            <th>Sumber Dana</th>
-                            <th>Aksi</th>
+                            <th rowspan="2">Pusat Paroki/<br>Stasi</th>
+                            <th rowspan="2">Wilayah Rohani/<br>Kelompok Kategorial</th>
+                            <th rowspan="2">Program/Kegiatan</th>
+                            <th rowspan="2">Sasaran</th>
+                            <th rowspan="2">Indikator<br>Keberhasilan</th>
+                            <th rowspan="2">Model</th>
+                            <th rowspan="2">Materi</th>
+                            <th rowspan="2">Tempat & Waktu</th>
+                            <th rowspan="2">PIC</th>
+                            <th colspan="5">Perincian Anggaran</th>
+                            <th rowspan="2">Total</th>
+                            <th colspan="2">Sumber Dana</th>
+                            <th rowspan="2" class="no-print">Aksi</th>
+                        </tr>
+                        <tr>
+                            <th>Perincian</th>
+                            <th>Vol</th>
+                            <th>Satuan</th>
+                            <th>Satuan Harga</th>
+                            <th>Jumlah</th>
+                            <th>Kas Paroki</th>
+                            <th>Swadaya</th>
                         </tr>
                     </thead>
                     <tbody id="programs-table-body">
-                        <tr>
-                            <td colspan="11" style="text-align:center;">Memuat data...</td>
-                        </tr>
+                        <!-- Data akan dimuat oleh JavaScript di sini -->
                     </tbody>
+                    <tfoot id="table-footer">
+                        <!-- Grand Total akan dimuat oleh JavaScript di sini -->
+                    </tfoot>
                 </table>
             </div>
         </div>
     </main>
 
-    <div id="add-program-modal" class="modal-overlay hidden">
+    <!-- Modal Tambah/Edit Program -->
+    <div id="add-program-modal" class="modal-overlay hidden no-print">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Tambah Program Kerja Baru</h2>
+                <h2 id="modal-title">Tambah Program Kerja Baru</h2>
                 <button class="close-modal-btn">&times;</button>
             </div>
             <div class="modal-body">
                 <form id="modal-program-form">
                     <div class="form-section">
                         <div class="input-group">
-                            <label for="modal-nama-unit">Wilayah Rohani / Kelompok Kategorial</label>
-                            <input type="text" id="modal-nama-unit" name="nama_unit" required>
-                        </div>
-                        <div class="input-group">
                             <label for="modal-bidang">Bidang Program</label>
-                            <select id="modal-bidang" name="bidang" required>
+                            <select id="modal-bidang" required>
                                 <option value="" disabled selected>Pilih Bidang...</option>
-                                <option value="BIDANG I">BIDANG I: Menjaga Persekutuan dan Kepemimpinan</option>
-                                <option value="BIDANG II">BIDANG II: Menjaga Perbendaharaan Iman</option>
-                                <option value="BIDANG III">BIDANG III: Pelayanan Sabda Dan Sakramen</option>
-                                <option value="BIDANG IV">BIDANG IV: Memajukan Martabat & Peran Kaum Awam</option>
-                                <option value="BIDANG V">BIDANG V: Pendidikan Katolik</option>
-                                <option value="BIDANG VI">BIDANG VI: Pengelolaan Harta Benda Gereja</option>
+                                <option value="BIDANG I : MENJAGA PERSEKUTUAN DAN KEPEMIMPINAN YANG MELAYANI">BIDANG I</option>
+                                <option value="BIDANG II : Menjaga Perbendaharaan Iman">BIDANG II</option>
+                                <option value="BIDANG III : Pelayanan Sabda Dan Sakramen-Sakramen">BIDANG III</option>
+                                <option value="BIDANG IV : Memajukan Martabat & Peran Kaum Awam">BIDANG IV</option>
+                                <option value="BIDANG V : Pendidikan Katolik">BIDANG V</option>
+                                <option value="BIDANG VI : Pengelolaan Harta Benda Gereja">BIDANG VI</option>
+                            </select>
+                        </div>
+                         <div class="input-group">
+                            <label for="modal-sub-bidang">Judul Sub-Kelompok (cth: 1. Menata Struktur...)</label>
+                            <input type="text" id="modal-sub-bidang" required>
+                        </div>
+                        <hr>
+                        <div class="input-group">
+                            <label for="modal-lokasi">Pusat Paroki / Stasi</label>
+                            <select id="modal-lokasi" required>
+                                <option value="" disabled selected>Pilih Lokasi...</option>
+                                <option value="Pusat Paroki">Pusat Paroki</option>
+                                <option value="Stasi">Stasi</option>
                             </select>
                         </div>
                         <div class="input-group">
+                            <label for="modal-nama-unit">Wilayah Rohani / Kelompok Kategorial</label>
+                            <input type="text" id="modal-nama-unit" required>
+                        </div>
+                        <div class="input-group">
                             <label for="modal-nama_kegiatan">Nama Program / Kegiatan</label>
-                            <input type="text" id="modal-nama_kegiatan" name="nama_kegiatan" required>
+                            <input type="text" id="modal-nama_kegiatan" required>
                         </div>
                         <div class="input-group">
                             <label for="modal-sasaran">Sasaran</label>
-                            <input type="text" id="modal-sasaran" name="sasaran">
+                            <input type="text" id="modal-sasaran">
                         </div>
-                         <div class="input-group">
+                        <div class="input-group">
                             <label for="modal-indikator">Indikator Keberhasilan</label>
-                            <input type="text" id="modal-indikator" name="indikator">
+                            <input type="text" id="modal-indikator">
                         </div>
-                         <div class="input-group">
-                            <label for="modal-model">Model / Materi</label>
-                            <input type="text" id="modal-model" name="model">
+                        <div class="input-group">
+                            <label for="modal-model">Model</label>
+                            <input type="text" id="modal-model">
+                        </div>
+                        <div class="input-group">
+                            <label for="modal-materi">Materi</label>
+                            <input type="text" id="modal-materi">
                         </div>
                         <div class="input-group">
                             <label for="modal-waktu">Tempat & Waktu</label>
-                            <input type="text" id="modal-waktu" name="waktu">
+                            <input type="text" id="modal-waktu">
                         </div>
                         <div class="input-group">
-                            <label for="modal-pic">Penanggung Jawab (PIC)</label>
-                            <input type="text" id="modal-pic" name="pic">
-                        </div>
-                        <div class="input-group">
-                            <label for="modal-sumber_dana">Sumber Dana Utama</label>
-                            <input type="text" id="modal-sumber_dana" name="sumber_dana">
+                            <label for="modal-pic">PIC</label>
+                            <input type="text" id="modal-pic">
                         </div>
                     </div>
+                    
+                    <div class="form-section">
+                        <h3>Sumber Dana</h3>
+                        <div class="form-grid-sumber-dana">
+                            <div class="input-group">
+                                <label for="modal-sumber-dana-kas">Untuk Kolom "Kas Paroki"</label>
+                                <select id="modal-sumber-dana-kas">
+                                    <option value="-">Garis Datar (-)</option>
+                                    <option value="Kas Paroki">Kas Paroki</option>
+                                    <option value="Kas Stasi">Kas Stasi</option>
+                                    <option value="Kas KBK">Kas KBK</option>
+                                    <option value="Kas WR">Kas WR</option>
+                                    <option value="Kas Sonar">Kas Sonar</option>
+                                    <option value="Kas OMK">Kas OMK</option>
+                                    <option value="DPP">DPP</option>
+                                    <option value="KK">KK</option>
+                                    <option value="KK DPP">KK DPP</option>
+                                    <option value="KK Kategorial">KK Kategorial</option>
+                                    <option value="KK Sekami">KK Sekami</option>
+                                    <option value="KK Stasi">KK Stasi</option>
+                                    <option value="KK PSE">KK PSE</option>
+                                    <option value="KK KS">KK KS</option>
+                                    <option value="KK WKRI">KK WKRI</option>
+                                    <option value="KK Katekese">KK Katekese</option>
+                                    <option value="Pencatatan Laporan">Pencatatan Laporan</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="modal-sumber-dana-swadaya">Untuk Kolom "Swadaya"</label>
+                                <select id="modal-sumber-dana-swadaya">
+                                     <option value="-">Garis Datar (-)</option>
+                                     <option value="Swadaya">Swadaya</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-section">
                         <h3>Rincian Anggaran</h3>
                         <div id="modal-anggaran-items-container"></div>
-                        <button type="button" id="modal-add-anggaran-btn" class="add-btn">
-                            <i class="bi bi-plus-circle"></i> Tambah Rincian
-                        </button>
+                        <button type="button" id="modal-add-anggaran-btn" class="add-btn"><i class="bi bi-plus-circle"></i> Tambah Rincian</button>
                         <div class="total-anggaran">
-                            <strong>Total: <span id="modal-total-anggaran-display">Rp 0</span></strong>
+                            <strong>Total Anggaran: <span id="modal-total-anggaran-display">Rp 0</span></strong>
                         </div>
                     </div>
                     <div class="submit-section">
@@ -129,7 +190,6 @@
             </div>
         </div>
     </div>
-
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
