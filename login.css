@@ -1,127 +1,169 @@
+/*
+ * login.css
+ * File gaya untuk halaman login.
+ */
+
+/* ========== DASAR & LATAR BELAKANG ========== */
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f0f6ff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    padding: 1rem; /* Tambahkan padding agar tidak mepet di layar kecil */
-    box-sizing: border-box;
+  margin: 0;
+  padding: 1rem;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+  background: linear-gradient(-45deg, #e0f2ff, #f0f6ff, #d1eaff, #e6f2ff);
+  background-size: 400% 400%;
+  animation: gradientBG 25s ease infinite;
 }
 
+/* ========== FORM CONTAINER ========== */
 .login-container {
-    width: 100%;
-    max-width: 400px;
+  width: 100%;
+  max-width: 400px;
 }
 
 .login-form {
-    position: relative;
-    background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)),
-        url('gereja.jpeg');
-    background-size: cover;
-    background-position: center;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+  position: relative;
+  padding: 40px;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)),
+    url('gereja.jpeg');
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 .login-logo {
-    width: 80px;
-    margin-bottom: 15px;
+  width: 80px;
+  margin-bottom: 15px;
 }
 
 .login-form h2 {
-    color: #004a99;
-    margin-top: 0;
-    margin-bottom: 10px;
+  color: #004a99;
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 
 .login-form p {
-    color: #555;
-    margin-bottom: 30px;
-    font-size: 0.9em;
+  color: #555;
+  margin-bottom: 30px;
+  font-size: 0.9em;
 }
 
+/* ========== ELEMEN FORM ========== */
 .input-group {
-    text-align: left;
-    margin-bottom: 20px;
+  text-align: left;
+  margin-bottom: 20px;
 }
 
 .input-group label {
-    display: block;
-    margin-bottom: 5px;
-    color: #333;
-    font-weight: bold;
-    font-size: 0.9em;
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+  font-weight: bold;
+  font-size: 0.9em;
 }
 
 .input-group input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-sizing: border-box; 
-    background-color: rgba(255, 255, 255, 0.8);
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.8);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.error-message {
-    color: #f44336;
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 5px;
-    border-radius: 4px;
-    font-weight: bold;
-    min-height: 20px;
-    margin-top: -10px !important;
-    font-size: 0.85em !important;
-    box-sizing: border-box;
-    display: block;
-}
-
-.error-message:empty {
-    display: none;
+.input-group input:focus {
+  outline: none;
+  border-color: #004a99;
+  box-shadow: 0 0 0 4px rgba(0, 74, 153, 0.1);
 }
 
 button {
-    width: 100%;
-    padding: 12px;
-    background-color: #004a99;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1em;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  width: 100%;
+  padding: 12px;
+  background-color: #004a99;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 button:hover {
-    background-color: #003366;
+  background-color: #003366;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 51, 102, 0.3);
+}
+
+button:active {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 51, 102, 0.3);
+}
+
+.error-message {
+  color: #f44336;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 5px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.85em !important;
+  min-height: 20px;
+  margin-top: -10px !important;
+  box-sizing: border-box;
+  display: block;
+}
+
+.error-message:empty {
+  display: none;
 }
 
 .back-link {
-    display: block;
-    margin-top: 20px;
-    color: #004a99;
-    text-decoration: none;
-    font-size: 0.9em;
-    font-weight: bold;
-    background-color: rgba(255, 255, 255, 0.7);
-    padding: 2px 5px;
-    border-radius: 4px;
-    display: inline-block;
+  display: inline-block;
+  margin-top: 20px;
+  padding: 2px 5px;
+  color: #004a99;
+  background-color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 0.9em;
+  font-weight: bold;
+  border-radius: 4px;
 }
 
 .back-link:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
-/* --- Media Query untuk Mobile --- */
+/* ========== ANIMASI ========== */
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ========== RESPONSIVE ========== */
 @media (max-width: 480px) {
-    .login-form {
-        padding: 20px; /* Kurangi padding di layar kecil */
-    }
+  .login-form {
+    padding: 20px;
+  }
 }

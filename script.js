@@ -77,10 +77,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // 2. Tombol Navigasi Tab di Sidebar
   const sidebarNav = document.querySelector('#sidebarMenu .nav');
   if (sidebarNav) {
-    // === PERUBAHAN DI SINI: Hanya pilih tombol yang memiliki atribut 'data-tab' ===
     sidebarNav.querySelectorAll('.tab-button[data-tab]').forEach(button => {
-      button.addEventListener('click', () => {
-        // Mencegah link default jika tombol adalah <a> (meskipun saat ini kita pakai <button>)
+      button.addEventListener('click', (event) => {
         event.preventDefault(); 
         activateTab(button.dataset.tab);
       });
@@ -89,14 +87,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- MEMUAT KONTEN DINAMIS ---
 
-  // 1. Liturgi Mingguan (untuk Beranda)
+  // 1. Liturgi Mingguan & Renungan (untuk Beranda)
   fetch('liturgi_mingguan.json').then(res => res.json()).then(data => {
       const { minggu_ini, minggu_depan } = data;
-      const container = document.getElementById('liturgi-container');
+      // ================= PERUBAHAN DI SINI: Mengambil dua container baru =================
+      const bacaanContainer = document.getElementById('liturgi-bacaan-container');
+      const renunganContainer = document.getElementById('liturgi-renungan-container');
       const previewBtn = document.getElementById('previewMingguDepan');
-      if (container) {
+      
+      if (bacaanContainer && renunganContainer) {
           const colorMap = {"Hijau": "green", "Merah": "red", "Putih": "white", "Ungu": "purple", "Hitam": "black", "Mawar": "rose", "Biru": "blue"};
-          container.innerHTML = `
+          
+          // Mengisi container KARTU BACAAN (tanpa renungan)
+          bacaanContainer.innerHTML = `
             <div class="liturgi-card">
                 <div class="liturgi-header">
                     <span class="liturgi-date">${minggu_ini.tanggal}</span>
@@ -111,13 +114,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         <p><i class="bi bi-journal-medical me-2"></i><strong>Injil:</strong> ${minggu_ini.injil}</p>
                         <p><i class="bi bi-palette-fill me-2"></i><strong>Warna:</strong> ${minggu_ini.warna}</p>
                     </div>
-                    <div class="liturgi-renungan">
-                        <h6><i class="bi bi-lightbulb-fill me-2"></i>Renungan</h6>
-                        <p style="text-align: justify;">${minggu_ini.renungan}</p>
-                    </div>
                 </div>
             </div>`;
+
+          // Mengisi container RENUNGAN secara terpisah
+          renunganContainer.innerHTML = `<p>${minggu_ini.renungan}</p>`;
       }
+      
       if (previewBtn) {
           previewBtn.setAttribute('data-glightbox', `title: Bacaan & Renungan Minggu Depan; description: <b>Tanggal:</b> ${minggu_depan.tanggal}<br/><b>Peringatan:</b> ${minggu_depan.peringatan}<br/><b>Bacaan 1:</b> ${minggu_depan.bacaan1}<br/><b>Bacaan 2:</b> ${minggu_depan.bacaan2}<br/><b>Mazmur:</b> ${minggu_depan.mazmur}<br/><b>Injil:</b> ${minggu_depan.injil}<br/><b>Warna:</b> ${minggu_depan.warna}<br/><br/><b>Renungan:</b><br/>${minggu_depan.renungan}`);
       }
