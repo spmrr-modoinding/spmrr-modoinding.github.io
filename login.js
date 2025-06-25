@@ -1,4 +1,4 @@
-// PETUNJUK: PASTE KONFIGURASI FIREBASE ANDA DI BAWAH INI
+// Konfigurasi Firebase Anda
 const firebaseConfig = {
     apiKey: "AIzaSyC-KNi0YqnlxtzkeoemEFWN5xusjxpWV_I",
     authDomain: "paroki-modoinding.firebaseapp.com",
@@ -10,72 +10,64 @@ const firebaseConfig = {
 };
 
 // Inisialisasi Firebase
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
 const auth = firebase.auth();
 const db = firebase.firestore();
 
 // Mengambil elemen dari form
 const loginForm = document.getElementById('login-form');
-const usernameInput = document.getElementById('username');
+const emailInput = document.getElementById('email'); // Diubah dari usernameInput
 const passwordInput = document.getElementById('password');
 const errorMessage = document.getElementById('error-message');
 
 // Menambahkan event listener saat form disubmit
 loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
-    const username = usernameInput.value;
+    const email = emailInput.value;
     const password = passwordInput.value;
     errorMessage.textContent = '';
+    const submitButton = loginForm.querySelector('button');
+    submitButton.disabled = true;
+    submitButton.textContent = 'Memproses...';
 
     try {
-        // Langkah 1: Cari dokumen di Firestore berdasarkan username
-        const usersRef = db.collection('users');
-        const snapshot = await usersRef.where('username', '==', username).get();
-
-        if (snapshot.empty) {
-            errorMessage.textContent = 'Username tidak ditemukan.';
-            return;
-        }
-
-        let userEmail = '';
-        let userDocId = '';
-        snapshot.forEach(doc => {
-            userEmail = doc.data().email;
-            userDocId = doc.id; // Kita ambil ID dokumennya juga (ini adalah User UID)
-        });
-
-        // Langkah 2: Lakukan login menggunakan email yang didapat
-        const userCredential = await auth.signInWithEmailAndPassword(userEmail, password);
+        // Langkah 1: Langsung lakukan login dengan email dan password
+        const userCredential = await auth.signInWithEmailAndPassword(email, password);
         const user = userCredential.user;
 
-        // --- PERUBAHAN UTAMA DIMULAI DI SINI ---
-        // Langkah 3: Periksa peran (role) pengguna dari Firestore
+        // Langkah 2: Periksa peran (role) pengguna dari Firestore setelah berhasil login
         const userDoc = await db.collection('users').doc(user.uid).get();
 
         if (userDoc.exists) {
             const userData = userDoc.data();
+            // Arahkan ke dashboard admin, karena hanya admin yang punya dashboard saat ini
             if (userData.peran === 'admin') {
-                // Jika peran adalah admin, arahkan ke dashboard admin
                 console.log('Admin login berhasil. Mengarahkan ke admin-dashboard.html');
                 window.location.href = 'admin-dashboard.html';
             } else {
-                // Jika peran adalah unit (atau lainnya), arahkan ke dashboard biasa
-                console.log('User login berhasil. Mengarahkan ke dashboard.html');
-                window.location.href = 'dashboard.html';
+                // Untuk masa depan jika ada peran lain
+                auth.signOut(); // Logout jika peran tidak sesuai
+                throw new Error('Anda tidak memiliki hak akses dashboard.');
             }
         } else {
-            // Jika data user tidak ditemukan di firestore (seharusnya tidak terjadi)
+            auth.signOut(); // Logout jika data tidak ada di firestore
             throw new Error('Data pengguna tidak ditemukan di database.');
         }
-        // --- AKHIR DARI PERUBAHAN ---
 
     } catch (error) {
         console.error('Error saat login:', error.code, error.message);
-        if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+        if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-email') {
+            errorMessage.textContent = 'Email tidak terdaftar.';
+        } else if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
             errorMessage.textContent = 'Password salah. Silakan coba lagi.';
         } else {
-            errorMessage.textContent = 'Terjadi kesalahan saat login.';
+            errorMessage.textContent = error.message; // Tampilkan pesan error yang lebih spesifik
         }
+    } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Login';
     }
 });
