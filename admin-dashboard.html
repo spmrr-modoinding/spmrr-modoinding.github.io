@@ -23,15 +23,11 @@
         <div class="table-container">
             <!-- NAVIGASI TAB -->
             <div class="dashboard-nav no-print">
-                <button class="nav-tab-btn active" data-target="programs-section">
-                    <i class="bi bi-file-earmark-text-fill"></i> Program Kerja
-                </button>
-                <button class="nav-tab-btn" data-target="announcements-section">
-                    <i class="bi bi-calendar-event-fill"></i> Agenda / Pengumuman
-                </button>
-                <button class="nav-tab-btn" data-target="liturgies-section">
-                    <i class="bi bi-book-half"></i> Manajemen Liturgi
-                </button>
+                <button class="nav-tab-btn active" data-target="programs-section"><i class="bi bi-file-earmark-text-fill"></i> Program Kerja</button>
+                <button class="nav-tab-btn" data-target="announcements-section"><i class="bi bi-calendar-event-fill"></i> Agenda / Pengumuman</button>
+                <button class="nav-tab-btn" data-target="liturgies-section"><i class="bi bi-book-half"></i> Manajemen Liturgi</button>
+                <button class="nav-tab-btn" data-target="pastors-section"><i class="bi bi-person-check-fill"></i> Kehadiran Pastor</button>
+                <button class="nav-tab-btn" data-target="stats-section"><i class="bi bi-bar-chart-line-fill"></i> Statistik Umat</button>
             </div>
 
             <!-- AREA MANAJEMEN PROGRAM KERJA -->
@@ -76,46 +72,54 @@
             <div id="announcements-section" class="management-section">
                 <div class="table-header">
                     <h2><i class="bi bi-calendar-event-fill"></i> Manajemen Agenda / Pengumuman</h2>
-                    <div class="action-buttons no-print">
-                        <button class="action-btn" id="add-announcement-btn"><i class="bi bi-plus-square-fill"></i> Tambah Pengumuman</button>
-                    </div>
+                    <div class="action-buttons no-print"><button class="action-btn" id="add-announcement-btn"><i class="bi bi-plus-square-fill"></i> Tambah Pengumuman</button></div>
                 </div>
-                <div class="table-wrapper">
-                    <table id="announcements-table">
-                        <thead>
-                            <tr>
-                                <th>Judul</th>
-                                <th>Tanggal & Waktu</th>
-                                <th>Lokasi</th>
-                                <th>Catatan</th>
-                                <th class="no-print" style="width: 120px;">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="announcements-table-body"></tbody>
-                    </table>
-                </div>
+                <div class="table-wrapper"><table id="announcements-table">
+                    <thead>
+                        <tr><th>Judul</th><th>Tanggal & Waktu</th><th>Lokasi</th><th>Catatan</th><th class="no-print" style="width: 120px;">Aksi</th></tr>
+                    </thead>
+                    <tbody id="announcements-table-body"></tbody>
+                </table></div>
             </div>
 
-            <!-- AREA BARU: MANAJEMEN LITURGI -->
+            <!-- AREA MANAJEMEN LITURGI -->
             <div id="liturgies-section" class="management-section">
                 <div class="table-header">
                     <h2><i class="bi bi-book-half"></i> Manajemen Liturgi Mingguan</h2>
-                    <div class="action-buttons no-print">
-                        <button class="action-btn" id="add-liturgy-btn"><i class="bi bi-plus-square-fill"></i> Tambah Liturgi Baru</button>
-                    </div>
+                    <div class="action-buttons no-print"><button class="action-btn" id="add-liturgy-btn"><i class="bi bi-plus-square-fill"></i> Tambah Liturgi Baru</button></div>
                 </div>
+                <div class="table-wrapper"><table id="liturgies-table">
+                    <thead>
+                        <tr><th>Tanggal</th><th>Peringatan</th><th>Warna</th><th>Status</th><th class="no-print" style="width: 250px;">Aksi</th></tr>
+                    </thead>
+                    <tbody id="liturgies-table-body"></tbody>
+                </table></div>
+            </div>
+
+            <!-- AREA MANAJEMEN KEHADIRAN PASTOR -->
+            <div id="pastors-section" class="management-section">
+                <div class="table-header"><h2><i class="bi bi-person-check-fill"></i> Manajemen Kehadiran Pastor</h2></div>
+                <div id="pastor-list-container"></div>
+            </div>
+            
+            <!-- AREA STATISTIK UMAT -->
+            <div id="stats-section" class="management-section">
+                <div class="table-header"><h2><i class="bi bi-bar-chart-line-fill"></i> Manajemen Statistik Umat</h2></div>
                 <div class="table-wrapper">
-                    <table id="liturgies-table">
+                    <table id="stats-table">
                         <thead>
                             <tr>
-                                <th>Tanggal</th>
-                                <th>Peringatan</th>
-                                <th>Warna</th>
-                                <th>Status</th>
-                                <th class="no-print" style="width: 250px;">Aksi</th>
+                                <th>No</th>
+                                <th>Nama Wilayah / Stasi</th>
+                                <th>KK</th>
+                                <th>Laki-laki</th>
+                                <th>Perempuan</th>
+                                <th>Jumlah Jiwa</th>
+                                <th class="no-print">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="liturgies-table-body"></tbody>
+                        <tbody id="stats-table-body"></tbody>
+                        <tfoot id="stats-table-footer"></tfoot>
                     </table>
                 </div>
             </div>
@@ -125,84 +129,43 @@
     <!-- MODAL UNTUK PROGRAM KERJA -->
     <div id="program-modal" class="modal-overlay hidden no-print">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="program-modal-title">Tambah Program Kerja Baru</h2>
-                <button class="close-modal-btn" data-target="program-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="program-form">
-                    <div class="form-section">
-                        <div class="input-group"><label for="modal-bidang">Bidang Program</label><select id="modal-bidang" required></select></div>
-                        <div class="input-group"><label for="modal-sub-bidang">Judul Sub-Kelompok</label><select id="modal-sub-bidang" required></select></div><hr>
-                        <div class="input-group"><label for="modal-lokasi">Pusat Paroki / Stasi</label><select id="modal-lokasi" required><option value="" disabled selected>Pilih Lokasi...</option><option value="Pusat Paroki">Pusat Paroki</option><option value="Stasi">Stasi</option></select></div>
-                        <div class="input-group"><label for="modal-nama-unit">Wilayah Rohani / Kelompok Kategorial</label><input type="text" id="modal-nama-unit" required></div>
-                        <div class="input-group"><label for="modal-nama_kegiatan">Nama Program / Kegiatan</label><input type="text" id="modal-nama_kegiatan" required></div>
-                        <div class="input-group"><label for="modal-sasaran">Sasaran</label><input type="text" id="modal-sasaran"></div>
-                        <div class="input-group"><label for="modal-indikator">Indikator Keberhasilan</label><input type="text" id="modal-indikator"></div>
-                        <div class="input-group"><label for="modal-model">Model</label><input type="text" id="modal-model"></div>
-                        <div class="input-group"><label for="modal-materi">Materi</label><input type="text" id="modal-materi"></div>
-                        <div class="input-group"><label for="modal-waktu">Tempat & Waktu</label><input type="text" id="modal-waktu"></div>
-                        <div class="input-group"><label for="modal-pic">PIC</label><input type="text" id="modal-pic"></div>
-                    </div>
-                    <div class="form-section">
-                        <h3>Sumber Dana</h3>
-                        <div class="input-group"><label for="modal-sumber-dana-kas">Untuk Kolom "Kas Paroki"</label><select id="modal-sumber-dana-kas"><option value="-">-</option><option value="Kas Paroki">Kas Paroki</option><option value="Kas Stasi">Kas Stasi</option><option value="Kas KBK">Kas KBK</option><option value="Kas WR">Kas WR</option><option value="Kas Sonar">Kas Sonar</option><option value="Kas OMK">Kas OMK</option><option value="DPP">DPP</option><option value="KK">KK</option><option value="KK DPP">KK DPP</option><option value="KK Kategorial">KK Kategorial</option><option value="KK Sekami">KK Sekami</option><option value="KK Stasi">KK Stasi</option><option value="KK PSE">KK PSE</option><option value="KK KS">KK KS</option><option value="KK WKRI">KK WKRI</option><option value="KK Katekese">KK Katekese</option><option value="Pencatatan Laporan">Pencatatan Laporan</option></select></div>
-                        <div class="input-group"><label for="modal-sumber-dana-swadaya">Untuk Kolom "Swadaya"</label><select id="modal-sumber-dana-swadaya"><option value="-">-</option><option value="Swadaya">Swadaya</option><option value="Kas Stasi">Kas Stasi</option><option value="Kas KBK">Kas KBK</option><option value="Kas WR">Kas WR</option><option value="Kas Sonar">Kas Sonar</option><option value="Kas OMK">Kas OMK</option><option value="DPP">DPP</option><option value="KK">KK</option><option value="KK DPP">KK DPP</option><option value="KK Kategorial">KK Kategorial</option><option value="KK Sekami">KK Sekami</option><option value="KK Stasi">KK Stasi</option><option value="KK PSE">KK PSE</option><option value="KK KS">KK KS</option><option value="KK WKRI">KK WKRI</option><option value="KK Katekese">KK Katekese</option><option value="Pencatatan Laporan">Pencatatan Laporan</option></select></div>
-                    </div>
-                    <div class="form-section">
-                        <h3>Rincian Anggaran</h3><div id="modal-anggaran-items-container"></div>
-                        <button type="button" id="modal-add-anggaran-btn" class="add-btn"><i class="bi bi-plus-circle"></i> Tambah Rincian</button>
-                        <div class="total-anggaran"><strong>Total Anggaran: <span id="modal-total-anggaran-display">Rp 0</span></strong></div>
-                    </div>
-                    <div class="submit-section">
-                        <button type="submit" class="submit-btn">Simpan Program</button>
-                        <p id="program-form-message" class="form-message"></p>
-                    </div>
-                </form>
-            </div>
+            <div class="modal-header"><h2 id="program-modal-title">Tambah Program Kerja Baru</h2><button class="close-modal-btn" data-target="program-modal">&times;</button></div>
+            <div class="modal-body"><form id="program-form">
+                <div class="form-section"><div class="input-group"><label for="modal-bidang">Bidang Program</label><select id="modal-bidang" required></select></div><div class="input-group"><label for="modal-sub-bidang">Judul Sub-Kelompok</label><select id="modal-sub-bidang" required></select></div><hr><div class="input-group"><label for="modal-lokasi">Pusat Paroki / Stasi</label><select id="modal-lokasi" required><option value="" disabled selected>Pilih Lokasi...</option><option value="Pusat Paroki">Pusat Paroki</option><option value="Stasi">Stasi</option></select></div><div class="input-group"><label for="modal-nama-unit">Wilayah Rohani / Kelompok Kategorial</label><input type="text" id="modal-nama-unit" required></div><div class="input-group"><label for="modal-nama_kegiatan">Nama Program / Kegiatan</label><input type="text" id="modal-nama_kegiatan" required></div><div class="input-group"><label for="modal-sasaran">Sasaran</label><input type="text" id="modal-sasaran"></div><div class="input-group"><label for="modal-indikator">Indikator Keberhasilan</label><input type="text" id="modal-indikator"></div><div class="input-group"><label for="modal-model">Model</label><input type="text" id="modal-model"></div><div class="input-group"><label for="modal-materi">Materi</label><input type="text" id="modal-materi"></div><div class="input-group"><label for="modal-waktu">Tempat & Waktu</label><input type="text" id="modal-waktu"></div><div class="input-group"><label for="modal-pic">PIC</label><input type="text" id="modal-pic"></div></div>
+                <div class="form-section"><h3>Sumber Dana</h3><div class="input-group"><label for="modal-sumber-dana-kas">Untuk Kolom "Kas Paroki"</label><select id="modal-sumber-dana-kas"><option value="-">-</option><option value="Kas Paroki">Kas Paroki</option><option value="Kas Stasi">Kas Stasi</option><option value="Kas KBK">Kas KBK</option><option value="Kas WR">Kas WR</option><option value="Kas Sonar">Kas Sonar</option><option value="Kas OMK">Kas OMK</option><option value="DPP">DPP</option><option value="KK">KK</option><option value="KK DPP">KK DPP</option><option value="KK Kategorial">KK Kategorial</option><option value="KK Sekami">KK Sekami</option><option value="KK Stasi">KK Stasi</option><option value="KK PSE">KK PSE</option><option value="KK KS">KK KS</option><option value="KK WKRI">KK WKRI</option><option value="KK Katekese">KK Katekese</option><option value="Pencatatan Laporan">Pencatatan Laporan</option></select></div><div class="input-group"><label for="modal-sumber-dana-swadaya">Untuk Kolom "Swadaya"</label><select id="modal-sumber-dana-swadaya"><option value="-">-</option><option value="Swadaya">Swadaya</option><option value="Kas Stasi">Kas Stasi</option><option value="Kas KBK">Kas KBK</option><option value="Kas WR">Kas WR</option><option value="Kas Sonar">Kas Sonar</option><option value="Kas OMK">Kas OMK</option><option value="DPP">DPP</option><option value="KK">KK</option><option value="KK DPP">KK DPP</option><option value="KK Kategorial">KK Kategorial</option><option value="KK Sekami">KK Sekami</option><option value="KK Stasi">KK Stasi</option><option value="KK PSE">KK PSE</option><option value="KK KS">KK KS</option><option value="KK WKRI">KK WKRI</option><option value="KK Katekese">KK Katekese</option><option value="Pencatatan Laporan">Pencatatan Laporan</option></select></div></div>
+                <div class="form-section"><h3>Rincian Anggaran</h3><div id="modal-anggaran-items-container"></div><button type="button" id="modal-add-anggaran-btn" class="add-btn"><i class="bi bi-plus-circle"></i> Tambah Rincian</button><div class="total-anggaran"><strong>Total Anggaran: <span id="modal-total-anggaran-display">Rp 0</span></strong></div></div>
+                <div class="submit-section"><button type="submit" class="submit-btn">Simpan Program</button><p id="program-form-message" class="form-message"></p></div>
+            </form></div>
         </div>
     </div>
 
     <!-- MODAL UNTUK PENGUMUMAN -->
     <div id="announcement-modal" class="modal-overlay hidden no-print">
         <div class="modal-content" style="max-width: 600px;">
-            <div class="modal-header">
-                <h2 id="announcement-modal-title">Tambah Pengumuman Baru</h2>
-                <button class="close-modal-btn" data-target="announcement-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="announcement-form">
-                    <div class="input-group"><label for="ann-judul">Judul Pengumuman</label><input type="text" id="ann-judul" required></div>
-                    <div class="input-group"><label for="ann-tanggal">Tanggal</label><input type="text" id="ann-tanggal" placeholder="Contoh: 25 Desember 2025"></div>
-                    <div class="input-group"><label for="ann-jam">Jam</label><input type="text" id="ann-jam" placeholder="Contoh: 19:00 WITA"></div>
-                    <div class="input-group"><label for="ann-lokasi">Lokasi</label><input type="text" id="ann-lokasi"></div>
-                    <div class="input-group"><label for="ann-catatan">Catatan / Keterangan</label><textarea id="ann-catatan" rows="4"></textarea></div>
-                    <div class="submit-section"><button type="submit" class="submit-btn">Simpan Pengumuman</button><p id="announcement-form-message" class="form-message"></p></div>
-                </form>
-            </div>
+             <div class="modal-header"><h2 id="announcement-modal-title">Tambah Pengumuman Baru</h2><button class="close-modal-btn" data-target="announcement-modal">&times;</button></div>
+             <div class="modal-body"><form id="announcement-form"><div class="input-group"><label for="ann-judul">Judul Pengumuman</label><input type="text" id="ann-judul" required></div><div class="input-group"><label for="ann-tanggal">Tanggal</label><input type="text" id="ann-tanggal" placeholder="Contoh: 25 Desember 2025"></div><div class="input-group"><label for="ann-jam">Jam</label><input type="text" id="ann-jam" placeholder="Contoh: 19:00 WITA"></div><div class="input-group"><label for="ann-lokasi">Lokasi</label><input type="text" id="ann-lokasi"></div><div class="input-group"><label for="ann-catatan">Catatan / Keterangan</label><textarea id="ann-catatan" rows="4"></textarea></div><div class="submit-section"><button type="submit" class="submit-btn">Simpan Pengumuman</button><p id="announcement-form-message" class="form-message"></p></div></form></div>
         </div>
     </div>
     
-    <!-- MODAL BARU: KHUSUS UNTUK LITURGI -->
+    <!-- MODAL UNTUK LITURGI -->
     <div id="liturgy-modal" class="modal-overlay hidden no-print">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="liturgy-modal-title">Tambah Liturgi Baru</h2>
-                <button class="close-modal-btn" data-target="liturgy-modal">&times;</button>
-            </div>
+            <div class="modal-header"><h2 id="liturgy-modal-title">Tambah Liturgi Baru</h2><button class="close-modal-btn" data-target="liturgy-modal">&times;</button></div>
+            <div class="modal-body"><form id="liturgy-form"><div class="input-group"><label for="lit-tanggal">Tanggal</label><input type="text" id="lit-tanggal" placeholder="Contoh: 29 Juni 2025" required></div><div class="input-group"><label for="lit-peringatan">Peringatan / Hari Raya</label><input type="text" id="lit-peringatan" required></div><div class="input-group"><label for="lit-warna">Warna Liturgi</label><input type="text" id="lit-warna" placeholder="Contoh: Merah"></div><hr><div class="input-group"><label for="lit-bacaan1">Bacaan 1</label><input type="text" id="lit-bacaan1"></div><div class="input-group"><label for="lit-bacaan2">Bacaan 2</label><input type="text" id="lit-bacaan2"></div><div class="input-group"><label for="lit-mazmur">Mazmur</label><input type="text" id="lit-mazmur"></div><div class="input-group"><label for="lit-injil">Injil</label><input type="text" id="lit-injil"></div><hr><div class="input-group"><label for="lit-renungan">Renungan</label><textarea id="lit-renungan" rows="8"></textarea></div><div class="submit-section"><button type="submit" class="submit-btn">Simpan Liturgi</button><p id="liturgy-form-message" class="form-message"></p></div></form></div>
+        </div>
+    </div>
+    
+    <!-- MODAL EDIT STATISTIK -->
+    <div id="stat-modal" class="modal-overlay hidden no-print">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header"><h2 id="stat-modal-title">Edit Statistik</h2><button class="close-modal-btn" data-target="stat-modal">&times;</button></div>
             <div class="modal-body">
-                <form id="liturgy-form">
-                    <div class="input-group"><label for="lit-tanggal">Tanggal</label><input type="text" id="lit-tanggal" placeholder="Contoh: 29 Juni 2025" required></div>
-                    <div class="input-group"><label for="lit-peringatan">Peringatan / Hari Raya</label><input type="text" id="lit-peringatan" required></div>
-                    <div class="input-group"><label for="lit-warna">Warna Liturgi</label><input type="text" id="lit-warna" placeholder="Contoh: Merah"></div>
-                    <hr>
-                    <div class="input-group"><label for="lit-bacaan1">Bacaan 1</label><input type="text" id="lit-bacaan1"></div>
-                    <div class="input-group"><label for="lit-bacaan2">Bacaan 2</label><input type="text" id="lit-bacaan2"></div>
-                    <div class="input-group"><label for="lit-mazmur">Mazmur</label><input type="text" id="lit-mazmur"></div>
-                    <div class="input-group"><label for="lit-injil">Injil</label><input type="text" id="lit-injil"></div>
-                    <hr>
-                    <div class="input-group"><label for="lit-renungan">Renungan</label><textarea id="lit-renungan" rows="8"></textarea></div>
-                    <div class="submit-section"><button type="submit" class="submit-btn">Simpan Liturgi</button><p id="liturgy-form-message" class="form-message"></p></div>
+                <form id="stat-form">
+                    <input type="hidden" id="stat-doc-id">
+                    <div class="input-group"><label for="stat-kk">Jumlah KK</label><input type="number" id="stat-kk" required></div>
+                    <div class="input-group"><label for="stat-laki">Jumlah Laki-laki</label><input type="number" id="stat-laki" required></div>
+                    <div class="input-group"><label for="stat-perempuan">Jumlah Perempuan</label><input type="number" id="stat-perempuan" required></div>
+                    <div class="submit-section"><button type="submit" class="submit-btn">Simpan Perubahan</button><p id="stat-form-message" class="form-message"></p></div>
                 </form>
             </div>
         </div>

@@ -30,38 +30,13 @@ const programStruktur = {
 const welcomeTitle = document.getElementById('welcome-title');
 const logoutButton = document.getElementById('logout-button');
 const printBtn = document.getElementById('print-btn');
-
-// Program Kerja
-const programsTableBody = document.getElementById('programs-table-body');
-const tableFooter = document.getElementById('table-footer');
-const addProgramBtn = document.getElementById('add-program-btn');
 const programModal = document.getElementById('program-modal');
-const programModalTitle = document.getElementById('program-modal-title');
-const programForm = document.getElementById('program-form');
-const modalBidang = document.getElementById('modal-bidang');
-const modalSubBidang = document.getElementById('modal-sub-bidang');
-const modalAddAnggaranBtn = document.getElementById('modal-add-anggaran-btn');
-const modalAnggaranContainer = document.getElementById('modal-anggaran-items-container');
-const modalTotalAnggaranDisplay = document.getElementById('modal-total-anggaran-display');
-const programFormMessage = document.getElementById('program-form-message');
-let currentEditProgramId = null;
-
-// Pengumuman
-const announcementsTableBody = document.getElementById('announcements-table-body');
-const addAnnouncementBtn = document.getElementById('add-announcement-btn');
 const announcementModal = document.getElementById('announcement-modal');
-const announcementModalTitle = document.getElementById('announcement-modal-title');
-const announcementForm = document.getElementById('announcement-form');
-const announcementFormMessage = document.getElementById('announcement-form-message');
-let currentEditAnnouncementId = null;
-
-// Liturgi
-const liturgiesTableBody = document.getElementById('liturgies-table-body');
-const addLiturgyBtn = document.getElementById('add-liturgy-btn');
 const liturgyModal = document.getElementById('liturgy-modal');
-const liturgyModalTitle = document.getElementById('liturgy-modal-title');
-const liturgyForm = document.getElementById('liturgy-form');
-const liturgyFormMessage = document.getElementById('liturgy-form-message');
+const statModal = document.getElementById('stat-modal');
+const pastorListContainer = document.getElementById('pastor-list-container');
+let currentEditProgramId = null;
+let currentEditAnnouncementId = null;
 let currentEditLiturgyId = null;
 
 // LOGIKA NAVIGASI TAB
@@ -85,9 +60,12 @@ auth.onAuthStateChanged(async (user) => {
             loadAllPrograms();
             loadAllAnnouncements();
             loadAllLiturgies();
+            loadAllPastors();
+            loadParishStats();
             setupDropdowns();
         } else {
             alert('Anda tidak memiliki hak akses untuk halaman ini.');
+            auth.signOut();
             window.location.href = 'login.html';
         }
     } else {
@@ -97,6 +75,8 @@ auth.onAuthStateChanged(async (user) => {
 
 // --- FUNGSI-FUNGSI CRUD PROGRAM KERJA ---
 const setupDropdowns = () => {
+    const modalBidang = document.getElementById('modal-bidang');
+    const modalSubBidang = document.getElementById('modal-sub-bidang');
     modalBidang.innerHTML = '<option value="" disabled selected>Pilih Bidang...</option>';
     Object.keys(programStruktur).forEach(bidang => {
         const option = document.createElement('option');
@@ -119,6 +99,8 @@ const setupDropdowns = () => {
 };
 
 const loadAllPrograms = async () => {
+    const programsTableBody = document.getElementById('programs-table-body');
+    const tableFooter = document.getElementById('table-footer');
     programsTableBody.innerHTML = `<tr><td colspan="17" style="text-align:center;">Memuat data program kerja...</td></tr>`;
     tableFooter.innerHTML = '';
     try {
@@ -152,18 +134,18 @@ const loadAllPrograms = async () => {
                     grandTotal += program.total_anggaran || 0;
                     const hasAnggaran = program.anggaran && program.anggaran.length > 0;
                     const rowCount = hasAnggaran ? program.anggaran.length : 1;
-                    html += `<tr data-id="${program.id}"><td rowspan="${rowCount}">${program.pusat_paroki_stasi||'-'}</td><td rowspan="${rowCount}">${program.nama_unit||'-'}</td><td rowspan="${rowCount}">${program.nama_kegiatan||'-'}</td><td rowspan="${rowCount}">${program.sasaran||'-'}</td><td rowspan="${rowCount}">${program.indikator||'-'}</td><td rowspan="${rowCount}">${program.model_materi||'-'}</td><td rowspan="${rowCount}">${program.materi||'-'}</td><td rowspan="${rowCount}">${program.tempat_waktu||'-'}</td><td rowspan="${rowCount}">${program.pic||'-'}</td><td>${hasAnggaran?(program.anggaran[0].perincian||'-'):'-'}</td><td>${hasAnggaran?(program.anggaran[0].volume||'-'):'-'}</td><td>${hasAnggaran?(program.anggaran[0].satuan||'-'):'-'}</td><td>${hasAnggaran?(program.anggaran[0].harga_satuan||0).toLocaleString('id-ID'):'-'}</td><td>${hasAnggaran?(program.anggaran[0].jumlah||0).toLocaleString('id-ID'):'-'}</td><td rowspan="${rowCount}">${(program.total_anggaran||0).toLocaleString('id-ID')}</td><td rowspan="${rowCount}">${program.sumber_dana_kas||'-'}</td><td rowspan="${rowCount}">${program.sumber_dana_swadaya||'-'}</td><td rowspan="${rowCount}" class="no-print"><button class="action-btn-sm edit edit-program">Edit</button><button class="action-btn-sm delete delete-program">Hapus</button></td></tr>`;
+                    html += `<tr data-id="${program.id}"><td rowspan="${rowCount}">${program.pusat_paroki_stasi||'-'}</td><td rowspan="${rowCount}">${program.nama_unit||'-'}</td><td rowspan="${rowCount}">${program.nama_kegiatan||'-'}</td><td rowspan="${rowCount}">${program.sasaran||'-'}</td><td rowspan="${rowCount}">${program.indikator||'-'}</td><td rowspan="${rowCount}">${program.model_materi||'-'}</td><td rowspan="${rowCount}">${program.materi||'-'}</td><td rowspan="${rowCount}">${program.tempat_waktu||'-'}</td><td rowspan="${rowCount}">${program.pic||'-'}</td><td>${hasAnggaran?(program.anggaran[0].perincian||'-'):'-'}</td><td>${hasAnggaran?(program.anggaran[0].volume||'-'):'-'}</td><td>${hasAnggaran?(program.anggaran[0].satuan||'-'):'-'}</td><td>${hasAnggaran?('Rp ' + (program.anggaran[0].harga_satuan||0).toLocaleString('id-ID')):'-'}</td><td>${hasAnggaran?('Rp ' + (program.anggaran[0].jumlah||0).toLocaleString('id-ID')):'-'}</td><td rowspan="${rowCount}">${'Rp ' + (program.total_anggaran||0).toLocaleString('id-ID')}</td><td rowspan="${rowCount}">${program.sumber_dana_kas||'-'}</td><td rowspan="${rowCount}">${program.sumber_dana_swadaya||'-'}</td><td rowspan="${rowCount}" class="no-print"><button class="action-btn-sm edit edit-program">Edit</button><button class="action-btn-sm delete delete-program">Hapus</button></td></tr>`;
                     if (hasAnggaran && program.anggaran.length > 1) {
                         for (let i = 1; i < program.anggaran.length; i++) {
                             const item = program.anggaran[i];
-                            html += `<tr data-id="${program.id}"><td>${item.perincian||'-'}</td><td>${item.volume||'-'}</td><td>${item.satuan||'-'}</td><td>${(item.harga_satuan||0).toLocaleString('id-ID')}</td><td>${(item.jumlah||0).toLocaleString('id-ID')}</td></tr>`;
+                            html += `<tr data-id="${program.id}"><td>${item.perincian||'-'}</td><td>${item.volume||'-'}</td><td>${item.satuan||'-'}</td><td>${'Rp ' + (item.harga_satuan||0).toLocaleString('id-ID')}</td><td>${'Rp ' + (item.jumlah||0).toLocaleString('id-ID')}</td></tr>`;
                         }
                     }
                 });
             }
         }
         programsTableBody.innerHTML = html;
-        tableFooter.innerHTML = `<tr><td colspan="14" style="text-align:right; font-weight:bold;">JUMLAH BUDGET</td><td style="font-weight:bold;">${grandTotal.toLocaleString('id-ID')}</td><td colspan="2"></td><td class="no-print"></td></tr>`;
+        tableFooter.innerHTML = `<tr><td colspan="14" style="text-align:right; font-weight:bold;">JUMLAH BUDGET</td><td style="font-weight:bold;">${'Rp ' + grandTotal.toLocaleString('id-ID')}</td><td colspan="2"></td><td class="no-print"></td></tr>`;
     } catch (error) {
         console.error("Error memuat program kerja:", error);
         programsTableBody.innerHTML = `<tr><td colspan="17" style="text-align:center;">Gagal memuat data. Silakan cek konsol (F12).</td></tr>`;
@@ -171,6 +153,7 @@ const loadAllPrograms = async () => {
 };
 
 const addModalAnggaranRow = (item = {}) => {
+    const modalAnggaranContainer = document.getElementById('modal-anggaran-items-container');
     const div = document.createElement('div');
     div.classList.add('anggaran-item');
     div.innerHTML = `<input type="text" placeholder="Perincian" class="anggaran-perincian" value="${item.perincian || ''}" required> <input type="number" placeholder="Vol" class="anggaran-vol" value="${item.volume || 1}"> <input type="text" placeholder="Satuan" class="anggaran-satuan" value="${item.satuan || 'Paket'}"> <input type="number" placeholder="Harga Satuan" class="anggaran-harga" value="${item.harga_satuan || ''}"> <input type="text" placeholder="Jumlah" class="anggaran-jumlah" value="Rp ${(item.jumlah || 0).toLocaleString('id-ID')}" readonly> <button type="button" class="remove-btn">&times;</button>`;
@@ -179,30 +162,30 @@ const addModalAnggaranRow = (item = {}) => {
 
 const calculateModalTotal = () => {
     let total = 0;
-    modalAnggaranContainer.querySelectorAll('.anggaran-item').forEach(item => {
+    document.getElementById('modal-anggaran-items-container').querySelectorAll('.anggaran-item').forEach(item => {
         const vol = item.querySelector('.anggaran-vol').value || 0;
         const harga = item.querySelector('.anggaran-harga').value || 0;
         const jumlah = vol * harga;
         item.querySelector('.anggaran-jumlah').value = `Rp ${jumlah.toLocaleString('id-ID')}`;
         total += jumlah;
     });
-    modalTotalAnggaranDisplay.textContent = `Rp ${total.toLocaleString('id-ID')}`;
+    document.getElementById('modal-total-anggaran-display').textContent = `Rp ${total.toLocaleString('id-ID')}`;
 };
 
-addProgramBtn.addEventListener('click', () => {
+document.getElementById('add-program-btn').addEventListener('click', () => {
     currentEditProgramId = null;
-    programModalTitle.textContent = 'Tambah Program Kerja Baru';
-    programForm.reset();
-    modalSubBidang.innerHTML = '<option value="" disabled selected>Pilih Bidang terlebih dahulu...</option>';
-    modalSubBidang.disabled = true;
-    modalAnggaranContainer.innerHTML = '';
+    document.getElementById('program-modal-title').textContent = 'Tambah Program Kerja Baru';
+    document.getElementById('program-form').reset();
+    document.getElementById('modal-sub-bidang').innerHTML = '<option value="" disabled selected>Pilih Bidang terlebih dahulu...</option>';
+    document.getElementById('modal-sub-bidang').disabled = true;
+    document.getElementById('modal-anggaran-items-container').innerHTML = '';
     addModalAnggaranRow();
     calculateModalTotal();
-    programFormMessage.textContent = '';
+    document.getElementById('program-form-message').textContent = '';
     programModal.classList.remove('hidden');
 });
 
-programsTableBody.addEventListener('click', async (e) => {
+document.getElementById('programs-table-body').addEventListener('click', async (e) => {
     const target = e.target;
     const row = target.closest('tr');
     if (!row) return;
@@ -218,10 +201,10 @@ programsTableBody.addEventListener('click', async (e) => {
         if (doc.exists) {
             const program = doc.data();
             currentEditProgramId = docId;
-            programModalTitle.textContent = 'Edit Program Kerja';
-            modalBidang.value = program.bidang || '';
-            modalBidang.dispatchEvent(new Event('change'));
-            setTimeout(() => { modalSubBidang.value = program.sub_bidang_title || ''; }, 100);
+            document.getElementById('program-modal-title').textContent = 'Edit Program Kerja';
+            document.getElementById('modal-bidang').value = program.bidang || '';
+            document.getElementById('modal-bidang').dispatchEvent(new Event('change'));
+            setTimeout(() => { document.getElementById('modal-sub-bidang').value = program.sub_bidang_title || ''; }, 100);
             document.getElementById('modal-lokasi').value = program.pusat_paroki_stasi || '';
             document.getElementById('modal-nama-unit').value = program.nama_unit || '';
             document.getElementById('modal-nama_kegiatan').value = program.nama_kegiatan || '';
@@ -233,24 +216,25 @@ programsTableBody.addEventListener('click', async (e) => {
             document.getElementById('modal-pic').value = program.pic || '';
             document.getElementById('modal-sumber-dana-kas').value = program.sumber_dana_kas || '-';
             document.getElementById('modal-sumber-dana-swadaya').value = program.sumber_dana_swadaya || '-';
-            modalAnggaranContainer.innerHTML = '';
+            document.getElementById('modal-anggaran-items-container').innerHTML = '';
             if (program.anggaran && program.anggaran.length > 0) {
                 program.anggaran.forEach(item => addModalAnggaranRow(item));
             } else {
                 addModalAnggaranRow();
             }
             calculateModalTotal();
-            programFormMessage.textContent = '';
+            document.getElementById('program-form-message').textContent = '';
             programModal.classList.remove('hidden');
         }
     }
 });
 
-programForm.addEventListener('submit', async (e) => {
+document.getElementById('program-form').addEventListener('submit', async (e) => {
     e.preventDefault();
+    const programFormMessage = document.getElementById('program-form-message');
     programFormMessage.textContent = 'Menyimpan...';
     const rincianAnggaran = [];
-    modalAnggaranContainer.querySelectorAll('.anggaran-item').forEach(item => {
+    document.getElementById('modal-anggaran-items-container').querySelectorAll('.anggaran-item').forEach(item => {
         const perincian = item.querySelector('.anggaran-perincian').value;
         if (perincian) {
             rincianAnggaran.push({
@@ -263,8 +247,8 @@ programForm.addEventListener('submit', async (e) => {
         }
     });
     const programData = {
-        bidang: modalBidang.value,
-        sub_bidang_title: modalSubBidang.value,
+        bidang: document.getElementById('modal-bidang').value,
+        sub_bidang_title: document.getElementById('modal-sub-bidang').value,
         pusat_paroki_stasi: document.getElementById('modal-lokasi').value,
         nama_unit: document.getElementById('modal-nama-unit').value,
         nama_kegiatan: document.getElementById('modal-nama_kegiatan').value,
@@ -277,9 +261,9 @@ programForm.addEventListener('submit', async (e) => {
         sumber_dana_kas: document.getElementById('modal-sumber-dana-kas').value,
         sumber_dana_swadaya: document.getElementById('modal-sumber-dana-swadaya').value,
         anggaran: rincianAnggaran,
-        total_anggaran: parseFloat(modalTotalAnggaranDisplay.textContent.replace(/[^0-9]/g, '')),
+        total_anggaran: parseFloat(document.getElementById('modal-total-anggaran-display').textContent.replace(/[^0-9]/g, '')),
     };
-
+    
     try {
         if (currentEditProgramId) {
             await db.collection('programs').doc(currentEditProgramId).update(programData);
@@ -299,13 +283,14 @@ programForm.addEventListener('submit', async (e) => {
     }
 });
 
-modalAnggaranContainer.addEventListener('click', (e) => { if (e.target.classList.contains('remove-btn')) { e.target.parentElement.remove(); calculateModalTotal(); }});
-modalAnggaranContainer.addEventListener('input', calculateModalTotal);
-modalAddAnggaranBtn.addEventListener('click', () => addModalAnggaranRow());
+document.getElementById('modal-anggaran-items-container').addEventListener('click', (e) => { if (e.target.classList.contains('remove-btn')) { e.target.parentElement.remove(); calculateModalTotal(); }});
+document.getElementById('modal-anggaran-items-container').addEventListener('input', calculateModalTotal);
+document.getElementById('modal-add-anggaran-btn').addEventListener('click', () => addModalAnggaranRow());
 
 
 // --- FUNGSI-FUNGSI CRUD PENGUMUMAN ---
 const loadAllAnnouncements = async () => {
+    const announcementsTableBody = document.getElementById('announcements-table-body');
     announcementsTableBody.innerHTML = `<tr><td colspan="5" style="text-align:center;">Memuat data pengumuman...</td></tr>`;
     try {
         const snapshot = await db.collection('announcements').orderBy('createdAt', 'desc').get();
@@ -319,15 +304,15 @@ const loadAllAnnouncements = async () => {
     }
 };
 
-addAnnouncementBtn.addEventListener('click', () => {
+document.getElementById('add-announcement-btn').addEventListener('click', () => {
     currentEditAnnouncementId = null;
-    announcementModalTitle.textContent = 'Tambah Pengumuman Baru';
-    announcementForm.reset();
-    announcementFormMessage.textContent = '';
+    document.getElementById('announcement-modal-title').textContent = 'Tambah Pengumuman Baru';
+    document.getElementById('announcement-form').reset();
+    document.getElementById('announcement-form-message').textContent = '';
     announcementModal.classList.remove('hidden');
 });
 
-announcementsTableBody.addEventListener('click', async (e) => {
+document.getElementById('announcements-table-body').addEventListener('click', async (e) => {
     const target = e.target;
     const row = target.closest('tr');
     if (!row) return;
@@ -337,13 +322,13 @@ announcementsTableBody.addEventListener('click', async (e) => {
         if (doc.exists) {
             const ann = doc.data();
             currentEditAnnouncementId = docId;
-            announcementModalTitle.textContent = 'Edit Pengumuman';
+            document.getElementById('announcement-modal-title').textContent = 'Edit Pengumuman';
             document.getElementById('ann-judul').value = ann.judul || '';
             document.getElementById('ann-tanggal').value = ann.tanggal || '';
             document.getElementById('ann-jam').value = ann.jam || '';
             document.getElementById('ann-lokasi').value = ann.lokasi || '';
             document.getElementById('ann-catatan').value = ann.catatan || '';
-            announcementFormMessage.textContent = '';
+            document.getElementById('announcement-form-message').textContent = '';
             announcementModal.classList.remove('hidden');
         }
     }
@@ -355,8 +340,9 @@ announcementsTableBody.addEventListener('click', async (e) => {
     }
 });
 
-announcementForm.addEventListener('submit', async (e) => {
+document.getElementById('announcement-form').addEventListener('submit', async (e) => {
     e.preventDefault();
+    const announcementFormMessage = document.getElementById('announcement-form-message');
     announcementFormMessage.textContent = 'Menyimpan...';
     const announcementData = {
         judul: document.getElementById('ann-judul').value,
@@ -386,6 +372,7 @@ announcementForm.addEventListener('submit', async (e) => {
 
 // --- FUNGSI-FUNGSI CRUD LITURGI ---
 const loadAllLiturgies = async () => {
+    const liturgiesTableBody = document.getElementById('liturgies-table-body');
     liturgiesTableBody.innerHTML = `<tr><td colspan="5" style="text-align:center;">Memuat data liturgi...</td></tr>`;
     try {
         const snapshot = await db.collection('liturgies').orderBy('createdAt', 'desc').get();
@@ -393,31 +380,30 @@ const loadAllLiturgies = async () => {
             liturgiesTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Belum ada data liturgi.</td></tr>';
             return;
         }
-        let html = '';
-        snapshot.forEach(doc => {
+        liturgiesTableBody.innerHTML = snapshot.docs.map(doc => {
             const lit = doc.data();
             const statusClass = lit.isCurrent ? 'active' : 'archived';
             const statusText = lit.isCurrent ? 'Aktif' : 'Arsip';
             const makeCurrentBtnDisabled = lit.isCurrent ? 'disabled' : '';
-            html += `<tr data-id="${doc.id}"><td>${lit.tanggal||'-'}</td><td>${lit.peringatan||'-'}</td><td>${lit.warna||'-'}</td><td><span class="status-badge ${statusClass}">${statusText}</span></td><td class="no-print"><button class="action-btn-sm edit make-current-btn" data-id="${doc.id}" ${makeCurrentBtnDisabled}>Jadikan Aktif</button><button class="action-btn-sm edit edit-liturgy">Edit</button><button class="action-btn-sm delete delete-liturgy">Hapus</button></td></tr>`;
-        });
-        liturgiesTableBody.innerHTML = html;
+            return `<tr data-id="${doc.id}"><td>${lit.tanggal||'-'}</td><td>${lit.peringatan||'-'}</td><td>${lit.warna||'-'}</td><td><span class="status-badge ${statusClass}">${statusText}</span></td><td class="no-print"><button class="action-btn-sm edit make-current-btn" ${makeCurrentBtnDisabled}>Jadikan Aktif</button><button class="action-btn-sm edit edit-liturgy">Edit</button><button class="action-btn-sm delete delete-liturgy">Hapus</button></td></tr>`;
+        }).join('');
     } catch (error) {
         console.error("Error memuat liturgi:", error);
         liturgiesTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Gagal memuat data.</td></tr>';
     }
 };
 
-addLiturgyBtn.addEventListener('click', () => {
+document.getElementById('add-liturgy-btn').addEventListener('click', () => {
     currentEditLiturgyId = null;
-    liturgyModalTitle.textContent = 'Tambah Liturgi Baru';
-    liturgyForm.reset();
-    liturgyFormMessage.textContent = '';
+    document.getElementById('liturgy-modal-title').textContent = 'Tambah Liturgi Baru';
+    document.getElementById('liturgy-form').reset();
+    document.getElementById('liturgy-form-message').textContent = '';
     liturgyModal.classList.remove('hidden');
 });
 
-liturgyForm.addEventListener('submit', async (e) => {
+document.getElementById('liturgy-form').addEventListener('submit', async (e) => {
     e.preventDefault();
+    const liturgyFormMessage = document.getElementById('liturgy-form-message');
     liturgyFormMessage.textContent = 'Menyimpan...';
     const liturgyData = {
         tanggal: document.getElementById('lit-tanggal').value,
@@ -448,7 +434,7 @@ liturgyForm.addEventListener('submit', async (e) => {
     }
 });
 
-liturgiesTableBody.addEventListener('click', async (e) => {
+document.getElementById('liturgies-table-body').addEventListener('click', async (e) => {
     const target = e.target;
     const row = target.closest('tr');
     if (!row) return;
@@ -458,7 +444,7 @@ liturgiesTableBody.addEventListener('click', async (e) => {
         if (doc.exists) {
             const lit = doc.data();
             currentEditLiturgyId = docId;
-            liturgyModalTitle.textContent = 'Edit Liturgi';
+            document.getElementById('liturgy-modal-title').textContent = 'Edit Liturgi';
             document.getElementById('lit-tanggal').value = lit.tanggal || '';
             document.getElementById('lit-peringatan').value = lit.peringatan || '';
             document.getElementById('lit-warna').value = lit.warna || '';
@@ -467,7 +453,7 @@ liturgiesTableBody.addEventListener('click', async (e) => {
             document.getElementById('lit-mazmur').value = lit.mazmur || '';
             document.getElementById('lit-injil').value = lit.injil || '';
             document.getElementById('lit-renungan').value = lit.renungan || '';
-            liturgyFormMessage.textContent = '';
+            document.getElementById('liturgy-form-message').textContent = '';
             liturgyModal.classList.remove('hidden');
         }
     }
@@ -493,12 +479,159 @@ liturgiesTableBody.addEventListener('click', async (e) => {
 });
 
 
+// --- FUNGSI MANAJEMEN KEHADIRAN PASTOR ---
+const loadAllPastors = async () => {
+    if (!pastorListContainer) return;
+    pastorListContainer.innerHTML = `<p>Memuat daftar pastor...</p>`;
+    try {
+        const snapshot = await db.collection('pastors').orderBy('order').get();
+        if (snapshot.empty) {
+            pastorListContainer.innerHTML = '<p>Belum ada data pastor di database. Silakan tambahkan manual di Firebase Console.</p>';
+            return;
+        }
+        pastorListContainer.innerHTML = snapshot.docs.map(doc => {
+            const pastor = doc.data();
+            const pastorId = doc.id;
+            return `<div class="pastor-management-card" data-id="${pastorId}"><img src="${pastor.photoUrl}" alt="Foto ${pastor.name}"><h5>${pastor.name}</h5><select class="pastor-status-select" data-id="${pastorId}"><option value="Di Tempat" ${pastor.status === 'Di Tempat' ? 'selected' : ''}>Di Tempat</option><option value="Pelayanan Luar" ${pastor.status === 'Pelayanan Luar' ? 'selected' : ''}>Pelayanan Luar</option><option value="Sakit" ${pastor.status === 'Sakit' ? 'selected' : ''}>Sakit</option><option value="Cuti/Libur" ${pastor.status === 'Cuti/Libur' ? 'selected' : ''}>Cuti/Libur</option></select><div class="status-update-feedback" id="feedback-${pastorId}"></div></div>`;
+        }).join('');
+    } catch (error) {
+        console.error("Error memuat data pastor:", error);
+        pastorListContainer.innerHTML = '<p class="text-danger">Gagal memuat data pastor.</p>';
+    }
+};
+
+if (pastorListContainer) {
+    pastorListContainer.addEventListener('change', async (e) => {
+        if (e.target.classList.contains('pastor-status-select')) {
+            const pastorId = e.target.dataset.id;
+            const newStatus = e.target.value;
+            const feedbackEl = document.getElementById(`feedback-${pastorId}`);
+            if (feedbackEl) feedbackEl.textContent = 'Menyimpan...';
+            try {
+                await db.collection('pastors').doc(pastorId).update({ status: newStatus });
+                if (feedbackEl) {
+                    feedbackEl.textContent = 'Status diperbarui!';
+                    setTimeout(() => { feedbackEl.textContent = ''; }, 2000);
+                }
+            } catch (error) {
+                console.error('Gagal memperbarui status pastor:', error);
+                if (feedbackEl) feedbackEl.textContent = 'Gagal!';
+            }
+        }
+    });
+}
+
+
+// --- FUNGSI MANAJEMEN STATISTIK UMAT ---
+const loadParishStats = async () => {
+    const statsTableBody = document.getElementById('stats-table-body');
+    const statsTableFooter = document.getElementById('stats-table-footer');
+    if (!statsTableBody || !statsTableFooter) return;
+
+    statsTableBody.innerHTML = `<tr><td colspan="7" style="text-align:center;">Memuat data statistik...</td></tr>`;
+    statsTableFooter.innerHTML = '';
+    
+    try {
+        const snapshot = await db.collection('parish_stats').orderBy('order').get();
+        
+        if (snapshot.empty) {
+            statsTableBody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding: 2rem;"><p>Data statistik umat belum ada di database.</p><button id="upload-initial-stats-btn" class="action-btn" style="background-color: #28a745; border-color: #28a745; color: white;"><i class="bi bi-upload"></i> Unggah Data Statistik Awal (28 Wilayah)</button><div id="upload-feedback" style="margin-top: 1rem; font-style: italic;"></div></td></tr>`;
+            document.getElementById('upload-initial-stats-btn').addEventListener('click', uploadInitialStats);
+            return;
+        }
+
+        let totalKK = 0, totalLaki = 0, totalPerempuan = 0;
+        statsTableBody.innerHTML = snapshot.docs.map(doc => {
+            const stat = doc.data();
+            const jumlahJiwa = stat.laki_laki + stat.perempuan;
+            totalKK += stat.kk;
+            totalLaki += stat.laki_laki;
+            totalPerempuan += stat.perempuan;
+            return `<tr data-id="${doc.id}"><td>${stat.order}</td><td>${stat.name}</td><td>${stat.kk}</td><td>${stat.laki_laki}</td><td>${stat.perempuan}</td><td>${jumlahJiwa}</td><td class="no-print"><button class="action-btn-sm edit edit-stat">Edit</button></td></tr>`;
+        }).join('');
+        
+        const totalJiwa = totalLaki + totalPerempuan;
+        statsTableFooter.innerHTML = `<tr style="font-weight: bold; background-color: #e6f2ff;"><td colspan="2">JUMLAH</td><td>${totalKK}</td><td>${totalLaki}</td><td>${totalPerempuan}</td><td>${totalJiwa}</td><td class="no-print"></td></tr>`;
+
+    } catch (error) {
+        console.error("Error memuat statistik umat:", error);
+        statsTableBody.innerHTML = `<tr><td colspan="7" style="text-align:center;">Gagal memuat data statistik. Error: ${error.message}</td></tr>`;
+    }
+};
+
+const uploadInitialStats = async () => {
+    const uploadBtn = document.getElementById('upload-initial-stats-btn');
+    const feedbackEl = document.getElementById('upload-feedback');
+    if (!confirm('Apakah Anda yakin ingin mengunggah 28 data statistik awal? Tindakan ini hanya boleh dilakukan satu kali.')) return;
+
+    uploadBtn.disabled = true;
+    feedbackEl.textContent = 'Memulai proses unggah... Ini mungkin perlu beberapa saat.';
+
+    const parishStatsData = [
+        { order: 1, name: 'St. Fransiskus Asisi Sinisir', kk: 23, laki_laki: 41, perempuan: 30 }, { order: 2, name: 'St. Dominikus Sinisir', kk: 22, laki_laki: 28, perempuan: 31 }, { order: 3, name: 'St. Ignatius Sinisir', kk: 20, laki_laki: 24, perempuan: 25 }, { order: 4, name: 'Sta. Skolastika Sinisir', kk: 26, laki_laki: 39, perempuan: 32 }, { order: 5, name: 'St. Vincensius Sinisir', kk: 20, laki_laki: 28, perempuan: 28 }, { order: 6, name: 'St. Stefanus Sinisir', kk: 21, laki_laki: 23, perempuan: 28 }, { order: 7, name: 'Sta. Ursula Sinisir', kk: 19, laki_laki: 26, perempuan: 34 }, { order: 8, name: 'Sta. Maria Bunda Karmel Sinisir', kk: 21, laki_laki: 29, perempuan: 34 }, { order: 9, name: 'St. Romualdus Sinisir', kk: 21, laki_laki: 33, perempuan: 35 }, { order: 10, name: 'Sta. Faustina Sinisir', kk: 19, laki_laki: 30, perempuan: 26 }, { order: 11, name: 'Sta. Theresia Sinisir', kk: 22, laki_laki: 38, perempuan: 28 }, { order: 12, name: 'St. Mikael Sinisir', kk: 13, laki_laki: 16, perempuan: 17 }, { order: 13, name: 'Antonius Maria Claret Makaaroyen', kk: 20, laki_laki: 30, perempuan: 28 }, { order: 14, name: 'St. Alfonsus Maria de Liquori Makaaroyen', kk: 19, laki_laki: 23, perempuan: 29 }, { order: 15, name: 'Sta. Angela Merici Tambelang', kk: 21, laki_laki: 35, perempuan: 28 }, { order: 16, name: 'St. Aloysius Gonzaga Tambelang', kk: 22, laki_laki: 46, perempuan: 34 }, { order: 17, name: 'Sta. Katarina siena Tambelang', kk: 20, laki_laki: 26, perempuan: 31 }, { order: 18, name: 'St. Robertus Belarminus Tambelang', kk: 20, laki_laki: 33, perempuan: 26 }, { order: 19, name: 'St. Yohanes Krisostomus Tambelang', kk: 15, laki_laki: 19, perempuan: 27 }, { order: 20, name: 'St. Fransiskus D sales Tambelang', kk: 19, laki_laki: 34, perempuan: 33 }, { order: 21, name: 'St. Pius X Tambelang', kk: 20, laki_laki: 43, perempuan: 32 }, { order: 22, name: 'St. Hironimus Kinamang', kk: 22, laki_laki: 38, perempuan: 32 }, { order: 23, name: 'St. Lukas Kinamang', kk: 24, laki_laki: 32, perempuan: 45 }, { order: 24, name: 'Sta. Agata Kinamang', kk: 23, laki_laki: 36, perempuan: 30 }, { order: 25, name: 'Sta. Rita de cascia Kinamang', kk: 23, laki_laki: 36, perempuan: 30 }, { order: 26, name: 'St. Laurensius Kinamang', kk: 21, laki_laki: 28, perempuan: 27 }, { order: 27, name: 'Stasi Christus Rex Liningaan', kk: 22, laki_laki: 34, perempuan: 32 }, { order: 28, name: 'Stasi Hati Kudus Yesus Mobuya', kk: 11, laki_laki: 19, perempuan: 16 }
+    ];
+
+    try {
+        const batch = db.batch();
+        parishStatsData.forEach(stat => { const docRef = db.collection('parish_stats').doc(); batch.set(docRef, stat); });
+        await batch.commit();
+        feedbackEl.textContent = 'BERHASIL! Memuat ulang tabel...';
+        feedbackEl.style.color = 'green';
+        setTimeout(loadParishStats, 1500);
+    } catch (error) {
+        console.error('Gagal mengunggah data statistik:', error);
+        feedbackEl.textContent = `GAGAL! Terjadi kesalahan: ${error.message}`;
+        feedbackEl.style.color = 'red';
+        uploadBtn.disabled = false;
+    }
+};
+
+document.getElementById('stats-table-body').addEventListener('click', async (e) => {
+    if (e.target.classList.contains('edit-stat')) {
+        const docId = e.target.closest('tr').dataset.id;
+        const doc = await db.collection('parish_stats').doc(docId).get();
+        if(doc.exists) {
+            const stat = doc.data();
+            document.getElementById('stat-modal-title').textContent = `Edit Statistik: ${stat.name}`;
+            document.getElementById('stat-doc-id').value = docId;
+            document.getElementById('stat-kk').value = stat.kk;
+            document.getElementById('stat-laki').value = stat.laki_laki;
+            document.getElementById('stat-perempuan').value = stat.perempuan;
+            document.getElementById('stat-form-message').textContent = '';
+            statModal.classList.remove('hidden');
+        }
+    }
+});
+
+document.getElementById('stat-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const docId = document.getElementById('stat-doc-id').value;
+    const messageEl = document.getElementById('stat-form-message');
+    const statData = { kk: parseInt(document.getElementById('stat-kk').value, 10), laki_laki: parseInt(document.getElementById('stat-laki').value, 10), perempuan: parseInt(document.getElementById('stat-perempuan').value, 10) };
+    messageEl.textContent = 'Menyimpan...';
+    try {
+        await db.collection('parish_stats').doc(docId).update(statData);
+        messageEl.textContent = 'Berhasil diperbarui!';
+        messageEl.classList.add('success');
+        loadParishStats();
+        setTimeout(() => statModal.classList.add('hidden'), 1000);
+    } catch (error) {
+        console.error("Gagal memperbarui statistik:", error);
+        messageEl.textContent = 'Gagal menyimpan data.';
+        messageEl.classList.add('error');
+    }
+});
+
+
 // --- EVENT LISTENERS UMUM ---
 logoutButton.addEventListener('click', () => auth.signOut().then(() => { window.location.href = 'index.html' }));
 printBtn.addEventListener('click', () => window.print());
 
 document.querySelectorAll('.close-modal-btn').forEach(btn => {
-    btn.addEventListener('click', () => document.getElementById(btn.dataset.target).classList.add('hidden'));
+    const targetModal = document.getElementById(btn.dataset.target);
+    if (targetModal) {
+        btn.addEventListener('click', () => targetModal.classList.add('hidden'));
+    }
 });
 document.querySelectorAll('.modal-overlay').forEach(overlay => {
     overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.add('hidden') });
