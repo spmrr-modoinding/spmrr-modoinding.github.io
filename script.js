@@ -17,8 +17,102 @@ if (!firebase.apps.length) {
 }
 const db = firebase.firestore();
 
+// =============================================================
+// === BAGIAN BARU: FUNGSI UTILITAS UNTUK MENAMPILKAN TOAST ===
+// =============================================================
+// Fungsi untuk menampilkan notifikasi toast saat website dibuka
+const showToast = (message, title = "Pemberitahuan Baru") => {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.innerHTML = `
+        <i class="bi bi-info-circle-fill"></i>
+        <div class="toast-body">
+            <p>${title}</p>
+            <small>${message}</small>
+        </div>
+    `;
+
+    container.appendChild(toast);
+
+    // Tampilkan toast
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 100);
+
+    // Sembunyikan dan hapus toast setelah 5 detik
+    setTimeout(() => {
+        toast.classList.remove('show');
+        toast.addEventListener('transitionend', () => toast.remove());
+    }, 5000);
+};
+
 
 document.addEventListener('DOMContentLoaded', () => {
+
+  // =================================================================
+  // === BAGIAN BARU: LOGIKA UNTUK PUSH NOTIFICATIONS (FCM) ===
+  // =================================================================
+  // Cek apakah browser mendukung messaging
+  if (firebase.messaging.isSupported()) {
+      const messaging = firebase.messaging();
+      const enableNotificationsBtn = document.getElementById('enable-notifications-btn');
+
+      // Ganti tulisan di bawah dengan Key pair (VAPID Key) Anda
+      messaging.usePublicVapidKey("BGyQEBNVLkczJ-2s274nMN4u0EcSZLm8m-43FMGceuy5Z_t9V1IwHWU05ZiSRuxc5gwjbBhDlAR1L0ijAnAphqY");
+
+      if (enableNotificationsBtn) {
+          enableNotificationsBtn.addEventListener('click', () => {
+              enableNotificationsBtn.textContent = 'Meminta Izin...';
+              Notification.requestPermission().then((permission) => {
+                  if (permission === 'granted') {
+                      console.log('Izin notifikasi diberikan.');
+                      enableNotificationsBtn.textContent = 'Notifikasi Aktif!';
+                      enableNotificationsBtn.disabled = true;
+
+                      // Dapatkan token perangkat
+                      messaging.getToken().then((currentToken) => {
+                          if (currentToken) {
+                              console.log('Token Perangkat:', currentToken);
+                              // Simpan token ke Firestore agar bisa dikirimi notifikasi oleh server
+                              db.collection('fcm_tokens').doc(currentToken).set({
+                                  token: currentToken,
+                                  createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                              }).then(() => {
+                                  console.log("Token berhasil disimpan ke Firestore.");
+                              }).catch(err => {
+                                  console.error("Gagal menyimpan token:", err);
+                              });
+                          } else {
+                              console.log('Tidak bisa mendapatkan token. Minta izin ulang.');
+                              enableNotificationsBtn.textContent = 'Gagal, Coba Lagi';
+                          }
+                      });
+                  } else {
+                      console.log('Izin notifikasi ditolak.');
+                      enableNotificationsBtn.textContent = 'Izin Ditolak';
+                  }
+              });
+          });
+      }
+
+      // Menangani notifikasi saat website sedang dibuka (foreground)
+      messaging.onMessage((payload) => {
+          console.log('Pesan diterima di foreground: ', payload);
+          // Menggunakan fungsi toast yang sudah kita buat
+          showToast(payload.notification.body, payload.notification.title);
+      });
+  } else {
+      console.log("Browser ini tidak mendukung Push Notification.");
+      const enableNotificationsBtn = document.getElementById('enable-notifications-btn');
+      if (enableNotificationsBtn) {
+        enableNotificationsBtn.textContent = 'Notifikasi Tidak Didukung';
+        enableNotificationsBtn.disabled = true;
+      }
+  }
+
 
   // =================================================================
   // === BAGIAN 2: FUNGSI-FUNGSI UNTUK MEMUAT DATA DARI FIREBASE ===
@@ -122,12 +216,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  // Memanggil semua fungsi untuk memuat data saat halaman dibuka
   loadAnnouncementsPublic();
   loadActiveLiturgy();
   loadPastorStatus();
   loadPublicStats();
   
-  // --- SISA KODE LAMA ANDA ---
+  // --- KODE LAMA ANDA UNTUK NAVIGASI TAB DAN LAINNYA ---
   function activateTab(tabId) {
     document.querySelectorAll('.tab-button').forEach(btn => { if (btn.dataset.tab) { btn.classList.toggle('active', btn.dataset.tab === tabId); } });
     document.querySelectorAll('.tab-content').forEach(content => { content.classList.toggle('active', content.id === tabId); });
