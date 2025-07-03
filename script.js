@@ -128,22 +128,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const loadActiveLiturgy = async () => {
     const bacaanContainer = document.getElementById('liturgi-bacaan-container');
     const renunganContainer = document.getElementById('liturgi-renungan-container');
-    const previewBtn = document.getElementById('previewMingguDepan');
-
+    
     if (!bacaanContainer || !renunganContainer) return;
 
-    // Sembunyikan tombolnya di awal, sambil kita cari datanya
-    if (previewBtn) previewBtn.style.display = 'none';
-
-    // Tambahkan pesan "Memuat..." tanpa menghapus tombol
     bacaanContainer.innerHTML = '<p id="loading-liturgy">Memuat data liturgi...</p>';
     renunganContainer.innerHTML = '';
 
     try {
-        // 1. Ambil dan tampilkan liturgi MINGGU INI (yang isCurrent == true)
         const currentSnapshot = await db.collection('liturgies').where('isCurrent', '==', true).limit(1).get();
         
-        // Hapus pesan "Memuat..."
         const loadingMsg = document.getElementById('loading-liturgy');
         if (loadingMsg) loadingMsg.remove();
 
@@ -155,6 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const lit = currentSnapshot.docs[0].data();
         const colorMap = { "Hijau": "green", "Merah": "red", "Putih": "white", "Ungu": "purple", "Hitam": "black", "Mawar": "rose", "Biru": "blue" };
         
+        // Template kartu liturgi, sekarang tanpa tombol preview di dalamnya
         const cardHTML = `
             <div class="liturgi-card">
                 <div class="liturgi-header">
@@ -183,40 +177,51 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>`;
             
-        // Sisipkan kartu liturgi di awal container
-        bacaanContainer.insertAdjacentHTML('afterbegin', cardHTML);
-
+        bacaanContainer.innerHTML = cardHTML;
         renunganContainer.innerHTML = `<p>${(lit.renungan || 'Renungan belum tersedia.').replace(/\n/g, '<br>')}</p>`;
 
-        // 2. CARI liturgi MINGGU DEPAN (yang isCurrent == false dan terbaru)
-        const nextSnapshot = await db.collection('liturgies').where('isCurrent', '==', false).orderBy('createdAt', 'desc').limit(1).get();
+        // Cari data untuk minggu depan
+        const nextSnapshot = await db.collection('liturgies').where('isCurrent', '==', false).get();
 
-        // 3. JIKA ADA, siapkan dan tampilkan tombol preview
-        if (!nextSnapshot.empty && previewBtn) {
-            const nextLit = nextSnapshot.docs[0].data();
-            const previewContent = `
-                <div style='text-align: left;'>
-                    <h6>${nextLit.peringatan}</h6>
-                    <p><strong>Tanggal:</strong> ${nextLit.tanggal}</p>
-                    <hr>
-                    <p><strong>Bacaan 1:</strong> ${nextLit.bacaan1 || '-'}</p>
-                    <p><strong>Bacaan 2:</strong> ${nextLit.bacaan2 || '-'}</p>
-                    <p><strong>Mazmur:</strong> ${nextLit.mazmur || '-'}</p>
-                    <p><strong>Injil:</strong> ${nextLit.injil || '-'}</p>
-                </div>
-            `.replace(/"/g, '&quot;').replace(/\n/g, '');
-
-            previewBtn.setAttribute('data-glightbox', `title: Liturgi Minggu Depan; description: ${previewContent}`);
-            previewBtn.style.display = 'inline-block'; // Tampilkan tombolnya
+        if (!nextSnapshot.empty) {
+            const futureLiturgies = nextSnapshot.docs.map(doc => doc.data());
+            futureLiturgies.sort((a, b) => (b.createdAt?.toMillis() || 0) - (a.createdAt?.toMillis() || 0));
             
-            // Re-inisialisasi GLightbox untuk tombol ini agar berfungsi
-            GLightbox({ selector: '#previewMingguDepan' });
+            const nextLit = futureLiturgies[0];
+
+            if (nextLit) {
+                // Jika ditemukan, BUAT tombolnya sekarang
+                const previewBtn = document.createElement('a');
+                previewBtn.href = "#";
+                previewBtn.className = "btn btn-outline-primary glightbox";
+                previewBtn.id = "previewMingguDepan";
+                previewBtn.style.marginTop = "1rem";
+                previewBtn.innerHTML = 'Lihat Minggu Depan &gt;&gt;&gt;';
+
+                const previewContent = `
+                    <div style='text-align: left;'>
+                        <h6>${nextLit.peringatan}</h6>
+                        <p><strong>Tanggal:</strong> ${nextLit.tanggal}</p>
+                        <hr>
+                        <p><strong>Bacaan 1:</strong> ${nextLit.bacaan1 || '-'}</p>
+                        <p><strong>Bacaan 2:</strong> ${nextLit.bacaan2 || '-'}</p>
+                        <p><strong>Mazmur:</strong> ${nextLit.mazmur || '-'}</p>
+                        <p><strong>Injil:</strong> ${nextLit.injil || '-'}</p>
+                    </div>
+                `.replace(/"/g, '&quot;').replace(/\n/g, '');
+
+                previewBtn.setAttribute('data-glightbox', `title: Liturgi Minggu Depan; description: ${previewContent}`);
+                
+                // Masukkan tombol ke dalam container, di bawah kartu
+                bacaanContainer.insertAdjacentElement('beforeend', previewBtn);
+                
+                // Inisialisasi GLightbox untuk tombol yang baru dibuat
+                GLightbox({ selector: '#previewMingguDepan' });
+            }
         }
 
     } catch (error) {
         console.error("Gagal memuat liturgi: ", error);
-        const loadingMsg = document.getElementById('loading-liturgy');
-        if (loadingMsg) loadingMsg.remove();
         bacaanContainer.innerHTML = `<p class="text-danger">Terjadi kesalahan saat memuat liturgi. Error: ${error.message}</p>`;
     }
   };
@@ -329,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const colorMap = {'⚪': 'white', '🔴': 'red', '🟢': 'green', '💜': 'purple', '⚫': 'black', '🟪': 'rose', '🔵': 'blue'};
       let titleText = item.judul || '';
       let colorSymbol = '', indicator = '';
-      const colorMatch = titleText.match(/^(⚪|🔴|🟢|💜|⚫|🟪|�)\s*/);
+      const colorMatch = titleText.match(/^(⚪|🔴|🟢|💜|⚫|🟪|🔵)\s*/);
       if (colorMatch) {
           colorSymbol = colorMatch[1];
           titleText = titleText.substring(colorSymbol.length).trim();
