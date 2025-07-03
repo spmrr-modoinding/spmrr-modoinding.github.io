@@ -529,3 +529,38 @@ body.sidebar-open::before {
     text-align: left; /* Teks rata kiri di mobile agar lebih nyaman dibaca */
   }
 }
+/* --- Sekretariat: Area Unduh Formulir --- */
+.formulir-download {
+  padding: 1.5rem;
+  background-color: var(--blue-bg);
+  border-radius: 12px;
+  border: 1px solid var(--blue-border);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.formulir-download h4 {
+  color: var(--blue-main);
+  font-weight: bold;
+}
+
+.list-group-item-action {
+  font-weight: 500;
+  color: #333;
+  transition: all 0.2s ease-in-out;
+}
+
+.list-group-item-action:hover {
+  background-color: var(--blue-hover);
+  color: var(--blue-main);
+  transform: translateX(5px);
+  border-left: 4px solid var(--blue-main);
+}
+
+.list-group-item-action i {
+  color: var(--blue-main);
+  transition: transform 0.2s ease;
+}
+
+.list-group-item-action:hover i {
+  transform: scale(1.2);
+}
