@@ -18,9 +18,8 @@ if (!firebase.apps.length) {
 const db = firebase.firestore();
 
 // =============================================================
-// === BAGIAN BARU: FUNGSI UTILITAS UNTUK MENAMPILKAN TOAST ===
+// === BAGIAN 2: FUNGSI UTILITAS UNTUK MENAMPILKAN TOAST ===
 // =============================================================
-// Fungsi untuk menampilkan notifikasi toast saat website dibuka
 const showToast = (message, title = "Pemberitahuan Baru") => {
     const container = document.getElementById('toast-container');
     if (!container) return;
@@ -37,12 +36,10 @@ const showToast = (message, title = "Pemberitahuan Baru") => {
 
     container.appendChild(toast);
 
-    // Tampilkan toast
     setTimeout(() => {
         toast.classList.add('show');
     }, 100);
 
-    // Sembunyikan dan hapus toast setelah 5 detik
     setTimeout(() => {
         toast.classList.remove('show');
         toast.addEventListener('transitionend', () => toast.remove());
@@ -53,14 +50,12 @@ const showToast = (message, title = "Pemberitahuan Baru") => {
 document.addEventListener('DOMContentLoaded', () => {
 
   // =================================================================
-  // === BAGIAN BARU: LOGIKA UNTUK PUSH NOTIFICATIONS (FCM) ===
+  // === BAGIAN 3: LOGIKA UNTUK PUSH NOTIFICATIONS (FCM) ===
   // =================================================================
-  // Cek apakah browser mendukung messaging
   if (firebase.messaging.isSupported()) {
       const messaging = firebase.messaging();
       const enableNotificationsBtn = document.getElementById('enable-notifications-btn');
 
-      // Ganti tulisan di bawah dengan Key pair (VAPID Key) Anda
       messaging.usePublicVapidKey("BGyQEBNVLkczJ-2s274nMN4u0EcSZLm8m-43FMGceuy5Z_t9V1IwHWU05ZiSRuxc5gwjbBhDlAR1L0ijAnAphqY");
 
       if (enableNotificationsBtn) {
@@ -68,40 +63,26 @@ document.addEventListener('DOMContentLoaded', () => {
               enableNotificationsBtn.textContent = 'Meminta Izin...';
               Notification.requestPermission().then((permission) => {
                   if (permission === 'granted') {
-                      console.log('Izin notifikasi diberikan.');
                       enableNotificationsBtn.textContent = 'Notifikasi Aktif!';
                       enableNotificationsBtn.disabled = true;
-
-                      // Dapatkan token perangkat
                       messaging.getToken().then((currentToken) => {
                           if (currentToken) {
-                              console.log('Token Perangkat:', currentToken);
-                              // Simpan token ke Firestore agar bisa dikirimi notifikasi oleh server
                               db.collection('fcm_tokens').doc(currentToken).set({
                                   token: currentToken,
                                   createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                              }).then(() => {
-                                  console.log("Token berhasil disimpan ke Firestore.");
-                              }).catch(err => {
-                                  console.error("Gagal menyimpan token:", err);
                               });
                           } else {
-                              console.log('Tidak bisa mendapatkan token. Minta izin ulang.');
                               enableNotificationsBtn.textContent = 'Gagal, Coba Lagi';
                           }
                       });
                   } else {
-                      console.log('Izin notifikasi ditolak.');
                       enableNotificationsBtn.textContent = 'Izin Ditolak';
                   }
               });
           });
       }
 
-      // Menangani notifikasi saat website sedang dibuka (foreground)
       messaging.onMessage((payload) => {
-          console.log('Pesan diterima di foreground: ', payload);
-          // Menggunakan fungsi toast yang sudah kita buat
           showToast(payload.notification.body, payload.notification.title);
       });
   } else {
@@ -115,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // =================================================================
-  // === BAGIAN 2: FUNGSI-FUNGSI UNTUK MEMUAT DATA DARI FIREBASE ===
+  // === BAGIAN 4: FUNGSI-FUNGSI UNTUK MEMUAT DATA DARI FIREBASE ===
   // =================================================================
 
   const loadAnnouncementsPublic = async () => {
@@ -141,26 +122,101 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   };
   
+  // ======================================================================
+  // === FUNGSI INI TELAH DIPERBAIKI SECARA TOTAL UNTUK PREVIEW MINGGU DEPAN ===
+  // ======================================================================
   const loadActiveLiturgy = async () => {
     const bacaanContainer = document.getElementById('liturgi-bacaan-container');
     const renunganContainer = document.getElementById('liturgi-renungan-container');
     const previewBtn = document.getElementById('previewMingguDepan');
+
     if (!bacaanContainer || !renunganContainer) return;
-    bacaanContainer.innerHTML = '<p>Memuat data liturgi...</p>';
+
+    // Sembunyikan tombolnya di awal, sambil kita cari datanya
+    if (previewBtn) previewBtn.style.display = 'none';
+
+    // Tambahkan pesan "Memuat..." tanpa menghapus tombol
+    bacaanContainer.innerHTML = '<p id="loading-liturgy">Memuat data liturgi...</p>';
     renunganContainer.innerHTML = '';
-    if(previewBtn) previewBtn.style.display = 'none';
+
     try {
-        const snapshot = await db.collection('liturgies').where('isCurrent', '==', true).limit(1).get();
-        if (snapshot.empty) {
+        // 1. Ambil dan tampilkan liturgi MINGGU INI (yang isCurrent == true)
+        const currentSnapshot = await db.collection('liturgies').where('isCurrent', '==', true).limit(1).get();
+        
+        // Hapus pesan "Memuat..."
+        const loadingMsg = document.getElementById('loading-liturgy');
+        if (loadingMsg) loadingMsg.remove();
+
+        if (currentSnapshot.empty) {
             bacaanContainer.innerHTML = '<p>Data liturgi minggu ini belum diatur oleh admin.</p>';
             return;
         }
-        const lit = snapshot.docs[0].data();
-        const colorMap = {"Hijau": "green", "Merah": "red", "Putih": "white", "Ungu": "purple", "Hitam": "black", "Mawar": "rose", "Biru": "blue"};
-        bacaanContainer.innerHTML = `<div class="liturgi-card"><div class="liturgi-header"><span class="liturgi-date">${lit.tanggal}</span><span class="liturgi-color-dot ${colorMap[lit.warna] || 'default'}"></span></div><div class="liturgi-body"><h5 class="liturgi-perayaan">${lit.peringatan}</h5><div class="liturgi-detail"><p><i class="bi bi-book-fill me-2"></i><strong>Bacaan 1:</strong> ${lit.bacaan1 || '-'}</p><p><i class="bi bi-book-fill me-2"></i><strong>Bacaan 2:</strong> ${lit.bacaan2 || '-'}</p><p><i class="bi bi-music-note-beamed me-2"></i><strong>Mazmur:</strong> ${lit.mazmur || '-'}</p><p><i class="bi bi-journal-medical me-2"></i><strong>Injil:</strong> ${lit.injil || '-'}</p><p><i class="bi bi-palette-fill me-2"></i><strong>Warna:</strong> ${lit.warna || '-'}</p></div></div></div>`;
+        
+        const lit = currentSnapshot.docs[0].data();
+        const colorMap = { "Hijau": "green", "Merah": "red", "Putih": "white", "Ungu": "purple", "Hitam": "black", "Mawar": "rose", "Biru": "blue" };
+        
+        const cardHTML = `
+            <div class="liturgi-card">
+                <div class="liturgi-header">
+                    <span class="liturgi-date">${lit.tanggal}</span>
+                    <span class="liturgi-color-dot ${colorMap[lit.warna] || 'default'}"></span>
+                </div>
+                <div class="liturgi-body">
+                    <h5 class="liturgi-perayaan">${lit.peringatan}</h5>
+                    <div class="liturgi-detail">
+                        <div class="liturgi-label"><i class="bi bi-book-fill"></i><span>Bacaan 1</span></div>
+                        <div class="liturgi-colon">:</div>
+                        <div class="liturgi-value">${lit.bacaan1 || '-'}</div>
+                        <div class="liturgi-label"><i class="bi bi-book-fill"></i><span>Bacaan 2</span></div>
+                        <div class="liturgi-colon">:</div>
+                        <div class="liturgi-value">${lit.bacaan2 || '-'}</div>
+                        <div class="liturgi-label"><i class="bi bi-music-note-beamed"></i><span>Mazmur</span></div>
+                        <div class="liturgi-colon">:</div>
+                        <div class="liturgi-value">${lit.mazmur || '-'}</div>
+                        <div class="liturgi-label"><i class="bi bi-journal-medical"></i><span>Injil</span></div>
+                        <div class="liturgi-colon">:</div>
+                        <div class="liturgi-value">${lit.injil || '-'}</div>
+                        <div class="liturgi-label"><i class="bi bi-palette-fill"></i><span>Warna</span></div>
+                        <div class="liturgi-colon">:</div>
+                        <div class="liturgi-value">${lit.warna || '-'}</div>
+                    </div>
+                </div>
+            </div>`;
+            
+        // Sisipkan kartu liturgi di awal container
+        bacaanContainer.insertAdjacentHTML('afterbegin', cardHTML);
+
         renunganContainer.innerHTML = `<p>${(lit.renungan || 'Renungan belum tersedia.').replace(/\n/g, '<br>')}</p>`;
+
+        // 2. CARI liturgi MINGGU DEPAN (yang isCurrent == false dan terbaru)
+        const nextSnapshot = await db.collection('liturgies').where('isCurrent', '==', false).orderBy('createdAt', 'desc').limit(1).get();
+
+        // 3. JIKA ADA, siapkan dan tampilkan tombol preview
+        if (!nextSnapshot.empty && previewBtn) {
+            const nextLit = nextSnapshot.docs[0].data();
+            const previewContent = `
+                <div style='text-align: left;'>
+                    <h6>${nextLit.peringatan}</h6>
+                    <p><strong>Tanggal:</strong> ${nextLit.tanggal}</p>
+                    <hr>
+                    <p><strong>Bacaan 1:</strong> ${nextLit.bacaan1 || '-'}</p>
+                    <p><strong>Bacaan 2:</strong> ${nextLit.bacaan2 || '-'}</p>
+                    <p><strong>Mazmur:</strong> ${nextLit.mazmur || '-'}</p>
+                    <p><strong>Injil:</strong> ${nextLit.injil || '-'}</p>
+                </div>
+            `.replace(/"/g, '&quot;').replace(/\n/g, '');
+
+            previewBtn.setAttribute('data-glightbox', `title: Liturgi Minggu Depan; description: ${previewContent}`);
+            previewBtn.style.display = 'inline-block'; // Tampilkan tombolnya
+            
+            // Re-inisialisasi GLightbox untuk tombol ini agar berfungsi
+            GLightbox({ selector: '#previewMingguDepan' });
+        }
+
     } catch (error) {
         console.error("Gagal memuat liturgi: ", error);
+        const loadingMsg = document.getElementById('loading-liturgy');
+        if (loadingMsg) loadingMsg.remove();
         bacaanContainer.innerHTML = `<p class="text-danger">Terjadi kesalahan saat memuat liturgi. Error: ${error.message}</p>`;
     }
   };
@@ -222,7 +278,9 @@ document.addEventListener('DOMContentLoaded', () => {
   loadPastorStatus();
   loadPublicStats();
   
-  // --- KODE LAMA ANDA UNTUK NAVIGASI TAB DAN LAINNYA ---
+  // =================================================================
+  // === BAGIAN 5: KODE UNTUK NAVIGASI TAB DAN LAINNYA ===
+  // =================================================================
   function activateTab(tabId) {
     document.querySelectorAll('.tab-button').forEach(btn => { if (btn.dataset.tab) { btn.classList.toggle('active', btn.dataset.tab === tabId); } });
     document.querySelectorAll('.tab-content').forEach(content => { content.classList.toggle('active', content.id === tabId); });
@@ -271,7 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const colorMap = {'⚪': 'white', '🔴': 'red', '🟢': 'green', '💜': 'purple', '⚫': 'black', '🟪': 'rose', '🔵': 'blue'};
       let titleText = item.judul || '';
       let colorSymbol = '', indicator = '';
-      const colorMatch = titleText.match(/^(⚪|🔴|🟢|💜|⚫|🟪|🔵)\s*/);
+      const colorMatch = titleText.match(/^(⚪|🔴|🟢|💜|⚫|🟪|�)\s*/);
       if (colorMatch) {
           colorSymbol = colorMatch[1];
           titleText = titleText.substring(colorSymbol.length).trim();

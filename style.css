@@ -228,7 +228,7 @@ footer {
   justify-content: center;
   align-items: flex-start;
   gap: 3rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   margin-top: 1rem;
   padding: 20px;
   border-radius: 12px;
@@ -348,15 +348,37 @@ footer {
   padding-bottom: 0.5rem;
 }
 
-.liturgi-detail p {
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
+.liturgi-detail {
+  display: grid;
+  /* Membuat 3 kolom: Label (rata kiri), Titik Dua (di tengah), Isi (sisa ruang) */
+  grid-template-columns: auto auto 1fr; 
+  gap: 0.5rem 0.5rem; /* Jarak vertikal dan horizontal antar kolom */
+  align-items: start;
 }
 
-.liturgi-detail p i {
+.liturgi-label {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  color: #333;
+  /* justify-content: flex-end; sudah tidak diperlukan lagi */
+}
+
+.liturgi-label i {
   color: var(--blue-main);
-  margin-right: 8px;
+}
+
+/* Penting: Hapus ::after karena titik dua sudah ada di HTML */
+.liturgi-colon {
+    font-weight: bold;
+}
+
+.liturgi-value {
+  text-align: left;
+  /* Memberi sedikit jarak dari titik dua */
+  padding-left: 0.5rem; 
 }
 
 #previewMingguDepan {
