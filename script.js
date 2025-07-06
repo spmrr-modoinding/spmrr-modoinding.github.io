@@ -62,20 +62,20 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   
   // ======================================================================
-  // === FUNGSI LITURGI DENGAN LOGIKA TANGGAL YANG DIPERBAIKI ===
+  // === FUNGSI LITURGI DENGAN RENUNGAN TANPA KARTU (DIPERBARUI) ===
   // ======================================================================
   const loadActiveLiturgy = async () => {
+    // Definisikan elemen HTML yang kita butuhkan
     const flippers = {
         title: document.getElementById('title-flipper'),
         bacaan: document.getElementById('bacaan-flipper'),
-        renungan: document.getElementById('renungan-flipper')
     };
     const containers = {
         bacaanFront: document.getElementById('bacaan-flipper-front'),
         bacaanBack: document.getElementById('bacaan-flipper-back'),
-        renunganCurrent: document.getElementById('renungan-current-text'),
-        renunganNext: document.getElementById('renungan-next-text'),
-        tombol: document.getElementById('tombol-flip-container')
+        tombol: document.getElementById('tombol-flip-container'),
+        renunganTitle: document.getElementById('renungan-title'),
+        renunganText: document.getElementById('renungan-text')
     };
 
     const createLiturgiCardHTML = (lit) => {
@@ -111,90 +111,79 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     try {
-        // --- LOGIKA TANGGAL YANG DIPERBAIKI ---
         const today = new Date();
-        // Set jam ke 00:00:00 untuk perbandingan yang akurat
         today.setHours(0, 0, 0, 0); 
         
-        // 1. Ambil liturgi MINGGU INI (tanggal <= hari ini, urutkan dari yang paling baru)
-        const currentSnapshot = await db.collection('liturgies')
-            .where('liturgyDate', '<=', today)
-            .orderBy('liturgyDate', 'desc')
-            .limit(1)
-            .get();
-        
-        // 2. Ambil liturgi MINGGU DEPAN (tanggal > hari ini, urutkan dari yang paling awal)
-        const nextSnapshot = await db.collection('liturgies')
-            .where('liturgyDate', '>', today)
-            .orderBy('liturgyDate', 'asc')
-            .limit(1)
-            .get();
+        const currentSnapshot = await db.collection('liturgies').where('liturgyDate', '<=', today).orderBy('liturgyDate', 'desc').limit(1).get();
+        const nextSnapshot = await db.collection('liturgies').where('liturgyDate', '>', today).orderBy('liturgyDate', 'asc').limit(1).get();
 
         if (currentSnapshot.empty) {
-            Object.values(flippers).forEach(f => f.style.display = 'none');
-            containers.tombol.innerHTML = '<p>Data liturgi minggu ini belum diatur oleh admin.</p>';
+            document.getElementById('beranda').innerHTML = '<p>Data liturgi minggu ini belum diatur oleh admin.</p>';
             return;
         }
 
         const currentLit = currentSnapshot.docs[0].data();
         const nextLit = nextSnapshot.empty ? null : nextSnapshot.docs[0].data();
 
-        // Isi konten sisi DEPAN (front)
+        // Isi konten awal
         containers.bacaanFront.innerHTML = createLiturgiCardHTML(currentLit);
-        containers.renunganCurrent.innerHTML = `<p>${(currentLit.renungan || 'Renungan belum tersedia.').replace(/\n/g, '<br>')}</p>`;
+        containers.renunganText.innerHTML = `<p>${(currentLit.renungan || 'Renungan belum tersedia.').replace(/\n/g, '<br>')}</p>`;
 
         if (nextLit) {
-            // Jika ada data minggu depan, isi konten sisi BELAKANG (back)
             containers.bacaanBack.innerHTML = createLiturgiCardHTML(nextLit);
-            containers.renunganNext.innerHTML = `<p>${(nextLit.renungan || 'Renungan minggu depan belum tersedia.').replace(/\n/g, '<br>')}</p>`;
             
             setTimeout(() => {
               setWrapperHeight(flippers.title);
               setWrapperHeight(flippers.bacaan);
-              setWrapperHeight(flippers.renungan);
             }, 100);
 
             containers.tombol.innerHTML = `<button id="multi-flip-btn" class="btn btn-outline-primary">Lihat Minggu Depan &gt;&gt;&gt;</button>`;
             
             document.getElementById('multi-flip-btn').addEventListener('click', function() {
                 const isFlipped = flippers.title.classList.contains('is-flipped');
+                
+                // Ganti Teks Tombol
                 this.innerHTML = isFlipped ? 'Lihat Minggu Depan &gt;&gt;&gt;' : '&lt;&lt;&lt; Kembali ke Minggu Ini';
-                Object.values(flippers).forEach(f => f.classList.toggle('is-flipped'));
+                
+                // Balik Judul dan Kartu Bacaan
+                flippers.title.classList.toggle('is-flipped');
+                flippers.bacaan.classList.toggle('is-flipped');
+                
+                // Ganti Konten Renungan
+                if (isFlipped) {
+                    // Jika sedang kembali ke minggu ini
+                    containers.renunganTitle.textContent = 'Renungan Minggu Ini';
+                    containers.renunganText.innerHTML = `<p>${(currentLit.renungan || 'Renungan belum tersedia.').replace(/\n/g, '<br>')}</p>`;
+                } else {
+                    // Jika sedang melihat minggu depan
+                    containers.renunganTitle.textContent = 'Renungan Minggu Depan';
+                    containers.renunganText.innerHTML = `<p>${(nextLit.renungan || 'Renungan minggu depan belum tersedia.').replace(/\n/g, '<br>')}</p>`;
+                }
             });
         } else {
-            // Jika tidak ada data minggu depan, sembunyikan elemen yang tidak perlu
+            // Sembunyikan elemen yang tidak perlu jika tidak ada data minggu depan
             flippers.title.querySelector('.back').style.display = 'none';
             flippers.bacaan.querySelector('.back').style.display = 'none';
-            flippers.renungan.querySelector('.back').style.display = 'none';
             containers.tombol.style.display = 'none';
             setTimeout(() => {
                 setWrapperHeight(flippers.title);
                 setWrapperHeight(flippers.bacaan);
-                setWrapperHeight(flippers.renungan);
             }, 100);
         }
 
     } catch (error) {
         console.error("Gagal memuat liturgi:", error);
-        if (error.code === 'failed-precondition') {
-            const firestoreLink = `https://console.firebase.google.com/v1/r/project/${firebaseConfig.projectId}/firestore/indexes?create_composite=Ckxwcm9qZWN0cy9wYXJva2ktbW9kb2luZGluZy9kYXRhYmFzZXMvKGRlZmF1bHQpL2NvbGxlY3Rpb25Hcm91cHMvbGl0dXJnaWVzL2luZGV4ZXMvXxABGhAKDGxpdHVyZ3lEYXRlEAEaDAoIX19uYW1lX18QARoQChBsaXR1cmd5RGF0ZVBhcmEQAhoMCghfX25hbWVfXxAC`;
-            containers.bacaanFront.innerHTML = `<p class="text-danger"><b>Aksi Diperlukan:</b> Database memerlukan index baru untuk fitur ini. <a href="${firestoreLink}" target="_blank">Klik di sini untuk membuatnya</a>, lalu muat ulang halaman ini.</p>`;
-        } else {
-            containers.bacaanFront.innerHTML = `<p class="text-danger">Terjadi kesalahan saat memuat liturgi.</p>`;
-        }
-        Object.values(flippers).forEach(f => { if(f !== flippers.bacaan) f.style.display = 'none'; });
-        containers.tombol.style.display = 'none';
+        document.getElementById('beranda').innerHTML = `<p class="text-danger">Terjadi kesalahan saat memuat liturgi. Silakan cek konsol.</p>`;
     }
   };
 
   const loadPastorStatus = async () => {
     const container = document.querySelector('#pastor');
     if (!container) return;
-    container.innerHTML = '<h2>Kehadiran Pastor Hari Ini</h2><p>Memuat status...</p>';
     try {
         const snapshot = await db.collection('pastors').orderBy('order').get();
         if (snapshot.empty) {
-            container.innerHTML += '<p>Data pastor belum tersedia.</p>';
+            container.innerHTML = '<h2>Kehadiran Pastor Hari Ini</h2><p>Data pastor belum tersedia.</p>';
             return;
         }
         const statusItems = snapshot.docs.map(doc => {
@@ -213,7 +202,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const loadPublicStats = async () => {
     const container = document.querySelector('#statistik');
     if (!container) return;
-    container.innerHTML = '<h2>Statistik Umat</h2><p>Memuat data statistik...</p>';
     try {
         const snapshot = await db.collection('parish_stats').orderBy('order').get();
         if (snapshot.empty) {
@@ -285,62 +273,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   
-  const tentangContainer = document.querySelector('#tentang');
-  if (tentangContainer) {
-    const pastorList = [ { id: 2, name: 'P. Joseph Ansow, Pr.', img: 'pastor-joseph.jpg', masa: '2025 - Sekarang' }, { id: 3, name: 'P. Stenly Ambun, Pr. (Pastor Rekan Paroki)', img: 'pastor-stenly.jpg', masa: '2024 - Sekarang' }, { id: 4, name: 'P. Feighty Y. Boseke, Pr. (Alm)', img: 'pastor-feighty.jpg', masa: '2017 - 2024' }, { id: 5, name: 'P. Stevy Motto, Pr.', img: 'pastor-stevy.jpg', masa: '2014 - 2017' }, { id: 6, name: 'P. Yan S. Koraag, Pr.', img: 'pastor-yan.jpg', masa: '2011 - 2014' }, { id: 7, name: 'Pra-Paroki | P. Herman Saroinsong, Pr. (Alm)', img: 'pastor-Herman.jpg', masa: '2008 - 2011' } ];
-    tentangContainer.innerHTML = `<h2 class="mt-4">Tentang Paroki</h2><div class="card shadow-sm border rounded p-3 mb-4"><b>Sejarah Singkat</b><p style="text-align: justify;">Paroki Santa Perawan Maria Ratu Rosari Modoinding merupakan Gereja Paroki Katolik yang terletak di Jl. Trans Sulawesi, Desa Sinisir, Jaga VIII, Kecamatan Modoinding, Kabupaten Minahasa Selatan 95358 Provinsi Sulawesi Utara. Paroki ini didedikasikan kepada Santa Perawan Maria dengan gelar Ratu Rosari dan berada di bawah yurisdiksi Keuskupan Manado...</p><p><b>Paroki ini mempunyai 5 Stasi yakni diantaranya:</b></p><p>- STASI SANTA THERESIA MAKAAROYEN -<br>- STASI HATI KUDUS YESUS MOBUYA -<br>- STASI REX MUNDI TAMBELANG -<br>- STASI SANTO ANDREAS KINAMANG -<br>- STASI CHRISTUS REX LININGAAN -</p></div><div class="card shadow-sm border rounded p-3"><h5>Pastor Paroki & Pastor Rekan Paroki</h5><div class="accordion" id="accordionPastor">${pastorList.map(p => `<div class="accordion-item"><h2 class="accordion-header" id="pastor${p.id}"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePastor${p.id}"><b>${p.name}</b></button></h2><div id="collapsePastor${p.id}" class="accordion-collapse collapse" data-bs-parent="#accordionPastor"><div class="accordion-body text-center"><img src="${p.img}" class="img-fluid rounded shadow-sm mb-2" style="max-height:200px;" alt="${p.name}" /><b><p>Masa Jabatan: ${p.masa}</p></b></div></div></div>`).join('')}</div></div>`;
-  }
-  
-  function parseLiturgicalData(item) {
-      const colorMap = {'⚪': 'white', '🔴': 'red', '🟢': 'green', '💜': 'purple', '⚫': 'black', '🟪': 'rose', '🔵': 'blue'};
-      let titleText = item.judul || '';
-      let colorSymbol = '', indicator = '';
-      const colorMatch = titleText.match(/^(⚪|🔴|🟢|💜|⚫|🟪|🔵)\s*/);
-      if (colorMatch) {
-          colorSymbol = colorMatch[1];
-          titleText = titleText.substring(colorSymbol.length).trim();
-      }
-      const indicatorMatch = titleText.match(/^\[(.*?)\]\s*(.*)/);
-      if (indicatorMatch) {
-          indicator = indicatorMatch[1];
-          titleText = indicatorMatch[2].trim();
-      }
-      let rawDescription = (typeof item.deskripsi === 'string' ? item.deskripsi : "").replace(/\\\\n/g, "\n").replace(/\\\\/g, "\\");
-      let psalterWeek = '', mainDescription = rawDescription;
-      const psalterMatch = rawDescription.match(/(Pekan Psalter|Psalter Week)\s+([IVXLCDM]+|[0-9]+)\s*/i);
-      if (psalterMatch) {
-          psalterWeek = psalterMatch[0].trim();
-          mainDescription = mainDescription.replace(psalterMatch[0], '').trim();
-      }
-      mainDescription = mainDescription.replace(/𝘗𝘳𝘰𝘷𝘪𝘥𝘦𝘥 𝘣𝘺 𝐆𝐂𝐚𝐭𝐡𝐨𝐥𝐢𝐜\.𝐨𝐫𝐠.*|https:\/\/gcatholic\.org.*|Add calendar.*|https:\/\/g catholic\.org.*/gi, '').replace(/\n/g, '<br>').trim();
-      return { tanggal: item.tanggal, perayaan: titleText, color: colorMap[colorSymbol] || 'default', indicator, mainDescription, psalterWeek };
-  }
-
-  fetch('kalender_liturgi_2025.json').then(res => res.json()).then(data => {
-      const container = document.getElementById('kalender-paroki-container');
-      if (container) {
-          const tableRows = data.map(item => {
-              const parsed = parseLiturgicalData(item);
-              const date = new Date(parsed.tanggal).toLocaleDateString("id-ID", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
-              return `<tr><td class="date-cell"><div class="date-display">${date}</div></td><td class="liturgical-color-dot-cell"><span class="liturgical-color-dot ${parsed.color}"></span></td><td class="liturgical-celebration">${parsed.indicator ? `<span class="liturgical-indicator">[${parsed.indicator}]</span>` : ''} ${parsed.perayaan}${parsed.mainDescription ? `<div class="liturgical-description-cell">${parsed.mainDescription}</div>` : ''}${parsed.psalterWeek ? `<div class="liturgical-psalter-week-cell">${parsed.psalterWeek}</div>` : ''}</td></tr>`;
-          }).join('');
-          container.innerHTML = `<div class="table-responsive"><table class="table table-bordered table-striped align-middle liturgical-calendar-table"><thead><tr><th style="width: 150px;">Tanggal</th><th colspan="2">Perayaan</th></tr></thead><tbody>${tableRows}</tbody></table></div>`;
-      }
-  }).catch(console.error);
-
-  fetch('popes.json').then(res => res.json()).then(data => {
-      const container = document.getElementById('popes-container');
-      if (container) {
-          const rows = data.map(pope => `<tr><td>${pope.nomor}</td><td>${pope.nama}</td><td>${pope.masa_jabatan}</td></tr>`).join('');
-          container.innerHTML = `<div class="table-responsive"><table class="table table-bordered table-striped popes-table"><thead><tr><th>No.</th><th>Nama Paus</th><th>Masa Jabatan</th></tr></thead><tbody>${rows}</tbody></table></div>`;
-      }
-  }).catch(console.error);
-
-  GLightbox({ selector: 'a.glightbox[data-gallery="pastor-beranda"]' });
-  
-  if (typeof particlesJS !== 'undefined') {
-    particlesJS("particles-js", { particles: { number: { value: 80 }, color: { value: "#ffffff" }, shape: { type: "circle" }, opacity: { value: 0.5, anim: { enable: false } }, size: { value: 3, random: true }, line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4, width: 1 }, move: { enable: true, speed: 6 } }, interactivity: { events: { onhover: { enable: true, mode: "repulse" } } }, retina_detect: true });
-  }
-
   activateTab('beranda');
 });
