@@ -10,7 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet">
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link href="style.css" rel="stylesheet">
 </head>
@@ -73,14 +73,55 @@
                 </div>
                 <br><br>
 
-<h2 style="text-align: center;">Liturgi Hari Minggu Ini</h2>
-<div id="liturgi-bacaan-container" class="liturgi-cards-container">
-    <!-- Kartu Liturgi akan dimuat di sini oleh JavaScript -->
-</div>
+                <!-- ========== BAGIAN FLIP BARU - AWAL ========== -->
+                
+                <!-- Wadah untuk Judul yang bisa berbalik -->
+                <div class="flip-wrapper" id="title-flipper">
+                  <div class="flipper">
+                    <div class="front">
+                      <h2 class="text-center">Liturgi Hari Minggu Ini</h2>
+                    </div>
+                    <div class="back">
+                      <h2 class="text-center">Liturgi Hari Minggu Depan</h2>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Wadah untuk Kartu Bacaan yang bisa berbalik -->
+                <div class="flip-wrapper" id="bacaan-flipper">
+                  <div class="flipper">
+                    <div class="front" id="bacaan-flipper-front">
+                      <!-- Konten kartu minggu ini akan diisi oleh JS -->
+                      <p class="text-center">Memuat data liturgi...</p>
+                    </div>
+                    <div class="back" id="bacaan-flipper-back">
+                      <!-- Konten kartu minggu depan akan diisi oleh JS -->
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Tombol diletakkan di sini, di antara kartu dan renungan -->
+                <div id="tombol-flip-container" class="text-center my-3">
+                  <!-- Tombol akan dibuat oleh JS -->
+                </div>
+                
+                <!-- Wadah untuk Renungan yang bisa berbalik -->
+                <div class="flip-wrapper" id="renungan-flipper">
+                  <div class="flipper">
+                    <div class="front" id="renungan-flipper-front">
+                      <h2 class="text-center" style="margin-bottom: 1rem;">Renungan Minggu Ini</h2>
+                      <div id="renungan-current-text"></div>
+                    </div>
+                    <div class="back" id="renungan-flipper-back">
+                      <h2 class="text-center" style="margin-bottom: 1rem;">Renungan Minggu Depan</h2>
+                      <div id="renungan-next-text"></div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- ========== BAGIAN FLIP BARU - AKHIR ========== -->
 
-                <h2 style="text-align: center; margin-top: 2.5rem; margin-bottom: 1rem;">Renungan Minggu Ini</h2>
-                <div id="liturgi-renungan-container"></div>
-                </section>
+            </section>
 
             <section class="tab-content" id="agenda">
                 <h2>Agenda / Pengumuman Mingguan</h2>

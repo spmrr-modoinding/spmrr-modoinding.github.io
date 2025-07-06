@@ -73,7 +73,7 @@ auth.onAuthStateChanged(async (user) => {
     }
 });
 
-// --- FUNGSI-FUNGSI CRUD PROGRAM KERJA ---
+// --- FUNGSI-FUNGSI CRUD PROGRAM KERJA (Tidak berubah) ---
 const setupDropdowns = () => {
     const modalBidang = document.getElementById('modal-bidang');
     const modalSubBidang = document.getElementById('modal-sub-bidang');
@@ -288,7 +288,7 @@ document.getElementById('modal-anggaran-items-container').addEventListener('inpu
 document.getElementById('modal-add-anggaran-btn').addEventListener('click', () => addModalAnggaranRow());
 
 
-// --- FUNGSI-FUNGSI CRUD PENGUMUMAN ---
+// --- FUNGSI-FUNGSI CRUD PENGUMUMAN (Tidak berubah) ---
 const loadAllAnnouncements = async () => {
     const announcementsTableBody = document.getElementById('announcements-table-body');
     announcementsTableBody.innerHTML = `<tr><td colspan="5" style="text-align:center;">Memuat data pengumuman...</td></tr>`;
@@ -370,27 +370,44 @@ document.getElementById('announcement-form').addEventListener('submit', async (e
 });
 
 
-// --- FUNGSI-FUNGSI CRUD LITURGI ---
+// --- FUNGSI-FUNGSI CRUD LITURGI (DIPERBARUI UNTUK OTOMATISASI) ---
 const loadAllLiturgies = async () => {
     const liturgiesTableBody = document.getElementById('liturgies-table-body');
-    liturgiesTableBody.innerHTML = `<tr><td colspan="5" style="text-align:center;">Memuat data liturgi...</td></tr>`;
+    liturgiesTableBody.innerHTML = `<tr><td colspan="4" style="text-align:center;">Memuat data liturgi...</td></tr>`;
     try {
-        const snapshot = await db.collection('liturgies').orderBy('createdAt', 'desc').get();
+        // Mengurutkan berdasarkan tanggal liturgi, yang terbaru di atas
+        const snapshot = await db.collection('liturgies').orderBy('liturgyDate', 'desc').get();
         if (snapshot.empty) {
-            liturgiesTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Belum ada data liturgi.</td></tr>';
+            liturgiesTableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Belum ada data liturgi.</td></tr>';
             return;
         }
         liturgiesTableBody.innerHTML = snapshot.docs.map(doc => {
             const lit = doc.data();
-            const statusClass = lit.isCurrent ? 'active' : 'archived';
-            const statusText = lit.isCurrent ? 'Aktif' : 'Arsip';
-            const makeCurrentBtnDisabled = lit.isCurrent ? 'disabled' : '';
-            return `<tr data-id="${doc.id}"><td>${lit.tanggal||'-'}</td><td>${lit.peringatan||'-'}</td><td>${lit.warna||'-'}</td><td><span class="status-badge ${statusClass}">${statusText}</span></td><td class="no-print"><button class="action-btn-sm edit make-current-btn" ${makeCurrentBtnDisabled}>Jadikan Aktif</button><button class="action-btn-sm edit edit-liturgy">Edit</button><button class="action-btn-sm delete delete-liturgy">Hapus</button></td></tr>`;
+            // Tombol "Jadikan Aktif" dan Status dihilangkan
+            return `<tr data-id="${doc.id}"><td>${lit.tanggal||'-'}</td><td>${lit.peringatan||'-'}</td><td>${lit.warna||'-'}</td><td class="no-print"><button class="action-btn-sm edit edit-liturgy">Edit</button><button class="action-btn-sm delete delete-liturgy">Hapus</button></td></tr>`;
         }).join('');
     } catch (error) {
         console.error("Error memuat liturgi:", error);
-        liturgiesTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Gagal memuat data.</td></tr>';
+        liturgiesTableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Gagal memuat data.</td></tr>';
     }
+};
+
+// Fungsi pembantu untuk mengubah string tanggal Indonesia menjadi objek Date
+const parseIndonesianDate = (dateString) => {
+    const months = {
+        'januari': 0, 'februari': 1, 'maret': 2, 'april': 3, 'mei': 4, 'juni': 5,
+        'juli': 6, 'agustus': 7, 'september': 8, 'oktober': 9, 'november': 10, 'desember': 11
+    };
+    const parts = dateString.toLowerCase().split(' ');
+    if (parts.length !== 3) return null; // Format tidak valid
+    
+    const day = parseInt(parts[0], 10);
+    const month = months[parts[1]];
+    const year = parseInt(parts[2], 10);
+
+    if (isNaN(day) || month === undefined || isNaN(year)) return null;
+
+    return new Date(year, month, day);
 };
 
 document.getElementById('add-liturgy-btn').addEventListener('click', () => {
@@ -405,8 +422,19 @@ document.getElementById('liturgy-form').addEventListener('submit', async (e) => 
     e.preventDefault();
     const liturgyFormMessage = document.getElementById('liturgy-form-message');
     liturgyFormMessage.textContent = 'Menyimpan...';
+    
+    const dateString = document.getElementById('lit-tanggal').value;
+    const parsedDate = parseIndonesianDate(dateString);
+
+    if (!parsedDate) {
+        liturgyFormMessage.textContent = 'Format tanggal salah! Contoh: 13 Juli 2025';
+        liturgyFormMessage.className = 'form-message error';
+        return;
+    }
+
     const liturgyData = {
-        tanggal: document.getElementById('lit-tanggal').value,
+        tanggal: dateString, // Tetap simpan string untuk display
+        liturgyDate: firebase.firestore.Timestamp.fromDate(parsedDate), // Simpan sebagai timestamp untuk query
         peringatan: document.getElementById('lit-peringatan').value,
         warna: document.getElementById('lit-warna').value,
         bacaan1: document.getElementById('lit-bacaan1').value,
@@ -419,8 +447,7 @@ document.getElementById('liturgy-form').addEventListener('submit', async (e) => 
         if (currentEditLiturgyId) {
             await db.collection('liturgies').doc(currentEditLiturgyId).update(liturgyData);
         } else {
-            liturgyData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-            liturgyData.isCurrent = false;
+            // Hapus isCurrent, tidak lagi digunakan
             await db.collection('liturgies').add(liturgyData);
         }
         liturgyFormMessage.textContent = 'Berhasil disimpan!';
@@ -463,23 +490,11 @@ document.getElementById('liturgies-table-body').addEventListener('click', async 
             loadAllLiturgies();
         }
     }
-    if (target.classList.contains('make-current-btn')) {
-        target.textContent = "Memproses...";
-        target.disabled = true;
-        const batch = db.batch();
-        const currentActiveQuery = await db.collection('liturgies').where('isCurrent', '==', true).get();
-        currentActiveQuery.forEach(doc => {
-            batch.update(doc.ref, { isCurrent: false });
-        });
-        const newActiveRef = db.collection('liturgies').doc(docId);
-        batch.update(newActiveRef, { isCurrent: true });
-        await batch.commit();
-        loadAllLiturgies();
-    }
+    // Logika untuk 'make-current-btn' dihapus karena sudah otomatis
 });
 
 
-// --- FUNGSI MANAJEMEN KEHADIRAN PASTOR ---
+// --- FUNGSI MANAJEMEN KEHADIRAN PASTOR (Tidak berubah) ---
 const loadAllPastors = async () => {
     if (!pastorListContainer) return;
     pastorListContainer.innerHTML = `<p>Memuat daftar pastor...</p>`;
@@ -522,7 +537,7 @@ if (pastorListContainer) {
 }
 
 
-// --- FUNGSI MANAJEMEN STATISTIK UMAT ---
+// --- FUNGSI MANAJEMEN STATISTIK UMAT (Tidak berubah) ---
 const loadParishStats = async () => {
     const statsTableBody = document.getElementById('stats-table-body');
     const statsTableFooter = document.getElementById('stats-table-footer');

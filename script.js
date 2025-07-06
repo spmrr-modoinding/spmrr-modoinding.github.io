@@ -17,86 +17,10 @@ if (!firebase.apps.length) {
 }
 const db = firebase.firestore();
 
-// =============================================================
-// === BAGIAN 2: FUNGSI UTILITAS UNTUK MENAMPILKAN TOAST ===
-// =============================================================
-const showToast = (message, title = "Pemberitahuan Baru") => {
-    const container = document.getElementById('toast-container');
-    if (!container) return;
-
-    const toast = document.createElement('div');
-    toast.className = 'toast-notification';
-    toast.innerHTML = `
-        <i class="bi bi-info-circle-fill"></i>
-        <div class="toast-body">
-            <p>${title}</p>
-            <small>${message}</small>
-        </div>
-    `;
-
-    container.appendChild(toast);
-
-    setTimeout(() => {
-        toast.classList.add('show');
-    }, 100);
-
-    setTimeout(() => {
-        toast.classList.remove('show');
-        toast.addEventListener('transitionend', () => toast.remove());
-    }, 5000);
-};
-
-
 document.addEventListener('DOMContentLoaded', () => {
 
   // =================================================================
-  // === BAGIAN 3: LOGIKA UNTUK PUSH NOTIFICATIONS (FCM) ===
-  // =================================================================
-  if (firebase.messaging.isSupported()) {
-      const messaging = firebase.messaging();
-      const enableNotificationsBtn = document.getElementById('enable-notifications-btn');
-
-      messaging.usePublicVapidKey("BGyQEBNVLkczJ-2s274nMN4u0EcSZLm8m-43FMGceuy5Z_t9V1IwHWU05ZiSRuxc5gwjbBhDlAR1L0ijAnAphqY");
-
-      if (enableNotificationsBtn) {
-          enableNotificationsBtn.addEventListener('click', () => {
-              enableNotificationsBtn.textContent = 'Meminta Izin...';
-              Notification.requestPermission().then((permission) => {
-                  if (permission === 'granted') {
-                      enableNotificationsBtn.textContent = 'Notifikasi Aktif!';
-                      enableNotificationsBtn.disabled = true;
-                      messaging.getToken().then((currentToken) => {
-                          if (currentToken) {
-                              db.collection('fcm_tokens').doc(currentToken).set({
-                                  token: currentToken,
-                                  createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                              });
-                          } else {
-                              enableNotificationsBtn.textContent = 'Gagal, Coba Lagi';
-                          }
-                      });
-                  } else {
-                      enableNotificationsBtn.textContent = 'Izin Ditolak';
-                  }
-              });
-          });
-      }
-
-      messaging.onMessage((payload) => {
-          showToast(payload.notification.body, payload.notification.title);
-      });
-  } else {
-      console.log("Browser ini tidak mendukung Push Notification.");
-      const enableNotificationsBtn = document.getElementById('enable-notifications-btn');
-      if (enableNotificationsBtn) {
-        enableNotificationsBtn.textContent = 'Notifikasi Tidak Didukung';
-        enableNotificationsBtn.disabled = true;
-      }
-  }
-
-
-  // =================================================================
-  // === BAGIAN 4: FUNGSI-FUNGSI UNTUK MEMUAT DATA DARI FIREBASE ===
+  // === BAGIAN 2: FUNGSI-FUNGSI UNTUK MEMUAT DATA DARI FIREBASE ===
   // =================================================================
 
   const loadAnnouncementsPublic = async () => {
@@ -111,11 +35,26 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           container.innerHTML = snapshot.docs.map(doc => {
               const item = doc.data();
-              const catatanFormatted = (item.catatan || '').replace(/\n/g, '<br>');
-              const glightboxContent = `<h6><i class="bi bi-calendar-event me-2"></i><strong>Judul:</strong> ${item.judul}</h6><p><i class="bi bi-calendar me-2"></i><strong>Tanggal:</strong> ${item.tanggal}</p><p><i class="bi bi-clock me-2"></i><strong>Jam:</strong> ${item.jam}</p><p><i class="bi bi-geo-alt me-2"></i><strong>Lokasi:</strong> ${item.lokasi}</p><p><i class="bi bi-info-circle me-2"></i><strong>Catatan:</strong> ${catatanFormatted}</p>`;
-              return `<div class="col-lg-6 col-md-12 mb-4"><div class="card shadow-sm h-100 agenda-card"><div class="card-body d-flex flex-column"><h5 class="card-title text-primary"><i class="bi bi-bookmark-fill me-2"></i>${item.judul}</h5><p class="card-text"><small class="text-muted"><i class="bi bi-calendar me-1"></i> ${item.tanggal || ''} | <i class="bi bi-clock me-1"></i> ${item.jam || ''}</small><br><small class="text-muted"><i class="bi bi-geo-alt me-1"></i> ${item.lokasi || ''}</small></p><a href="#" class="btn btn-sm btn-outline-primary agenda-detail-btn mt-auto" data-glightbox="title: ${item.judul.replace(/"/g, '&quot;')}; description: ${glightboxContent.replace(/"/g, '&quot;')}">Lihat Detail <i class="bi bi-arrow-right-circle-fill ms-1"></i></a></div></div></div>`;
+              const catatanFormatted = (item.catatan || 'Tidak ada catatan.').replace(/\n/g, '<br>');
+              
+              return `
+              <div class="col-12 mb-4">
+                <div class="card shadow-sm agenda-card">
+                  <div class="card-body">
+                    <h5 class="card-title text-primary">
+                      <i class="bi bi-bookmark-fill me-2"></i>${item.judul}
+                    </h5>
+                    <div class="mt-3 pt-3 border-top">
+                      <p class="mb-2"><i class="bi bi-calendar-event me-2"></i><strong>Tanggal:</strong> ${item.tanggal || '-'}</p>
+                      <p class="mb-2"><i class="bi bi-clock me-2"></i><strong>Jam:</strong> ${item.jam || '-'}</p>
+                      <p class="mb-2"><i class="bi bi-geo-alt-fill me-2"></i><strong>Lokasi:</strong> ${item.lokasi || '-'}</p>
+                      <p class="mb-0 mt-3"><i class="bi bi-info-circle-fill me-2"></i><strong>Catatan:</strong><br><span class="d-inline-block mt-1 ps-4">${catatanFormatted}</span></p>
+                    </div>
+                  </div>
+                </div>
+              </div>`;
           }).join('');
-          GLightbox({ selector: '.agenda-detail-btn' });
+
       } catch (error) {
           console.error("Gagal memuat pengumuman: ", error);
           container.innerHTML = `<p class="text-danger">Terjadi kesalahan saat memuat agenda. Error: ${error.message}</p>`;
@@ -123,106 +62,128 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   
   // ======================================================================
-  // === FUNGSI INI TELAH DIPERBAIKI SECARA TOTAL UNTUK PREVIEW MINGGU DEPAN ===
+  // === FUNGSI LITURGI DENGAN LOGIKA TANGGAL YANG DIPERBAIKI ===
   // ======================================================================
   const loadActiveLiturgy = async () => {
-    const bacaanContainer = document.getElementById('liturgi-bacaan-container');
-    const renunganContainer = document.getElementById('liturgi-renungan-container');
-    
-    if (!bacaanContainer || !renunganContainer) return;
+    const flippers = {
+        title: document.getElementById('title-flipper'),
+        bacaan: document.getElementById('bacaan-flipper'),
+        renungan: document.getElementById('renungan-flipper')
+    };
+    const containers = {
+        bacaanFront: document.getElementById('bacaan-flipper-front'),
+        bacaanBack: document.getElementById('bacaan-flipper-back'),
+        renunganCurrent: document.getElementById('renungan-current-text'),
+        renunganNext: document.getElementById('renungan-next-text'),
+        tombol: document.getElementById('tombol-flip-container')
+    };
 
-    bacaanContainer.innerHTML = '<p id="loading-liturgy">Memuat data liturgi...</p>';
-    renunganContainer.innerHTML = '';
+    const createLiturgiCardHTML = (lit) => {
+      const colorMap = { "Hijau": "green", "Merah": "red", "Putih": "white", "Ungu": "purple", "Hitam": "black", "Mawar": "rose", "Biru": "blue" };
+      return `
+          <div class="liturgi-card">
+              <div class="liturgi-header"><span class="liturgi-date">${lit.tanggal}</span><span class="liturgi-color-dot ${colorMap[lit.warna] || 'default'}"></span></div>
+              <div class="liturgi-body">
+                  <h5 class="liturgi-perayaan">${lit.peringatan}</h5>
+                  <div class="liturgi-detail">
+                      <div class="liturgi-label"><i class="bi bi-book-fill"></i><span>Bacaan 1</span></div><div class="liturgi-colon">:</div><div class="liturgi-value">${lit.bacaan1 || '-'}</div>
+                      <div class="liturgi-label"><i class="bi bi-book-fill"></i><span>Bacaan 2</span></div><div class="liturgi-colon">:</div><div class="liturgi-value">${lit.bacaan2 || '-'}</div>
+                      <div class="liturgi-label"><i class="bi bi-music-note-beamed"></i><span>Mazmur</span></div><div class="liturgi-colon">:</div><div class="liturgi-value">${lit.mazmur || '-'}</div>
+                      <div class="liturgi-label"><i class="bi bi-journal-medical"></i><span>Injil</span></div><div class="liturgi-colon">:</div><div class="liturgi-value">${lit.injil || '-'}</div>
+                      <div class="liturgi-label"><i class="bi bi-palette-fill"></i><span>Warna</span></div><div class="liturgi-colon">:</div><div class="liturgi-value">${lit.warna || '-'}</div>
+                  </div>
+              </div>
+          </div>`;
+    };
+    
+    const setWrapperHeight = (wrapper) => {
+        if (!wrapper) return;
+        const front = wrapper.querySelector('.front');
+        const back = wrapper.querySelector('.back');
+        if (!front || !back) return;
+        front.style.position = 'relative';
+        back.style.position = 'relative';
+        const frontHeight = front.offsetHeight;
+        const backHeight = back.offsetHeight;
+        front.style.position = 'absolute';
+        back.style.position = 'absolute';
+        wrapper.style.height = `${Math.max(frontHeight, backHeight, 50)}px`;
+    };
 
     try {
-        const currentSnapshot = await db.collection('liturgies').where('isCurrent', '==', true).limit(1).get();
+        // --- LOGIKA TANGGAL YANG DIPERBAIKI ---
+        const today = new Date();
+        // Set jam ke 00:00:00 untuk perbandingan yang akurat
+        today.setHours(0, 0, 0, 0); 
         
-        const loadingMsg = document.getElementById('loading-liturgy');
-        if (loadingMsg) loadingMsg.remove();
+        // 1. Ambil liturgi MINGGU INI (tanggal <= hari ini, urutkan dari yang paling baru)
+        const currentSnapshot = await db.collection('liturgies')
+            .where('liturgyDate', '<=', today)
+            .orderBy('liturgyDate', 'desc')
+            .limit(1)
+            .get();
+        
+        // 2. Ambil liturgi MINGGU DEPAN (tanggal > hari ini, urutkan dari yang paling awal)
+        const nextSnapshot = await db.collection('liturgies')
+            .where('liturgyDate', '>', today)
+            .orderBy('liturgyDate', 'asc')
+            .limit(1)
+            .get();
 
         if (currentSnapshot.empty) {
-            bacaanContainer.innerHTML = '<p>Data liturgi minggu ini belum diatur oleh admin.</p>';
+            Object.values(flippers).forEach(f => f.style.display = 'none');
+            containers.tombol.innerHTML = '<p>Data liturgi minggu ini belum diatur oleh admin.</p>';
             return;
         }
-        
-        const lit = currentSnapshot.docs[0].data();
-        const colorMap = { "Hijau": "green", "Merah": "red", "Putih": "white", "Ungu": "purple", "Hitam": "black", "Mawar": "rose", "Biru": "blue" };
-        
-        // Template kartu liturgi, sekarang tanpa tombol preview di dalamnya
-        const cardHTML = `
-            <div class="liturgi-card">
-                <div class="liturgi-header">
-                    <span class="liturgi-date">${lit.tanggal}</span>
-                    <span class="liturgi-color-dot ${colorMap[lit.warna] || 'default'}"></span>
-                </div>
-                <div class="liturgi-body">
-                    <h5 class="liturgi-perayaan">${lit.peringatan}</h5>
-                    <div class="liturgi-detail">
-                        <div class="liturgi-label"><i class="bi bi-book-fill"></i><span>Bacaan 1</span></div>
-                        <div class="liturgi-colon">:</div>
-                        <div class="liturgi-value">${lit.bacaan1 || '-'}</div>
-                        <div class="liturgi-label"><i class="bi bi-book-fill"></i><span>Bacaan 2</span></div>
-                        <div class="liturgi-colon">:</div>
-                        <div class="liturgi-value">${lit.bacaan2 || '-'}</div>
-                        <div class="liturgi-label"><i class="bi bi-music-note-beamed"></i><span>Mazmur</span></div>
-                        <div class="liturgi-colon">:</div>
-                        <div class="liturgi-value">${lit.mazmur || '-'}</div>
-                        <div class="liturgi-label"><i class="bi bi-journal-medical"></i><span>Injil</span></div>
-                        <div class="liturgi-colon">:</div>
-                        <div class="liturgi-value">${lit.injil || '-'}</div>
-                        <div class="liturgi-label"><i class="bi bi-palette-fill"></i><span>Warna</span></div>
-                        <div class="liturgi-colon">:</div>
-                        <div class="liturgi-value">${lit.warna || '-'}</div>
-                    </div>
-                </div>
-            </div>`;
+
+        const currentLit = currentSnapshot.docs[0].data();
+        const nextLit = nextSnapshot.empty ? null : nextSnapshot.docs[0].data();
+
+        // Isi konten sisi DEPAN (front)
+        containers.bacaanFront.innerHTML = createLiturgiCardHTML(currentLit);
+        containers.renunganCurrent.innerHTML = `<p>${(currentLit.renungan || 'Renungan belum tersedia.').replace(/\n/g, '<br>')}</p>`;
+
+        if (nextLit) {
+            // Jika ada data minggu depan, isi konten sisi BELAKANG (back)
+            containers.bacaanBack.innerHTML = createLiturgiCardHTML(nextLit);
+            containers.renunganNext.innerHTML = `<p>${(nextLit.renungan || 'Renungan minggu depan belum tersedia.').replace(/\n/g, '<br>')}</p>`;
             
-        bacaanContainer.innerHTML = cardHTML;
-        renunganContainer.innerHTML = `<p>${(lit.renungan || 'Renungan belum tersedia.').replace(/\n/g, '<br>')}</p>`;
+            setTimeout(() => {
+              setWrapperHeight(flippers.title);
+              setWrapperHeight(flippers.bacaan);
+              setWrapperHeight(flippers.renungan);
+            }, 100);
 
-        // Cari data untuk minggu depan
-        const nextSnapshot = await db.collection('liturgies').where('isCurrent', '==', false).get();
-
-        if (!nextSnapshot.empty) {
-            const futureLiturgies = nextSnapshot.docs.map(doc => doc.data());
-            futureLiturgies.sort((a, b) => (b.createdAt?.toMillis() || 0) - (a.createdAt?.toMillis() || 0));
+            containers.tombol.innerHTML = `<button id="multi-flip-btn" class="btn btn-outline-primary">Lihat Minggu Depan &gt;&gt;&gt;</button>`;
             
-            const nextLit = futureLiturgies[0];
-
-            if (nextLit) {
-                // Jika ditemukan, BUAT tombolnya sekarang
-                const previewBtn = document.createElement('a');
-                previewBtn.href = "#";
-                previewBtn.className = "btn btn-outline-primary glightbox";
-                previewBtn.id = "previewMingguDepan";
-                previewBtn.style.marginTop = "1rem";
-                previewBtn.innerHTML = 'Lihat Minggu Depan &gt;&gt;&gt;';
-
-                const previewContent = `
-                    <div style='text-align: left;'>
-                        <h6>${nextLit.peringatan}</h6>
-                        <p><strong>Tanggal:</strong> ${nextLit.tanggal}</p>
-                        <hr>
-                        <p><strong>Bacaan 1:</strong> ${nextLit.bacaan1 || '-'}</p>
-                        <p><strong>Bacaan 2:</strong> ${nextLit.bacaan2 || '-'}</p>
-                        <p><strong>Mazmur:</strong> ${nextLit.mazmur || '-'}</p>
-                        <p><strong>Injil:</strong> ${nextLit.injil || '-'}</p>
-                    </div>
-                `.replace(/"/g, '&quot;').replace(/\n/g, '');
-
-                previewBtn.setAttribute('data-glightbox', `title: Liturgi Minggu Depan; description: ${previewContent}`);
-                
-                // Masukkan tombol ke dalam container, di bawah kartu
-                bacaanContainer.insertAdjacentElement('beforeend', previewBtn);
-                
-                // Inisialisasi GLightbox untuk tombol yang baru dibuat
-                GLightbox({ selector: '#previewMingguDepan' });
-            }
+            document.getElementById('multi-flip-btn').addEventListener('click', function() {
+                const isFlipped = flippers.title.classList.contains('is-flipped');
+                this.innerHTML = isFlipped ? 'Lihat Minggu Depan &gt;&gt;&gt;' : '&lt;&lt;&lt; Kembali ke Minggu Ini';
+                Object.values(flippers).forEach(f => f.classList.toggle('is-flipped'));
+            });
+        } else {
+            // Jika tidak ada data minggu depan, sembunyikan elemen yang tidak perlu
+            flippers.title.querySelector('.back').style.display = 'none';
+            flippers.bacaan.querySelector('.back').style.display = 'none';
+            flippers.renungan.querySelector('.back').style.display = 'none';
+            containers.tombol.style.display = 'none';
+            setTimeout(() => {
+                setWrapperHeight(flippers.title);
+                setWrapperHeight(flippers.bacaan);
+                setWrapperHeight(flippers.renungan);
+            }, 100);
         }
 
     } catch (error) {
-        console.error("Gagal memuat liturgi: ", error);
-        bacaanContainer.innerHTML = `<p class="text-danger">Terjadi kesalahan saat memuat liturgi. Error: ${error.message}</p>`;
+        console.error("Gagal memuat liturgi:", error);
+        if (error.code === 'failed-precondition') {
+            const firestoreLink = `https://console.firebase.google.com/v1/r/project/${firebaseConfig.projectId}/firestore/indexes?create_composite=Ckxwcm9qZWN0cy9wYXJva2ktbW9kb2luZGluZy9kYXRhYmFzZXMvKGRlZmF1bHQpL2NvbGxlY3Rpb25Hcm91cHMvbGl0dXJnaWVzL2luZGV4ZXMvXxABGhAKDGxpdHVyZ3lEYXRlEAEaDAoIX19uYW1lX18QARoQChBsaXR1cmd5RGF0ZVBhcmEQAhoMCghfX25hbWVfXxAC`;
+            containers.bacaanFront.innerHTML = `<p class="text-danger"><b>Aksi Diperlukan:</b> Database memerlukan index baru untuk fitur ini. <a href="${firestoreLink}" target="_blank">Klik di sini untuk membuatnya</a>, lalu muat ulang halaman ini.</p>`;
+        } else {
+            containers.bacaanFront.innerHTML = `<p class="text-danger">Terjadi kesalahan saat memuat liturgi.</p>`;
+        }
+        Object.values(flippers).forEach(f => { if(f !== flippers.bacaan) f.style.display = 'none'; });
+        containers.tombol.style.display = 'none';
     }
   };
 
@@ -277,15 +238,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Memanggil semua fungsi untuk memuat data saat halaman dibuka
+  // =================================================================
+  // === BAGIAN 3: KODE UNTUK NAVIGASI TAB DAN FUNGSI LAINNYA ===
+  // =================================================================
+  
   loadAnnouncementsPublic();
   loadActiveLiturgy();
   loadPastorStatus();
   loadPublicStats();
   
-  // =================================================================
-  // === BAGIAN 5: KODE UNTUK NAVIGASI TAB DAN LAINNYA ===
-  // =================================================================
   function activateTab(tabId) {
     document.querySelectorAll('.tab-button').forEach(btn => { if (btn.dataset.tab) { btn.classList.toggle('active', btn.dataset.tab === tabId); } });
     document.querySelectorAll('.tab-content').forEach(content => { content.classList.toggle('active', content.id === tabId); });
@@ -323,7 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
-
+  
   const tentangContainer = document.querySelector('#tentang');
   if (tentangContainer) {
     const pastorList = [ { id: 2, name: 'P. Joseph Ansow, Pr.', img: 'pastor-joseph.jpg', masa: '2025 - Sekarang' }, { id: 3, name: 'P. Stenly Ambun, Pr. (Pastor Rekan Paroki)', img: 'pastor-stenly.jpg', masa: '2024 - Sekarang' }, { id: 4, name: 'P. Feighty Y. Boseke, Pr. (Alm)', img: 'pastor-feighty.jpg', masa: '2017 - 2024' }, { id: 5, name: 'P. Stevy Motto, Pr.', img: 'pastor-stevy.jpg', masa: '2014 - 2017' }, { id: 6, name: 'P. Yan S. Koraag, Pr.', img: 'pastor-yan.jpg', masa: '2011 - 2014' }, { id: 7, name: 'Pra-Paroki | P. Herman Saroinsong, Pr. (Alm)', img: 'pastor-Herman.jpg', masa: '2008 - 2011' } ];
