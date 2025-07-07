@@ -6,61 +6,66 @@
     <title>Paroki SP Maria Ratu Rosari Modoinding</title>
     <link href="logo-paroki2.png" rel="icon" type="image/png"/>
     
+    <!-- STYLESHEETS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet">
-    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <link rel="manifest" href="manifest.json">
     <link href="style.css" rel="stylesheet">
 </head>
 <body>
-    <header style="position: relative; z-index: 1;">
+    <!-- HEADER -->
+    <header>
         <div id="particles-js"></div>
         <img alt="Logo Paroki" class="logo" src="logo-paroki.png"/>
         <h1><b>Paroki Sta. Perawan Maria Ratu Rosari Modoinding</b></h1>
         <p>Jl. Trans Sulawesi, Desa Sinisir, Jaga VIII, Kecamatan Modoinding, Kabupaten Minahasa Selatan 95358</p>
     </header>
 
+    <!-- ALERT INFO -->
     <div class="container mt-2">
         <div class="alert alert-info alert-dismissible fade show" role="alert">
-            <strong>Informasi:</strong> Ini website masih sementara ja beking.
+            <strong>Informasi:</strong> Website ini masih dalam tahap pengembangan.
             <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>
         </div>
     </div>
 
+    <!-- MAIN CONTENT -->
     <div class="container">
+        <!-- TOMBOL TOGGLE SIDEBAR -->
         <button class="btn btn-primary sidebar-toggle" id="sidebarToggleBtn" type="button" aria-label="Buka atau Tutup Menu">
             <i class="bi bi-list"></i>
         </button>
 
+        <!-- SIDEBAR MENU -->
         <aside class="sidebar" id="sidebarMenu">
             <nav class="nav d-flex flex-column">
                 <a href="login.html" class="tab-button" style="padding-bottom: 0.8rem; margin-bottom: 0.8rem; border-bottom: 1px solid var(--blue-border);">
                     <i class="bi bi-key-fill"></i>
-                    <span>Login</span>
+                    <span>Login Admin</span>
                 </a>
                 
                 <button class="tab-button active" data-tab="beranda"><i class="bi bi-house-door-fill"></i><span>Beranda</span></button>
-                <button class="tab-button" data-tab="agenda"><i class="bi bi-calendar-event"></i><span>Agenda / Pengumuman</span></button>
-                <button class="tab-button" data-tab="angelus"><i class="bi bi-heart-fill"></i><span>Angelus</span></button>
+                <button class="tab-button" data-tab="agenda"><i class="bi bi-calendar-event"></i><span>Agenda & Pengumuman</span></button>
+                <button class="tab-button" data-tab="angelus"><i class="bi bi-heart-fill"></i><span>Doa Angelus</span></button>
                 <button class="tab-button" data-tab="pastor"><i class="bi bi-person-vcard-fill"></i><span>Profil Pastor</span></button>
-                <button class="tab-button" data-tab="sekretariat"><i class="bi bi-envelope-fill"></i><span>Sekretariat x Komsos</span></button>
-                <button class="tab-button" data-tab="statistik"><i class="bi bi-bar-chart-line-fill"></i><span>Statistik Umat Paroki</span></button>
+                <button class="tab-button" data-tab="sekretariat"><i class="bi bi-envelope-fill"></i><span>Sekretariat & Komsos</span></button>
+                <button class="tab-button" data-tab="statistik"><i class="bi bi-bar-chart-line-fill"></i><span>Statistik Umat</span></button>
                 <button class="tab-button" data-tab="tentang"><i class="bi bi-info-circle-fill"></i><span>Tentang Paroki</span></button>
-                <button class="tab-button" data-tab="kalender"><i class="bi bi-calendar-check-fill"></i><span>Kalender Paroki 2025</span></button>
+                <button class="tab-button" data-tab="kalender"><i class="bi bi-calendar-check-fill"></i><span>Kalender Liturgi</span></button>
                 <button class="tab-button" data-tab="sejarah-paus"><i class="bi bi-person-badge-fill"></i><span>Sejarah Paus</span></button>
-                
-                </nav>
+            </nav>
         </aside>
 
+        <!-- KONTEN TAB -->
         <main>
             <section class="tab-content active" id="beranda">
                 <h2 class="text-center pastor-title">Pastor Paroki & Pastor Rekan</h2>
                 <div class="pastors-beranda">
                     <div class="pastor-item-beranda">
                         <a href="pastor-joseph.jpg" class="glightbox" data-gallery="pastor-beranda">
-                            <img alt="Foto Pastor Joseph Ansow, Pr." class="pastor-photo" src="pastor-joseph.jpg"/>
+                            <img alt="Foto Pastor Joseph Ansow, Pr." class="pastor-photo pastor-photo-joseph" src="pastor-joseph.jpg"/>
                         </a>
                         <p><b>P. Joseph Ansow, Pr.</b></p>
                     </div>
@@ -73,88 +78,53 @@
                 </div>
                 <br><br>
 
-                <!-- ========== BAGIAN FLIP BARU - AWAL ========== -->
-                
-                <!-- Wadah untuk Judul yang bisa berbalik -->
+                <!-- BAGIAN LITURGI & RENUNGAN -->
                 <div class="flip-wrapper" id="title-flipper">
                   <div class="flipper">
-                    <div class="front">
-                      <h2 class="text-center">Liturgi Hari Minggu Ini</h2>
-                    </div>
-                    <div class="back">
-                      <h2 class="text-center">Liturgi Hari Minggu Depan</h2>
-                    </div>
+                    <div class="front"><h2 class="text-center">Liturgi Hari Minggu Ini</h2></div>
+                    <div class="back"><h2 class="text-center">Liturgi Hari Minggu Depan</h2></div>
                   </div>
                 </div>
                 
-                <!-- Wadah untuk Kartu Bacaan yang bisa berbalik -->
                 <div class="flip-wrapper" id="bacaan-flipper">
                   <div class="flipper">
-                    <div class="front" id="bacaan-flipper-front">
-                      <!-- Konten kartu minggu ini akan diisi oleh JS -->
-                      <p class="text-center">Memuat data liturgi...</p>
-                    </div>
-                    <div class="back" id="bacaan-flipper-back">
-                      <!-- Konten kartu minggu depan akan diisi oleh JS -->
-                    </div>
+                    <div class="front" id="bacaan-flipper-front"><p class="text-center">Memuat data liturgi...</p></div>
+                    <div class="back" id="bacaan-flipper-back"></div>
                   </div>
                 </div>
                 
-                <!-- Tombol diletakkan di sini, di antara kartu dan renungan -->
-                <div id="tombol-flip-container" class="text-center my-3">
-                  <!-- Tombol akan dibuat oleh JS -->
+                <div id="tombol-flip-container" class="text-center my-3"></div>
+                
+                <div id="renungan-container" class="renungan-wrapper">
+                  <h2 id="renungan-title" class="text-center">Renungan Minggu Ini</h2>
+                  <div id="renungan-text" class="renungan-content"></div>
                 </div>
-                
-<!-- ========== BAGIAN RENUNGAN BARU (TANPA KARTU) ========== -->
-<div id="renungan-container" class="renungan-wrapper">
-  <h2 id="renungan-title" class="text-center">Renungan Minggu Ini</h2>
-  <div id="renungan-text" class="renungan-content">
-    <!-- Teks renungan akan diisi oleh JavaScript -->
-  </div>
-</div>
-                
-                <!-- ========== BAGIAN FLIP BARU - AKHIR ========== -->
-
             </section>
 
             <section class="tab-content" id="agenda">
                 <h2>Agenda / Pengumuman Mingguan</h2>
-                <div class="row row-cols-1 row-cols-md-2 g-4 mt-3" id="agenda-container">
-                    </div>
+                <div class="row row-cols-1 row-cols-md-2 g-4 mt-3" id="agenda-container"></div>
             </section>
 
             <section class="tab-content" id="angelus">
                 <h2>Doa Malaikat Tuhan</h2>
                 <p>Maria diberi kabar oleh malaikat Tuhan,</p>
-                Bahwa ia akan mengandung dari Roh Kudus. <br/> Salam Maria …
+                <p><strong>Bahwa ia akan mengandung dari Roh Kudus.</strong><br/><i>Salam Maria...</i></p>
                 <p>Aku ini hamba Tuhan,</p>
-                Terjadilah padaku menurut perkataan-Mu. <br/> Salam Maria …
+                <p><strong>Terjadilah padaku menurut perkataan-Mu.</strong><br/><i>Salam Maria...</i></p>
                 <p>Sabda sudah menjadi Manusia,</p>
-                Dan tinggal diantara kita. <br/> Salam Maria …
-                <p>Doakanlah kami, ya Santa Bunda Allah,<br/>Supaya kami dapat menikmati janji Kristus.</p>
+                <p><strong>Dan tinggal diantara kita.</strong><br/><i>Salam Maria...</i></p>
+                <p>Doakanlah kami, ya Santa Bunda Allah,</p>
+                <p><strong>Supaya kami dapat menikmati janji Kristus.</strong></p>
                 <br/>
-                <p>Marilah berdoa... <i>(Hening)</i></p>
-                <br/>
-                <p>Ya Allah, karena kabar malaikat, kami mengetahui bahwa Yesus Kristus Putra-Mu menjadi manusia. Curahkanlah rahmat-Mu ke dalam hati kami, supaya karena sengsara dan salib-Nya, kami dibawa kepada kebangkitan yang mulia. Sebab Dialah Tuhan, pengantara kami.</p>
-                <p>Amin.</p>
-                <br/><br/>
-                <b>Angelus:</b>
-                <p style="text-align: justify;">
-                    <p>Kata "Angelus" berasal dari bahasa Latin yang berarti "malaikat". Doa ini dinamakan Angelus karena pembukaannya, yaitu "Angelus Domini nuntiavit Mariae" (Malaikat Tuhan memberitakan kepada Maria).</p>
-                    <br/>
-                    <b>Peristiwa Inkarnasi:</b>
-                    <p>Doa ini mengingatkan umat Katolik akan peristiwa inkarnasi, yaitu saat Yesus Kristus menjadi manusia dalam kandungan Bunda Maria.</p>
-                    <br/>
-                    <b>Doa Tiga Kali Sehari:</b>
-                    <p>Doa Angelus dibaca tiga kali sehari, pada pukul 6 pagi, 12 siang, dan 6 sore, untuk menghormati peristiwa inkarnasi, sengsara Kristus, dan kebangkitan-Nya.</p>
-                </p>
-                </section>
+                <p><strong>Marilah berdoa...</strong> <i>(Hening)</i></p>
+                <p>Ya Allah, karena kabar malaikat, kami mengetahui bahwa Yesus Kristus Putra-Mu menjadi manusia. Curahkanlah rahmat-Mu ke dalam hati kami, supaya karena sengsara dan salib-Nya, kami dibawa kepada kebangkitan yang mulia. Sebab Dialah Tuhan, pengantara kami. Amin.</p>
+            </section>
 
-            <section class="tab-content" id="pastor">
-                </section>
+            <section class="tab-content" id="pastor"></section>
 
             <section class="tab-content" id="sekretariat">
-                <h2 style="text-align: center;"><b>SEKRETARIAT x KOMSOS</b></h2>
+                <h2 style="text-align: center;"><b>SEKRETARIAT & KOMSOS</b></h2>
                 <div class="social-icons">
                     <a href="https://www.facebook.com/share/19K6ZFiifj/" target="_blank" class="social-icon fb"><i class="fab fa-facebook-f"></i></a>
                     <a href="https://www.tiktok.com/@komsos_spmararos" target="_blank" class="social-icon tiktok"><i class="fab fa-tiktok"></i></a>
@@ -162,98 +132,49 @@
                 </div>
                 <div class="formulir-download mt-5">
                     <h4 class="mb-3">📄 Unduh Formulir Paroki</h4>
-                    <p class="text-muted" style="font-size: 0.9rem;">- Klik pada nama formulir untuk mengunduh file dalam format PDF.</p>
-                    <p class="text-muted" style="font-size: 0.9rem;">- Print Layout dengan ukuran kertas F4 atau 215 x 330 mm.</p>
+                    <p class="text-muted" style="font-size: 0.9rem;">- Klik pada nama formulir untuk mengunduh file (PDF).<br>- Print dengan ukuran kertas F4 (215 x 330 mm).</p>
                     <div class="list-group">
-                        <a href="formulir/formulir-baptis.pdf" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" download>
-                            Formulir Baptis
-                            <i class="bi bi-download"></i>
-                        </a>
-                        <a href="formulir/formulir-krisma.pdf" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" download>
-                            Formulir Krisma
-                            <i class="bi bi-download"></i>
-                        </a>
-                        <a href="formulir/formulir-perkawinan.pdf" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" download>
-                            Formulir Perkawinan
-                            <i class="bi bi-download"></i>
-                        </a>
-                         <a href="formulir/formulir-penerimaan-anggota-baru.pdf" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" download>
-                            Formulir Penerimaan Anggota Gereja
-                            <i class="bi bi-download"></i>
-                        </a>
-                        <a href="formulir/formulir-komuni-pertama.pdf" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" download>
-                            Formulir Komuni Pertama
-                            <i class="bi bi-download"></i>
-                        </a>
-                        <a href="formulir/formulir-kursus-persiapan-perkawinan.pdf" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" download>
-                            Formulir Kursus Persiapan Perkawinan (KPP)
-                            <i class="bi bi-download"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="galeri-dokumentasi mt-5">
-                    <h4 class="mb-3">📷 Dokumentasi</h4>
-                    <div class="accordion" id="accordionDokumentasi">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingAdvent">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAdvent">
-                                    <b>Alm. P. Feighty Y. Boseke, Pr. - 29 Desember 2024</b>
-                                </button>
-                            </h2>
-                            <div id="collapseAdvent" class="accordion-collapse collapse" data-bs-parent="#accordionDokumentasi">
-                                <div class="accordion-body">
-                                    <div class="dokumentasi-grid" id="galeriDokumentasi"></div>
-                                    <div class="mt-4 text-center">
-                                        <h5><strong>Dokumentasi Kegiatan Sekretariat / Komsos</strong></h5>
-                                        <p><a href="https://drive.google.com/drive/folders/1yM196mr0FG_zbSXPl_AWqtxLlxivBZ4o?usp=drive_link" target="_blank" class="btn btn-outline-primary">Alm. P. Feghty Y. Boseke, Pr.</a></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <a href="formulir/formulir-baptis.pdf" class="list-group-item list-group-item-action" download>Formulir Baptis <i class="bi bi-download float-end"></i></a>
+                        <a href="formulir/formulir-krisma.pdf" class="list-group-item list-group-item-action" download>Formulir Krisma <i class="bi bi-download float-end"></i></a>
+                        <a href="formulir/formulir-perkawinan.pdf" class="list-group-item list-group-item-action" download>Formulir Perkawinan <i class="bi bi-download float-end"></i></a>
+                        <a href="formulir/formulir-penerimaan-anggota-baru.pdf" class="list-group-item list-group-item-action" download>Formulir Penerimaan Anggota <i class="bi bi-download float-end"></i></a>
+                        <a href="formulir/formulir-komuni-pertama.pdf" class="list-group-item list-group-item-action" download>Formulir Komuni Pertama <i class="bi bi-download float-end"></i></a>
+                        <a href="formulir/formulir-kursus-persiapan-perkawinan.pdf" class="list-group-item list-group-item-action" download>Formulir Kursus Persiapan Perkawinan (KPP) <i class="bi bi-download float-end"></i></a>
                     </div>
                 </div>
             </section>
             
-            <section class="tab-content" id="statistik">
-                </section>
-
-            <section class="tab-content" id="tentang">
-                </section>
-
-            <section class="tab-content" id="kalender">
-                <h2>Kalender Paroki</h2>
-                <div id="kalender-paroki-container" class="mt-3"></div>
-            </section>
-            
-            <section class="tab-content" id="sejarah-paus">
-                <h2>Sejarah Paus</h2>
-                <div id="popes-container" class="mt-3"></div>
-            </section>
+            <section class="tab-content" id="statistik"></section>
+            <section class="tab-content" id="tentang"></section>
+            <section class="tab-content" id="kalender"></section>
+            <section class="tab-content" id="sejarah-paus"></section>
         </main>
     </div>
 
+    <!-- FOOTER -->
     <footer>
         <button id="enable-notifications-btn" class="btn btn-sm btn-success mb-2">Aktifkan Notifikasi</button><br>
         © 2025 - Paroki Sta. Perawan Maria Ratu Rosari Modoinding. Dibuat oleh Sekretariat Paroki.
     </footer>
 
+    <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js"></script>
-<script src="script.js" defer></script>
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('service-worker.js').then(registration => {
-        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-      }, err => {
-        console.log('ServiceWorker registration failed: ', err);
-      });
-    });
-  }
-</script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js"></script>
+    <script src="script.js" defer></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('service-worker.js').then(registration => {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          }, err => {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+        });
+      }
+    </script>
 </body>
 </html>
