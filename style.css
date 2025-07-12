@@ -1,9 +1,12 @@
 /*
  * style.css
  * File gaya utama untuk halaman publik Paroki.
+ * Dikelompokkan berdasarkan fungsi untuk kemudahan maintenance.
  */
 
-/* ========== IMPOR FONT & VARIABEL GLOBAL ========== */
+/* ==================================================
+   1. IMPOR FONT & VARIABEL GLOBAL
+   ================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
 
 :root {
@@ -19,7 +22,9 @@
   --sidebar-active-border: var(--blue-main);
 }
 
-/* ========== RESET & GAYA DASAR ========== */
+/* ==================================================
+   2. RESET & GAYA DASAR
+   ================================================== */
 * {
   box-sizing: border-box;
 }
@@ -43,35 +48,16 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Times New Roman', Times, serif;
 }
 
-/* ========== LAYOUT UTAMA ========== */
-.container {
-  display: flex;
-  flex: 1;
-  width: 100%;
-  max-width: 950px;
-  margin: 1rem auto;
-  gap: 1rem;
-  position: relative;
-}
-
-main {
-  flex: 1;
-  padding: 1.5rem;
-  background-color: var(--white);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  position: relative;
-  overflow: hidden;
-}
-
-/* ========== HEADER & FOOTER ========== */
+/* ==================================================
+   3. LAYOUT UTAMA (HEADER, MAIN, FOOTER)
+   ================================================== */
 header {
   position: relative;
-  padding: 0.3rem 0.1rem;
+  padding: 0.3rem 1rem;
   text-align: center;
   background-color: var(--blue-light);
   color: var(--blue-main);
-  z-index: 1; /* Diperlukan agar konten header di atas partikel */
+  z-index: 1;
 }
 
 .logo {
@@ -94,6 +80,26 @@ header p {
   margin: 0.2rem 0 0;
 }
 
+.main-layout {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  max-width: 950px;
+  margin: 1rem auto;
+  gap: 1rem;
+  position: relative;
+}
+
+main {
+  flex: 1;
+  padding: 1.5rem;
+  background-color: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
 footer {
   text-align: center;
   padding: 1rem;
@@ -104,7 +110,9 @@ footer {
   margin-top: auto;
 }
 
-/* ========== SIDEBAR & NAVIGASI ========== */
+/* ==================================================
+   4. SIDEBAR & NAVIGASI TAB
+   ================================================== */
 .sidebar {
   position: fixed;
   top: 15px;
@@ -149,13 +157,14 @@ footer {
   user-select: none;
   opacity: 0;
   transform: translateX(-20px);
-  transition: 
-    background-color 0.3s ease, 
-    color 0.3s ease, 
-    border-left-color 0.3s ease, 
-    opacity 0.4s ease, 
-    transform 0.4s ease;
+  transition: background-color 0.3s ease, color 0.3s ease, border-left-color 0.3s ease, opacity 0.4s ease, transform 0.4s ease;
   transition-delay: 0s;
+}
+
+.tab-button-login {
+  padding-bottom: 0.8rem; 
+  margin-bottom: 0.8rem; 
+  border-bottom: 1px solid var(--blue-border);
 }
 
 .sidebar.active .tab-button {
@@ -163,6 +172,7 @@ footer {
   transform: translateX(0);
 }
 
+/* Animasi staggered untuk tombol sidebar */
 .sidebar.active .tab-button:nth-child(1) { transition-delay: 0.1s; }
 .sidebar.active .tab-button:nth-child(2) { transition-delay: 0.15s; }
 .sidebar.active .tab-button:nth-child(3) { transition-delay: 0.2s; }
@@ -204,7 +214,11 @@ footer {
   display: block;
 }
 
-/* ========== GAYA KONTEN SPESIFIK ========== */
+/* ==================================================
+   5. GAYA KONTEN SPESIFIK (BERANDA, AGENDA, DLL)
+   ================================================== */
+
+/* --- Bagian Pastor di Beranda --- */
 .pastor-title {
   font-size: 1.4rem;
   font-weight: bold;
@@ -217,7 +231,7 @@ footer {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  gap: 2rem; /* Mengurangi jarak antar foto */
+  gap: 2rem;
   flex-wrap: nowrap;
   margin-top: 1rem;
   padding: 20px;
@@ -257,8 +271,8 @@ footer {
 }
 
 .pastors-beranda .pastor-photo {
-  width: 100px; /* Ukuran foto diperkecil */
-  height: 100px; /* Ukuran foto diperkecil */
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
   border: 4px solid var(--blue-main);
@@ -267,9 +281,8 @@ footer {
   cursor: pointer;
 }
 
-/* Koreksi posisi foto Pastor Joseph */
 .pastor-photo-joseph {
-    object-position: center 20%; /* Geser gambar 20% dari atas */
+  object-position: center 30%; /* Geser gambar lebih ke bawah */
 }
 
 .pastors-beranda .pastor-photo:hover {
@@ -278,19 +291,100 @@ footer {
 
 .pastors-beranda p {
   margin-top: 0.75rem;
-  font-size: 1rem; /* Sedikit diperkecil agar proporsional */
+  font-size: 1rem;
 }
 
-.liturgi-card, .agenda-card {
-  border-radius: 15px;
+/* --- Bagian Status Pastor di Profil --- */
+.pastor-status {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.pastor-status .pastor-photo {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ccc;
+}
+
+.pastor-status .indicator {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    color: var(--white);
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+}
+
+.pastor-status .indicator.green {
+    background-color: var(--green);
+}
+
+.pastor-status .indicator.red {
+    background-color: var(--red);
+}
+
+
+/* --- Kartu Agenda --- */
+.agenda-card {
+  border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.liturgi-card:hover, .agenda-card:hover {
+.agenda-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 12px 28px rgba(0, 74, 153, 0.15);
+}
+
+/* --- Efek Flip Liturgi --- */
+.flip-wrapper {
+  perspective: 1500px;
+  margin-bottom: 1.5rem;
+}
+
+.flipper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.flip-wrapper.is-flipped .flipper {
+  transform: rotateY(180deg);
+}
+
+.front, .back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.front { z-index: 2; }
+.back { transform: rotateY(180deg); z-index: 1; }
+
+#bacaan-flipper .liturgi-card {
+  height: 100%;
+  margin-bottom: 0;
+}
+
+/* --- Kartu Liturgi --- */
+.liturgi-card {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
 .liturgi-header {
@@ -358,7 +452,147 @@ footer {
   padding-left: 0.5rem; 
 }
 
-/* ========== SIDEBAR TOGGLE & RESPONSIVE ========== */
+/* --- Bagian Renungan --- */
+.renungan-wrapper {
+  margin-top: 1.5rem;
+  padding: 1rem 1.5rem;
+  background-color: #e6f2ff;
+  border-radius: 12px;
+}
+
+.renungan-wrapper h2 {
+  margin-bottom: 1rem;
+  color: var(--blue-main);
+  font-size: 1.5rem;
+}
+
+.renungan-content p {
+  text-align: justify;
+  line-height: 1.7;
+  font-size: 1rem;
+  color: #333;
+  margin: 0;
+}
+
+/* --- Tabel Statistik --- */
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.stats-table th, .stats-table td {
+  border: 1px solid #ddd;
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.stats-table thead th {
+  background-color: var(--blue-main);
+  color: var(--white);
+  text-align: center;
+}
+
+.stats-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.stats-table tbody tr:hover {
+  background-color: var(--blue-soft);
+}
+
+.stats-table tfoot tr {
+    font-weight: bold;
+    background-color: var(--blue-soft);
+}
+
+/* --- Akordeon Sejarah Paus --- */
+.pope-item {
+    border: 1px solid var(--blue-border);
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+}
+.pope-header {
+    background-color: var(--blue-bg);
+    padding: 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+.pope-header::after {
+    content: '\\25BC'; /* Panah ke bawah */
+    transition: transform 0.3s ease;
+}
+.pope-header.active::after {
+    transform: rotate(180deg);
+}
+.pope-body {
+    padding: 1rem;
+    display: none;
+    border-top: 1px solid var(--blue-border);
+    background-color: #fafcff;
+}
+.pope-body p {
+    margin: 0 0 0.5rem 0;
+}
+
+/* --- Kalender Liturgi dari JSON --- */
+.kalender-bulan {
+    background-color: var(--blue-main);
+    color: var(--white);
+    padding: 0.75rem 1.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+    border-radius: 8px 8px 0 0;
+}
+.kalender-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid var(--blue-border);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+}
+.kalender-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid var(--blue-soft);
+}
+.kalender-item:last-child {
+    border-bottom: none;
+}
+.kalender-tanggal {
+    font-weight: bold;
+    width: 50px;
+}
+.kalender-perayaan {
+    flex: 1;
+}
+
+/* ==================================================
+   6. KOMPONEN LAINNYA (PARTICLES, SIDEBAR TOGGLE)
+   ================================================== */
+#particles-js {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+header .logo,
+header h1,
+header p {
+  position: relative;
+  z-index: 2;
+}
+
 .sidebar-toggle {
   position: fixed;
   top: 10px;
@@ -391,85 +625,11 @@ body.sidebar-open::before {
   z-index: 1035;
 }
 
-/* ========== EFEK FLIP & RENUNGAN ========== */
-.flip-wrapper {
-  perspective: 1500px;
-  margin-bottom: 1.5rem;
-}
-
-.flipper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.8s;
-  transform-style: preserve-3d;
-}
-
-.flip-wrapper.is-flipped .flipper,
-#title-flipper.is-flipped .flipper {
-  transform: rotateY(180deg);
-}
-
-.front, .back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  overflow: hidden;
-  border-radius: 12px;
-}
-
-.front { z-index: 2; }
-.back { transform: rotateY(180deg); z-index: 1; }
-
-#bacaan-flipper .liturgi-card {
-  height: 100%;
-  margin-bottom: 0;
-}
-
-.renungan-wrapper {
-  margin-top: 1.5rem;
-  padding: 0.5rem 0.5rem;
-  background-color: #e6f2ff;
-  border: none;
-  border-radius: 15px;
-}
-
-.renungan-wrapper h2 {
-  margin-bottom: 1rem;
-  color: var(--blue-main);
-  font-size: 1.5rem;
-}
-
-.renungan-content p {
-  text-align: justify;
-  line-height: 1.7;
-  font-size: 0.9rem;
-  color: #000000;
-  margin: 0;
-}
-
-/* ========== PARTICLES.JS & Z-INDEX CORRECTION ========== */
-#particles-js {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1; /* Pindahkan ke belakang konten header */
-}
-
-header .logo,
-header h1,
-header p {
-  position: relative; /* Pastikan elemen ini punya konteks stacking */
-  z-index: 2; /* Pastikan di atas partikel */
-}
-
-/* ========== MEDIA QUERIES UNTUK RESPONSIVE ========== */
+/* ==================================================
+   7. MEDIA QUERIES (RESPONSIVE DESIGN)
+   ================================================== */
 @media (max-width: 768px) {
-  .container {
+  .main-layout {
     flex-direction: column;
     padding: 0 1rem;
     margin-left: 0;
@@ -483,8 +643,491 @@ header p {
   .sidebar-toggle.active {
     left: 230px;
   }
-  /* Menghapus aturan yang membuat foto menjadi atas-bawah */
   .pastors-beranda {
-    gap: 1.5rem; /* Jarak di mobile bisa sedikit lebih kecil */
+    gap: 1.5rem;
   }
+}
+/* ==================================================
+   8. GAYA SPESIFIK UNTUK KALENDER LITURGI (BARU)
+   ================================================== */
+
+.kalender-bulan {
+    background-color: var(--blue-main);
+    color: var(--white);
+    padding: 0.75rem 1.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+    border-radius: 8px 8px 0 0;
+    font-size: 1.2rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.kalender-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid var(--blue-border);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    margin-bottom: 1.5rem;
+}
+
+.kalender-item {
+    display: flex;
+    align-items: flex-start; /* Ubah ke flex-start agar align dari atas */
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--blue-soft);
+    gap: 1rem;
+}
+
+.kalender-item:last-child {
+    border-bottom: none;
+}
+
+.kalender-tanggal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    flex-shrink: 0;
+    text-align: center;
+    background-color: #f0f6ff;
+    border-radius: 8px;
+    padding: 0.5rem;
+    border: 1px solid var(--blue-soft);
+}
+
+.kalender-tanggal .tanggal-angka {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--blue-main);
+    line-height: 1;
+}
+
+.kalender-tanggal .tanggal-hari {
+    font-size: 0.75rem;
+    color: #555;
+    margin-top: 0.25rem;
+}
+
+.kalender-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.kalender-judul {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+}
+
+/* Styling untuk dot warna berdasarkan emoji */
+.kalender-judul::before {
+    content: '';
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.kalender-judul.dot-red::before { background-color: #dc3545; }
+.kalender-judul.dot-white::before { background-color: #f8f9fa; border: 1px solid #ccc; }
+.kalender-judul.dot-green::before { background-color: #28a745; }
+.kalender-judul.dot-purple::before { background-color: #6f42c1; }
+.kalender-judul.dot-default::before { background-color: #6c757d; }
+
+
+.kalender-deskripsi {
+    font-size: 0.9rem;
+    color: #495057;
+    line-height: 1.5;
+}
+/* ==================================================
+   9. GAYA SPESIFIK UNTUK TABEL SEJARAH PAUS (BARU)
+   ================================================== */
+
+.pope-search-wrapper {
+    margin-bottom: 1.5rem;
+}
+
+#popeSearchInput {
+    max-width: 400px;
+    margin: 0 auto;
+    display: block;
+    border-radius: 20px;
+    padding-left: 1.5rem;
+}
+
+.pope-table-wrapper {
+    overflow-x: auto; /* Agar bisa di-scroll horizontal di layar kecil */
+    max-height: 70vh; /* Batasi tinggi tabel agar bisa di-scroll vertikal */
+    border: 1px solid var(--blue-border);
+    border-radius: 12px;
+}
+
+.pope-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.pope-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+
+.pope-table th {
+    background-color: var(--blue-main);
+    color: var(--white);
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: bold;
+    white-space: nowrap; /* Mencegah header tabel terpotong */
+}
+
+.pope-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--blue-soft);
+    vertical-align: top; /* Konten sel tabel mulai dari atas */
+}
+
+.pope-table tbody tr:nth-child(even) {
+    background-color: #f8faff;
+}
+
+.pope-table tbody tr:hover {
+    background-color: var(--blue-soft);
+}
+
+.pope-table .pope-latin-name {
+    display: block;
+    font-size: 0.8rem;
+    color: #6c757d;
+    font-style: italic;
+}
+
+/* Responsive untuk tabel di layar kecil */
+@media (max-width: 768px) {
+    .pope-table thead {
+        display: none; /* Sembunyikan header tabel */
+    }
+    .pope-table, .pope-table tbody, .pope-table tr, .pope-table td {
+        display: block;
+        width: 100%;
+    }
+    .pope-table tr {
+        margin-bottom: 1rem;
+        border: 1px solid var(--blue-border);
+        border-radius: 8px;
+        overflow: hidden; /* Menjaga border-radius */
+    }
+    .pope-table td {
+        text-align: right;
+        padding-left: 45%; /* Beri ruang untuk label */
+        position: relative;
+        border-bottom: 1px solid var(--blue-soft);
+    }
+    .pope-table td:last-child {
+        border-bottom: none;
+    }
+    .pope-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 15px;
+        width: calc(45% - 20px); /* Sesuaikan lebar label */
+        text-align: left;
+        font-weight: bold;
+        color: var(--blue-main);
+        white-space: nowrap;
+    }
+}
+
+/* ==================================================
+   10. GAYA UNTUK HALAMAN TENTANG PAROKI (BARU)
+   ================================================== */
+
+.tentang-section {
+    margin-bottom: 3rem;
+}
+
+.tentang-section h2 {
+    text-align: center;
+    color: var(--blue-main);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--blue-soft);
+}
+
+.sejarah-paroki-text {
+    text-align: center;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    max-width: 800px;
+    margin: 0 auto 1.5rem auto;
+}
+
+.pusat-paroki-img-container {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.pusat-paroki-img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.img-caption {
+    text-align: center;
+    font-style: italic;
+    color: #666;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.stasi-table-wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--blue-border);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.stasi-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.stasi-table th, .stasi-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--blue-soft);
+    text-align: left;
+    vertical-align: middle;
+}
+
+.stasi-table thead th {
+    background-color: var(--blue-bg);
+    font-weight: bold;
+    color: var(--blue-main);
+}
+
+.stasi-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.stasi-table tbody tr:hover {
+    background-color: #f8faff;
+}
+
+.stasi-photo-container {
+    display: flex;
+    gap: 10px; /* Jarak antar foto */
+    align-items: center;
+}
+
+.stasi-photo-container img {
+    width: 120px; /* Ukuran lebar foto */
+    height: 80px;  /* Ukuran tinggi foto */
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stasi-photo-container img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+
+.pastors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.pastor-card {
+    background-color: var(--white);
+    border-radius: 12px;
+    border: 1px solid var(--blue-border);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pastor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 74, 153, 0.15);
+}
+
+.pastor-card img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    object-position: top;
+}
+
+.pastor-card-body {
+    padding: 1rem;
+}
+
+.pastor-card h3 {
+    margin: 0 0 0.25rem 0;
+    color: var(--blue-main);
+    font-size: 1.1rem;
+}
+
+.pastor-card .jabatan-sekarang {
+    color: var(--green);
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.pastor-card .masa-jabatan {
+    color: #666;
+    font-size: 0.85rem;
+}
+
+/* ==================================================
+   11. GAYA IKON SOSIAL MEDIA (LAMA) - DIHAPUS ATAU DIKOMENTARI
+   ================================================== */
+/*
+.social-icons {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.social-icon {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 50%;
+    margin: 0 10px;
+    color: white;
+    font-size: 24px;
+    transition: transform 0.3s;
+}
+
+.social-icon.fb { background-color: #3b5998; }
+.social-icon.tiktok { background-color: #000000; }
+.social-icon.ig { background-color: #e4405f; }
+
+.social-icon:hover {
+    transform: scale(1.1);
+}
+*/
+
+/* ==================================================
+   11. GAYA IKON SOSIAL MEDIA KREATIF (BARU)
+   ================================================== */
+.social-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px; /* Jarak antar ikon */
+    margin-top: 2rem;
+    padding: 20px;
+}
+
+.social-icon {
+    --icon-size: 60px; /* Ukuran dasar ikon */
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--icon-size);
+    height: var(--icon-size);
+    border-radius: 50%;
+    font-size: calc(var(--icon-size) * 0.5); /* Ukuran font ikon disesuaikan */
+    text-decoration: none;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Efek Tooltip (nama medsos) */
+.social-icon::before {
+    content: attr(aria-label); /* Mengambil teks dari aria-label */
+    position: absolute;
+    top: -45px;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(10px) scale(0.8);
+    transition: all 0.3s ease;
+    pointer-events: none; /* Agar tidak mengganggu klik */
+}
+
+/* Panah kecil untuk tooltip */
+.social-icon::after {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #333;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.social-icon:hover::before,
+.social-icon:hover::after {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* Efek Hover Utama */
+.social-icon:hover {
+    transform: translateY(-10px) scale(1.1);
+    box-shadow: 0 15px 25px rgba(0,0,0,0.3);
+}
+
+/* Warna Spesifik untuk Setiap Ikon */
+.social-icon.fb {
+    background: linear-gradient(45deg, #3b5998, #0078d7);
+}
+.social-icon.fb:hover {
+    box-shadow: 0 0 25px #3b5998;
+}
+
+.social-icon.ig {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+.social-icon.ig:hover {
+    box-shadow: 0 0 25px #dc2743;
+}
+
+.social-icon.tiktok {
+    background: linear-gradient(45deg, #ff0050, #00f2ea, #000000);
+    background-size: 200% 200%;
+    animation: tiktok-animation 3s ease infinite;
+}
+.social-icon.tiktok:hover {
+    animation-play-state: paused;
+    box-shadow: 0 0 25px #ff0050, 0 0 25px #00f2ea;
+}
+
+/* Animasi untuk gradien TikTok */
+@keyframes tiktok-animation {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
 }

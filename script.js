@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // ========================================================
-    // === BAGIAN 1: KONFIGURASI DAN INISIALISASI GLOBAR ===
+    // BAGIAN 1: KONFIGURASI DAN INISIALISASI GLOBAL
     // ========================================================
 
     // Konfigurasi Firebase
@@ -22,22 +22,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const db = firebase.firestore();
 
-    // Inisialisasi GLightbox
+    // Inisialisasi GLightbox untuk galeri foto
     const lightbox = GLightbox({
         selector: '.glightbox'
     });
 
-    // Inisialisasi Particles.js
-    particlesJS.load('particles-js', 'assets/particles.json', function() {
+    // Inisialisasi Particles.js untuk animasi header
+    particlesJS.load('particles-js', 'assets/particles.json', () => {
         console.log('Callback - particles.js config loaded');
     });
 
 
     // =================================================================
-    // === BAGIAN 2: FUNGSI-FUNGSI UNTUK MEMUAT DATA DARI FIREBASE ===
+    // BAGIAN 2: FUNGSI-FUNGSI UNTUK MEMUAT DATA
     // =================================================================
 
-    // Memuat data Agenda / Pengumuman
+    /**
+     * Memuat dan menampilkan data Agenda / Pengumuman.
+     */
     const loadAnnouncementsPublic = async () => {
         const container = document.querySelector('#agenda-container');
         if (!container) return;
@@ -72,7 +74,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Memuat data Liturgi dan Renungan
+    /**
+     * Memuat dan menampilkan data Liturgi dan Renungan.
+     */
     const loadActiveLiturgy = async () => {
         const flippers = {
             title: document.getElementById('title-flipper'),
@@ -155,14 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     flippers.title.classList.toggle('is-flipped');
                     flippers.bacaan.classList.toggle('is-flipped');
-                    
-                    if (isFlipped) {
-                        containers.renunganTitle.textContent = 'Renungan Minggu Ini';
-                        containers.renunganText.innerHTML = `<p>${(currentLit.renungan || 'Renungan belum tersedia.').replace(/\n/g, '<br>')}</p>`;
-                    } else {
-                        containers.renunganTitle.textContent = 'Renungan Minggu Depan';
-                        containers.renunganText.innerHTML = `<p>${(nextLit.renungan || 'Renungan minggu depan belum tersedia.').replace(/\n/g, '<br>')}</p>`;
-                    }
                 });
             } else {
                 if(flippers.title) flippers.title.querySelector('.back').style.display = 'none';
@@ -179,7 +175,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Memuat status Pastor
+    /**
+     * Memuat dan menampilkan status kehadiran Pastor.
+     */
     const loadPastorStatus = async () => {
         const container = document.querySelector('#pastor');
         if (!container) return;
@@ -202,7 +200,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Memuat Statistik Umat
+    /**
+     * Memuat dan menampilkan data Statistik Umat.
+     */
     const loadPublicStats = async () => {
         const container = document.querySelector('#statistik');
         if (!container) return;
@@ -222,19 +222,181 @@ document.addEventListener('DOMContentLoaded', () => {
                 return `<tr><td>${w.order}</td><td>${w.name}</td><td>${w.kk}</td><td>${w.laki_laki}</td><td>${w.perempuan}</td><td>${jumlah}</td></tr>`;
             }).join('');
             const totalJiwa = totalLaki + totalPerempuan;
-            const totalRow = `<tr style="font-weight:bold; background:#e0f7fa"><td colspan="2">Jumlah</td><td>${totalKK}</td><td>${totalLaki}</td><td>${totalPerempuan}</td><td>${totalJiwa}</td></tr>`;
-            container.innerHTML = `<h2>Statistik Umat</h2><div class="overflow-auto"><table class="stats-table"><thead><tr><th>No</th><th>Nama Wilayah</th><th>KK</th><th>Laki-laki</th><th>Perempuan</th><th>Jumlah Jiwa</th></tr></thead><tbody>${tableRows}${totalRow}</tbody></table></div>`;
+            const totalRow = `<tfoot><tr><td colspan="2">Jumlah</td><td>${totalKK}</td><td>${totalLaki}</td><td>${totalPerempuan}</td><td>${totalJiwa}</td></tr></tfoot>`;
+            container.innerHTML = `<h2>Statistik Umat</h2><div class="overflow-auto"><table class="stats-table"><thead><tr><th>No</th><th>Nama Wilayah</th><th>KK</th><th>Laki-laki</th><th>Perempuan</th><th>Jumlah Jiwa</th></tr></thead><tbody>${tableRows}</tbody>${totalRow}</table></div>`;
         } catch (error) {
             console.error("Gagal memuat statistik umat:", error);
-            container.innerHTML = `<h2>Statistik Umat</h2><p class="text-danger">Gagal memuat data. Error: ${error.message}</p>`;
+            container.innerHTML = `<p class="text-danger">Gagal memuat data. Error: ${error.message}</p>`;
         }
     };
 
+    /**
+     * [DIHAPUS] Fungsi ini tidak lagi mengambil data dari Firestore.
+     * Konten sekarang statis di index.html.
+     */
+    // const loadTentangParoki = async () => { ... };
+
+
+    /**
+     * Memuat dan menampilkan Sejarah Paus dari file JSON.
+     */
+    const loadSejarahPausFromJson = async () => {
+        const container = document.querySelector('#sejarah-paus-container');
+        if (!container) return;
+
+        container.innerHTML = '<p>Memuat data Sejarah Paus...</p>';
+
+        try {
+            const response = await fetch('sejarah_paus.json');
+            if (!response.ok) {
+                throw new Error(`Gagal memuat file: ${response.statusText}`);
+            }
+            const allPopes = await response.json();
+
+            // Fungsi untuk render tabel
+            const renderTable = (popes) => {
+                const tableBody = document.getElementById('pope-table-body');
+                if (!tableBody) return;
+                tableBody.innerHTML = popes.map(pope => `
+                    <tr>
+                        <td data-label="No.">${pope.urutan}</td>
+                        <td data-label="Nama Paus">
+                            <strong>${pope.nama}</strong>
+                            <small class="pope-latin-name">${pope.nama_latin}</small>
+                        </td>
+                        <td data-label="Masa Jabatan">${pope.masa_jabatan}</td>
+                        <td data-label="Negara Asal">${pope.negara_asal || '-'}</td>
+                        <td data-label="Catatan">${pope.catatan || '-'}</td>
+                    </tr>
+                `).join('');
+            };
+
+            // Membuat struktur HTML untuk tabel dan pencarian
+            container.innerHTML = `
+                <div class="pope-search-wrapper">
+                    <input type="text" id="popeSearchInput" class="form-control" placeholder="Cari Paus (nama, tahun, negara)...">
+                </div>
+                <div class="pope-table-wrapper">
+                    <table class="pope-table">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Nama Paus</th>
+                                <th>Masa Jabatan</th>
+                                <th>Negara Asal</th>
+                                <th>Catatan Singkat</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pope-table-body">
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            // Render tabel pertama kali
+            renderTable(allPopes);
+
+            // Tambahkan event listener untuk pencarian
+            const searchInput = document.getElementById('popeSearchInput');
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                const filteredPopes = allPopes.filter(pope => 
+                    pope.nama.toLowerCase().includes(query) ||
+                    pope.nama_latin.toLowerCase().includes(query) ||
+                    pope.masa_jabatan.includes(query) ||
+                    (pope.negara_asal && pope.negara_asal.toLowerCase().includes(query))
+                );
+                renderTable(filteredPopes);
+            });
+
+        } catch (error) {
+            console.error("Gagal memuat Sejarah Paus dari JSON:", error);
+            container.innerHTML = `<p class="text-danger">Gagal memuat data. Pastikan file 'sejarah_paus.json' ada di folder yang sama. Error: ${error.message}</p>`;
+        }
+    };
+    
+    /**
+     * Memuat dan menampilkan konten untuk halaman "Kalender Liturgi" dari file JSON.
+     */
+    const loadKalenderFromJson = async () => {
+        const container = document.querySelector('#kalender-container');
+        if (!container) return;
+        
+        container.innerHTML = '<p>Memuat kalender liturgi 2025...</p>';
+
+        try {
+            const response = await fetch('kalender_liturgi_2025.json');
+            if (!response.ok) {
+                throw new Error(`Gagal memuat file: ${response.statusText}`);
+            }
+            const data = await response.json();
+
+            const groupedByMonth = data.reduce((acc, item) => {
+                const date = new Date(item.tanggal + 'T00:00:00');
+                const monthYear = date.toLocaleString('id-ID', { month: 'long', year: 'numeric' });
+                
+                if (!acc[monthYear]) {
+                    acc[monthYear] = [];
+                }
+                acc[monthYear].push(item);
+                return acc;
+            }, {});
+
+            let html = '';
+            const sortedMonths = Object.keys(groupedByMonth).sort((a, b) => {
+                const dateA = new Date('01 ' + a.replace(' ', ' '));
+                const dateB = new Date('01 ' + b.replace(' ', ' '));
+                return dateA - dateB;
+            });
+
+            for (const month of sortedMonths) {
+                html += `<h3 class="kalender-bulan">${month}</h3>`;
+                html += '<ul class="kalender-list">';
+                
+                groupedByMonth[month].forEach(item => {
+                    const date = new Date(item.tanggal + 'T00:00:00');
+                    const day = date.getDate();
+                    const dayName = date.toLocaleDateString('id-ID', { weekday: 'long' });
+
+                    const judul = item.judul || 'Tidak ada judul';
+                    const deskripsi = (item.deskripsi || '').replace(/\n/g, '<br>');
+
+                    const getWarnaClass = (judul) => {
+                        if (judul.includes('閥')) return 'dot-red';
+                        if (judul.includes('笞ｪ')) return 'dot-white';
+                        if (judul.includes('泙')) return 'dot-green';
+                        if (judul.includes('泪')) return 'dot-purple';
+                        return 'dot-default';
+                    };
+
+                    html += `
+                        <li class="kalender-item">
+                            <div class="kalender-tanggal">
+                                <span class="tanggal-angka">${day}</span>
+                                <span class="tanggal-hari">${dayName}</span>
+                            </div>
+                            <div class="kalender-info">
+                                <span class="kalender-judul ${getWarnaClass(judul)}">${judul}</span>
+                                <span class="kalender-deskripsi">${deskripsi}</span>
+                            </div>
+                        </li>
+                    `;
+                });
+                html += '</ul>';
+            }
+            container.innerHTML = html;
+
+        } catch (error) {
+            console.error("Gagal memuat Kalender Liturgi dari JSON:", error);
+            container.innerHTML = `<p class="text-danger">Gagal memuat kalender. Error: ${error.message}</p>`;
+        }
+    };
+
+
     // =================================================================
-    // === BAGIAN 3: NAVIGASI TAB DAN EVENT LISTENERS LAINNYA      ===
+    // BAGIAN 3: NAVIGASI TAB DAN EVENT LISTENERS
     // =================================================================
     
-    // Fungsi untuk mengaktifkan tab
     function activateTab(tabId) {
         document.querySelectorAll('.tab-button').forEach(btn => {
             if (btn.dataset.tab) {
@@ -245,7 +407,6 @@ document.addEventListener('DOMContentLoaded', () => {
             content.classList.toggle('active', content.id === tabId);
         });
 
-        // Menutup sidebar di mobile setelah tab diklik
         const sidebarMenu = document.getElementById('sidebarMenu');
         if (window.innerWidth <= 768 && sidebarMenu.classList.contains('active')) {
             sidebarMenu.classList.remove('active');
@@ -254,7 +415,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Event listener untuk tombol toggle sidebar
     const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
     const sidebarMenu = document.getElementById('sidebarMenu');
     if (sidebarToggleBtn && sidebarMenu) {
@@ -264,7 +424,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.classList.toggle('sidebar-open');
         });
 
-        // Menutup sidebar jika klik di luar area sidebar (di mobile)
         document.body.addEventListener('click', (event) => {
             if (window.innerWidth <= 768 && document.body.classList.contains('sidebar-open') && !sidebarMenu.contains(event.target) && !sidebarToggleBtn.contains(event.target)) {
                 sidebarMenu.classList.remove('active');
@@ -274,7 +433,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Event listener untuk tombol-tombol navigasi tab
     const sidebarNav = document.querySelector('#sidebarMenu .nav');
     if (sidebarNav) {
         sidebarNav.querySelectorAll('.tab-button[data-tab]').forEach(button => {
@@ -286,15 +444,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // =================================================================
-    // === BAGIAN 4: MEMANGGIL FUNGSI-FUNGSI AWAL                   ===
+    // BAGIAN 4: PEMANGGILAN FUNGSI-FUNGSI AWAL
     // =================================================================
     
-    // Memuat semua data yang diperlukan saat halaman pertama kali dibuka
-    loadAnnouncementsPublic();
-    loadActiveLiturgy();
-    loadPastorStatus();
-    loadPublicStats();
+    const loadInitialData = () => {
+        loadAnnouncementsPublic();
+        loadActiveLiturgy();
+        loadPastorStatus();
+        loadPublicStats();
+        // loadTentangParoki(); // <-- FUNGSI INI DIHAPUS
+        loadKalenderFromJson();
+        loadSejarahPausFromJson();
+    };
+
+    loadInitialData();
     
-    // Mengaktifkan tab 'beranda' sebagai default
     activateTab('beranda');
 });
