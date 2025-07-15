@@ -153,13 +153,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 containers.tombol.innerHTML = `<button id="multi-flip-btn" class="btn btn-outline-primary">Lihat Minggu Depan &gt;&gt;&gt;</button>`;
                 
-                document.getElementById('multi-flip-btn').addEventListener('click', function() {
-                    const isFlipped = flippers.title.classList.contains('is-flipped');
-                    this.innerHTML = isFlipped ? 'Lihat Minggu Depan &gt;&gt;&gt;' : '&lt;&lt;&lt; Kembali ke Minggu Ini';
-                    
-                    flippers.title.classList.toggle('is-flipped');
-                    flippers.bacaan.classList.toggle('is-flipped');
-                });
+// File: script.js
+
+document.getElementById('multi-flip-btn').addEventListener('click', function() {
+    const isFlipped = flippers.title.classList.contains('is-flipped');
+    this.innerHTML = isFlipped ? 'Lihat Minggu Depan &gt;&gt;&gt;' : '&lt;&lt;&lt; Kembali ke Minggu Ini';
+    
+    // Membalik kartu judul dan bacaan (tetap sama)
+    flippers.title.classList.toggle('is-flipped');
+    flippers.bacaan.classList.toggle('is-flipped');
+
+    // === TAMBAHAN KODE UNTUK MENGUBAH RENUNGAN ===
+    // Cek status sebelum dibalik. Jika `isFlipped` bernilai false,
+    // artinya kita akan beralih ke Tampilan Minggu Depan.
+    if (!isFlipped) {
+        // Ubah judul dan teks renungan ke data MINGGU DEPAN (`nextLit`)
+        containers.renunganTitle.innerText = 'Renungan Minggu Depan';
+        containers.renunganText.innerHTML = `<p>${(nextLit.renungan || 'Renungan belum tersedia.').replace(/\n/g, '<br>')}</p>`;
+    } else {
+        // Sebaliknya, kita kembali ke Tampilan Minggu Ini.
+        // Ubah judul dan teks renungan kembali ke data MINGGU INI (`currentLit`)
+        containers.renunganTitle.innerText = 'Renungan Minggu Ini';
+        containers.renunganText.innerHTML = `<p>${(currentLit.renungan || 'Renungan belum tersedia.').replace(/\n/g, '<br>')}</p>`;
+    }
+    // === AKHIR DARI TAMBAHAN KODE ===
+});
             } else {
                 if(flippers.title) flippers.title.querySelector('.back').style.display = 'none';
                 if(flippers.bacaan) flippers.bacaan.querySelector('.back').style.display = 'none';
