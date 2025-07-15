@@ -78,102 +78,30 @@ table tfoot { font-size: 1.1em; }
 .form-message.error { color: #f44336; }
 
 /* ========== NAVIGASI & TABEL SPESIFIK ========== */
-.dashboard-nav {
-  margin-bottom: 1.5rem;
-  border-bottom: 2px solid #e0e0e0;
-  padding-bottom: 0.5rem;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.nav-tab-btn {
-  padding: 10px 20px;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: bold;
-  color: #555;
-  border-bottom: 3px solid transparent;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+.dashboard-nav { margin-bottom: 1.5rem; border-bottom: 2px solid #e0e0e0; padding-bottom: 0.5rem; display: flex; gap: 10px; flex-wrap: wrap; }
+.nav-tab-btn { padding: 10px 20px; border: none; background-color: transparent; cursor: pointer; font-size: 1rem; font-weight: bold; color: #555; border-bottom: 3px solid transparent; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px; }
 .nav-tab-btn:hover { color: #004a99; }
 .nav-tab-btn.active { color: #004a99; border-bottom-color: #004a99; }
 .management-section { display: none; }
 .management-section.active { display: block; }
 #announcements-table, #liturgies-table { white-space: normal; }
-#announcements-table td, #announcements-table th,
-#liturgies-table td, #liturgies-table th {
-    vertical-align: middle;
-}
-.status-badge {
-  padding: 3px 8px;
-  border-radius: 12px;
-  font-size: 0.8em;
-  font-weight: bold;
-  color: white;
-  text-transform: uppercase;
-  display: inline-block;
-  text-align: center;
-  min-width: 60px;
-}
-.status-badge.active { background-color: #28a745; }
-.status-badge.archived { background-color: #6c757d; }
-.action-btn-sm.make-current-btn:disabled {
-    background-color: #e9ecef;
-    border-color: #ced4da;
-    cursor: not-allowed;
-    color: #6c757d;
-}
+#announcements-table td, #announcements-table th, #liturgies-table td, #liturgies-table th { vertical-align: middle; }
 
-/* === GAYA BARU UNTUK MANAJEMEN PASTOR === */
-#pastor-list-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
-}
-.pastor-management-card {
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    padding: 1rem;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.pastor-management-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-.pastor-management-card img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #004a99;
-}
-.pastor-management-card h5 {
-    margin: 0.75rem 0 0.5rem 0;
-    color: #333;
-}
-.pastor-status-select {
-    width: 100%;
-    padding: 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-weight: bold;
-    cursor: pointer;
-}
-.status-update-feedback {
-    font-size: 0.8rem;
-    color: #28a745;
-    font-style: italic;
-    min-height: 1.2rem;
-    margin-top: 0.5rem;
-}
+/* === GAYA MANAJEMEN PASTOR === */
+#pastor-list-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; }
+.pastor-management-card { border: 1px solid #ddd; border-radius: 12px; padding: 1rem; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.pastor-management-card:hover { transform: translateY(-5px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.pastor-management-card img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #004a99; }
+.pastor-management-card h5 { margin: 0.75rem 0 0.5rem 0; color: #333; }
+.pastor-status-select { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; font-weight: bold; cursor: pointer; }
+.status-update-feedback { font-size: 0.8rem; color: #28a745; font-style: italic; min-height: 1.2rem; margin-top: 0.5rem; }
 
+/* ========== GAYA FEEDBACK (LOADING & ERROR) ========== */
+.feedback-container { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2rem; text-align: center; color: #555; min-height: 150px; }
+.spinner { width: 40px; height: 40px; border: 4px solid #f0f6ff; border-top: 4px solid #004a99; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1rem; }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.error-alert { width: 100%; padding: 1rem; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 8px; }
+.error-alert strong { font-weight: bold; }
 
 /* ========== RESPONSIVE & PRINT ========== */
 @media (max-width: 768px) {

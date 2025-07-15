@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <!-- Halaman Utama -->
   <url>
-    <loc>https://spmrr-modoinding.github.io/Paroki-SPMRR-Modoinding//</loc>
-    <lastmod>2025-07-12</lastmod>
+    <loc>https://spmrr-modoinding.github.io/</loc>
+    <lastmod>2025-07-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+  
+  <!-- Halaman Login -->
   <url>
-    <loc>https://spmrr-modoinding.github.io/Paroki-SPMRR-Modoinding//login.html</loc>
+    <loc>https://spmrr-modoinding.github.io/login.html</loc>
+    <lastmod>2025-07-15</lastmod>
     <priority>0.5</priority>
   </url>
+  
 </urlset>
