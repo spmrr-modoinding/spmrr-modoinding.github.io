@@ -340,3 +340,104 @@ body.sidebar-open::before { content: ""; position: fixed; top: 0; left: 0; right
   .pope-table td:last-child { border-bottom: none; }
   .pope-table td::before { content: attr(data-label); position: absolute; left: 15px; width: calc(45% - 20px); text-align: left; font-weight: bold; color: var(--blue-main); white-space: nowrap; }
 }
+/* ==================================================
+   13. ANIMASI TRANSISI KONTEN
+   ================================================== */
+
+.tab-content {
+  display: none;
+  /* Atur animasi default untuk semua tab konten */
+  animation: fadeInUp 1s ease-out forwards;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* Mendefinisikan animasi "fadeInUp" */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* ==================================================
+   14. EFEK INTERAKTIF UNTUK DAFTAR DOWNLOAD
+   ================================================== */
+
+.formulir-download .list-group-item-action {
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, border-left-color 0.3s ease;
+  border-left: 4px solid transparent;
+}
+
+.formulir-download .list-group-item-action:hover {
+  transform: translateX(10px);
+  box-shadow: 0 5px 15px rgba(0, 74, 153, 0.1);
+  border-left-color: var(--blue-main);
+  z-index: 2; /* Memastikan shadow tidak tertutup item lain */
+}
+
+/* Membuat ikon download bergerak saat di-hover */
+.formulir-download .list-group-item-action .bi-download {
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.formulir-download .list-group-item-action:hover .bi-download {
+  transform: scale(1.2) rotate(5deg);
+}
+/* ==================================================
+   15. SKELETON LOADING SCREEN
+   ================================================== */
+.skeleton-wrapper .skeleton-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.skeleton-line {
+  height: 20px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+.skeleton-line.title {
+  width: 40%;
+  height: 28px;
+  margin-bottom: 20px;
+}
+
+.skeleton-line.text {
+  width: 90%;
+  margin-bottom: 10px;
+}
+
+.skeleton-line.text-short {
+  width: 60%;
+  margin-bottom: 10px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+/* ... semua gaya lama Anda ... */
+
+/* ========== GAYA BARU UNTUK GRAFIK STATISTIK PUBLIK ========== */
+.chart-container {
+    position: relative;
+    height: 400px; /* Anda bisa sesuaikan tingginya */
+    width: 100%;
+    margin: 2rem 0;
+}
