@@ -15,7 +15,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="manifest" href="manifest.json">
     <link href="style.css" rel="stylesheet">
 </head>
@@ -26,13 +26,6 @@
         <img alt="Logo Paroki" class="logo" src="logo-paroki.png"/>
         <h1><b>Paroki Santa Perawan Maria Ratu Rosari Modoinding</b></h1>
     </header>
-
-    <div class="container mt-2">
-        <div class="alert alert-info alert-dismissible fade show" role="alert">
-            <strong>Informasi:</strong> Ini website masih sementara ja beking.
-            <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>
-        </div>
-    </div>
 
     <div class="container main-layout">
         <button class="btn btn-primary sidebar-toggle" id="sidebarToggleBtn" type="button" aria-label="Buka atau Tutup Menu">
@@ -81,7 +74,176 @@
                     </div>
                 </div>
             </section>
-            <section class="tab-content" id="tentang"><div class="tentang-section"><h2>Sejarah Singkat Paroki</h2><p class="sejarah-paroki-text">Sejarah Paroki Santa Perawan Maria Ratu Rosari (SPMRR) Modoinding merupakan sebuah narasi panjang tentang pertumbuhan iman... (dan seterusnya)</p><div class="pusat-paroki-img-container"><img src="gereja.jpeg" alt="Gereja Pusat Paroki" class="pusat-paroki-img" onerror="this.onerror=null;this.src='https://placehold.co/1200x600/cccccc/ffffff?text=Gagal+Memuat+Gambar';"></div></div><div class="tentang-section"><h2>Stasi-stasi</h2><div class="stasi-table-wrapper"><table class="stasi-table"><thead><tr><th>Nama Stasi</th><th>Foto Gereja</th></tr></thead><tbody><tr><td>Stasi Makaaroyen</td><td>...</td></tr><tr><td>...</td><td>...</td></tr></tbody></table></div></div><div class="tentang-section"><h2>Pastor Paroki dari Masa ke Masa</h2><div class="pastors-grid">...</div></div></section>
+            
+            <!-- ====================================================== -->
+            <!-- BAGIAN TENTANG PAROKI YANG SUDAH DIPERBAIKI -->
+            <!-- ====================================================== -->
+            <section class="tab-content" id="tentang">
+                <!-- Bagian Sejarah -->
+                <div class="tentang-section">
+                    <h2>Sejarah Singkat Paroki</h2>
+                    <p class="sejarah-paroki-text">Paroki Santa Perawan Maria Ratu Rosari (SPMRR) berlokasi di Desa Sinisir, Kecamatan Modoinding, Kabupaten Minahasa Selatan, sebuah wilayah dataran tinggi yang subur dan dikenal luas sebagai salah satu lumbung hortikultura utama di Provinsi Sulawesi Utara. Konteks geografis dan sosio-ekonomi ini secara langsung membentuk karakteristik umat paroki, yang sebagian besar menggantungkan hidupnya pada sektor pertanian. Di tengah lanskap agraris ini, berdiri Gereja Paroki Santa Perawan Maria Ratu Rosari Suci, Sinisir, yang menjadi pusat kehidupan rohani bagi komunitas Katolik setempat. Pemilihan Santa Perawan Maria dengan gelar Ratu Rosari sebagai pelindung paroki tidak hanya memberikan nama, tetapi juga menanamkan sebuah identitas devosional yang kuat yang berpusat pada tradisi doa Rosario, sebuah ciri khas spiritualitas Katolik.</p>
+                    <div class="pusat-paroki-img-container">
+                        <img src="gereja.jpeg" alt="Gereja Pusat Paroki" class="pusat-paroki-img" onerror="this.onerror=null;this.src='https://placehold.co/800x450/cccccc/ffffff?text=Gagal+Memuat+Gambar';">
+                    </div>
+                </div>
+
+                <!-- Bagian Stasi-stasi (Struktur Baru) -->
+                <div class="tentang-section">
+                    <h2>Stasi-stasi</h2>
+                    <div class="stasi-table-wrapper">
+                        <table class="stasi-table">
+                            <thead>
+                                <tr>
+                                    <th>Nama Stasi</th>
+                                    <th>Foto Luar</th>
+                                    <th>Foto Dalam</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Stasi 1 -->
+                                <tr>
+                                    <td>Stasi Sta. Theresia - Makaaroyen</td>
+                                    <td>
+                                        <a href="https://placehold.co/800x600/004a99/ffffff?text=Luar+Makaaroyen" class="glightbox" data-gallery="stasi-1" data-title="Tampak Luar Gereja Stasi St. Mikael Makaaroyen">
+                                            <img src="https://placehold.co/120x80/004a99/ffffff?text=Luar" alt="Foto Luar Stasi Makaaroyen" class="stasi-photo">
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://placehold.co/800x600/004a99/ffffff?text=Dalam+Makaaroyen" class="glightbox" data-gallery="stasi-1" data-title="Tampak Dalam Gereja Stasi St. Mikael Makaaroyen">
+                                            <img src="https://placehold.co/120x80/004a99/ffffff?text=Dalam" alt="Foto Dalam Stasi Makaaroyen" class="stasi-photo">
+                                        </a>
+                                    </td>
+                                </tr>
+                                <!-- Stasi 2 -->
+                                <tr>
+                                    <td>Stasi Hati Kudus Yesus - Mobuya</td>
+                                    <td>
+                                        <a href="https://placehold.co/800x600/4caf50/ffffff?text=Luar+Wulurmaatus" class="glightbox" data-gallery="stasi-2" data-title="Tampak Luar Gereja Stasi Kristus Raja Wulurmaatus">
+                                            <img src="https://placehold.co/120x80/4caf50/ffffff?text=Luar" alt="Foto Luar Stasi Wulurmaatus" class="stasi-photo">
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://placehold.co/800x600/4caf50/ffffff?text=Dalam+Wulurmaatus" class="glightbox" data-gallery="stasi-2" data-title="Tampak Dalam Gereja Stasi Kristus Raja Wulurmaatus">
+                                            <img src="https://placehold.co/120x80/4caf50/ffffff?text=Dalam" alt="Foto Dalam Stasi Wulurmaatus" class="stasi-photo">
+                                        </a>
+                                    </td>
+                                </tr>
+                                <!-- Stasi 3 -->
+                                <tr>
+                                    <td>Stasi Rex Mundi - Tambelang</td>
+                                    <td>
+                                        <a href="https://placehold.co/800x600/f44336/ffffff?text=Luar+Palelon" class="glightbox" data-gallery="stasi-3" data-title="Tampak Luar Gereja Stasi Hati Kudus Yesus Palelon">
+                                            <img src="https://placehold.co/120x80/f44336/ffffff?text=Luar" alt="Foto Luar Stasi Palelon" class="stasi-photo">
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://placehold.co/800x600/f44336/ffffff?text=Dalam+Palelon" class="glightbox" data-gallery="stasi-3" data-title="Tampak Dalam Gereja Stasi Hati Kudus Yesus Palelon">
+                                            <img src="https://placehold.co/120x80/f44336/ffffff?text=Dalam" alt="Foto Dalam Stasi Palelon" class="stasi-photo">
+                                        </a>
+                                    </td>
+                                </tr>
+                                <!-- Stasi 4 -->
+                                <tr>
+                                    <td>Stasi St. Andreas - Kinamang</td>
+                                    <td>
+                                        <a href="https://placehold.co/800x600/ff9800/ffffff?text=Luar+Pinasungkulan" class="glightbox" data-gallery="stasi-4" data-title="Tampak Luar Gereja Stasi St. Yusuf Pinasungkulan">
+                                            <img src="https://placehold.co/120x80/ff9800/ffffff?text=Luar" alt="Foto Luar Stasi Pinasungkulan" class="stasi-photo">
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://placehold.co/800x600/ff9800/ffffff?text=Dalam+Pinasungkulan" class="glightbox" data-gallery="stasi-4" data-title="Tampak Dalam Gereja Stasi St. Yusuf Pinasungkulan">
+                                            <img src="https://placehold.co/120x80/ff9800/ffffff?text=Dalam" alt="Foto Dalam Stasi Pinasungkulan" class="stasi-photo">
+                                        </a>
+                                    </td>
+                                </tr>
+                                <!-- Stasi 5 -->
+                                <tr>
+                                    <td>Stasi Christus Rex - Liningaan</td>
+                                    <td>
+                                        <a href="https://placehold.co/800x600/673ab7/ffffff?text=Luar+Sinisir" class="glightbox" data-gallery="stasi-5" data-title="Tampak Luar Gereja Stasi St. Petrus & Paulus Sinisir">
+                                            <img src="https://placehold.co/120x80/673ab7/ffffff?text=Luar" alt="Foto Luar Stasi Sinisir" class="stasi-photo">
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://placehold.co/800x600/673ab7/ffffff?text=Dalam+Sinisir" class="glightbox" data-gallery="stasi-5" data-title="Tampak Dalam Gereja Stasi St. Petrus & Paulus Sinisir">
+                                            <img src="https://placehold.co/120x80/673ab7/ffffff?text=Dalam" alt="Foto Dalam Stasi Sinisir" class="stasi-photo">
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Bagian Pastor Pendahulu (Sudah Diisi 6 dan bisa diklik) -->
+                <div class="tentang-section">
+                    <h2>Pastor Paroki dari Masa ke Masa</h2>
+                    <div class="pastors-grid">
+                        <!-- Kartu Pastor 1 -->
+                        <div class="pastor-card">
+                            <a href="pastor-joseph.jpg" class="glightbox" data-gallery="pastor-pendahulu">
+                                <img src="pastor-joseph.jpg" alt="Foto Pastor A">
+                            </a>
+                            <div class="pastor-card-body">
+                                <h3>P. Joseph Ansow, Pr.</h3>
+                                <p class="masa-jabatan">2025 - Sekarang</p>
+                            </div>
+                        </div>
+                        <!-- Kartu Pastor 2 -->
+                        <div class="pastor-card">
+                             <a href="pastor-stenly.jpg" class="glightbox" data-gallery="pastor-pendahulu">
+                                <img src="pastor-stenly.jpg" alt="Foto Pastor B">
+                            </a>
+                            <div class="pastor-card-body">
+                                <h3>P. Stenly V. Ambun, Pr.</h3>
+                                <p class="masa-jabatan">2023 - Sekarang</p>
+                            </div>
+                        </div>
+                        <!-- Kartu Pastor 3 -->
+                        <div class="pastor-card">
+                            <a href="pastor-feighty.jpg" class="glightbox" data-gallery="pastor-pendahulu">
+                                <img src="pastor-feighty.jpg" alt="Foto Pastor C">
+                            </a>
+                            <div class="pastor-card-body">
+                                <h3>P. Feighty Y. Boseke, Pr.</h3>
+                                <p class="masa-jabatan">2018 - 2024</p>
+                            </div>
+                        </div>
+                        <!-- Kartu Pastor 4 -->
+                        <div class="pastor-card">
+                            <a href="pastor-stevy.jpg" class="glightbox" data-gallery="pastor-pendahulu">
+                                <img src="pastor-stevy.jpg" alt="Foto Pastor D">
+                            </a>
+                            <div class="pastor-card-body">
+                                <h3>P. Stevy Motto, Pr.</h3>
+                                <p class="masa-jabatan">2014 - 2017</p>
+                            </div>
+                        </div>
+                        <!-- Kartu Pastor 5 -->
+                        <div class="pastor-card">
+                            <a href="pastor-yan.jpg" class="glightbox" data-gallery="pastor-pendahulu">
+                                <img src="pastor-yan.jpg" alt="Foto Pastor E">
+                            </a>
+                            <div class="pastor-card-body">
+                                <h3>P. Jan S. Koraag, Pr</h3>
+                                <p class="masa-jabatan">2011 - 2014</p>
+                            </div>
+                        </div>
+                        <!-- Kartu Pastor 6 -->
+                        <div class="pastor-card">
+                            <a href="pastor-Herman.jpg" class="glightbox" data-gallery="pastor-pendahulu">
+                                <img src="pastor-Herman.jpg" alt="Foto Pastor F">
+                            </a>
+                            <div class="pastor-card-body">
+                                <h3>P. Herman Saroinsong, Pr.</h3>
+                                <p class="masa-jabatan">Pra Paroki</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
             <section class="tab-content" id="kalender"><h2>Kalender Liturgi</h2><div id="kalender-container" class="mt-3"><div class="feedback-container"><div class="spinner"></div><p>Memuat kalender...</p></div></div></section>
             <section class="tab-content" id="sejarah-paus"><h2>Sejarah Paus</h2><div id="sejarah-paus-container" class="mt-3"><div class="feedback-container"><div class="spinner"></div><p>Memuat sejarah Paus...</p></div></div></section>
         </main>

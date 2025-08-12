@@ -255,16 +255,40 @@ body.sidebar-open::before { content: ""; position: fixed; top: 0; left: 0; right
 .tentang-section h2 { text-align: center; color: var(--blue-main); margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--blue-soft); }
 .sejarah-paroki-text { text-align: justify; font-size: 1.1rem; line-height: 1.7; max-width: 800px; margin: 0 auto 1.5rem auto; }
 .pusat-paroki-img-container { max-width: 700px; margin: 0 auto; }
-.pusat-paroki-img { width: 100%; height: auto; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+
+/* --- KODE YANG DIPERBAIKI --- */
+.pusat-paroki-img {
+    display: block;
+    max-width: 100%; /* KUNCI UTAMA: Gambar tidak akan lebih lebar dari containernya */
+    height: auto;
+    margin: 0 auto; /* Membuat gambar di tengah */
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
 .stasi-table-wrapper { overflow-x: auto; border: 1px solid var(--blue-border); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
 .stasi-table { width: 100%; border-collapse: collapse; }
 .stasi-table th, .stasi-table td { padding: 1rem; border-bottom: 1px solid var(--blue-soft); text-align: left; vertical-align: middle; }
 .stasi-table thead th { background-color: var(--blue-bg); font-weight: bold; color: var(--blue-main); }
 .stasi-table tbody tr:last-child td { border-bottom: none; }
 .stasi-table tbody tr:hover { background-color: #f8faff; }
-.stasi-photo-container { display: flex; gap: 10px; align-items: center; }
-.stasi-photo-container img { width: 120px; height: 80px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; }
-.stasi-photo-container img:hover { transform: scale(1.05); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+
+/* GAYA BARU untuk gambar stasi agar konsisten */
+.stasi-photo {
+    width: 120px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: block; /* Mencegah spasi aneh */
+    margin: 0 auto; /* Menengahkan gambar di dalam sel tabel */
+}
+.stasi-photo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
 .pastors-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; justify-content: center; }
 .pastor-card { background-color: var(--white); border-radius: 12px; border: 1px solid var(--blue-border); box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease; }
 .pastor-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 74, 153, 0.15); }
@@ -346,7 +370,6 @@ body.sidebar-open::before { content: ""; position: fixed; top: 0; left: 0; right
 
 .tab-content {
   display: none;
-  /* Atur animasi default untuk semua tab konten */
   animation: fadeInUp 1s ease-out forwards;
 }
 
@@ -354,7 +377,6 @@ body.sidebar-open::before { content: ""; position: fixed; top: 0; left: 0; right
   display: block;
 }
 
-/* Mendefinisikan animasi "fadeInUp" */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -378,10 +400,9 @@ body.sidebar-open::before { content: ""; position: fixed; top: 0; left: 0; right
   transform: translateX(10px);
   box-shadow: 0 5px 15px rgba(0, 74, 153, 0.1);
   border-left-color: var(--blue-main);
-  z-index: 2; /* Memastikan shadow tidak tertutup item lain */
+  z-index: 2;
 }
 
-/* Membuat ikon download bergerak saat di-hover */
 .formulir-download .list-group-item-action .bi-download {
   transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
@@ -432,12 +453,12 @@ body.sidebar-open::before { content: ""; position: fixed; top: 0; left: 0; right
     background-position: -200% 0;
   }
 }
-/* ... semua gaya lama Anda ... */
-
-/* ========== GAYA BARU UNTUK GRAFIK STATISTIK PUBLIK ========== */
+/* ==================================================
+   16. GAYA GRAFIK STATISTIK
+   ================================================== */
 .chart-container {
     position: relative;
-    height: 400px; /* Anda bisa sesuaikan tingginya */
+    height: 400px;
     width: 100%;
     margin: 2rem 0;
 }
