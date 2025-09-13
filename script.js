@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const sortedMonths = Object.keys(groupedByMonth).sort((a, b) => new Date('01 ' + a.replace(' ', ' ')) - new Date('01 ' + b.replace(' ', ' ')));
             for (const month of sortedMonths) {
                 html += `<h3 class="kalender-bulan">${month}</h3><ul class="kalender-list">`;
-                groupedByMonth[month].forEach(item => { const date = new Date(item.tanggal + 'T00:00:00'); const judul = item.judul || 'Tidak ada judul'; const getWarnaClass = (j) => { if (j.includes('閥')) return 'dot-red'; if (j.includes('笞ｪ')) return 'dot-white'; if (j.includes('泙')) return 'dot-green'; if (j.includes('泪')) return 'dot-purple'; return 'dot-default'; }; html += `<li class="kalender-item"><div class="kalender-tanggal"><span class="tanggal-angka">${date.getDate()}</span><span class="tanggal-hari">${date.toLocaleDateString('id-ID', { weekday: 'long' })}</span></div><div class="kalender-info"><span class="kalender-judul ${getWarnaClass(judul)}">${judul}</span><span class="kalender-deskripsi">${(item.deskripsi || '').replace(/\n/g, '<br>')}</span></div></li>`; });
+                groupedByMonth[month].forEach(item => { const date = new Date(item.tanggal + 'T00:00:00'); const judul = item.judul || 'Tidak ada judul'; const getWarnaClass = (j) => { if (j.includes('Hari Raya')) return 'dot-red'; if (j.includes('Pesta')) return 'dot-white'; if (j.includes('Biasa')) return 'dot-green'; if (j.includes('Adven') || j.includes('Prapaskah')) return 'dot-purple'; return 'dot-default'; }; html += `<li class="kalender-item"><div class="kalender-tanggal"><span class="tanggal-angka">${date.getDate()}</span><span class="tanggal-hari">${date.toLocaleDateString('id-ID', { weekday: 'long' })}</span></div><div class="kalender-info"><span class="kalender-judul ${getWarnaClass(judul)}">${judul}</span><span class="kalender-deskripsi">${(item.deskripsi || '').replace(/\n/g, '<br>')}</span></div></li>`; });
                 html += '</ul>';
             }
             container.innerHTML = html;
@@ -161,4 +161,44 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     loadInitialData();
     activateTab('beranda');
+    
+    // --- LOGIKA UNTUK MODAL PREVIEW FORMULIR ---
+    const previewModal = document.getElementById('previewModal');
+    if (previewModal) {
+      const modalTitle = document.getElementById('previewModalLabel');
+      const pdfViewer = document.getElementById('pdf-viewer');
+      const downloadBtn = document.getElementById('download-pdf-btn');
+      const printBtn = document.getElementById('print-pdf-btn');
+    
+      // Event ini berjalan SETIAP KALI modal akan ditampilkan
+      previewModal.addEventListener('show.bs.modal', function (event) {
+        // Dapatkan tautan yang di-klik oleh pengguna
+        const button = event.relatedTarget;
+        
+        // Ambil path PDF dari atribut data-pdf-src
+        const pdfSrc = button.getAttribute('data-pdf-src');
+        
+        // Ambil nama formulir dari teks tautan untuk judul modal
+        const formName = button.textContent.trim();
+    
+        // Perbarui konten modal
+        modalTitle.textContent = 'Pratinjau: ' + formName; // Set judul modal
+        pdfViewer.src = pdfSrc; // Set sumber PDF untuk iframe
+        downloadBtn.href = pdfSrc; // Set link unduhan untuk tombol
+        downloadBtn.setAttribute('download', formName.replace(/\s+/g, '-') + '.pdf'); // Set nama file saat diunduh
+      });
+    
+      // Tambahkan fungsi untuk tombol cetak
+      printBtn.addEventListener('click', function () {
+        // Memicu fungsi print dari iframe
+        if (pdfViewer.contentWindow) {
+            pdfViewer.contentWindow.print();
+        }
+      });
+    
+      // Membersihkan iframe saat modal ditutup untuk menghentikan memori
+      previewModal.addEventListener('hidden.bs.modal', function () {
+        pdfViewer.src = 'about:blank';
+      });
+    }
 });
