@@ -7,6 +7,7 @@
    1. IMPOR FONT & VARIABEL GLOBAL
    ================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&display=swap');
 
 :root {
   --blue-main: #004a99;
@@ -15,10 +16,11 @@
   --blue-hover: #cce5ff;
   --blue-soft: #d9ecff;
   --blue-border: #b3d1ff;
+  --gold: #d4af37;
   --green: #4caf50;
   --red: #f44336;
   --white: #ffffff;
-  --sidebar-active-border: var(--blue-main);
+  --sidebar-active-border: var(--gold);
 }
 
 /* ==================================================
@@ -255,25 +257,20 @@ body.sidebar-open::before { content: ""; position: fixed; top: 0; left: 0; right
 .tentang-section h2 { text-align: center; color: var(--blue-main); margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--blue-soft); }
 .sejarah-paroki-text { text-align: justify; font-size: 1.1rem; line-height: 1.7; max-width: 800px; margin: 0 auto 1.5rem auto; }
 .pusat-paroki-img-container { max-width: 700px; margin: 0 auto; }
-
-/* --- KODE YANG DIPERBAIKI --- */
 .pusat-paroki-img {
     display: block;
-    max-width: 100%; /* KUNCI UTAMA: Gambar tidak akan lebih lebar dari containernya */
+    max-width: 100%;
     height: auto;
-    margin: 0 auto; /* Membuat gambar di tengah */
+    margin: 0 auto;
     border-radius: 12px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
-
 .stasi-table-wrapper { overflow-x: auto; border: 1px solid var(--blue-border); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
 .stasi-table { width: 100%; border-collapse: collapse; }
 .stasi-table th, .stasi-table td { padding: 1rem; border-bottom: 1px solid var(--blue-soft); text-align: left; vertical-align: middle; }
 .stasi-table thead th { background-color: var(--blue-bg); font-weight: bold; color: var(--blue-main); }
 .stasi-table tbody tr:last-child td { border-bottom: none; }
 .stasi-table tbody tr:hover { background-color: #f8faff; }
-
-/* GAYA BARU untuk gambar stasi agar konsisten */
 .stasi-photo {
     width: 120px;
     height: 80px;
@@ -281,14 +278,13 @@ body.sidebar-open::before { content: ""; position: fixed; top: 0; left: 0; right
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: block; /* Mencegah spasi aneh */
-    margin: 0 auto; /* Menengahkan gambar di dalam sel tabel */
+    display: block;
+    margin: 0 auto;
 }
 .stasi-photo:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
-
 .pastors-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; justify-content: center; }
 .pastor-card { background-color: var(--white); border-radius: 12px; border: 1px solid var(--blue-border); box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease; }
 .pastor-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 74, 153, 0.15); }
@@ -318,34 +314,10 @@ body.sidebar-open::before { content: ""; position: fixed; top: 0; left: 0; right
 /* ==================================================
    10. GAYA UNTUK FEEDBACK (LOADING & ERROR)
    ================================================== */
-.feedback-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    text-align: center;
-    color: #555;
-    min-height: 150px;
-}
-.spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid #f0f6ff;
-    border-top: 4px solid var(--blue-main);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin-bottom: 1rem;
-}
+.feedback-container { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2rem; text-align: center; color: #555; min-height: 150px; }
+.spinner { width: 40px; height: 40px; border: 4px solid #f0f6ff; border-top: 4px solid var(--blue-main); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1rem; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-.error-alert {
-    width: 100%;
-    padding: 1rem;
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-    border-radius: 8px;
-}
+.error-alert { width: 100%; padding: 1rem; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 8px; }
 .error-alert strong { font-weight: bold; }
 
 /* ==================================================
@@ -367,98 +339,182 @@ body.sidebar-open::before { content: ""; position: fixed; top: 0; left: 0; right
 /* ==================================================
    13. ANIMASI TRANSISI KONTEN
    ================================================== */
+.tab-content { display: none; animation: fadeInUp 1s ease-out forwards; }
+.tab-content.active { display: block; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-.tab-content {
-  display: none;
-  animation: fadeInUp 1s ease-out forwards;
-}
-
-.tab-content.active {
-  display: block;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 /* ==================================================
    14. EFEK INTERAKTIF UNTUK DAFTAR DOWNLOAD
    ================================================== */
+.formulir-download .list-group-item-action { transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, border-left-color 0.3s ease; border-left: 4px solid transparent; }
+.formulir-download .list-group-item-action:hover { transform: translateX(10px); box-shadow: 0 5px 15px rgba(0, 74, 153, 0.1); border-left-color: var(--blue-main); z-index: 2; }
+.formulir-download .list-group-item-action .bi { transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.formulir-download .list-group-item-action:hover .bi { transform: scale(1.2) rotate(5deg); }
 
-.formulir-download .list-group-item-action {
-  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, border-left-color 0.3s ease;
-  border-left: 4px solid transparent;
-}
-
-.formulir-download .list-group-item-action:hover {
-  transform: translateX(10px);
-  box-shadow: 0 5px 15px rgba(0, 74, 153, 0.1);
-  border-left-color: var(--blue-main);
-  z-index: 2;
-}
-
-.formulir-download .list-group-item-action .bi-download {
-  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.formulir-download .list-group-item-action:hover .bi-download {
-  transform: scale(1.2) rotate(5deg);
-}
 /* ==================================================
    15. SKELETON LOADING SCREEN
    ================================================== */
-.skeleton-wrapper .skeleton-card {
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-}
+.skeleton-wrapper .skeleton-card { background-color: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); padding: 1.5rem; margin-bottom: 1.5rem; }
+.skeleton-line { height: 20px; border-radius: 4px; background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite linear; }
+.skeleton-line.title { width: 40%; height: 28px; margin-bottom: 20px; }
+.skeleton-line.text { width: 90%; margin-bottom: 10px; }
+.skeleton-line.text-short { width: 60%; margin-bottom: 10px; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-.skeleton-line {
-  height: 20px;
-  border-radius: 4px;
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite linear;
-}
-
-.skeleton-line.title {
-  width: 40%;
-  height: 28px;
-  margin-bottom: 20px;
-}
-
-.skeleton-line.text {
-  width: 90%;
-  margin-bottom: 10px;
-}
-
-.skeleton-line.text-short {
-  width: 60%;
-  margin-bottom: 10px;
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
-}
 /* ==================================================
    16. GAYA GRAFIK STATISTIK
    ================================================== */
-.chart-container {
-    position: relative;
-    height: 400px;
-    width: 100%;
-    margin: 2rem 0;
+.chart-container { position: relative; height: 400px; width: 100%; margin: 2rem 0; }
+
+
+/* ==================================================
+   17. GAYA HALAMAN DOA-DOA (BARU & KEREN)
+   ================================================== */
+.doa-container {
+  font-family: 'Lora', serif;
+  background: #fdfdfd;
+}
+
+.doa-main-title {
+  text-align: center;
+  color: var(--blue-main);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.doa-main-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background-color: var(--gold);
+  border-radius: 2px;
+}
+
+.doa-subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 2.5rem;
+  font-style: italic;
+}
+
+/* Daftar Pilihan Doa */
+#doa-list.list-group {
+  border: none;
+}
+#doa-list .list-group-item {
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid var(--blue-border);
+  border-radius: 8px !important; /* !important untuk menimpa Bootstrap */
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--blue-main);
+  background-color: #f8faff;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+#doa-list .list-group-item::before {
+  content: '\f192'; /* Ikon buku dari Bootstrap Icons */
+  font-family: 'bootstrap-icons';
+  position: absolute;
+  left: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: var(--gold);
+  transition: all 0.3s ease;
+}
+
+#doa-list .list-group-item {
+  padding-left: 4rem; /* Ruang untuk ikon */
+}
+
+#doa-list .list-group-item:hover {
+  background-color: var(--blue-main);
+  color: var(--white);
+  border-color: var(--blue-main);
+  box-shadow: 0 8px 20px rgba(0, 74, 153, 0.2);
+  transform: translateY(-5px);
+}
+
+#doa-list .list-group-item:hover::before {
+  color: var(--white);
+  transform: translateY(-50%) scale(1.1) rotate(-5deg);
+}
+
+/* Tampilan Detail Doa */
+#doa-detail-container {
+  border: 1px solid var(--blue-border);
+  padding: 2rem;
+  border-radius: 12px;
+  background-color: #fdfdff;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+#doa-detail-title {
+  color: var(--blue-main);
+  text-align: center;
+  border-bottom: 2px solid var(--gold);
+  padding-bottom: 0.75rem;
+  margin-bottom: 2rem !important; /* !important untuk menimpa Bootstrap */
+}
+
+#doa-detail-content {
+  line-height: 1.9;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+#doa-detail-content h4 {
+  font-weight: 700;
+  color: var(--blue-main);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px dashed var(--blue-border);
+}
+
+#doa-detail-content h5 {
+  font-weight: 700;
+  color: #444;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-style: italic;
+}
+
+#doa-detail-content hr {
+  margin: 2.5rem 0;
+  border-top: 1px solid var(--gold);
+  opacity: 0.5;
+}
+
+/* Tombol Pilihan Bahasa */
+#doa-lang-selector.btn-group {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+#doa-lang-selector .btn {
+  background-color: #f0f6ff;
+  color: var(--blue-main);
+  border: 1px solid var(--blue-border);
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+#doa-lang-selector .btn.active {
+  background-color: var(--blue-main);
+  color: var(--white);
+  border-color: var(--blue-main);
+  box-shadow: 0 4px 10px rgba(0, 74, 153, 0.2);
+}
+#doa-lang-selector .btn:not(.active):hover {
+  background-color: var(--blue-soft);
 }
