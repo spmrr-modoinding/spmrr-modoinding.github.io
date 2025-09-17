@@ -1,10 +1,8 @@
-// admin-dashboard.js (Versi Final Lengkap)
-
 document.addEventListener('DOMContentLoaded', () => {
     // Konfigurasi Firebase sudah ada di firebase-config.js
     const db = firebase.firestore();
     const auth = firebase.auth();
-    let umatChart = null; // Variabel global untuk menyimpan instance chart
+    let umatChart = null;
 
     // DATA STRUKTUR PROGRAM KERJA
     const programStruktur = {
@@ -24,9 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const announcementModal = document.getElementById('announcement-modal');
     const liturgyModal = document.getElementById('liturgy-modal');
     const statModal = document.getElementById('stat-modal');
+    const tpeModal = document.getElementById('tpe-modal'); // Elemen baru
     let currentEditProgramId = null;
     let currentEditAnnouncementId = null;
     let currentEditLiturgyId = null;
+    let currentEditTpeId = null; // Variabel baru
 
     // LOGIKA NAVIGASI TAB
     const navTabs = document.querySelectorAll('.nav-tab-btn');
@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     listenToPrograms();
                     listenToAnnouncements();
                     listenToLiturgies();
+                    listenToTPEs(); // PANGGIL FUNGSI BARU DI SINI
                     listenToPastors();
                     listenToParishStats();
                     updateSummaryDashboard();
@@ -166,8 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pastorListContainer.innerHTML = `<div class="feedback-container"><div class="spinner"></div><p>Memuat data pastor...</p></div>`;
         db.collection('pastors').orderBy('order').onSnapshot(snapshot => {
             if (snapshot.empty) { pastorListContainer.innerHTML = '<p style="text-align:center; padding: 2rem;">Belum ada data pastor.</p>'; return; }
-            pastorListContainer.innerHTML = snapshot.docs.map(doc => { const p = doc.data(); return `<div class="pastor-management-card" data-id="${doc.id}"><img src="${p.photoUrl}" alt="${p.name}"><h5
->${p.name}</h5><select class="pastor-status-select" data-id="${doc.id}"><option value="Di Tempat" ${p.status === 'Di Tempat' ? 'selected' : ''}>Di Tempat</option><option value="Pelayanan Luar" ${p.status === 'Pelayanan Luar' ? 'selected' : ''}>Pelayanan Luar</option><option value="Sakit" ${p.status === 'Sakit' ? 'selected' : ''}>Sakit</option><option value="Cuti/Libur" ${p.status === 'Cuti/Libur' ? 'selected' : ''}>Cuti/Libur</option></select><div class="status-update-feedback" id="feedback-${doc.id}"></div></div>`; }).join('');
+            pastorListContainer.innerHTML = snapshot.docs.map(doc => { const p = doc.data(); return `<div class="pastor-management-card" data-id="${doc.id}"><img src="${p.photoUrl}" alt="${p.name}"><h5>${p.name}</h5><select class="pastor-status-select" data-id="${doc.id}"><option value="Di Tempat" ${p.status === 'Di Tempat' ? 'selected' : ''}>Di Tempat</option><option value="Pelayanan Luar" ${p.status === 'Pelayanan Luar' ? 'selected' : ''}>Pelayanan Luar</option><option value="Sakit" ${p.status === 'Sakit' ? 'selected' : ''}>Sakit</option><option value="Cuti/Libur" ${p.status === 'Cuti/Libur' ? 'selected' : ''}>Cuti/Libur</option></select><div class="status-update-feedback" id="feedback-${doc.id}"></div></div>`; }).join('');
         }, error => pastorListContainer.innerHTML = `<div class="error-alert"><strong>Gagal:</strong> Gagal memuat data pastor. (${error.message})</div>`);
     };
     const listenToParishStats = () => {
@@ -193,6 +193,31 @@ document.addEventListener('DOMContentLoaded', () => {
             umatChart = new Chart(ctx, { type: 'bar', data: { labels: labels, datasets: [{ label: 'Jumlah Jiwa per Wilayah/Stasi', data: data, backgroundColor: 'rgba(0, 74, 153, 0.7)', borderColor: 'rgba(0, 74, 153, 1)', borderWidth: 1 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } }, plugins: { legend: { display: false }, title: { display: true, text: 'Visualisasi Jumlah Umat per Wilayah/Stasi' } } } });
         }, error => showTableError(statsTableBody, 7, `Gagal memuat data statistik. (${error.message})`));
     };
+
+    // --- FUNGSI BARU UNTUK TPE ---
+    const listenToTPEs = () => {
+        const tpeTableBody = document.getElementById('tpe-table-body');
+        showTableLoading(tpeTableBody, 3);
+        // Koleksi baru: 'tata_perayaan_mingguan'
+        db.collection('tata_perayaan_mingguan').orderBy(firebase.firestore.FieldPath.documentId(), 'desc').onSnapshot(snapshot => {
+            if (snapshot.empty) { 
+                showTableEmpty(tpeTableBody, 3, 'Belum ada data Tata Perayaan Ekaristi.'); 
+                return; 
+            }
+            tpeTableBody.innerHTML = snapshot.docs.map(doc => {
+                const tpe = doc.data();
+                return `<tr data-id="${doc.id}">
+                    <td>${tpe.tanggal_display || doc.id}</td>
+                    <td>${tpe.nama_perayaan || '-'}</td>
+                    <td class="no-print">
+                        <button class="action-btn-sm edit edit-tpe">Edit</button>
+                        <button class="action-btn-sm delete delete-tpe">Hapus</button>
+                    </td>
+                </tr>`;
+            }).join('');
+        }, error => showTableError(tpeTableBody, 3, `Gagal memuat data TPE. (${error.message})`));
+    };
+
 
     // --- FUNGSI-FUNGSI CRUD & MODAL ---
     function setupDropdowns() {
@@ -244,6 +269,22 @@ document.addEventListener('DOMContentLoaded', () => {
         try { const batch = db.batch(); parishStatsData.forEach(stat => { const docRef = db.collection('parish_stats').doc(); batch.set(docRef, stat); }); await batch.commit(); feedbackEl.textContent = 'BERHASIL!'; feedbackEl.style.color = 'green'; } catch (error) { console.error('Gagal:', error); feedbackEl.textContent = `GAGAL! ${error.message}`; feedbackEl.style.color = 'red'; uploadBtn.disabled = false; }
     };
     
+    // --- FUNGSI BARU UNTUK JADWAL MISA DI MODAL TPE ---
+    function addJadwalMisaRow(item = {}) {
+        const container = document.getElementById('tpe-jadwal-container');
+        const div = document.createElement('div');
+        div.classList.add('anggaran-item'); // Pakai style yang sama dengan anggaran
+        // Urutan kolom sesuai PDF: Jam, Tempat, Perayaan, Pelayan
+        div.innerHTML = `
+            <input type="text" placeholder="Jam (07.00)" class="jadwal-jam" value="${item.jam || ''}" style="grid-column: span 1;">
+            <input type="text" placeholder="Tempat (Sinisir)" class="jadwal-tempat" value="${item.tempat || ''}" style="grid-column: span 2;">
+            <input type="text" placeholder="Perayaan (Misa/Ibadat)" class="jadwal-perayaan" value="${item.perayaan || 'Misa'}" style="grid-column: span 2;">
+            <input type="text" placeholder="Pelayan (A. Pondaag)" class="jadwal-pelayan" value="${item.pelayan || ''}" style="grid-column: span 2;">
+            <button type="button" class="remove-btn" style="grid-column: span 1;">&times;</button>
+        `;
+        container.appendChild(div);
+    }
+    
     // --- SEMUA EVENT LISTENERS ---
     document.getElementById('q-add-program-btn').addEventListener('click', () => document.getElementById('add-program-btn').click());
     document.getElementById('q-add-announcement-btn').addEventListener('click', () => document.getElementById('add-announcement-btn').click());
@@ -264,7 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const row = target.closest('tr');
         if (!row) return;
         const docId = row.dataset.id;
-        if (target.classList.contains('delete-program')) { if (confirm(`Yakin hapus?`)) { await db.collection('programs').doc(docId).delete(); } }
+        if (target.classList.contains('delete-program')) { if (confirm(`Yakin hapus program ini?`)) { await db.collection('programs').doc(docId).delete(); } }
         if (target.classList.contains('edit-program')) {
             const doc = await db.collection('programs').doc(docId).get();
             if (doc.exists) {
@@ -321,7 +362,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const doc = await db.collection('announcements').doc(docId).get();
             if (doc.exists) { const ann = doc.data(); currentEditAnnouncementId = docId; document.getElementById('announcement-modal-title').textContent = 'Edit Pengumuman'; document.getElementById('ann-judul').value = ann.judul || ''; document.getElementById('ann-tanggal').value = ann.tanggal || ''; document.getElementById('ann-jam').value = ann.jam || ''; document.getElementById('ann-lokasi').value = ann.lokasi || ''; document.getElementById('ann-catatan').value = ann.catatan || ''; document.getElementById('announcement-form-message').textContent = ''; announcementModal.classList.remove('hidden'); }
         }
-        if (target.classList.contains('delete-announcement')) { if (confirm('Yakin hapus?')) { await db.collection('announcements').doc(docId).delete(); } }
+        if (target.classList.contains('delete-announcement')) { if (confirm('Yakin hapus pengumuman ini?')) { await db.collection('announcements').doc(docId).delete(); } }
     });
     document.getElementById('announcement-form').addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -350,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const doc = await db.collection('liturgies').doc(docId).get();
             if (doc.exists) { const lit = doc.data(); currentEditLiturgyId = docId; document.getElementById('liturgy-modal-title').textContent = 'Edit Liturgi'; document.getElementById('lit-tanggal').value = lit.tanggal || ''; document.getElementById('lit-peringatan').value = lit.peringatan || ''; document.getElementById('lit-warna').value = lit.warna || ''; document.getElementById('lit-bacaan1').value = lit.bacaan1 || ''; document.getElementById('lit-bacaan2').value = lit.bacaan2 || ''; document.getElementById('lit-mazmur').value = lit.mazmur || ''; document.getElementById('lit-injil').value = lit.injil || ''; document.getElementById('lit-renungan').value = lit.renungan || ''; document.getElementById('liturgy-form-message').textContent = ''; liturgyModal.classList.remove('hidden'); }
         }
-        if (target.classList.contains('delete-liturgy')) { if (confirm('Yakin hapus?')) { await db.collection('liturgies').doc(docId).delete(); } }
+        if (target.classList.contains('delete-liturgy')) { if (confirm('Yakin hapus liturgi ini?')) { await db.collection('liturgies').doc(docId).delete(); } }
     });
     document.getElementById('pastor-list-container').addEventListener('change', async (e) => {
         if (e.target.classList.contains('pastor-status-select')) {
@@ -376,10 +417,140 @@ document.addEventListener('DOMContentLoaded', () => {
         msg.textContent = 'Menyimpan...';
         try { await db.collection('parish_stats').doc(docId).update(data); msg.textContent = 'Berhasil!'; msg.className = 'form-message success'; setTimeout(() => statModal.classList.add('hidden'), 1000); } catch (error) { msg.textContent = 'Gagal menyimpan.'; msg.className = 'form-message error'; }
     });
+
+    // --- EVENT LISTENERS BARU UNTUK TPE ---
+    document.getElementById('tpe-jadwal-container').addEventListener('click', (e) => {
+        if (e.target.classList.contains('remove-btn')) e.target.parentElement.remove();
+    });
+    document.getElementById('add-tpe-btn').addEventListener('click', () => {
+        currentEditTpeId = null;
+        document.getElementById('tpe-modal-title').textContent = 'Tambah TPE Baru';
+        document.getElementById('tpe-form').reset();
+        document.getElementById('tpe-jadwal-container').innerHTML = '';
+        addJadwalMisaRow();
+        document.getElementById('tpe-form-message').textContent = '';
+        tpeModal.classList.remove('hidden');
+    });
+    document.getElementById('tpe-add-jadwal-btn').addEventListener('click', () => addJadwalMisaRow());
+    document.getElementById('tpe-table-body').addEventListener('click', async (e) => {
+        const target = e.target;
+        const docId = target.closest('tr')?.dataset.id;
+        if (!docId) return;
+        if (target.classList.contains('delete-tpe')) {
+            if (confirm(`Yakin ingin menghapus TPE untuk tanggal ${docId}?`)) {
+                await db.collection('tata_perayaan_mingguan').doc(docId).delete();
+            }
+        }
+        if (target.classList.contains('edit-tpe')) {
+            const doc = await db.collection('tata_perayaan_mingguan').doc(docId).get();
+            if (doc.exists) {
+                const data = doc.data();
+                currentEditTpeId = doc.id;
+                document.getElementById('tpe-modal-title').textContent = 'Edit TPE';
+                document.getElementById('tpe-form').reset();
+                document.getElementById('tpe-tanggal').value = doc.id; // Tanggal adalah ID
+                document.getElementById('tpe-nama-perayaan').value = data.nama_perayaan || '';
+                document.getElementById('tpe-tahun-liturgi').value = data.tahun_liturgi || '';
+                document.getElementById('tpe-tema').value = data.tema || '';
+
+                const jadwalContainer = document.getElementById('tpe-jadwal-container');
+                jadwalContainer.innerHTML = '';
+                if (data.jadwal_misa && data.jadwal_misa.length > 0) {
+                    data.jadwal_misa.forEach(item => addJadwalMisaRow(item));
+                } else {
+                    addJadwalMisaRow(); // Tambah baris kosong jika tidak ada data
+                }
+
+                const tpeDetails = data.tata_perayaan || {};
+                document.getElementById('tpe-antifon-pembuka').value = tpeDetails.antifon_pembuka || '';
+                document.getElementById('tpe-doa-kolekta').value = tpeDetails.doa_kolekta || '';
+                document.getElementById('tpe-bacaan-1').value = tpeDetails.bacaan_1 || '';
+                document.getElementById('tpe-mazmur').value = tpeDetails.mazmur_tanggapan || '';
+                document.getElementById('tpe-bacaan-2').value = tpeDetails.bacaan_2 || '';
+                document.getElementById('tpe-bait-injil').value = tpeDetails.bait_pengantar_injil || '';
+                document.getElementById('tpe-bacaan-injil').value = tpeDetails.bacaan_injil || '';
+                document.getElementById('tpe-doa-umat').value = tpeDetails.doa_umat || '';
+                document.getElementById('tpe-doa-persembahan').value = tpeDetails.doa_persembahan || '';
+                document.getElementById('tpe-antifon-komuni').value = tpeDetails.antifon_komuni || '';
+                document.getElementById('tpe-doa-sesudah-komuni').value = tpeDetails.doa_sesudah_komuni || '';
+                
+                document.getElementById('tpe-form-message').textContent = '';
+                tpeModal.classList.remove('hidden');
+            }
+        }
+    });
+    document.getElementById('tpe-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const msg = document.getElementById('tpe-form-message');
+        const tanggalInput = document.getElementById('tpe-tanggal').value;
+        if (!tanggalInput) {
+            msg.textContent = 'Tanggal Misa wajib diisi!';
+            msg.className = 'form-message error';
+            return;
+        }
+        msg.textContent = 'Menyimpan...';
+        const docId = tanggalInput;
+
+        const jadwalMisa = Array.from(document.querySelectorAll('#tpe-jadwal-container .anggaran-item')).map(row => ({
+            jam: row.querySelector('.jadwal-jam').value,
+            tempat: row.querySelector('.jadwal-tempat').value,
+            perayaan: row.querySelector('.jadwal-perayaan').value,
+            pelayan: row.querySelector('.jadwal-pelayan').value,
+        }));
+        
+        // Format tanggal agar lebih rapi (misal: "Minggu, 14 September 2025")
+        // Tambahkan T12:00:00Z untuk menghindari masalah zona waktu saat konversi
+        const displayDate = new Date(tanggalInput + 'T12:00:00Z').toLocaleDateString('id-ID', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        });
+
+        const tpeData = {
+            tanggal_display: displayDate,
+            nama_perayaan: document.getElementById('tpe-nama-perayaan').value,
+            tahun_liturgi: document.getElementById('tpe-tahun-liturgi').value,
+            tema: document.getElementById('tpe-tema').value,
+            jadwal_misa: jadwalMisa,
+            tata_perayaan: {
+                antifon_pembuka: document.getElementById('tpe-antifon-pembuka').value,
+                doa_kolekta: document.getElementById('tpe-doa-kolekta').value,
+                bacaan_1: document.getElementById('tpe-bacaan-1').value,
+                mazmur_tanggapan: document.getElementById('tpe-mazmur').value,
+                bacaan_2: document.getElementById('tpe-bacaan-2').value,
+                bait_pengantar_injil: document.getElementById('tpe-bait-injil').value,
+                bacaan_injil: document.getElementById('tpe-bacaan-injil').value,
+                doa_umat: document.getElementById('tpe-doa-umat').value,
+                doa_persembahan: document.getElementById('tpe-doa-persembahan').value,
+                antifon_komuni: document.getElementById('tpe-antifon-komuni').value,
+                doa_sesudah_komuni: document.getElementById('tpe-doa-sesudah-komuni').value,
+            }
+        };
+
+        try {
+            await db.collection('tata_perayaan_mingguan').doc(docId).set(tpeData);
+            msg.textContent = 'Berhasil disimpan!';
+            msg.className = 'form-message success';
+            setTimeout(() => tpeModal.classList.add('hidden'), 1500);
+        } catch (error) {
+            msg.textContent = 'Gagal menyimpan. Cek konsol untuk error.';
+            msg.className = 'form-message error';
+            console.error("Error saving TPE: ", error);
+        }
+    });
+
+    // --- EVENT LISTENERS UMUM ---
     logoutButton.addEventListener('click', () => auth.signOut().then(() => { window.location.href = 'index.html' }));
     printBtn.addEventListener('click', () => window.print());
-    document.querySelectorAll('.close-modal-btn').forEach(btn => { const modal = document.getElementById(btn.dataset.target); if (modal) { btn.addEventListener('click', () => modal.classList.add('hidden')); } });
-    document.querySelectorAll('.modal-overlay').forEach(overlay => { overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.add('hidden') }); });
+    document.querySelectorAll('.close-modal-btn').forEach(btn => {
+        const modal = document.getElementById(btn.dataset.target);
+        if (modal) {
+            btn.addEventListener('click', () => modal.classList.add('hidden'));
+        }
+    });
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) overlay.classList.add('hidden');
+        });
+    });
 
     if (typeof particlesJS !== 'undefined') {
         particlesJS("particles-js", { "particles": { "number": { "value": 80 }, "color": { "value": "#004a99" }, "shape": { "type": "circle" }, "opacity": { "value": 0.5, "anim": { "enable": false } }, "size": { "value": 3, "random": true }, "line_linked": { "enable": true, "distance": 150, "color": "#004a99", "opacity": 0.4, "width": 1 }, "move": { "enable": true, "speed": 6 } }, "interactivity": { "events": { "onhover": { "enable": true, "mode": "repulse" } } }, "retina_detect": true });

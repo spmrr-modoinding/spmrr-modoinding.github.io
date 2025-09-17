@@ -22,8 +22,9 @@
             <div class="dashboard-nav no-print">
                 <button class="nav-tab-btn active" data-target="summary-section"><i class="bi bi-speedometer2"></i> Ringkasan</button>
                 <button class="nav-tab-btn" data-target="programs-section"><i class="bi bi-file-earmark-text-fill"></i> Program Kerja</button>
+                <button class="nav-tab-btn" data-target="tpe-section"><i class="bi bi-book-fill"></i> Tata Perayaan Ekaristi</button>
                 <button class="nav-tab-btn" data-target="announcements-section"><i class="bi bi-calendar-event-fill"></i> Agenda / Pengumuman</button>
-                <button class="nav-tab-btn" data-target="liturgies-section"><i class="bi bi-book-half"></i> Manajemen Liturgi</button>
+                <button class="nav-tab-btn" data-target="liturgies-section"><i class="bi bi-book-half"></i> Manajemen Liturgi (Lama)</button>
                 <button class="nav-tab-btn" data-target="pastors-section"><i class="bi bi-person-check-fill"></i> Kehadiran Pastor</button>
                 <button class="nav-tab-btn" data-target="stats-section"><i class="bi bi-bar-chart-line-fill"></i> Statistik Umat</button>
             </div>
@@ -65,13 +66,35 @@
                 <div class="table-wrapper"><table id="programs-table"><thead><tr><th rowspan="2">Pusat Paroki/<br>Stasi</th><th rowspan="2">Wilayah Rohani/<br>Kelompok Kategorial</th><th rowspan="2">Program/Kegiatan</th><th rowspan="2">Sasaran</th><th rowspan="2">Indikator<br>Keberhasilan</th><th rowspan="2">Model</th><th rowspan="2">Materi</th><th rowspan="2">Tempat & Waktu</th><th rowspan="2">PIC</th><th colspan="5">Perincian Anggaran</th><th rowspan="2">Total</th><th colspan="2">Sumber Dana</th><th rowspan="2" class="no-print">Aksi</th></tr><tr><th>Perincian</th><th>Vol</th><th>Satuan</th><th>Satuan Harga</th><th>Jumlah</th><th>Kas Paroki</th><th>Swadaya</th></tr></thead><tbody id="programs-table-body"></tbody><tfoot id="table-footer"></tfoot></table></div>
             </div>
 
+            <div id="tpe-section" class="management-section">
+                <div class="table-header">
+                    <h2><i class="bi bi-book-fill"></i> Manajemen Tata Perayaan Ekaristi (TPE)</h2>
+                    <div class="action-buttons no-print">
+                        <button class="action-btn" id="add-tpe-btn"><i class="bi bi-plus-square-fill"></i> Tambah TPE Baru</button>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table id="tpe-table">
+                        <thead>
+                            <tr>
+                                <th>Tanggal Misa (ID Dokumen)</th>
+                                <th>Nama Perayaan</th>
+                                <th class="no-print" style="width: 120px;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tpe-table-body">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+
             <div id="announcements-section" class="management-section">
                 <div class="table-header"><h2><i class="bi bi-calendar-event-fill"></i> Manajemen Agenda / Pengumuman</h2><div class="action-buttons no-print"><button class="action-btn" id="add-announcement-btn"><i class="bi bi-plus-square-fill"></i> Tambah Pengumuman</button></div></div>
                 <div class="table-wrapper"><table id="announcements-table"><thead><tr><th>Judul</th><th>Tanggal & Waktu</th><th>Lokasi</th><th>Catatan</th><th class="no-print" style="width: 120px;">Aksi</th></tr></thead><tbody id="announcements-table-body"></tbody></table></div>
             </div>
 
             <div id="liturgies-section" class="management-section">
-                <div class="table-header"><h2><i class="bi bi-book-half"></i> Manajemen Liturgi Mingguan</h2><div class="action-buttons no-print"><button class="action-btn" id="add-liturgy-btn"><i class="bi bi-plus-square-fill"></i> Tambah Liturgi Baru</button></div></div>
+                <div class="table-header"><h2><i class="bi bi-book-half"></i> Manajemen Liturgi Mingguan (Lama)</h2><div class="action-buttons no-print"><button class="action-btn" id="add-liturgy-btn"><i class="bi bi-plus-square-fill"></i> Tambah Liturgi Baru</button></div></div>
                 <div class="table-wrapper"><table id="liturgies-table"><thead><tr><th>Tanggal</th><th>Peringatan</th><th>Warna</th><th class="no-print" style="width: 250px;">Aksi</th></tr></thead><tbody id="liturgies-table-body"></tbody></table></div>
             </div>
 
@@ -95,15 +118,56 @@
     <div id="liturgy-modal" class="modal-overlay hidden no-print"><div class="modal-content"><div class="modal-header"><h2 id="liturgy-modal-title">Tambah Liturgi Baru</h2><button class="close-modal-btn" data-target="liturgy-modal">&times;</button></div><div class="modal-body"><form id="liturgy-form"><div class="input-group"><label for="lit-tanggal">Tanggal</label><input type="text" id="lit-tanggal" placeholder="Contoh: 29 Juni 2025" required></div><div class="input-group"><label for="lit-peringatan">Peringatan / Hari Raya</label><input type="text" id="lit-peringatan" required></div><div class="input-group"><label for="lit-warna">Warna Liturgi</label><input type="text" id="lit-warna" placeholder="Contoh: Merah"></div><hr><div class="input-group"><label for="lit-bacaan1">Bacaan 1</label><input type="text" id="lit-bacaan1"></div><div class="input-group"><label for="lit-bacaan2">Bacaan 2</label><input type="text" id="lit-bacaan2"></div><div class="input-group"><label for="lit-mazmur">Mazmur</label><input type="text" id="lit-mazmur"></div><div class="input-group"><label for="lit-injil">Injil</label><input type="text" id="lit-injil"></div><hr><div class="input-group"><label for="lit-renungan">Renungan</label><textarea id="lit-renungan" rows="8"></textarea></div><div class="submit-section"><button type="submit" class="submit-btn">Simpan Liturgi</button><p id="liturgy-form-message" class="form-message"></p></div></form></div></div></div>
     <div id="stat-modal" class="modal-overlay hidden no-print"><div class="modal-content" style="max-width: 500px;"><div class="modal-header"><h2 id="stat-modal-title">Edit Statistik</h2><button class="close-modal-btn" data-target="stat-modal">&times;</button></div><div class="modal-body"><form id="stat-form"><input type="hidden" id="stat-doc-id"><div class="input-group"><label for="stat-kk">Jumlah KK</label><input type="number" id="stat-kk" required></div><div class="input-group"><label for="stat-laki">Jumlah Laki-laki</label><input type="number" id="stat-laki" required></div><div class="input-group"><label for="stat-perempuan">Jumlah Perempuan</label><input type="number" id="stat-perempuan" required></div><div class="submit-section"><button type="submit" class="submit-btn">Simpan Perubahan</button><p id="stat-form-message" class="form-message"></p></div></form></div></div></div>
     
+    <div id="tpe-modal" class="modal-overlay hidden no-print">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="tpe-modal-title">Tambah Tata Perayaan Ekaristi Baru</h2>
+                <button class="close-modal-btn" data-target="tpe-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="tpe-form">
+                    <p><strong>Penting:</strong> Pilih tanggal hari Minggu untuk misa. ID dokumen akan otomatis dibuat berdasarkan tanggal ini (misal: 2025-09-21).</p>
+                    <div class="input-group"><label for="tpe-tanggal">Tanggal Misa (Hari Minggu)</label><input type="date" id="tpe-tanggal" required></div>
+                    <div class="input-group"><label for="tpe-nama-perayaan">Nama Perayaan (misal: PESTA KEMULIAAN SALIB SUCI)</label><input type="text" id="tpe-nama-perayaan" required></div>
+                    <div class="input-group"><label for="tpe-tahun-liturgi">Tahun Liturgi (misal: Th. C/I)</label><input type="text" id="tpe-tahun-liturgi"></div>
+                    <div class="input-group"><label for="tpe-tema">Tema</label><input type="text" id="tpe-tema"></div>
+                    <hr>
+                    
+                    <h3>Jadwal Misa</h3>
+                    <div id="tpe-jadwal-container">
+                        </div>
+                    <button type="button" id="tpe-add-jadwal-btn" class="add-btn"><i class="bi bi-plus-circle"></i> Tambah Baris Jadwal</button>
+                    <hr>
+
+                    <h3>Detail Tata Perayaan</h3>
+                    <div class="input-group"><label for="tpe-antifon-pembuka">Antifon Pembuka</label><textarea id="tpe-antifon-pembuka" rows="3"></textarea></div>
+                    <div class="input-group"><label for="tpe-doa-kolekta">Doa Kolekta</label><textarea id="tpe-doa-kolekta" rows="4"></textarea></div>
+                    <div class="input-group"><label for="tpe-bacaan-1">Bacaan 1 (Ref)</label><input type="text" id="tpe-bacaan-1"></div>
+                    <div class="input-group"><label for="tpe-mazmur">Mazmur Tanggapan</label><input type="text" id="tpe-mazmur"></div>
+                    <div class="input-group"><label for="tpe-bacaan-2">Bacaan 2 (Ref)</label><input type="text" id="tpe-bacaan-2"></div>
+                    <div class="input-group"><label for="tpe-bait-injil">Bait Pengantar Injil</label><input type="text" id="tpe-bait-injil"></div>
+                    <div class="input-group"><label for="tpe-bacaan-injil">Bacaan Injil (Ref)</label><input type="text" id="tpe-bacaan-injil"></div>
+                    <div class="input-group"><label for="tpe-doa-umat">Doa Umat</label><textarea id="tpe-doa-umat" rows="8"></textarea></div>
+                    <div class="input-group"><label for="tpe-doa-persembahan">Doa Atas Persembahan</label><textarea id="tpe-doa-persembahan" rows="4"></textarea></div>
+                    <div class="input-group"><label for="tpe-antifon-komuni">Antifon Komuni</label><textarea id="tpe-antifon-komuni" rows="3"></textarea></div>
+                    <div class="input-group"><label for="tpe-doa-sesudah-komuni">Doa Sesudah Komuni</label><textarea id="tpe-doa-sesudah-komuni" rows="5"></textarea></div>
+
+                    <div class="submit-section">
+                        <button type="submit" class="submit-btn">Simpan TPE</button>
+                        <p id="tpe-form-message" class="form-message"></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     
     <script src="firebase-config.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <script src="admin-dashboard.js"></script>
 </body>
 </html>

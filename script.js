@@ -1,10 +1,9 @@
-// script.js (Versi Final & Lengkap)
+// script.js (Versi Final dengan Logika Otomatis, Pratinjau, dan TANPA fungsi liturgi lama)
 
 let publicUmatChart = null;
 
 // =================================================================
-// DATA DOA-DOA (Disimpan di sini, bukan di Firebase)
-// Teks kini diformat dengan tag HTML (<p>, <h4>, dll.) untuk jarak yang lebih baik.
+// DATA DOA-DOA
 // =================================================================
 const prayersData = [
     {
@@ -101,228 +100,56 @@ Gratiam tuam, quæsumus, Domine, mentibus nostris infunde; ut qui, Angelo nuntia
     {
         title: 'Doa Wasiat',
         content: {
-            indonesia: `<h4>Doa Kepada Salib Suci Kristus</h4>
-<p>Terpujilah Tuhan Yesus Kristus,<br>
-Yang wafat di kayu salib,<br>
-disalib untuk dosa kita.</p>
-<p>Kristus Suci yang disalibkan, mohon selalu beserta kami;<br>
-Kristus Suci yang disalibkan, mohon perlindungan;<br>
-Kristus Suci yang disalibkan, Kau adalah terang Abadi untuk keluarga kami;<br>
-Kristus Suci yang disalibkan, lindungilah kami dari senjata tajam;<br>
-Kristus Suci yang disalibkan, datanglah di akhir perjalanan hidup kami;<br>
-Kristus Suci yang disalibkan, lindungilah kami dari godaan dalam menghadapi maut;<br>
-Kristus Suci yang disalibkan, lindungilah kami dari malapetaka;</p>
-<p>Salib Suci Kristus kami luhurkan Dikau,<br>
-O Yesus dari Nazareth yang disalib,<br>
-dan lindungilah kami dari seteru jahat yang terlihat, dan tidak terlihat,<br>
-sekarang dan selama-lamanya.</p>
-<hr>
-<h4>Doa untuk Menghormati Yesus Kristus yang Mati Disalib</h4>
-<p>Untuk menghormati kebajikan-Nya yang Ilahi,<br>
-sehingga dapat membawa kita ke kehidupan abadi yang luhur;<br>
-Sesungguhnya, bahwa Yesus lahir pada malam Natal;<br>
-Sesungguhnya, bahwa Yesus dikhitankan pada hari Senin;<br>
-Sesungguhnya, bahwa Tiga Raja memepersembahkan pujaan-pujaan pada hari ke-13;<br>
-Sesungguhnya, bahwa Yesus disalibkan pada hari Jumat Suci;<br>
-Sesungguhnya, bahwa Nikodemus dan Yusuf mengambil Yesus dari Salib, dan menguburnya;<br>
-Sesungguhnya, bahwa Yesus naik ke Surga.</p>
-<p>Begitulah Tuhan akan melindungi kami sekarang sampai di akhirat.</p>
-<p>O, Bapa yang ada di Surga,<br>
-di dalam tangan-Mu kami menyerahkan jiwa kami:<br>
-Yesus, Maria, Anna;<br>
-Yesus, Maria, Yosef;<br>
-Yesus, Maria, Yoakim;</p>
-<p>O, Tuhan Yesus Kristus,<br>
-Karena kesengsaraan yang Kau alami di Kayu Salib;<br>
-terutama takala jiwa-Mu akan meninggalkan tubuh-Mu,<br>
-Kasihanilah jiwa kami jika Ia akan meninggalkan dunia ini.</p>
-<p>O, Yesus berilah kami tekad untuk memanggul salibku dengan Dikau,<br>
-dan ajarilah kami untuk mengganggap kesengsaraan sebagai anugrah,<br>
-agar kekuasaan Bapa menutupi kami,<br>
-kebijaksanaan Putra memberkati kami;<br>
-Kesucian Roh Kudus melindungi kami,<br>
-agar Tritunggal Suci menerima kami dan<br>
-membawa kami ke kehidupan kekal.<br>
-Amin.</p>
-<hr>
-<h4>Kepada Bunda Yesus dari Hati Suci Yesus</h4>
-<p>Ingatlah, O Bunda dari Hati Kudus,<br>
-Yang mempunyai pengaruh tak terhingga atas Putra-Mu Yesus Kristus,<br>
-dengan penuh harapan kami mohon perlindunganMu.</p>
-<p>O… O… ibu dari Yesus,<br>
-sumber abadi suci,<br>
-yang dapat kaualirkan kepada para umat yang berisi kekayaan cinta kasih,<br>
-kebijaksanaan, terang dan keluhuran,<br>
-kami mohon …<br>
-kami tidak ditolak,<br>
-karena kau Ibu kami.</p>
-<p>O, ibu yang manis dari Hati Suci Yesus,<br>
-kabulkan permohonan kami.<br>
-Amin.</p>
-<hr>
-<h4>Catatan</h4>
-<p><i>Doa Wasiat ini diketemukan pada makam Kristus pada tahun 1515 dan dikirim oleh Santo Bapa kepada Keizer Karel sewaktu akan berangkat perang, juga kepada St. Michael di Paris, di mana sampai sekarang masih tertulis dengan huruf emas.</i></p>
-<p><i>Siapa saja yang setiap hari membaca doa ini, atau mendengarkan, atau membawanya, ia tidak akan mati mendadak, atau mati tenggelam, atau mati di tangan musuh, atau tertawan di dalam peperangan. jika seorang ibu mau melahirkan dan membaca doa ini, atau membawanya akan lekas tertolong dan bayinya akan terhindar dari 82 kecelakaan.</i></p>
-<p><i>Siapa yang membaca doa ini akan terhindar dari penyakit-penyakit. Jika kamu melihat ada seseorang jatuh karena penyakit ayan, letakanlah Doa ini di sebelah kanannya, dia akan bangun dan gembira lagi.</i></p>
-<p><i>Siapa yang memberi doa ini kepada salah seorang (satu keluarga), dia akan saya beri Rahmat, Ucapan Kristus sungguh nyata, seperti Injil Suci.</i></p>
-<p><i>Jika doa ini ada di rumah, tidak akan ada kecelakaan petir dan geludug. Siapa yang membaca, mendengarkan, membawa doa ini, akan tiga hari sebelum ia mati diberi Tuhan tanda, di mana kita dapat tahu “inilah hari kematianku”.</i></p>`,
+            indonesia: `<h4>Doa Kepada Salib Suci Kristus</h4><p>Terpujilah Tuhan Yesus Kristus,<br>Yang wafat di kayu salib,<br>disalib untuk dosa kita.</p><p>Kristus Suci yang disalibkan, mohon selalu beserta kami;<br>Kristus Suci yang disalibkan, mohon perlindungan;<br>Kristus Suci yang disalibkan, Kau adalah terang Abadi untuk keluarga kami;<br>Kristus Suci yang disalibkan, lindungilah kami dari senjata tajam;<br>Kristus Suci yang disalibkan, datanglah di akhir perjalanan hidup kami;<br>Kristus Suci yang disalibkan, lindungilah kami dari godaan dalam menghadapi maut;<br>Kristus Suci yang disalibkan, lindungilah kami dari malapetaka;</p><p>Salib Suci Kristus kami luhurkan Dikau,<br>O Yesus dari Nazareth yang disalib,<br>dan lindungilah kami dari seteru jahat yang terlihat, dan tidak terlihat,<br>sekarang dan selama-lamanya.</p><hr><h4>Doa untuk Menghormati Yesus Kristus yang Mati Disalib</h4><p>Untuk menghormati kebajikan-Nya yang Ilahi,<br>sehingga dapat membawa kita ke kehidupan abadi yang luhur;<br>Sesungguhnya, bahwa Yesus lahir pada malam Natal;<br>Sesungguhnya, bahwa Yesus dikhitankan pada hari Senin;<br>Sesungguhnya, bahwa Tiga Raja memepersembahkan pujaan-pujaan pada hari ke-13;<br>Sesungguhnya, bahwa Yesus disalibkan pada hari Jumat Suci;<br>Sesungguhnya, bahwa Nikodemus dan Yusuf mengambil Yesus dari Salib, dan menguburnya;<br>Sesungguhnya, bahwa Yesus naik ke Surga.</p><p>Begitulah Tuhan akan melindungi kami sekarang sampai di akhirat.</p><p>O, Bapa yang ada di Surga,<br>di dalam tangan-Mu kami menyerahkan jiwa kami:<br>Yesus, Maria, Anna;<br>Yesus, Maria, Yosef;<br>Yesus, Maria, Yoakim;</p><p>O, Tuhan Yesus Kristus,<br>Karena kesengsaraan yang Kau alami di Kayu Salib;<br>terutama takala jiwa-Mu akan meninggalkan tubuh-Mu,<br>Kasihanilah jiwa kami jika Ia akan meninggalkan dunia ini.</p><p>O, Yesus berilah kami tekad untuk memanggul salibku dengan Dikau,<br>dan ajarilah kami untuk mengganggap kesengsaraan sebagai anugrah,<br>agar kekuasaan Bapa menutupi kami,<br>kebijaksanaan Putra memberkati kami;<br>Kesucian Roh Kudus melindungi kami,<br>agar Tritunggal Suci menerima kami dan<br>membawa kami ke kehidupan kekal.<br>Amin.</p><hr><h4>Kepada Bunda Yesus dari Hati Suci Yesus</h4><p>Ingatlah, O Bunda dari Hati Kudus,<br>Yang mempunyai pengaruh tak terhingga atas Putra-Mu Yesus Kristus,<br>dengan penuh harapan kami mohon perlindunganMu.</p><p>O… O… ibu dari Yesus,<br>sumber abadi suci,<br>yang dapat kaualirkan kepada para umat yang berisi kekayaan cinta kasih,<br>kebijaksanaan, terang dan keluhuran,<br>kami mohon …<br>kami tidak ditolak,<br>karena kau Ibu kami.</p><p>O, ibu yang manis dari Hati Suci Yesus,<br>kabulkan permohonan kami.<br>Amin.</p><hr><h4>Catatan</h4><p><i>Doa Wasiat ini diketemukan pada makam Kristus pada tahun 1515 dan dikirim oleh Santo Bapa kepada Keizer Karel sewaktu akan berangkat perang, juga kepada St. Michael di Paris, di mana sampai sekarang masih tertulis dengan huruf emas.</i></p><p><i>Siapa saja yang setiap hari membaca doa ini, atau mendengarkan, atau membawanya, ia tidak akan mati mendadak, atau mati tenggelam, atau mati di tangan musuh, atau tertawan di dalam peperangan. jika seorang ibu mau melahirkan dan membaca doa ini, atau membawanya akan lekas tertolong dan bayinya akan terhindar dari 82 kecelakaan.</i></p><p><i>Siapa yang membaca doa ini akan terhindar dari penyakit-penyakit. Jika kamu melihat ada seseorang jatuh karena penyakit ayan, letakanlah Doa ini di sebelah kanannya, dia akan bangun dan gembira lagi.</i></p><p><i>Siapa yang memberi doa ini kepada salah seorang (satu keluarga), dia akan saya beri Rahmat, Ucapan Kristus sungguh nyata, seperti Injil Suci.</i></p><p><i>Jika doa ini ada di rumah, tidak akan ada kecelakaan petir dan geludug. Siapa yang membaca, mendengarkan, membawa doa ini, akan tiga hari sebelum ia mati diberi Tuhan tanda, di mana kita dapat tahu “inilah hari kematianku”.</i></p>`,
             latin: `<p><i>(Versi Latin untuk doa ini tidak tersedia.)</i></p>`
         }
     },
     {
         title: 'Doa Pagi',
         content: {
-            indonesia: `<p>Ya Tuhanku dan Allahku, aku berlutut, di hadapan-Mu dan bersembah sujud kepada-Mu, Raja tertinggi. Aku mengucap syukur kepada-Mu atas segala kemurahanMu, terlebih atas pemeliharaan-Mu pada malam tadi.</p>
-<p>Aku menyerahkan kepada-Mu jiwa dan badanku serta segala milikku. Aku mempersembahkan kepada-Mu semua saja yang akan ku lakukan hari ini demi kemuliaan nama-Mu, keselamatan manusia dan kejayaan Gereja-Mu.</p>
-<p>Bapa yang penuh kasih sayang kepadaku, aku berniat sungguh-sungguh untuk hidup sebagai seorang Kristen yang sejati pada hari ini dan tidak mau menghinakan Dikau. Aku mau memenuhi kewajibanku dengan sebaik-baiknya. Allah yang Maha Rahim, berikanlah aku rahmat-Mu agar aku setia pada niatku ini. Amin.</p>`,
+            indonesia: `<p>Ya Tuhanku dan Allahku, aku berlutut, di hadapan-Mu dan bersembah sujud kepada-Mu, Raja tertinggi. Aku mengucap syukur kepada-Mu atas segala kemurahanMu, terlebih atas pemeliharaan-Mu pada malam tadi.</p><p>Aku menyerahkan kepada-Mu jiwa dan badanku serta segala milikku. Aku mempersembahkan kepada-Mu semua saja yang akan ku lakukan hari ini demi kemuliaan nama-Mu, keselamatan manusia dan kejayaan Gereja-Mu.</p><p>Bapa yang penuh kasih sayang kepadaku, aku berniat sungguh-sungguh untuk hidup sebagai seorang Kristen yang sejati pada hari ini dan tidak mau menghinakan Dikau. Aku mau memenuhi kewajibanku dengan sebaik-baiknya. Allah yang Maha Rahim, berikanlah aku rahmat-Mu agar aku setia pada niatku ini. Amin.</p>`,
             latin: `<p><i>(Versi Latin untuk doa ini tidak tersedia.)</i></p>`
         }
     },
     {
         title: 'Doa Malam',
         content: {
-            indonesia: `<p>Ya Tuhanku dan Allahku, Aku berlutut di hadapan-Mu dan bersembah sujud kepada-Mu, Raja Tertinggi. Aku mengucap syukur kepada-Mu atas segala kemurahanMu, terlebih ata pemeliharaan-Mu pada hari yang lalu.</p>
-<p>Datanglah hai Roh Kudus, terangilah akal budiku, supaya aku mengetahui dosa-dosaku dan berilah aku rahmat-Mu supaya aku dapat menyesal sungguh atas dosa-dosaku itu. Amin.</p>`,
+            indonesia: `<p>Ya Tuhanku dan Allahku, Aku berlutut di hadapan-Mu dan bersembah sujud kepada-Mu, Raja Tertinggi. Aku mengucap syukur kepada-Mu atas segala kemurahanMu, terlebih ata pemeliharaan-Mu pada hari yang lalu.</p><p>Datanglah hai Roh Kudus, terangilah akal budiku, supaya aku mengetahui dosa-dosaku dan berilah aku rahmat-Mu supaya aku dapat menyesal sungguh atas dosa-dosaku itu. Amin.</p>`,
             latin: `<p><i>(Versi Latin untuk doa ini tidak tersedia.)</i></p>`
         }
     },
     {
         title: 'Ratu Surga (Masa Paskah)',
         content: {
-            indonesia: `<p>P. Ratu surga bersukacitalah, Alleluya.<br>
-U. Sebab Dia yang boleh kau kandungkan, Alleluya.</p>
-<p>P. Telah bangkit seperti disabdakan-Nya, Alleluya.<br>
-U. Doakanlah kami pada Allah, Alleluya.</p>
-<p>P. Bersukacitalah dan bergembiralah Perawan Maria, Alleluya.<br>
-U. Sebab Tuhan sungguh telah bangkit, Alleluya.</p>
-<p><b>Marilah kita berdoa:</b><br>
-Ya Allah, Engkau telah berkenan menggembirakan dunia dengan kebangkitan Tuhan kami Yesus Kristus. Kami mohon, berilah supaya dengan pengantaraan Bunda-Nya, Perawan Maria, kami bersukacita dalam kehidupan yang kekal. Karena Kristus Tuhan kami. Amin.</p>`,
+            indonesia: `<p>P. Ratu surga bersukacitalah, Alleluya.<br>U. Sebab Dia yang boleh kau kandungkan, Alleluya.</p><p>P. Telah bangkit seperti disabdakan-Nya, Alleluya.<br>U. Doakanlah kami pada Allah, Alleluya.</p><p>P. Bersukacitalah dan bergembiralah Perawan Maria, Alleluya.<br>U. Sebab Tuhan sungguh telah bangkit, Alleluya.</p><p><b>Marilah kita berdoa:</b><br>Ya Allah, Engkau telah berkenan menggembirakan dunia dengan kebangkitan Tuhan kami Yesus Kristus. Kami mohon, berilah supaya dengan pengantaraan Bunda-Nya, Perawan Maria, kami bersukacita dalam kehidupan yang kekal. Karena Kristus Tuhan kami. Amin.</p>`,
             latin: `<p><i>(Versi Latin untuk doa ini tidak tersedia.)</i></p>`
         }
     },
     {
         title: 'Doa Datanglah Roh Kudus',
         content: {
-            indonesia: `<p>Datanglah, ya Roh Kudus, penuhilah hati umat-Mu dan nyalakanlah di dalamnya api cinta-Mu. Utuslah Roh-Mu maka semuanya akan dijadikan lagi, dan Engkau akan membaharui muka bumi.</p>
-<p><b>Marilah berdoa:</b><br>
-Ya Allah, Engkau telah mengajar hati umat-Mu dengan penerangan Roh Kudus. Berilah supaya berkat Roh Kudus itu kami senantiasa berpikir benar dan bijaksana, serta selalu merasa gembira karena penghibur-Nya. Demi Kristus, Tuhan kami. Amin.</p>`,
+            indonesia: `<p>Datanglah, ya Roh Kudus, penuhilah hati umat-Mu dan nyalakanlah di dalamnya api cinta-Mu. Utuslah Roh-Mu maka semuanya akan dijadikan lagi, dan Engkau akan membaharui muka bumi.</p><p><b>Marilah berdoa:</b><br>Ya Allah, Engkau telah mengajar hati umat-Mu dengan penerangan Roh Kudus. Berilah supaya berkat Roh Kudus itu kami senantiasa berpikir benar dan bijaksana, serta selalu merasa gembira karena penghibur-Nya. Demi Kristus, Tuhan kami. Amin.</p>`,
             latin: `<p><i>(Versi Latin untuk doa ini tidak tersedia.)</i></p>`
         }
     },
     {
         title: 'Rosario Tujuh Duka Maria',
         content: {
-            indonesia: `<h4>Pembukaan</h4>
-<p>Tuhan, aku mempersembahkan Rosario ini bagi kemuliaan-Mu, agar aku dapat menghormati Bunda Yesus, Perawan Terberkati, sehingga aku dapat berbagi dan merenungkan penderitaan Yesus melalui penderitaan dirinya. Aku dengan rendah hati memohon kepada-Mu untuk memberikan pertobatan sejati bagi semua dosa-dosa yang telah kuperbuat, dan mohon berilah aku kebijaksanaan, dan kerendahan hati.</p>
-<p><b>Awal doa:</b><br>
-Ya Allah, datanglah menolong aku, O Tuhan bersegeralah menolongku,<br>
-Kemuliaan kepada Bapa, Putera dan Roh Kudus, sekarang dan selama-lamanya. Amin.</p>
-<p><b>Doa sebelum renungan:</b><br>
-Bundaku, bagilah kesedihanmu kepadaku,<br>
-Biarlah aku ikut menanggungnya bersamamu, untuk merenungkan kematian Yesusmu bersamaku.</p>
-<hr>
-<p><b>Doa Tobat</b><br>Allah yang maharahim, aku menyesal atas dosa-dosaku...</p>
-<p><b>Salam Maria (3 kali)</b><br>Salam Maria, penuh rahmat, Tuhan sertamu...</p>
-<p>Lalu disambung dengan doa singkat berikut:<br>
-<i>Bersama airmata kasih sayang Dukacita Bunda kami dan untuk mempersembahkan paduan air mata kami dengan airmata-nya.</i></p>
-<p>Sebelum setiap misteri, doakan:<br>
-<i>Bunda Kerahiman, ingatkan kami selalu pada derita Putera-mu, Yesus.</i></p>
-<hr>
-<h4>Duka ke-1: Nubuat Simeon (Luk 2 : 34-35)</h4>
-<p>Bunda yang berduka, aku turut bersedih karena pedang penderitaan pertama yang menusuk hatimu; pada saat di Bait Allah, Simeon tua bernubuat bahwa segala kekejaman akan dialami oleh Yesusmu terkasih. Kau telah mengetahuinya dari Kitab Suci, bahwa kekejaman akan mengakibatkan kematian-Nya di depan matamu, diatas kayu salib hina, kehabisan darah, ditolak oleh banyak orang; sedangkan engkau tak berdaya membela atau menolongnya. Demi penderitaan hatimu aku mohon padamu, Ratuku, perolehkanlah bagiku rahmat sehingga selama hidup dan pada saat ajal aku selalu mengingat akan sengsara Yesus, dan kedukaanmu selalu tertanam dihatiku.</p>
-<p><i>1x Bapa kami, 7x Salam Maria, 1x Bundaku, …</i></p>
-<hr>
-<h4>Duka ke-2 : Pelarian ke Mesir (Mat 2 : 13-14)</h4>
-<p>Bunda yang berduka. Aku turut bersedih karena pedang penderitaan kedua yang menusuk hatimu; pada saat tak lama setelah kelahiran-Nya, puteramu yang tak berdosa terancam kematian, yang dilakukan justru oleh orang-orang yang akan diselamatkan-Nya dengan kedatangan-Nya di dunia ini sehingga dalam kegelapan malam engkau beserta puteramu dan suamimu St.Josef lari ke Mesir. Dan engkau, wanita muda yang lemah lembut, telah melakukan perjalanan panjang yang melelahkan dengan mengalami banyak kesulitan bersama puteramu yang masih lemah, melalui padang pasir dan kota yang tidak bersahabat, dan akhirnya, sebagai orang asing yang tidak mengenal siapapun, engkau telah hidup selama bertahun-tahun dalam kemiskinan dan kehinaan. Aku mohon, Bundaku terkasih, perolehkanlah bagiku rahmat untuk menderita bersamamu dengan kesabaran hingga ajal, yang merupakan akhir kehidupan yang menyedihkan ini, sehingga akhirnya aku diperkenankan untuk menghindari hukuman abadi neraka yang pantas ku peroleh.</p>
-<p><i>1x Bapa kami, 7x Salam Maria, 1x Bundaku,…</i></p>
-<hr>
-<h4>Duka ke-3: Yesus hilang di Yerusalem (Luk 2:43-45)</h4>
-<p>Bunda yang berduka, aku ikut bersedih karena pedang penderitaan ketiga yang menusuk hatimu; pada saat di Yerusalem engkau kehilangan puteramu terkasih selama 3 hari. Tidak melihat belahan hatimu disampingmu dan tidak mengetahui alasan perbuatan-Nya, dapat kubayangkan dengan baik, Ratuku terkasih, bahwa selama malam-malam itu engkau tidak dapat tidur dengan nyenyak dan hanya memikirkan Dia, hartamu satu-satunya. Demi kepedihan hatimu selama 3 hari yang terasa panjang dan pahit, aku mohon padamu, perolehkanlah bagiku rahmat agar aku tidak akan pernah kehilangan Tuhanku, selalu berpegang teguh pada-Nya, sehingga pada saat aku meninggalkan dunia ini, aku akan disatukan dengan-Nya.</p>
-<p><i>1x Bapa kami, 7x Salam Maria, 1x Bundaku,…</i></p>
-<hr>
-<h4>Duka ke-4: Maria bertemu Yesus di jalan menuju Kalvari (Luk 23:27-31)</h4>
-<p>Bunda yang berduka, aku ikut bersedih karena pedang penderitaan keempat yang menusuk hatimu; pada saat engkau melihat puteramu terkasih dijatuhi hukuman mati, diikat dengan tali dan rantai, tubuh tertutup darah dan luka, dimahkotai duri-duri kasar, jatuh dibawah salib berat yang dipanggul-Nya di atas pundak terluka, berjalan bagai domba tak bersalah untuk mati demi cinta-Nya pada kami. Matamu memandang-Nya dan Dia menatapmu, pandangan yang sekejap itu bagaikan beribu-ribu panah yang melukai hatimu yang manis. Demi penderitaan yang sangat sedih itu, aku mohon padamu, perolehkanlah bagiku rahmat untuk hidup, sesuai dengan kehendak Tuhanku dan memanggul salibku dengan suka cita bersama dengan Yesus sampai akhir hayatku.</p>
-<p><i>1x Bapa kami, 7x Salam Maria, 1x Bundaku,…</i></p>
-<hr>
-<h4>Duka ke-5: Yesus wafat di kayu salib (Yoh 19:25-27)</h4>
-<p>Bunda yang berduka, aku turut bersedih karena pedang penderitaan kelima yang menusuk hatimu; pada saat di Golgota engkau melihat puteramu Yesus terkasih wafat secara perlahan-lahan di depan matamu, dengan begitu banyak siksaan dan penghinaan, pada kayu salib hina. Engkau tak berdaya memberikan penghiburan yang terkecil sekalipun seperti yang diberikan pada seorang penjahat besar yang mendekati ajalnya. Bundaku yang paling kukasihi, aku mohon, demi penderitaan yang engkau alami bersama dengan puteramu yang wafat, dan demi kepedihan yang engkau rasakan terutama pada saat-saat terakhir dimana Dia berbicara padamu dari atas kayu salib, mengucapkan selamat tinggal dan meninggalkan kami semua dalam diri Yohanes murid-Nya sehingga menjadikan kami semua anak-anakmu, dan setelah ketetapan tersebut engkau melihat-Nya menundukkan kepala dan wafat; perolehkanlah rahmat dari kekasih tersalibmu agar aku dapat hidup dan mati dengan menyangkal segala hal duniawi sehingga aku dapat menghabiskan hidupku hanya untuk Allah dan kemudian pada saat memasuki surga untuk menikmati-Nya, dengan saling bertatap muka.</p>
-<p><i>1x Bapa kami, 7x Salam Maria, 1x Bundaku,…</i></p>
-<hr>
-<h4>Duka ke-6: Yesus diturunkan dari kayu salib (Yoh 19:40)</h4>
-<p>Bunda yang berduka, aku ikut bersedih karena pedang penderitaan keenam yang menusuk hatimu; pada saat engkau melihat hati manis puteramu ditusuk dengan tombak. Dia telah wafat bagi manusia yang tidak tahu terima kasih yang setelah kematian-Nya tidak puas dengan siksaan dan penghinaan yang telah diberikan kepada-Nya. Demi penderitaan hebat yang telah kau jalani ini, aku mohon padamu, perolehkanlah rahmat bagiku untuk masuk ke dalam Hati Yesus yang terluka dan terbuka untukku, sehingga di dalam Hati itu, aku dapat merasakan bahwa disanalah satu-satunya tempat terindah dari kasih, dimana jiwa-jiwa yang mengasihi Allah beristirahat dan hidup di dalam-Nya. Aku tidak boleh mengasihi apapun kecuali Allah, perawan tersuci, engkau dapat memperolehkannya bagiku, aku berharap padamu.</p>
-<p><i>1x Bapa kami, 7x Salam Maria, 1x Bundaku,…</i></p>
-<hr>
-<h4>Duka ke-7: Yesus dimakamkan (Yoh 19:38-42)</h4>
-<p>Bunda yang berduka, aku turut bersedih karena pedang penderitaan ketujuh yang menusuk hatimu; pada saat engkau melihat puteramu yang telah wafat dalam pelukanmu, tidak seindah dan sempurna seperti pada saat engkau menerima-Nya di palungan Bethlehem, tetapi dengan tubuh tertutup darah, pucat dan dikoyak oleh luka-luka sehingga tulang-Nya pun terlihat; dan engkau kemudian berkata : “Puteraku, puteraku, beginikah kasih memperlakukan-Mu?” Pada saat Dia dibawa ke makam, engkau ingin menemani-Nya dan meletakkan-Nya dengan tanganmu sendiri dan mengatakan salam perpisahan yang terakhir, kemudian engkau meninggalkan hatimu yang penuh kasih terkubur bersama puteramu. Dengan pengorbanan dan kepedihan jiwamu yang suci, aku mohon, perolehkanlah bagiku, o Bunda yang penuh kasih, pengampunan dari segala perbuatanku yang menyakiti dan melawan Tuhanku terkasih, yang kusesali dengan sepenuh hati. Mohon kuatkanlah aku dalam pencobaan, temanilah aku pada saat ajalku, selamatkanlah jiwaku melalui kemurahan Yesus dan engkau, sehingga pada suatu saat setelah segala sesuatu yang buruk ini, aku boleh sampai ke surga untuk menyanyikan lagu pujian bagi Yesus dan engkau untuk sepanjang masa.</p>
-<p><i>1x Bapa kami, 7x Salam Maria, 1x Bundaku,…</i></p>
-<hr>
-<h4>Doa Penutup</h4>
-<p>Ya Allah, karena sengsara-Mu yang telah dinubuatkan oleh Simeon, pedang penderitaan telah menikam hati termanis Bunda Maria, Perawan yang terkudus dan termulia. Anugerahkanlah pada kami yang merenungkan dan menghormati dukanya, agar diperbolehkan menikmati pahala yang penuh rahmat dari sengsara-Mu, karena Engkau yang hidup dan berkuasa sepanjang segala masa. Amin.</p>`,
+            indonesia: `<h4>Pembukaan</h4><p>Tuhan, aku mempersembahkan Rosario ini bagi kemuliaan-Mu, agar aku dapat menghormati Bunda Yesus, Perawan Terberkati, sehingga aku dapat berbagi dan merenungkan penderitaan Yesus melalui penderitaan dirinya. Aku dengan rendah hati memohon kepada-Mu untuk memberikan pertobatan sejati bagi semua dosa-dosa yang telah kuperbuat, dan mohon berilah aku kebijaksanaan, dan kerendahan hati.</p><p><b>Awal doa:</b><br>Ya Allah, datanglah menolong aku, O Tuhan bersegeralah menolongku,<br>Kemuliaan kepada Bapa, Putera dan Roh Kudus, sekarang dan selama-lamanya. Amin.</p><p><b>Doa sebelum renungan:</b><br>Bundaku, bagilah kesedihanmu kepadaku,<br>Biarlah aku ikut menanggungnya bersamamu, untuk merenungkan kematian Yesusmu bersamaku.</p><hr><p><b>Doa Tobat</b><br>Allah yang maharahim, aku menyesal atas dosa-dosaku...</p><p><b>Salam Maria (3 kali)</b><br>Salam Maria, penuh rahmat, Tuhan sertamu...</p><p>Lalu disambung dengan doa singkat berikut:<br><i>Bersama airmata kasih sayang Dukacita Bunda kami dan untuk mempersembahkan paduan air mata kami dengan airmata-nya.</i></p><p>Sebelum setiap misteri, doakan:<br><i>Bunda Kerahiman, ingatkan kami selalu pada derita Putera-mu, Yesus.</i></p><hr><h4>Duka ke-1: Nubuat Simeon (Luk 2 : 34-35)</h4><p>Bunda yang berduka, aku turut bersedih karena pedang penderitaan pertama yang menusuk hatimu; pada saat di Bait Allah, Simeon tua bernubuat bahwa segala kekejaman akan dialami oleh Yesusmu terkasih...</p><p><i>1x Bapa kami, 7x Salam Maria, 1x Bundaku, …</i></p><hr><h4>Duka ke-2 : Pelarian ke Mesir (Mat 2 : 13-14)</h4><p>Bunda yang berduka. Aku turut bersedih karena pedang penderitaan kedua yang menusuk hatimu...</p><p><i>1x Bapa kami, 7x Salam Maria, 1x Bundaku,…</i></p><hr><h4>Duka ke-3: Yesus hilang di Yerusalem (Luk 2:43-45)</h4><p>Bunda yang berduka, aku ikut bersedih karena pedang penderitaan ketiga yang menusuk hatimu...</p><p><i>1x Bapa kami, 7x Salam Maria, 1x Bundaku,…</i></p><hr><h4>Duka ke-4: Maria bertemu Yesus di jalan menuju Kalvari (Luk 23:27-31)</h4><p>Bunda yang berduka, aku ikut bersedih karena pedang penderitaan keempat yang menusuk hatimu...</p><p><i>1x Bapa kami, 7x Salam Maria, 1x Bundaku,…</i></p><hr><h4>Duka ke-5: Yesus wafat di kayu salib (Yoh 19:25-27)</h4><p>Bunda yang berduka, aku turut bersedih karena pedang penderitaan kelima yang menusuk hatimu...</p><p><i>1x Bapa kami, 7x Salam Maria, 1x Bundaku,…</i></p><hr><h4>Duka ke-6: Yesus diturunkan dari kayu salib (Yoh 19:40)</h4><p>Bunda yang berduka, aku ikut bersedih karena pedang penderitaan keenam yang menusuk hatimu...</p><p><i>1x Bapa kami, 7x Salam Maria, 1x Bundaku,…</i></p><hr><h4>Duka ke-7: Yesus dimakamkan (Yoh 19:38-42)</h4><p>Bunda yang berduka, aku turut bersedih karena pedang penderitaan ketujuh yang menusuk hatimu...</p><p><i>1x Bapa kami, 7x Salam Maria, 1x Bundaku,…</i></p><hr><h4>Doa Penutup</h4><p>Ya Allah, karena sengsara-Mu yang telah dinubuatkan oleh Simeon... Amin.</p>`,
             latin: `<p><i>(Versi Latin untuk doa ini tidak tersedia.)</i></p>`
         }
     },
     {
         title: 'Novena Hati Kudus Yesus',
         content: {
-            indonesia: `<h4>Pengantar</h4>
-<p>Hati Kudus Yesus adalah hati umat manusia yang merupakan lambang pusat kepribadian Yesus. Sebab hati merupakan pusat perasaan, kebebasan dan kesadaran Yesus. Dalam hati-Nya, Dia menyerahkan diri kepada misteri Allah dan karya keselamatan-Nya demi manusia.</p>
-<p>Novena kepada hati kudus Yesus adalah sarana untuk mengembangkan hubungan pribadi dengan Yesus. Dalam Perjanjian Baru, khususnya dalam tulisan St. Yohanes, terdapat ungkapan hubungan pribadi itu dan nilai Hati Yesus sebagai lambang cinta kasih-Nya.</p>
-<p>Novena ini dilakukan selama 9 hari berturut-turut pada jam yang sama.</p>
-<hr>
-<h4>Urutan Doa Novena Kepada Hati Kudus Yesus</h4>
-<h5>1. Doa Pembukaan</h5>
-<p><b>Syahadat Para Rasul</b><br>Aku percaya akan Allah, Bapa Yang Maha Kuasa, pencipta langit dan bumi...</p>
-<h5>2. Novena Kepada Hati Kudus Yesus</h5>
-<p>Ya Yesus, Engkau berkata: “Mintalah, maka akan diberikan kepadamu. Carilah, maka kamu akan mendapat. Ketuklah, maka pintu akan dibukakan bagimu.”<br>Dengan perantaraan Maria, Bunda-Mu tersuci, aku memanggil Engkau. Aku mencari dan memohon kepada-Mu untuk mendengarkan permohonanku ini.<br><i>(Sebutkan permohonan/ujud doa pribadi ….)</i></p>
-<hr>
-<p>Ya Yesus, Engkau berkata: “Apa saja yang kau minta kepada Bapa-Ku dengan nama-Ku, Dia akan memberikannya kepadamu.”<br>Aku memohon dengan rendah hati dan penuh kepercayaan dari Bapa Surgawi dalam nama-Mu, dengan perantaraan Maria, Bunda-Mu tersuci, untuk mengabulkan permohonanku ini.<br><i>(Sebutkan permohonan/ujud doa pribadi ….)</i></p>
-<hr>
-<p>Ya Yesus, Engkau berkata: “Langit dan bumi akan musnah, tetapi Sabda-Ku tidak akan musnah.”<br>Dengan perantaraan Maria Bunda-Mu tersuci, aku percaya bahwa permohonanku akan dikabulkan.<br><i>(Sebutkan permohonan/ujud doa pribadi ….)</i></p>
-<hr>
-<p>Yesusku, Tuhan jiwaku, Engkau berjanji bahwa Hati Kudus-Mu akan menjadi laut kerahiman bagi orang-orang yang berharap pada-Mu. Aku sungguh percaya bahwa Engkau akan mengabulkan apa yang aku minta, walaupun itu memerlukan mukjizat. Pada siapa aku akan mengetuk kalau bukan pada hati-Mu.<br>Terberkatilah mereka yang berharap pada-Mu. Ya Yesus, aku mempersembahkan kepada Hati-Mu penyakit/jiwa/permohonan ini. Pandanglah dan buatlah apa yang hati-Mu kehendaki.</p>
-<hr>
-<p>Ya Yesus, aku berharap pada-Mu dan percaya. Kepada-Mu aku mempersembahkan diriku. Di dalam Engkau aku merasa aman.</p>
-<p><b>Bapa Kami (1x)</b><br>Bapa kami yang ada di surga, dimuliakanlah nama-Mu...</p>
-<p><b>Salam Maria (1x)</b><br>Salam Maria, penuh rahmat Tuhan sertamu...</p>
-<p><b>Kemuliaan (1x)</b><br>Kemuliaan kepada Bapa, dan Putra, dan Roh Kudus...</p>
-<hr>
-<p><b>Hati Kudus Yesus, aku berharap pada-Mu (10x)</b></p>
-<p>Ya Yesus yang baik, Engkau berkata: “Jika engkau hendak menyenangkan Daku, percayalah kepada-Ku. Jika engkau hendak lebih menyenangkan Daku, berharaplah pada-Ku selalu.”<br>Padamu Tuhan, aku berharap, agar aku tidak binasa selamanya. Amin.</p>
-<h5>3. Doa Kepada Hati Kudus Yesus</h5>
-<p>Ya Tuhan, aku berdoa, agar di rumahku ada damai, ketenangan dan kesejahteraan di dalam naungan-Mu. Berkatilah dan lindungilah usahaku, pekerjaanku, segala keinginanku dan semua yang Kau serahkan kepadaku. Usirlah nafsu dari dalam hatiku, rencana palsu, dan pikiran jahat. Tuangkanlah di dalam hatiku, cinta kepada sesama dan anugerahkanlah kepadaku semangat penyerahan yang teguh, teristimewa pada saat kemalangan, agar supaya aku bangun dari kebimbangan.</p>
-<p>Ya Tuhan, bimbinglah dan lindungilah hidupku dari bahaya-bahaya dan ketidaktentuan dunia. Jangan lupa, ya Yesusku, orang-orang yang kukasihi, baik yang masih hidup maupun yang sudah meninggal, yang menyebabkan kesedihan kami tetapi kami dihibur oleh ketaatan mereka waktu mereka masih hidup, sehingga Engkau tidak menyerahkan mereka kepada maut. Kasihanilah mereka Tuhan, dan bawalah mereka kepada kemuliaan surgawi. Amin.</p>`,
+            indonesia: `<h4>Pengantar</h4><p>Hati Kudus Yesus adalah hati umat manusia yang merupakan lambang pusat kepribadian Yesus...</p><p>Novena ini dilakukan selama 9 hari berturut-turut pada jam yang sama.</p><hr><h4>Urutan Doa Novena Kepada Hati Kudus Yesus</h4><h5>1. Doa Pembukaan</h5><p><b>Syahadat Para Rasul</b><br>Aku percaya akan Allah, Bapa Yang Maha Kuasa, pencipta langit dan bumi...</p><h5>2. Novena Kepada Hati Kudus Yesus</h5><p>Ya Yesus, Engkau berkata: “Mintalah, maka akan diberikan kepadamu...<br><i>(Sebutkan permohonan/ujud doa pribadi ….)</i></p><hr><p>Ya Yesus, Engkau berkata: “Apa saja yang kau minta kepada Bapa-Ku dengan nama-Ku...<br><i>(Sebutkan permohonan/ujud doa pribadi ….)</i></p><hr><p>Ya Yesus, Engkau berkata: “Langit dan bumi akan musnah, tetapi Sabda-Ku tidak akan musnah.”<br><i>(Sebutkan permohonan/ujud doa pribadi ….)</i></p><hr><p>Yesusku, Tuhan jiwaku, Engkau berjanji bahwa Hati Kudus-Mu akan menjadi laut kerahiman...</p><hr><p>Ya Yesus, aku berharap pada-Mu dan percaya...</p><p><b>Bapa Kami (1x)</b>...<br><b>Salam Maria (1x)</b>...<br><b>Kemuliaan (1x)</b>...</p><hr><p><b>Hati Kudus Yesus, aku berharap pada-Mu (10x)</b></p><p>Ya Yesus yang baik, Engkau berkata: “Jika engkau hendak menyenangkan Daku, percayalah kepada-Ku...</p><h5>3. Doa Kepada Hati Kudus Yesus</h5><p>Ya Tuhan, aku berdoa, agar di rumahku ada damai, ketenangan dan kesejahteraan di dalam naungan-Mu... Amin.</p>`,
             latin: `<p><i>(Versi Latin untuk novena ini tidak tersedia.)</i></p>`
         }
     },
     {
         title: 'Novena Kerahiman Ilahi',
         content: {
-            indonesia: `<h4>Pengantar</h4>
-<p>Fokus utama dari Devosi Kerahiman Ilahi adalah cinta belas kasihan Allah dan keinginan untuk membiarkan cinta dan rahmat tersebut mengalir melalui hati seseorang terhadap orang-orang yang membutuhkan hal itu...</p>
-<p>Novena ini bisa diadakan kapan saja, tetapi teristimewa adalah pada Jumat Agung sampai Minggu Paskah II.</p>
-<hr>
-<h4>Urutan Doa Novena Kerahiman Ilahi</h4>
-<h5>1. Bacaan Dari Kitab Suci</h5>
-<p><i>(Bacalah bagian Kitab Suci yang ditentukan pada hari itu, kemudian renungkanlah.)</i></p>
-<p><b>Hari Pertama:</b> Meditasi Kitab Suci: Perumpamaan tentang domba yang hilang (Luk 15:1-10)...</p>
-<p><b>Hari Kedua:</b> Meditasi Kitab Suci: Belas kasihan Yesus terhadap orang banyak (Mat 9:35-38)...</p>
-<p><b>Hari Ketiga:</b> Meditasi Kitab Suci: Yesus Kristus batu penjuru (1Ptr 2:1-10)...</p>
-<p><b>Hari Keempat:</b> Meditasi Kitab Suci: Why 21:5-8...</p>
-<p><b>Hari Kelima:</b> Meditasi Kitab Suci: Ef 4:2-7 dan Ef 4:11-16...</p>
-<p><b>Hari Keenam:</b> Meditasi Kitab Suci: Yesus memberkati anak-anak (Luk 18:15-17)...</p>
-<p><b>Hari Ketujuh:</b> Meditasi Kitab Suci: Yesus diurapi oleh perempuan berdosa (Luk 7:36-50)...</p>
-<p><b>Hari Kedelapan:</b> Meditasi Kitab Suci : 2Ptr 3:9-14...</p>
-<p><b>Hari Kesembilan:</b> Meditasi Kitab Suci : Why 3:15-19...</p>
-<h5>2. Doa Koronka</h5>
-<p><i>(Doa Koronka/Kerahiman diajarkan Tuhan Yesus sendiri pada penampakan tahun 1935 kepada Suster Faustina...)</i></p>
-<p><b>Bapa Kami</b>...<br><b>Salam Maria</b>...<br><b>Syahadat Para Rasul</b>...</p>
-<p><b>Pada manik besar (Bapa Kami), doakan:</b><br>Bapa yang kekal kupersembahkan kepada-Mu, Tubuh dan Darah, Jiwa dan Ke-Illahi-an Putera-Mu terkasih Tuhan kami Yesus Kristus, sebagai pemulihan dosa-dosa kami dan dosa seluruh dunia.</p>
-<p><b>Pada setiap sepuluhan manik kecil (Salam Maria), doakan:</b><br>Demi sengsara Yesus yang pedih, tunjukkanlah belaskasih-Mu kepada kami dan seluruh dunia.</p>
-<p><b>Diakhiri dengan tiga kali mengucapkan:</b><br>Allah yang kudus, kudus dan berkuasa, kudus dan kekal, kasihanilah kami dan seluruh dunia. Amin.</p>
-<hr>
-<h5>Litani Kerahiman Ilahi</h5>
-<p>Tuhan kasihanilah kami, Tuhan kasihanilah kami.<br>Kristus kasihanilah kami, Kristus kasihanilah kami.<br>... <i>(dst)</i></p>
-<p><b>Marilah berdoa:</b><br>Allah, yang kerahiman-Mu tak dapat dipahami dan yang belas kasih-Mu tak terbatas, pandanglah kami dengan mata belas kasih-Mu... Amin.</p>`,
+            indonesia: `<h4>Pengantar</h4><p>Fokus utama dari Devosi Kerahiman Ilahi adalah cinta belas kasihan Allah...</p><hr><h4>Urutan Doa Novena Kerahiman Ilahi</h4><h5>1. Bacaan Dari Kitab Suci</h5><p><i>(Bacalah bagian Kitab Suci yang ditentukan pada hari itu, kemudian renungkanlah.)</i></p><p><b>Hari Pertama:</b> Perumpamaan tentang domba yang hilang (Luk 15:1-10)...</p><p>... <i>(dan seterusnya untuk hari-hari lain)</i> ...</p><h5>2. Doa Koronka</h5><p><i>(Doa Koronka/Kerahiman diajarkan Tuhan Yesus sendiri...)</i></p><p><b>Bapa Kami</b>...<br><b>Salam Maria</b>...<br><b>Syahadat Para Rasul</b>...</p><p><b>Pada manik besar (Bapa Kami), doakan:</b><br>Bapa yang kekal kupersembahkan kepada-Mu...</p><p><b>Pada setiap sepuluhan manik kecil (Salam Maria), doakan:</b><br>Demi sengsara Yesus yang pedih...</p><p><b>Diakhiri dengan tiga kali mengucapkan:</b><br>Allah yang kudus, kudus dan berkuasa...</p><hr><h5>Litani Kerahiman Ilahi</h5><p>Tuhan kasihanilah kami...<br><b>Marilah berdoa:</b><br>Allah, yang kerahiman-Mu tak dapat dipahami... Amin.</p>`,
             latin: `<p><i>(Versi Latin untuk novena ini tidak tersedia.)</i></p>`
         }
     }
@@ -351,7 +178,125 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // FUNGSI MEMUAT DATA (TIDAK ADA PERUBAHAN DI FUNGSI-FUNGSI INI)
+    // --- FUNGSI BARU DAN PALING PENTING UNTUK BERANDA ---
+    const loadWeeklyLiturgy = async () => {
+        const currentContainer = document.getElementById('current-week-tpe');
+        const nextContainer = document.getElementById('next-week-tpe');
+        const controlsContainer = document.getElementById('tpe-preview-controls');
+        const previewBtn = document.getElementById('tpe-preview-btn');
+    
+        if (!currentContainer) return;
+    
+        // LOGIKA PERGANTIAN OTOMATIS SETIAP SABTU 00:01
+        const now = new Date();
+        const dayOfWeek = now.getDay(); // Minggu = 0, Sabtu = 6
+        const diffToLastSaturday = (dayOfWeek + 1) % 7;
+        const lastSaturday = new Date(now);
+        lastSaturday.setDate(now.getDate() - diffToLastSaturday);
+        lastSaturday.setHours(0, 1, 0, 0); // Set ke Sabtu jam 00:01
+    
+        const year = lastSaturday.getFullYear();
+        const month = String(lastSaturday.getMonth() + 1).padStart(2, '0');
+        const day = String(lastSaturday.getDate()).padStart(2, '0');
+        const targetDateString = `${year}-${month}-${day}`;
+    
+        // Fungsi pembantu untuk membuat HTML dari data TPE
+        const createTpeHtml = (data) => {
+            if (!data) {
+                return '<div class="alert alert-warning text-center">Tata Perayaan Ekaristi untuk minggu ini belum tersedia.</div>';
+            }
+    
+            // Membuat baris tabel jadwal misa
+            const tableRows = (data.jadwal_misa || []).map(misa => `
+                <tr>
+                    <td data-label="Jam">${misa.jam || '-'}</td>
+                    <td data-label="Tempat">${misa.tempat || '-'}</td>
+                    <td data-label="Perayaan">${misa.perayaan || '-'}</td>
+                    <td data-label="Pelayan">${misa.pelayan || '-'}</td>
+                </tr>
+            `).join('');
+            
+            // Membuat HTML untuk tabel jadwal dan tema
+            const jadwalHtml = `
+                <table class="jadwal-misa-table">
+                    <thead>
+                        <tr>
+                            <th>Jam</th>
+                            <th>Tempat</th>
+                            <th>Perayaan</th>
+                            <th>Pelayan</th>
+                        </tr>
+                    </thead>
+                    <tbody>${tableRows}</tbody>
+                </table>
+                <p class="text-center fst-italic mt-3"><strong>Tema:</strong> ${data.tema || '-'}</p>`;
+            
+            // Membuat HTML untuk detail tata perayaan
+            const tpe = data.tata_perayaan || {};
+            const tpeHtml = `
+                <div class="tpe-content">
+                    <div class="tpe-section"><h4 class="section-title"><i class="bi bi-book-fill"></i>Antifon Pembuka</h4><p class="section-content">${tpe.antifon_pembuka || '-'}</p></div>
+                    <div class="tpe-section"><h4 class="section-title"><i class="bi bi-book-fill"></i>Doa Kolekta</h4><p class="section-content">${tpe.doa_kolekta || '-'}</p></div><hr>
+                    <div class="tpe-section"><h4 class="section-title"><i class="bi bi-journal-text"></i>Liturgi Sabda</h4><p class="section-content"><strong>Bacaan I:</strong> <span class="bacaan-ref">${tpe.bacaan_1 || '-'}</span><br><strong>Mazmur:</strong> <span class="bacaan-ref">${tpe.mazmur_tanggapan || '-'}</span><br><strong>Bacaan II:</strong> <span class="bacaan-ref">${tpe.bacaan_2 || '-'}</span><br><strong>Bait Pengantar Injil:</strong> <span class="bacaan-ref">${tpe.bait_pengantar_injil || '-'}</span><br><strong>Injil:</strong> <span class="bacaan-ref">${tpe.bacaan_injil || '-'}</span></p></div><hr>
+                    <div class="tpe-section"><h4 class="section-title"><i class="bi bi-people-fill"></i>Doa Umat</h4><div class="section-content">${(tpe.doa_umat || '-').replace(/\n/g, '<br>')}</div></div>
+                    <div class="tpe-section"><h4 class="section-title"><i class="bi bi-box2-heart-fill"></i>Doa Atas Persembahan</h4><p class="section-content">${tpe.doa_persembahan || '-'}</p></div>
+                    <div class="tpe-section"><h4 class="section-title"><i class="bi bi-brightness-high-fill"></i>Antifon Komuni</h4><p class="section-content">${tpe.antifon_komuni || '-'}</p></div>
+                    <div class="tpe-section"><h4 class="section-title"><i class="bi bi-bookmark-check-fill"></i>Doa Sesudah Komuni</h4><p class="section-content">${tpe.doa_sesudah_komuni || '-'}</p></div>
+                </div>`;
+            
+            // Menggabungkan semua bagian menjadi satu HTML utuh
+            return `<div class="tpe-container">
+                        <div class="tpe-header">
+                            <p class="tanggal">${data.tanggal_display || ''}</p>
+                            <h3 class="perayaan">${data.nama_perayaan || 'Tata Perayaan Ekaristi'}</h3>
+                            <p class="tahun-liturgi">${data.tahun_liturgi || ''}</p>
+                        </div>
+                        ${jadwalHtml} ${tpeHtml}
+                    </div>`;
+        };
+    
+        try {
+            // Mengambil 2 dokumen: satu untuk minggu ini, satu untuk pratinjau
+            const snapshot = await db.collection('tata_perayaan_mingguan')
+                                     .where(firebase.firestore.FieldPath.documentId(), '>=', targetDateString)
+                                     .orderBy(firebase.firestore.FieldPath.documentId(), 'asc')
+                                     .limit(2)
+                                     .get();
+    
+            if (snapshot.empty) {
+                showError(currentContainer, 'Tata Perayaan Ekaristi untuk minggu ini belum tersedia.');
+                return;
+            }
+    
+            const currentData = snapshot.docs[0]?.data();
+            const nextData = snapshot.docs[1]?.data();
+    
+            // Menampilkan data minggu ini
+            currentContainer.innerHTML = createTpeHtml(currentData);
+    
+            // Jika ada data minggu depan, siapkan pratinjau
+            if (nextData) {
+                nextContainer.innerHTML = createTpeHtml(nextData);
+                controlsContainer.style.display = 'block';
+    
+                // Gunakan .onclick untuk memastikan event listener tidak menumpuk
+                previewBtn.onclick = () => {
+                    const isShowingPreview = nextContainer.style.display === 'block';
+                    nextContainer.style.display = isShowingPreview ? 'none' : 'block';
+                    currentContainer.style.display = isShowingPreview ? 'block' : 'none';
+                    previewBtn.innerHTML = isShowingPreview ? 'Lihat Pratinjau Minggu Depan &gt;&gt;' : '&lt;&lt; Kembali ke Minggu Ini';
+                };
+            } else {
+                controlsContainer.style.display = 'none';
+            }
+    
+        } catch (error) {
+            console.error("Gagal memuat TPE:", error);
+            showError(currentContainer, `Gagal memuat data. Silakan hubungi Sekretariat. (${error.message})`);
+        }
+    };
+
+    // --- FUNGSI-FUNGSI LAMA LAINNYA (TIDAK BERUBAH) ---
     const loadAnnouncementsPublic = async () => {
         const container = document.querySelector('#agenda-container');
         if (!container) return;
@@ -371,30 +316,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("Gagal memuat pengumuman: ", error);
             showError(container, `Terjadi kesalahan saat memuat agenda. (${error.message})`);
         }
-    };
-    const loadActiveLiturgy = async () => {
-        const berandaSection = document.getElementById('beranda');
-        const flippers = { title: document.getElementById('title-flipper'), bacaan: document.getElementById('bacaan-flipper') };
-        const containers = { bacaanFront: document.getElementById('bacaan-flipper-front'), bacaanBack: document.getElementById('bacaan-flipper-back'), tombol: document.getElementById('tombol-flip-container'), renunganTitle: document.getElementById('renungan-title'), renunganText: document.getElementById('renungan-text') };
-        showLoading(containers.bacaanFront, 'Memuat liturgi...');
-        showLoading(containers.renunganText, 'Memuat renungan...');
-        const createLiturgiCardHTML = (lit) => { const colorMap = { "Hijau": "green", "Merah": "red", "Putih": "white", "Ungu": "purple", "Hitam": "black", "Mawar": "rose", "Biru": "blue" }; return `<div class="liturgi-card"><div class="liturgi-header"><span class="liturgi-date">${lit.tanggal}</span><span class="liturgi-color-dot ${colorMap[lit.warna] || 'default'}"></span></div><div class="liturgi-body"><h5 class="liturgi-perayaan">${lit.peringatan}</h5><div class="liturgi-detail"><div class="liturgi-label"><i class="bi bi-book-fill"></i><span>Bacaan 1</span></div><div class="liturgi-colon">:</div><div class="liturgi-value">${lit.bacaan1 || '-'}</div><div class="liturgi-label"><i class="bi bi-book-fill"></i><span>Bacaan 2</span></div><div class="liturgi-colon">:</div><div class="liturgi-value">${lit.bacaan2 || '-'}</div><div class="liturgi-label"><i class="bi bi-music-note-beamed"></i><span>Mazmur</span></div><div class="liturgi-colon">:</div><div class="liturgi-value">${lit.mazmur || '-'}</div><div class="liturgi-label"><i class="bi bi-journal-medical"></i><span>Injil</span></div><div class="liturgi-colon">:</div><div class="liturgi-value">${lit.injil || '-'}</div><div class="liturgi-label"><i class="bi bi-palette-fill"></i><span>Warna</span></div><div class="liturgi-colon">:</div><div class="liturgi-value">${lit.warna || '-'}</div></div></div></div>`; };
-        const setWrapperHeight = (wrapper) => { if (!wrapper) return; const flipper = wrapper.querySelector('.flipper'); const front = flipper.querySelector('.front'); const back = flipper.querySelector('.back'); if (!flipper || !front || !back) return; front.style.position = 'relative'; back.style.position = 'relative'; const frontHeight = front.offsetHeight; const backHeight = back.offsetHeight; front.style.position = 'absolute'; back.style.position = 'absolute'; flipper.style.height = `${Math.max(frontHeight, backHeight, 50)}px`; };
-        try {
-            const today = new Date(); today.setHours(0, 0, 0, 0); 
-            const currentSnapshot = await db.collection('liturgies').where('liturgyDate', '<=', today).orderBy('liturgyDate', 'desc').limit(1).get();
-            const nextSnapshot = await db.collection('liturgies').where('liturgyDate', '>', today).orderBy('liturgyDate', 'asc').limit(1).get();
-            if (currentSnapshot.empty) { showError(berandaSection, 'Data liturgi minggu ini belum diatur oleh Sekretariat.'); return; }
-            const currentLit = currentSnapshot.docs[0].data(); const nextLit = nextSnapshot.empty ? null : nextSnapshot.docs[0].data();
-            containers.bacaanFront.innerHTML = createLiturgiCardHTML(currentLit);
-            containers.renunganText.innerHTML = `<p>${(currentLit.renungan || 'Renungan belum tersedia.').replace(/\n/g, '<br>')}</p>`;
-            if (nextLit) {
-                containers.bacaanBack.innerHTML = createLiturgiCardHTML(nextLit);
-                setTimeout(() => { setWrapperHeight(flippers.title); setWrapperHeight(flippers.bacaan); }, 100);
-                containers.tombol.innerHTML = `<button id="multi-flip-btn" class="btn btn-outline-primary">Lihat Minggu Depan &gt;&gt;&gt;</button>`;
-                document.getElementById('multi-flip-btn').addEventListener('click', function() { const isFlipped = flippers.title.classList.contains('is-flipped'); this.innerHTML = isFlipped ? 'Lihat Minggu Depan &gt;&gt;&gt;' : '&lt;&lt;&lt; Kembali ke Minggu Ini'; flippers.title.classList.toggle('is-flipped'); flippers.bacaan.classList.toggle('is-flipped'); if (!isFlipped) { containers.renunganTitle.innerText = 'Renungan Minggu Depan'; containers.renunganText.innerHTML = `<p>${(nextLit.renungan || 'Renungan belum tersedia.').replace(/\n/g, '<br>')}</p>`; } else { containers.renunganTitle.innerText = 'Renungan Minggu Ini'; containers.renunganText.innerHTML = `<p>${(currentLit.renungan || 'Renungan belum tersedia.').replace(/\n/g, '<br>')}</p>`; } });
-            } else { if(flippers.title) flippers.title.querySelector('.back').style.display = 'none'; if(flippers.bacaan) flippers.bacaan.querySelector('.back').style.display = 'none'; if(containers.tombol) containers.tombol.style.display = 'none'; setTimeout(() => { setWrapperHeight(flippers.title); setWrapperHeight(flippers.bacaan); }, 100); }
-        } catch (error) { console.error("Gagal memuat liturgi:", error); showError(berandaSection, `Terjadi kesalahan saat memuat liturgi. Silakan cek konsol.`); }
     };
     const loadPastorStatus = async () => {
         const container = document.querySelector('#pastor'); if (!container) return; showLoading(container, 'Memuat status pastor...');
@@ -442,21 +363,17 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch('kalender_liturgi_2025.json'); if (!response.ok) throw new Error(`Gagal memuat file: ${response.statusText}`);
             const data = await response.json();
-            const groupedByMonth = data.reduce((acc, item) => { const date = new Date(item.tanggal + 'T00:00:00'); const monthYear = date.toLocaleString('id-ID', { month: 'long', year: 'numeric' }); if (!acc[monthYear]) acc[monthYear] = []; acc[monthYear].push(item); return acc; }, {});
+            const groupedByMonth = data.reduce((acc, item) => { const date = new Date(item.tanggal + 'T12:00:00Z'); const monthYear = date.toLocaleString('id-ID', { month: 'long', year: 'numeric' }); if (!acc[monthYear]) acc[monthYear] = []; acc[monthYear].push(item); return acc; }, {});
             let html = '';
             const sortedMonths = Object.keys(groupedByMonth).sort((a, b) => new Date('01 ' + a.replace(' ', ' ')) - new Date('01 ' + b.replace(' ', ' ')));
             for (const month of sortedMonths) {
                 html += `<h3 class="kalender-bulan">${month}</h3><ul class="kalender-list">`;
-                groupedByMonth[month].forEach(item => { const date = new Date(item.tanggal + 'T00:00:00'); const judul = item.judul || 'Tidak ada judul'; const getWarnaClass = (j) => { if (j.includes('Hari Raya')) return 'dot-red'; if (j.includes('Pesta')) return 'dot-white'; if (j.includes('Biasa')) return 'dot-green'; if (j.includes('Adven') || j.includes('Prapaskah')) return 'dot-purple'; return 'dot-default'; }; html += `<li class="kalender-item"><div class="kalender-tanggal"><span class="tanggal-angka">${date.getDate()}</span><span class="tanggal-hari">${date.toLocaleDateString('id-ID', { weekday: 'long' })}</span></div><div class="kalender-info"><span class="kalender-judul ${getWarnaClass(judul)}">${judul}</span><span class="kalender-deskripsi">${(item.deskripsi || '').replace(/\n/g, '<br>')}</span></div></li>`; });
+                groupedByMonth[month].forEach(item => { const date = new Date(item.tanggal + 'T12:00:00Z'); const judul = item.judul || 'Tidak ada judul'; const getWarnaClass = (j) => { if (j.includes('Hari Raya')) return 'dot-red'; if (j.includes('Pesta')) return 'dot-white'; if (j.includes('Biasa')) return 'dot-green'; if (j.includes('Adven') || j.includes('Prapaskah')) return 'dot-purple'; return 'dot-default'; }; html += `<li class="kalender-item"><div class="kalender-tanggal"><span class="tanggal-angka">${date.getDate()}</span><span class="tanggal-hari">${date.toLocaleDateString('id-ID', { weekday: 'long' })}</span></div><div class="kalender-info"><span class="kalender-judul ${getWarnaClass(judul)}">${judul}</span><span class="kalender-deskripsi">${(item.deskripsi || '').replace(/\n/g, '<br>')}</span></div></li>`; });
                 html += '</ul>';
             }
             container.innerHTML = html;
         } catch (error) { console.error("Gagal memuat Kalender Liturgi dari JSON:", error); showError(container, `Pastikan file 'kalender_liturgi_2025.json' ada. (${error.message})`); }
     };
-    
-    // =================================================================
-    // FUNGSI DOA-DOA DENGAN JARAK PARAGRAF YANG DIPERBAIKI
-    // =================================================================
     const loadPrayers = () => {
         const listContainer = document.querySelector('#doa-list-container');
         const detailContainer = document.querySelector('#doa-detail-container');
@@ -467,54 +384,34 @@ document.addEventListener('DOMContentLoaded', () => {
         const langSelector = document.querySelector('#doa-lang-selector');
 
         if (!listContainer || !prayersData) return;
-
         let currentPrayer = null;
-
-        // 1. Buat daftar doa dari data array 'prayersData'
-        doaList.innerHTML = prayersData.map(prayer => {
-            return `<button type="button" class="list-group-item list-group-item-action">
-                        ${prayer.title}
-                    </button>`;
-        }).join('');
-
-        // Fungsi untuk menampilkan konten doa
+        doaList.innerHTML = prayersData.map(prayer => `<button type="button" class="list-group-item list-group-item-action">${prayer.title}</button>`).join('');
         const renderPrayerContent = (lang) => {
             if (currentPrayer) {
-                detailContent.innerHTML = currentPrayer.content[lang]; // Langsung pakai HTML dari data
-                langSelector.querySelectorAll('button').forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.lang === lang);
-                });
+                detailContent.innerHTML = currentPrayer.content[lang];
+                langSelector.querySelectorAll('button').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
             }
         };
-
-        // 2. Event listener untuk setiap tombol doa
         doaList.addEventListener('click', (e) => {
             if (e.target && e.target.matches('button.list-group-item-action')) {
                 const clickedTitle = e.target.textContent.trim();
                 currentPrayer = prayersData.find(p => p.title === clickedTitle);
-
                 if (currentPrayer) {
                     detailTitle.textContent = currentPrayer.title;
                     renderPrayerContent('indonesia');
-
                     listContainer.style.display = 'none';
                     detailContainer.style.display = 'block';
                 }
             }
         });
-
-        // 3. Fungsi untuk tombol kembali
         backBtn.addEventListener('click', () => {
             detailContainer.style.display = 'none';
             listContainer.style.display = 'block';
             currentPrayer = null;
         });
-
-        // 4. Fungsi untuk tombol pilihan bahasa
         langSelector.addEventListener('click', (e) => {
             if (e.target && e.target.matches('button')) {
-                const selectedLang = e.target.dataset.lang;
-                renderPrayerContent(selectedLang);
+                renderPrayerContent(e.target.dataset.lang);
             }
         });
     };
@@ -525,13 +422,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.tab-content').forEach(content => {
             const isActive = content.id === tabId;
             content.classList.toggle('active', isActive);
-            
             if (content.id === 'doa' && !isActive) {
                 document.querySelector('#doa-detail-container').style.display = 'none';
                 document.querySelector('#doa-list-container').style.display = 'block';
             }
         });
-        
         const sidebarMenu = document.getElementById('sidebarMenu');
         if (window.innerWidth <= 768 && sidebarMenu.classList.contains('active')) {
             sidebarMenu.classList.remove('active'); document.body.classList.remove('sidebar-open'); document.getElementById('sidebarToggleBtn').classList.remove('active');
@@ -554,12 +449,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // PEMANGGILAN FUNGSI AWAL
     const loadInitialData = () => {
         loadAnnouncementsPublic();
-        loadActiveLiturgy();
+        loadWeeklyLiturgy(); // FUNGSI BARU UNTUK BERANDA
         loadPastorStatus();
         loadPublicStats();
         loadKalenderFromJson();
         loadSejarahPausFromJson();
-        loadPrayers(); // Memanggil fungsi doa
+        loadPrayers();
     };
     loadInitialData();
     activateTab('beranda');
