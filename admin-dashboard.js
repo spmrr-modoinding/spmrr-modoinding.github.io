@@ -485,9 +485,31 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!tanggalInput) { msg.textContent = 'Tanggal Misa wajib diisi!'; msg.className = 'form-message error'; return; }
         
         msg.textContent = 'Menyimpan...';
-        if (tinymce.editors.length > 0) {
-            tinymce.triggerSave(); // Memastikan data dari editor tersimpan ke textarea asli
-        }
+
+        // =================================================================
+        // PERBAIKAN FINAL ADA DI SINI
+        // =================================================================
+        const tataPerayaanData = {};
+        const editorIds = [
+            'tpe-antifon-pembuka', 'tpe-doa-kolekta', 'tpe-bacaan-1', 'tpe-mazmur', 
+            'tpe-bacaan-2', 'tpe-bait-injil', 'tpe-bacaan-injil', 'tpe-doa-umat', 
+            'tpe-doa-persembahan', 'tpe-antifon-komuni', 'tpe-doa-sesudah-komuni'
+        ];
+        
+        const keyMapping = {
+            'tpe-mazmur': 'mazmur_tanggapan',
+            'tpe-bait-injil': 'bait_pengantar_injil'
+        };
+
+        editorIds.forEach(id => {
+            const editor = tinymce.get(id);
+            const content = editor ? editor.getContent() : document.getElementById(id).value;
+            const key = keyMapping[id] || id.replace('tpe-', '').replace(/-/g, '_');
+            tataPerayaanData[key] = content;
+        });
+        // =================================================================
+        // AKHIR DARI PERBAIKAN
+        // =================================================================
 
         const docId = tanggalInput;
         const jadwalMisa = Array.from(document.querySelectorAll('#tpe-jadwal-container .anggaran-item')).map(row => ({
@@ -507,19 +529,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tahun_liturgi: document.getElementById('tpe-tahun-liturgi').value,
             tema: document.getElementById('tpe-tema').value,
             jadwal_misa: jadwalMisa,
-            tata_perayaan: {
-                antifon_pembuka: document.getElementById('tpe-antifon-pembuka').value,
-                doa_kolekta: document.getElementById('tpe-doa-kolekta').value,
-                bacaan_1: document.getElementById('tpe-bacaan-1').value,
-                mazmur_tanggapan: document.getElementById('tpe-mazmur').value,
-                bacaan_2: document.getElementById('tpe-bacaan-2').value,
-                bait_pengantar_injil: document.getElementById('tpe-bait-injil').value,
-                bacaan_injil: document.getElementById('tpe-bacaan-injil').value,
-                doa_umat: document.getElementById('tpe-doa-umat').value,
-                doa_persembahan: document.getElementById('tpe-doa-persembahan').value,
-                antifon_komuni: document.getElementById('tpe-antifon-komuni').value,
-                doa_sesudah_komuni: document.getElementById('tpe-doa-sesudah-komuni').value,
-            }
+            tata_perayaan: tataPerayaanData // Menggunakan data yang sudah diperbaiki
         };
 
         try {
