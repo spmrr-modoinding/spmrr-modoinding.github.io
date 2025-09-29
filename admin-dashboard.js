@@ -8,28 +8,25 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentEditLiturgyId = null;
     let currentEditTpeId = null;
 
-// FUNGSI UNTUK INISIALISASI EDITOR TEKS TINYMCE (VERSI LENGKAP DENGAN API KEY)
-function initTinyMCE() {
-    // Hapus instance yang mungkin sudah ada untuk mencegah duplikasi
-    tinymce.remove();
+    // FUNGSI UNTUK INISIALISASI EDITOR TEKS (VERSI STABIL)
+    function initTinyMCE() {
+        tinymce.remove(); // Membersihkan editor lama sebelum membuat yang baru
 
-    // Selektor ini tetap sama, menargetkan semua textarea yang kita inginkan
-    const selector = '#tpe-antifon-pembuka, #tpe-doa-kolekta, #tpe-bacaan-1, #tpe-mazmur, #tpe-bacaan-2, #tpe-bait-injil, #tpe-bacaan-injil, #tpe-doa-umat, #tpe-doa-persembahan, #tpe-antifon-komuni, #tpe-doa-sesudah-komuni, #ann-catatan, #lit-renungan';
-
-    tinymce.init({
-        selector: selector,
-        plugins: 'anchor autolink charmap codesample emoticons link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange formatpainter pageembed permanentpen powerpaste table advcode mergetags',
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link media table mergetags | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-        menubar: false,
-        height: 250,
-        convert_urls: false,
-        setup: function (editor) {
-            editor.on('change', function () {
-                editor.save();
-            });
-        }
-    });
-}
+        const selector = '#tpe-antifon-pembuka, #tpe-doa-kolekta, #tpe-bacaan-1, #tpe-mazmur, #tpe-bacaan-2, #tpe-bait-injil, #tpe-bacaan-injil, #tpe-doa-umat, #tpe-doa-persembahan, #tpe-antifon-komuni, #tpe-doa-sesudah-komuni, #ann-catatan, #lit-renungan';
+        
+        tinymce.init({
+            selector: selector,
+            plugins: 'autolink lists link wordcount', // Menggunakan plugin inti yang lebih stabil dan gratis
+            toolbar: 'undo redo | blocks | bold italic underline | bullist numlist | link removeformat',
+            menubar: false,
+            height: 250,
+            setup: function (editor) {
+                editor.on('change', function () {
+                    tinymce.triggerSave(); // Metode yang lebih modern untuk menyimpan
+                });
+            }
+        });
+    }
 
     // DATA STRUKTUR PROGRAM KERJA
     const programStruktur = {
@@ -448,7 +445,14 @@ function initTinyMCE() {
                 const data = doc.data();
                 currentEditTpeId = doc.id;
                 document.getElementById('tpe-modal-title').textContent = 'Edit TPE';
-                document.getElementById('tpe-form').reset();
+                const tpeForm = document.getElementById('tpe-form');
+                tpeForm.reset();
+                
+                // Panggil initTinyMCE SEGERA setelah modal dibuka
+                tpeModal.classList.remove('hidden');
+                initTinyMCE();
+
+                // Isi form input biasa
                 document.getElementById('tpe-tanggal').value = doc.id;
                 document.getElementById('tpe-nama-perayaan').value = data.nama_perayaan || '';
                 document.getElementById('tpe-tahun-liturgi').value = data.tahun_liturgi || '';
@@ -458,37 +462,45 @@ function initTinyMCE() {
                 jadwalContainer.innerHTML = '';
                 if (data.jadwal_misa && data.jadwal_misa.length > 0) {
                     data.jadwal_misa.forEach(item => addJadwalMisaRow(item));
-                } else { addJadwalMisaRow(); }
+                } else {
+                    addJadwalMisaRow();
+                }
 
-                initTinyMCE();
                 const tpeDetails = data.tata_perayaan || {};
+
+                // Gunakan setTimeout untuk memastikan editor benar-benar siap sebelum diisi
                 setTimeout(() => {
-                    tinymce.get('tpe-antifon-pembuka')?.setContent(tpeDetails.antifon_pembuka || '');
-                    tinymce.get('tpe-doa-kolekta')?.setContent(tpeDetails.doa_kolekta || '');
-                    tinymce.get('tpe-bacaan-1')?.setContent(tpeDetails.bacaan_1 || '');
-                    tinymce.get('tpe-mazmur')?.setContent(tpeDetails.mazmur_tanggapan || '');
-                    tinymce.get('tpe-bacaan-2')?.setContent(tpeDetails.bacaan_2 || '');
-                    tinymce.get('tpe-bait-injil')?.setContent(tpeDetails.bait_pengantar_injil || '');
-                    tinymce.get('tpe-bacaan-injil')?.setContent(tpeDetails.bacaan_injil || '');
-                    tinymce.get('tpe-doa-umat')?.setContent(tpeDetails.doa_umat || '');
-                    tinymce.get('tpe-doa-persembahan')?.setContent(tpeDetails.doa_persembahan || '');
-                    tinymce.get('tpe-antifon-komuni')?.setContent(tpeDetails.antifon_komuni || '');
-                    tinymce.get('tpe-doa-sesudah-komuni')?.setContent(tpeDetails.doa_sesudah_komuni || '');
-                }, 500);
-                
+                    const editors = tinymce.editors;
+                    if (editors.length > 0) {
+                        tinymce.get('tpe-antifon-pembuka')?.setContent(tpeDetails.antifon_pembuka || '');
+                        tinymce.get('tpe-doa-kolekta')?.setContent(tpeDetails.doa_kolekta || '');
+                        tinymce.get('tpe-bacaan-1')?.setContent(tpeDetails.bacaan_1 || '');
+                        tinymce.get('tpe-mazmur')?.setContent(tpeDetails.mazmur_tanggapan || '');
+                        tinymce.get('tpe-bacaan-2')?.setContent(tpeDetails.bacaan_2 || '');
+                        tinymce.get('tpe-bait-injil')?.setContent(tpeDetails.bait_pengantar_injil || '');
+                        tinymce.get('tpe-bacaan-injil')?.setContent(tpeDetails.bacaan_injil || '');
+                        tinymce.get('tpe-doa-umat')?.setContent(tpeDetails.doa_umat || '');
+                        tinymce.get('tpe-doa-persembahan')?.setContent(tpeDetails.doa_persembahan || '');
+                        tinymce.get('tpe-antifon-komuni')?.setContent(tpeDetails.antifon_komuni || '');
+                        tinymce.get('tpe-doa-sesudah-komuni')?.setContent(tpeDetails.doa_sesudah_komuni || '');
+                    }
+                }, 300); // Waktu tunggu 300 milidetik
+
                 document.getElementById('tpe-form-message').textContent = '';
-                tpeModal.classList.remove('hidden');
             }
         }
     });
+
     document.getElementById('tpe-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const msg = document.getElementById('tpe-form-message');
         const tanggalInput = document.getElementById('tpe-tanggal').value;
         if (!tanggalInput) { msg.textContent = 'Tanggal Misa wajib diisi!'; msg.className = 'form-message error'; return; }
+        
         msg.textContent = 'Menyimpan...';
-        const docId = tanggalInput;
+        tinymce.triggerSave(); // Memastikan data dari editor tersimpan ke textarea asli
 
+        const docId = tanggalInput;
         const jadwalMisa = Array.from(document.querySelectorAll('#tpe-jadwal-container .anggaran-item')).map(row => ({
             jam: row.querySelector('.jadwal-jam').value,
             tempat: row.querySelector('.jadwal-tempat').value,
@@ -507,17 +519,17 @@ function initTinyMCE() {
             tema: document.getElementById('tpe-tema').value,
             jadwal_misa: jadwalMisa,
             tata_perayaan: {
-                antifon_pembuka: tinymce.get('tpe-antifon-pembuka').getContent(),
-                doa_kolekta: tinymce.get('tpe-doa-kolekta').getContent(),
-                bacaan_1: tinymce.get('tpe-bacaan-1').getContent(),
-                mazmur_tanggapan: tinymce.get('tpe-mazmur').getContent(),
-                bacaan_2: tinymce.get('tpe-bacaan-2').getContent(),
-                bait_pengantar_injil: tinymce.get('tpe-bait-injil').getContent(),
-                bacaan_injil: tinymce.get('tpe-bacaan-injil').getContent(),
-                doa_umat: tinymce.get('tpe-doa-umat').getContent(),
-                doa_persembahan: tinymce.get('tpe-doa-persembahan').getContent(),
-                antifon_komuni: tinymce.get('tpe-antifon-komuni').getContent(),
-                doa_sesudah_komuni: tinymce.get('tpe-doa-sesudah-komuni').getContent(),
+                antifon_pembuka: document.getElementById('tpe-antifon-pembuka').value,
+                doa_kolekta: document.getElementById('tpe-doa-kolekta').value,
+                bacaan_1: document.getElementById('tpe-bacaan-1').value,
+                mazmur_tanggapan: document.getElementById('tpe-mazmur').value,
+                bacaan_2: document.getElementById('tpe-bacaan-2').value,
+                bait_pengantar_injil: document.getElementById('tpe-bait-injil').value,
+                bacaan_injil: document.getElementById('tpe-bacaan-injil').value,
+                doa_umat: document.getElementById('tpe-doa-umat').value,
+                doa_persembahan: document.getElementById('tpe-doa-persembahan').value,
+                antifon_komuni: document.getElementById('tpe-antifon-komuni').value,
+                doa_sesudah_komuni: document.getElementById('tpe-doa-sesudah-komuni').value,
             }
         };
 
