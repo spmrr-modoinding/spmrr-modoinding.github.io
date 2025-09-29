@@ -1,9 +1,9 @@
-// script.js (Versi Final dengan Logika Otomatis, Pratinjau, dan TANPA fungsi liturgi lama)
+// script.js (Versi Final & Lengkap)
 
 let publicUmatChart = null;
 
 // =================================================================
-// DATA DOA-DOA
+// DATA DOA-DOA (Disimpan di sini, bukan di Firebase)
 // =================================================================
 const prayersData = [
     {
@@ -37,12 +37,7 @@ Yang turun ke tempat penantian, pada hari ketiga bangkit dari antara orang mati.
 Yang naik ke surga, duduk di sebelah kanan Allah Bapa yang Mahakuasa.<br>
 Dari situ Ia akan datang mengadili orang hidup dan mati.</p>
 <p>Aku percaya akan Roh Kudus, Gereja Katolik yang kudus, persekutuan para kudus, pengampunan dosa, kebangkitan badan, kehidupan kekal. Amin.</p>`,
-            latin: `<p>Credo in unum Deum, Patrem omnipotentem, factorem caeli et terrae, visibilium omnium, et invisibilium.</p>
-<p>Et in unum Dominum Jesum Christum, Filium Dei unigenitum. Et ex Patre natum ante omnia saecula. Deum de Deo, Lumen de lumine, Deum verum de Deo vero. Genitum, non factum, consubstantialem Patri: per quem omnia facta sunt.</p>
-<p>Qui propter nos homines, et propter nostram salutem descendit de caelis. Et incarnatus est de Spiritu Sancto ex Maria Virgine: Et homo factus est. Crucifixus etiam pro nobis: sub Pontio Pilato passus, et sepultus est. Et resurrexit tertia die, secundum Scripturas. Et ascendit in caelum: sedet ad dexteram Patris.</p>
-<p>Et iterum venturus est cum gloria, judicare vivos et mortuos: cuius regni non erit finis.</p>
-<p>Et in Spiritum Sanctum, Dominum, et vivificantem: qui ex Patre Filioque procedit. Qui cum Patre et Filio simul adoratur, et conglorificatur: qui locutus est per Prophetas.</p>
-<p>Et unam sanctam catholicam et apostolicam Ecclesiam. Confiteor unum baptisma in remissionem peccatorum. Et exspecto resurrectionem mortuorum. Et vitam venturi saeculi. Amen.</p>`
+            latin: `<p>Credo in Deum Patrem omnipotentem, Creatorem caeli et terrae, et in Iesum Christum, Filium Eius unicum, Dominum nostrum, qui conceptus est de Spiritu Sancto, natus ex Maria Virgine, passus sub Pontio Pilato, crucifixus, mortuus, et sepultus, descendit ad inferos, tertia die resurrexit a mortuis, ascendit ad caelos, sedet ad dexteram Dei Patris omnipotentis, inde venturus est iudicare vivos et mortuos. Credo in Spiritum Sanctum, sanctam Ecclesiam catholicam, sanctorum communionem, remissionem peccatorum, carnis resurrectionem, vitam aeternam. Amen.</p>`
         }
     },
     {
@@ -51,9 +46,7 @@ Dari situ Ia akan datang mengadili orang hidup dan mati.</p>
             indonesia: `<p>Salam Maria, penuh rahmat, Tuhan sertamu,<br>
 terpujilah engkau di antara wanita, dan terpujilah buah tubuhmu, Yesus.</p>
 <p>Santa Maria, bunda Allah, doakanlah kami yang berdosa ini, sekarang dan waktu kami mati. Amin.</p>`,
-            latin: `<p>Ave Maria, gratia plena, Dominus tecum,<br>
-benedicta tu in mulieribus, et benedictus fructus ventris tui, Iesus.</p>
-<p>Sancta Maria, Mater Dei, ora pro nobis peccatoribus, nunc et in hora mortis nostrae. Amen.</p>`
+            latin: `<p>Ave Maria, gratia plena, Dominus tecum, benedicta tu in mulieribus, et benedictus fructus ventris tui, Iesus. Sancta Maria, Mater Dei, ora pro nobis peccatoribus, nunc et in hora mortis nostrae. Amen.</p>`
         }
     },
     {
@@ -155,22 +148,15 @@ Gratiam tuam, quæsumus, Domine, mentibus nostris infunde; ut qui, Angelo nuntia
     }
 ];
 
-
 document.addEventListener('DOMContentLoaded', () => {
 
-    // INISIALISASI GLOBAL
     const db = firebase.firestore();
     const lightbox = GLightbox({ selector: '.glightbox' });
     particlesJS.load('particles-js', 'assets/particles.json', () => {});
 
-    // FUNGSI-FUNGSI BANTUAN UI
     const showLoading = (container, message = 'Memuat data...') => {
         if (!container) return;
-        if (container.id === 'agenda-container') {
-            container.innerHTML = `<div class="skeleton-wrapper"><div class="col-12"><div class="skeleton-card"><div class="skeleton-line title"></div><div class="skeleton-line text"></div><div class="skeleton-line text-short"></div></div></div><div class="col-12"><div class="skeleton-card"><div class="skeleton-line title"></div><div class="skeleton-line text"></div><div class="skeleton-line text-short"></div></div></div></div>`;
-        } else {
-            container.innerHTML = `<div class="feedback-container"><div class="spinner"></div><p>${message}</p></div>`;
-        }
+        container.innerHTML = `<div class="feedback-container"><div class="spinner"></div><p>${message}</p></div>`;
     };
     const showError = (container, message) => {
         if (container) {
@@ -178,7 +164,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- FUNGSI BARU DAN PALING PENTING UNTUK BERANDA ---
     const loadWeeklyLiturgy = async () => {
         const currentContainer = document.getElementById('current-week-tpe');
         const nextContainer = document.getElementById('next-week-tpe');
@@ -187,26 +172,23 @@ document.addEventListener('DOMContentLoaded', () => {
     
         if (!currentContainer) return;
     
-        // LOGIKA PERGANTIAN OTOMATIS SETIAP SABTU 00:01
         const now = new Date();
-        const dayOfWeek = now.getDay(); // Minggu = 0, Sabtu = 6
+        const dayOfWeek = now.getDay();
         const diffToLastSaturday = (dayOfWeek + 1) % 7;
         const lastSaturday = new Date(now);
         lastSaturday.setDate(now.getDate() - diffToLastSaturday);
-        lastSaturday.setHours(0, 1, 0, 0); // Set ke Sabtu jam 00:01
+        lastSaturday.setHours(0, 1, 0, 0);
     
         const year = lastSaturday.getFullYear();
         const month = String(lastSaturday.getMonth() + 1).padStart(2, '0');
         const day = String(lastSaturday.getDate()).padStart(2, '0');
         const targetDateString = `${year}-${month}-${day}`;
     
-        // Fungsi pembantu untuk membuat HTML dari data TPE
         const createTpeHtml = (data) => {
             if (!data) {
                 return '<div class="alert alert-warning text-center">Tata Perayaan Ekaristi untuk minggu ini belum tersedia.</div>';
             }
-    
-            // Membuat baris tabel jadwal misa
+
             const tableRows = (data.jadwal_misa || []).map(misa => `
                 <tr>
                     <td data-label="Jam">${misa.jam || '-'}</td>
@@ -216,47 +198,85 @@ document.addEventListener('DOMContentLoaded', () => {
                 </tr>
             `).join('');
             
-            // Membuat HTML untuk tabel jadwal dan tema
             const jadwalHtml = `
-                <table class="jadwal-misa-table">
-                    <thead>
-                        <tr>
-                            <th>Jam</th>
-                            <th>Tempat</th>
-                            <th>Perayaan</th>
-                            <th>Pelayan</th>
-                        </tr>
-                    </thead>
-                    <tbody>${tableRows}</tbody>
-                </table>
-                <p class="text-center fst-italic mt-3"><strong>Tema:</strong> ${data.tema || '-'}</p>`;
+                <h3 class="tpe-content-title">Jadwal Misa & Tema</h3>
+                <div class="table-scroll-wrapper">
+                    <table class="jadwal-misa-table">
+                        <thead><tr><th>Jam</th><th>Tempat</th><th>Perayaan</th><th>Pelayan</th></tr></thead>
+                        <tbody>${tableRows}</tbody>
+                    </table>
+                </div>
+                ${data.tema ? `<p class="text-center fst-italic mt-3"><strong>Tema:</strong> "${data.tema}"</p>` : ''}
+            `;
             
-            // Membuat HTML untuk detail tata perayaan
             const tpe = data.tata_perayaan || {};
-            const tpeHtml = `
-                <div class="tpe-content">
-                    <div class="tpe-section"><h4 class="section-title"><i class="bi bi-book-fill"></i>Antifon Pembuka</h4><p class="section-content">${tpe.antifon_pembuka || '-'}</p></div>
-                    <div class="tpe-section"><h4 class="section-title"><i class="bi bi-book-fill"></i>Doa Kolekta</h4><p class="section-content">${tpe.doa_kolekta || '-'}</p></div><hr>
-                    <div class="tpe-section"><h4 class="section-title"><i class="bi bi-journal-text"></i>Liturgi Sabda</h4><p class="section-content"><strong>Bacaan I:</strong> <span class="bacaan-ref">${tpe.bacaan_1 || '-'}</span><br><strong>Mazmur:</strong> <span class="bacaan-ref">${tpe.mazmur_tanggapan || '-'}</span><br><strong>Bacaan II:</strong> <span class="bacaan-ref">${tpe.bacaan_2 || '-'}</span><br><strong>Bait Pengantar Injil:</strong> <span class="bacaan-ref">${tpe.bait_pengantar_injil || '-'}</span><br><strong>Injil:</strong> <span class="bacaan-ref">${tpe.bacaan_injil || '-'}</span></p></div><hr>
-                    <div class="tpe-section"><h4 class="section-title"><i class="bi bi-people-fill"></i>Doa Umat</h4><div class="section-content">${(tpe.doa_umat || '-').replace(/\n/g, '<br>')}</div></div>
-                    <div class="tpe-section"><h4 class="section-title"><i class="bi bi-box2-heart-fill"></i>Doa Atas Persembahan</h4><p class="section-content">${tpe.doa_persembahan || '-'}</p></div>
-                    <div class="tpe-section"><h4 class="section-title"><i class="bi bi-brightness-high-fill"></i>Antifon Komuni</h4><p class="section-content">${tpe.antifon_komuni || '-'}</p></div>
-                    <div class="tpe-section"><h4 class="section-title"><i class="bi bi-bookmark-check-fill"></i>Doa Sesudah Komuni</h4><p class="section-content">${tpe.doa_sesudah_komuni || '-'}</p></div>
-                </div>`;
             
-            // Menggabungkan semua bagian menjadi satu HTML utuh
-            return `<div class="tpe-container">
+            const formatDoaUmat = (htmlContent) => {
+                if (!htmlContent) return '';
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = htmlContent;
+                const paragraphs = tempDiv.querySelectorAll('p');
+                let result = '';
+                paragraphs.forEach(p => {
+                    const text = p.textContent.trim();
+                    if (text.startsWith('P:') || text.startsWith('I:')) {
+                        p.classList.add('doa-umat-baris', 'pemimpin');
+                    } else if (text.startsWith('U:')) {
+                        p.classList.add('doa-umat-baris', 'umat');
+                    } else {
+                         p.classList.add('doa-umat-baris');
+                    }
+                    result += p.outerHTML;
+                });
+                return `<div class="section-content">${result}</div>`;
+            };
+
+            const createSection = (title, content) => {
+                if (!content) return '';
+                
+                let contentHtml;
+                if (title === 'Doa Umat') {
+                    contentHtml = formatDoaUmat(content);
+                } else {
+                    contentHtml = `<div class="section-content">${content}</div>`;
+                }
+
+                return `<div class="tpe-section">
+                          <h4 class="section-title"><i class="bi bi-cross"></i> ${title}</h4>
+                          ${contentHtml}
+                        </div>`;
+            };
+            
+            const tpeHtml = `
+                <hr class="my-4">
+                <h3 class="tpe-content-title">Tata Perayaan Ekaristi</h3>
+                ${createSection('Antifon Pembuka', tpe.antifon_pembuka)}
+                ${createSection('Doa Kolekta', tpe.doa_kolekta)}
+                ${createSection('Bacaan I', tpe.bacaan_1)}
+                ${createSection('Mazmur Tanggapan', tpe.mazmur_tanggapan)}
+                ${createSection('Bacaan II', tpe.bacaan_2)}
+                ${createSection('Bait Pengantar Injil', tpe.bait_pengantar_injil)}
+                ${createSection('Bacaan Injil', tpe.bacaan_injil)}
+                ${createSection('Doa Umat', tpe.doa_umat)}
+                ${createSection('Doa Atas Persembahan', tpe.doa_persembahan)}
+                ${createSection('Antifon Komuni', tpe.antifon_komuni)}
+                ${createSection('Doa Sesudah Komuni', tpe.doa_sesudah_komuni)}
+            `;
+
+            return `<div class="tpe-container-final">
                         <div class="tpe-header">
                             <p class="tanggal">${data.tanggal_display || ''}</p>
-                            <h3 class="perayaan">${data.nama_perayaan || 'Tata Perayaan Ekaristi'}</h3>
+                            <h2 class="perayaan">${data.nama_perayaan || 'Tata Perayaan Ekaristi'}</h2>
                             <p class="tahun-liturgi">${data.tahun_liturgi || ''}</p>
                         </div>
-                        ${jadwalHtml} ${tpeHtml}
+                        <div class="tpe-content">
+                            ${jadwalHtml}
+                            ${tpeHtml}
+                        </div>
                     </div>`;
         };
     
         try {
-            // Mengambil 2 dokumen: satu untuk minggu ini, satu untuk pratinjau
             const snapshot = await db.collection('tata_perayaan_mingguan')
                                      .where(firebase.firestore.FieldPath.documentId(), '>=', targetDateString)
                                      .orderBy(firebase.firestore.FieldPath.documentId(), 'asc')
@@ -270,16 +290,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
             const currentData = snapshot.docs[0]?.data();
             const nextData = snapshot.docs[1]?.data();
-    
-            // Menampilkan data minggu ini
             currentContainer.innerHTML = createTpeHtml(currentData);
     
-            // Jika ada data minggu depan, siapkan pratinjau
             if (nextData) {
                 nextContainer.innerHTML = createTpeHtml(nextData);
                 controlsContainer.style.display = 'block';
-    
-                // Gunakan .onclick untuk memastikan event listener tidak menumpuk
                 previewBtn.onclick = () => {
                     const isShowingPreview = nextContainer.style.display === 'block';
                     nextContainer.style.display = isShowingPreview ? 'none' : 'block';
@@ -292,11 +307,40 @@ document.addEventListener('DOMContentLoaded', () => {
     
         } catch (error) {
             console.error("Gagal memuat TPE:", error);
-            showError(currentContainer, `Gagal memuat data. Silakan hubungi Sekretariat. (${error.message})`);
+            showError(currentContainer, `Gagal memuat data. (${error.message})`);
         }
     };
+    
+    const initAccordions = (containerId) => {
+        const container = document.getElementById(containerId);
+        if(!container) return;
 
-    // --- FUNGSI-FUNGSI LAMA LAINNYA (TIDAK BERUBAH) ---
+        const activeHeader = container.querySelector('.accordion-header.active');
+        if (activeHeader) {
+            const content = activeHeader.nextElementSibling;
+            if (content) {
+                content.style.padding = "1rem";
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        }
+
+        container.addEventListener('click', function(event) {
+            const header = event.target.closest('.accordion-header');
+            if (!header) return;
+
+            const content = header.nextElementSibling;
+            header.classList.toggle('active');
+
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+                content.style.padding = "0 1rem";
+            } else {
+                content.style.padding = "1rem";
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+    };
+
     const loadAnnouncementsPublic = async () => {
         const container = document.querySelector('#agenda-container');
         if (!container) return;
@@ -416,7 +460,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // NAVIGASI TAB
     function activateTab(tabId) {
         document.querySelectorAll('.tab-button').forEach(btn => btn.classList.toggle('active', btn.dataset.tab === tabId));
         document.querySelectorAll('.tab-content').forEach(content => {
@@ -428,17 +471,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         const sidebarMenu = document.getElementById('sidebarMenu');
-        if (window.innerWidth <= 768 && sidebarMenu.classList.contains('active')) {
-            sidebarMenu.classList.remove('active'); document.body.classList.remove('sidebar-open'); document.getElementById('sidebarToggleBtn').classList.remove('active');
+        if (window.innerWidth <= 992 && sidebarMenu.classList.contains('active')) {
+            sidebarMenu.classList.remove('active');
+            document.body.classList.remove('sidebar-open');
         }
     }
     const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
     const sidebarMenu = document.getElementById('sidebarMenu');
     if (sidebarToggleBtn && sidebarMenu) {
-        sidebarToggleBtn.addEventListener('click', () => { sidebarMenu.classList.toggle('active'); sidebarToggleBtn.classList.toggle('active'); document.body.classList.toggle('sidebar-open'); });
+        sidebarToggleBtn.addEventListener('click', () => {
+            sidebarMenu.classList.toggle('active');
+            document.body.classList.toggle('sidebar-open');
+        });
         document.body.addEventListener('click', (event) => {
-            if (window.innerWidth <= 768 && document.body.classList.contains('sidebar-open') && !sidebarMenu.contains(event.target) && !sidebarToggleBtn.contains(event.target)) {
-                sidebarMenu.classList.remove('active'); sidebarToggleBtn.classList.remove('active'); document.body.classList.remove('sidebar-open');
+            if (window.innerWidth <= 992 && document.body.classList.contains('sidebar-open') && !sidebarMenu.contains(event.target) && !sidebarToggleBtn.contains(event.target)) {
+                sidebarMenu.classList.remove('active');
+                document.body.classList.remove('sidebar-open');
             }
         });
     }
@@ -446,20 +494,21 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', (event) => { event.preventDefault(); activateTab(button.dataset.tab); });
     });
     
-    // PEMANGGILAN FUNGSI AWAL
-    const loadInitialData = () => {
+    const loadInitialData = async () => {
+        await loadWeeklyLiturgy(); 
+        initAccordions('current-week-tpe');
+        initAccordions('next-week-tpe');
         loadAnnouncementsPublic();
-        loadWeeklyLiturgy(); // FUNGSI BARU UNTUK BERANDA
         loadPastorStatus();
         loadPublicStats();
         loadKalenderFromJson();
         loadSejarahPausFromJson();
         loadPrayers();
     };
+    
     loadInitialData();
     activateTab('beranda');
     
-    // --- LOGIKA UNTUK MODAL PREVIEW FORMULIR ---
     const previewModal = document.getElementById('previewModal');
     if (previewModal) {
       const modalTitle = document.getElementById('previewModalLabel');

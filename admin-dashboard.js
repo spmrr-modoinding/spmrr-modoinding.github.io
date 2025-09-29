@@ -3,6 +3,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const db = firebase.firestore();
     const auth = firebase.auth();
     let umatChart = null;
+    let currentEditProgramId = null;
+    let currentEditAnnouncementId = null;
+    let currentEditLiturgyId = null;
+    let currentEditTpeId = null;
+
+// FUNGSI UNTUK INISIALISASI EDITOR TEKS TINYMCE (VERSI LENGKAP DENGAN API KEY)
+function initTinyMCE() {
+    // Hapus instance yang mungkin sudah ada untuk mencegah duplikasi
+    tinymce.remove();
+
+    // Selektor ini tetap sama, menargetkan semua textarea yang kita inginkan
+    const selector = '#tpe-antifon-pembuka, #tpe-doa-kolekta, #tpe-bacaan-1, #tpe-mazmur, #tpe-bacaan-2, #tpe-bait-injil, #tpe-bacaan-injil, #tpe-doa-umat, #tpe-doa-persembahan, #tpe-antifon-komuni, #tpe-doa-sesudah-komuni, #ann-catatan, #lit-renungan';
+
+    tinymce.init({
+        selector: selector,
+        plugins: 'anchor autolink charmap codesample emoticons link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange formatpainter pageembed permanentpen powerpaste table advcode mergetags',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link media table mergetags | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+        menubar: false,
+        height: 250,
+        convert_urls: false,
+        setup: function (editor) {
+            editor.on('change', function () {
+                editor.save();
+            });
+        }
+    });
+}
 
     // DATA STRUKTUR PROGRAM KERJA
     const programStruktur = {
@@ -14,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
         "BIDANG VI : Pengelolaan Harta Benda Gereja": ["33. Menyusun Pedoman Pengelolaan Harta Benda Gereja Yang Mencakup Pedoman Keuangan Serta Tugas Pokok, Tanggung Jawab, & Fungsi Dewan Keuangan Keuskupan, Badan Amal & Milik Keuskupan, Prokur & Komisi Pembangunan", "34. Membangun Sinergitas Antar Badan Pengelola Harta Benda Gereja Di Tingkat Paroki", "35. Mengembangkan Kompetensi, Sistem Kerja, & Sinergitas BadanBadan Pengelola Harta Benda Gereja Mulai Dari Tingkat Paroki Sampai Tingkat Basis", "36. Membangun Sistem Informasi Keuangan Yang Transparan & Terintegrasi Antara Paroki & Kelompok Basis Umat Secata Timbal Balik", "37. Membangun Sistem Manajemen Aset", "38. Pemberdayaan Harta Benda Gereja Melalui Manajemen Investasi Demi Pembangunan Kualitas Kehidupan Umat."]
     };
 
-    // ELEMEN DOM
     const welcomeTitle = document.getElementById('welcome-title');
     const logoutButton = document.getElementById('logout-button');
     const printBtn = document.getElementById('print-btn');
@@ -22,13 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const announcementModal = document.getElementById('announcement-modal');
     const liturgyModal = document.getElementById('liturgy-modal');
     const statModal = document.getElementById('stat-modal');
-    const tpeModal = document.getElementById('tpe-modal'); // Elemen baru
-    let currentEditProgramId = null;
-    let currentEditAnnouncementId = null;
-    let currentEditLiturgyId = null;
-    let currentEditTpeId = null; // Variabel baru
+    const tpeModal = document.getElementById('tpe-modal');
 
-    // LOGIKA NAVIGASI TAB
     const navTabs = document.querySelectorAll('.nav-tab-btn');
     const managementSections = document.querySelectorAll('.management-section');
     navTabs.forEach(tab => {
@@ -40,12 +61,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // FUNGSI BANTUAN UNTUK FEEDBACK TABEL
     const showTableLoading = (tableBody, colCount) => { tableBody.innerHTML = `<tr><td colspan="${colCount}"><div class="feedback-container"><div class="spinner"></div><p>Memuat data...</p></div></td></tr>`; };
     const showTableError = (tableBody, colCount, message) => { tableBody.innerHTML = `<tr><td colspan="${colCount}"><div class="error-alert"><strong>Gagal:</strong> ${message}</div></td></tr>`; };
     const showTableEmpty = (tableBody, colCount, message) => { tableBody.innerHTML = `<tr><td colspan="${colCount}" style="text-align:center; padding: 2rem;">${message}</td></tr>`; };
 
-    // AUTH GUARD & INISIALISASI
     auth.onAuthStateChanged(async (user) => {
         if (user) {
             try {
@@ -55,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     listenToPrograms();
                     listenToAnnouncements();
                     listenToLiturgies();
-                    listenToTPEs(); // PANGGIL FUNGSI BARU DI SINI
+                    listenToTPEs();
                     listenToPastors();
                     listenToParishStats();
                     updateSummaryDashboard();
@@ -74,7 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // FUNGSI UNTUK UPDATE DASHBOARD RINGKASAN
     const updateSummaryDashboard = async () => {
         try {
             const programsSnap = await db.collection('programs').get();
@@ -95,7 +113,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     
-    // --- FUNGSI-FUNGSI REAL-TIME LISTENER (onSnapshot) ---
     const listenToPrograms = () => {
         const programsTableBody = document.getElementById('programs-table-body');
         const tableFooter = document.getElementById('table-footer');
@@ -194,32 +211,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }, error => showTableError(statsTableBody, 7, `Gagal memuat data statistik. (${error.message})`));
     };
 
-    // --- FUNGSI BARU UNTUK TPE ---
     const listenToTPEs = () => {
         const tpeTableBody = document.getElementById('tpe-table-body');
         showTableLoading(tpeTableBody, 3);
-        // Koleksi baru: 'tata_perayaan_mingguan'
-        db.collection('tata_perayaan_mingguan').orderBy(firebase.firestore.FieldPath.documentId(), 'desc').onSnapshot(snapshot => {
-            if (snapshot.empty) { 
-                showTableEmpty(tpeTableBody, 3, 'Belum ada data Tata Perayaan Ekaristi.'); 
-                return; 
-            }
-            tpeTableBody.innerHTML = snapshot.docs.map(doc => {
-                const tpe = doc.data();
-                return `<tr data-id="${doc.id}">
-                    <td>${tpe.tanggal_display || doc.id}</td>
-                    <td>${tpe.nama_perayaan || '-'}</td>
-                    <td class="no-print">
-                        <button class="action-btn-sm edit edit-tpe">Edit</button>
-                        <button class="action-btn-sm delete delete-tpe">Hapus</button>
-                    </td>
-                </tr>`;
-            }).join('');
-        }, error => showTableError(tpeTableBody, 3, `Gagal memuat data TPE. (${error.message})`));
+        db.collection('tata_perayaan_mingguan').onSnapshot(snapshot => {
+            if (snapshot.empty) { showTableEmpty(tpeTableBody, 3, 'Belum ada data Tata Perayaan Ekaristi.'); return; }
+            const sortedDocs = snapshot.docs.sort((a, b) => b.id.localeCompare(a.id));
+            tpeTableBody.innerHTML = sortedDocs.map(doc => { const tpe = doc.data(); return `<tr data-id="${doc.id}"><td>${tpe.tanggal_display || doc.id}</td><td>${tpe.nama_perayaan || '-'}</td><td class="no-print"><button class="action-btn-sm edit edit-tpe">Edit</button><button class="action-btn-sm delete delete-tpe">Hapus</button></td></tr>`; }).join('');
+        }, error => {
+            console.error("Error final saat memuat TPE:", error);
+            showTableError(tpeTableBody, 3, `Gagal memuat data TPE. (${error.message})`);
+        });
     };
 
-
-    // --- FUNGSI-FUNGSI CRUD & MODAL ---
     function setupDropdowns() {
         const modalBidang = document.getElementById('modal-bidang');
         const modalSubBidang = document.getElementById('modal-sub-bidang');
@@ -269,12 +273,10 @@ document.addEventListener('DOMContentLoaded', () => {
         try { const batch = db.batch(); parishStatsData.forEach(stat => { const docRef = db.collection('parish_stats').doc(); batch.set(docRef, stat); }); await batch.commit(); feedbackEl.textContent = 'BERHASIL!'; feedbackEl.style.color = 'green'; } catch (error) { console.error('Gagal:', error); feedbackEl.textContent = `GAGAL! ${error.message}`; feedbackEl.style.color = 'red'; uploadBtn.disabled = false; }
     };
     
-    // --- FUNGSI BARU UNTUK JADWAL MISA DI MODAL TPE ---
     function addJadwalMisaRow(item = {}) {
         const container = document.getElementById('tpe-jadwal-container');
         const div = document.createElement('div');
-        div.classList.add('anggaran-item'); // Pakai style yang sama dengan anggaran
-        // Urutan kolom sesuai PDF: Jam, Tempat, Perayaan, Pelayan
+        div.classList.add('anggaran-item');
         div.innerHTML = `
             <input type="text" placeholder="Jam (07.00)" class="jadwal-jam" value="${item.jam || ''}" style="grid-column: span 1;">
             <input type="text" placeholder="Tempat (Sinisir)" class="jadwal-tempat" value="${item.tempat || ''}" style="grid-column: span 2;">
@@ -285,7 +287,6 @@ document.addEventListener('DOMContentLoaded', () => {
         container.appendChild(div);
     }
     
-    // --- SEMUA EVENT LISTENERS ---
     document.getElementById('q-add-program-btn').addEventListener('click', () => document.getElementById('add-program-btn').click());
     document.getElementById('q-add-announcement-btn').addEventListener('click', () => document.getElementById('add-announcement-btn').click());
     document.getElementById('add-program-btn').addEventListener('click', () => {
@@ -418,7 +419,6 @@ document.addEventListener('DOMContentLoaded', () => {
         try { await db.collection('parish_stats').doc(docId).update(data); msg.textContent = 'Berhasil!'; msg.className = 'form-message success'; setTimeout(() => statModal.classList.add('hidden'), 1000); } catch (error) { msg.textContent = 'Gagal menyimpan.'; msg.className = 'form-message error'; }
     });
 
-    // --- EVENT LISTENERS BARU UNTUK TPE ---
     document.getElementById('tpe-jadwal-container').addEventListener('click', (e) => {
         if (e.target.classList.contains('remove-btn')) e.target.parentElement.remove();
     });
@@ -430,6 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addJadwalMisaRow();
         document.getElementById('tpe-form-message').textContent = '';
         tpeModal.classList.remove('hidden');
+        initTinyMCE(); 
     });
     document.getElementById('tpe-add-jadwal-btn').addEventListener('click', () => addJadwalMisaRow());
     document.getElementById('tpe-table-body').addEventListener('click', async (e) => {
@@ -448,7 +449,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentEditTpeId = doc.id;
                 document.getElementById('tpe-modal-title').textContent = 'Edit TPE';
                 document.getElementById('tpe-form').reset();
-                document.getElementById('tpe-tanggal').value = doc.id; // Tanggal adalah ID
+                document.getElementById('tpe-tanggal').value = doc.id;
                 document.getElementById('tpe-nama-perayaan').value = data.nama_perayaan || '';
                 document.getElementById('tpe-tahun-liturgi').value = data.tahun_liturgi || '';
                 document.getElementById('tpe-tema').value = data.tema || '';
@@ -457,22 +458,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 jadwalContainer.innerHTML = '';
                 if (data.jadwal_misa && data.jadwal_misa.length > 0) {
                     data.jadwal_misa.forEach(item => addJadwalMisaRow(item));
-                } else {
-                    addJadwalMisaRow(); // Tambah baris kosong jika tidak ada data
-                }
+                } else { addJadwalMisaRow(); }
 
+                initTinyMCE();
                 const tpeDetails = data.tata_perayaan || {};
-                document.getElementById('tpe-antifon-pembuka').value = tpeDetails.antifon_pembuka || '';
-                document.getElementById('tpe-doa-kolekta').value = tpeDetails.doa_kolekta || '';
-                document.getElementById('tpe-bacaan-1').value = tpeDetails.bacaan_1 || '';
-                document.getElementById('tpe-mazmur').value = tpeDetails.mazmur_tanggapan || '';
-                document.getElementById('tpe-bacaan-2').value = tpeDetails.bacaan_2 || '';
-                document.getElementById('tpe-bait-injil').value = tpeDetails.bait_pengantar_injil || '';
-                document.getElementById('tpe-bacaan-injil').value = tpeDetails.bacaan_injil || '';
-                document.getElementById('tpe-doa-umat').value = tpeDetails.doa_umat || '';
-                document.getElementById('tpe-doa-persembahan').value = tpeDetails.doa_persembahan || '';
-                document.getElementById('tpe-antifon-komuni').value = tpeDetails.antifon_komuni || '';
-                document.getElementById('tpe-doa-sesudah-komuni').value = tpeDetails.doa_sesudah_komuni || '';
+                setTimeout(() => {
+                    tinymce.get('tpe-antifon-pembuka')?.setContent(tpeDetails.antifon_pembuka || '');
+                    tinymce.get('tpe-doa-kolekta')?.setContent(tpeDetails.doa_kolekta || '');
+                    tinymce.get('tpe-bacaan-1')?.setContent(tpeDetails.bacaan_1 || '');
+                    tinymce.get('tpe-mazmur')?.setContent(tpeDetails.mazmur_tanggapan || '');
+                    tinymce.get('tpe-bacaan-2')?.setContent(tpeDetails.bacaan_2 || '');
+                    tinymce.get('tpe-bait-injil')?.setContent(tpeDetails.bait_pengantar_injil || '');
+                    tinymce.get('tpe-bacaan-injil')?.setContent(tpeDetails.bacaan_injil || '');
+                    tinymce.get('tpe-doa-umat')?.setContent(tpeDetails.doa_umat || '');
+                    tinymce.get('tpe-doa-persembahan')?.setContent(tpeDetails.doa_persembahan || '');
+                    tinymce.get('tpe-antifon-komuni')?.setContent(tpeDetails.antifon_komuni || '');
+                    tinymce.get('tpe-doa-sesudah-komuni')?.setContent(tpeDetails.doa_sesudah_komuni || '');
+                }, 500);
                 
                 document.getElementById('tpe-form-message').textContent = '';
                 tpeModal.classList.remove('hidden');
@@ -483,11 +485,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const msg = document.getElementById('tpe-form-message');
         const tanggalInput = document.getElementById('tpe-tanggal').value;
-        if (!tanggalInput) {
-            msg.textContent = 'Tanggal Misa wajib diisi!';
-            msg.className = 'form-message error';
-            return;
-        }
+        if (!tanggalInput) { msg.textContent = 'Tanggal Misa wajib diisi!'; msg.className = 'form-message error'; return; }
         msg.textContent = 'Menyimpan...';
         const docId = tanggalInput;
 
@@ -498,8 +496,6 @@ document.addEventListener('DOMContentLoaded', () => {
             pelayan: row.querySelector('.jadwal-pelayan').value,
         }));
         
-        // Format tanggal agar lebih rapi (misal: "Minggu, 14 September 2025")
-        // Tambahkan T12:00:00Z untuk menghindari masalah zona waktu saat konversi
         const displayDate = new Date(tanggalInput + 'T12:00:00Z').toLocaleDateString('id-ID', {
             weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
         });
@@ -511,17 +507,17 @@ document.addEventListener('DOMContentLoaded', () => {
             tema: document.getElementById('tpe-tema').value,
             jadwal_misa: jadwalMisa,
             tata_perayaan: {
-                antifon_pembuka: document.getElementById('tpe-antifon-pembuka').value,
-                doa_kolekta: document.getElementById('tpe-doa-kolekta').value,
-                bacaan_1: document.getElementById('tpe-bacaan-1').value,
-                mazmur_tanggapan: document.getElementById('tpe-mazmur').value,
-                bacaan_2: document.getElementById('tpe-bacaan-2').value,
-                bait_pengantar_injil: document.getElementById('tpe-bait-injil').value,
-                bacaan_injil: document.getElementById('tpe-bacaan-injil').value,
-                doa_umat: document.getElementById('tpe-doa-umat').value,
-                doa_persembahan: document.getElementById('tpe-doa-persembahan').value,
-                antifon_komuni: document.getElementById('tpe-antifon-komuni').value,
-                doa_sesudah_komuni: document.getElementById('tpe-doa-sesudah-komuni').value,
+                antifon_pembuka: tinymce.get('tpe-antifon-pembuka').getContent(),
+                doa_kolekta: tinymce.get('tpe-doa-kolekta').getContent(),
+                bacaan_1: tinymce.get('tpe-bacaan-1').getContent(),
+                mazmur_tanggapan: tinymce.get('tpe-mazmur').getContent(),
+                bacaan_2: tinymce.get('tpe-bacaan-2').getContent(),
+                bait_pengantar_injil: tinymce.get('tpe-bait-injil').getContent(),
+                bacaan_injil: tinymce.get('tpe-bacaan-injil').getContent(),
+                doa_umat: tinymce.get('tpe-doa-umat').getContent(),
+                doa_persembahan: tinymce.get('tpe-doa-persembahan').getContent(),
+                antifon_komuni: tinymce.get('tpe-antifon-komuni').getContent(),
+                doa_sesudah_komuni: tinymce.get('tpe-doa-sesudah-komuni').getContent(),
             }
         };
 
@@ -529,7 +525,10 @@ document.addEventListener('DOMContentLoaded', () => {
             await db.collection('tata_perayaan_mingguan').doc(docId).set(tpeData);
             msg.textContent = 'Berhasil disimpan!';
             msg.className = 'form-message success';
-            setTimeout(() => tpeModal.classList.add('hidden'), 1500);
+            setTimeout(() => {
+                tpeModal.classList.add('hidden');
+                tinymce.remove();
+            }, 1500);
         } catch (error) {
             msg.textContent = 'Gagal menyimpan. Cek konsol untuk error.';
             msg.className = 'form-message error';
@@ -537,18 +536,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- EVENT LISTENERS UMUM ---
     logoutButton.addEventListener('click', () => auth.signOut().then(() => { window.location.href = 'index.html' }));
     printBtn.addEventListener('click', () => window.print());
     document.querySelectorAll('.close-modal-btn').forEach(btn => {
         const modal = document.getElementById(btn.dataset.target);
         if (modal) {
-            btn.addEventListener('click', () => modal.classList.add('hidden'));
+            btn.addEventListener('click', () => {
+                modal.classList.add('hidden');
+                if (btn.dataset.target === 'tpe-modal') {
+                    tinymce.remove();
+                }
+            });
         }
     });
     document.querySelectorAll('.modal-overlay').forEach(overlay => {
         overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) overlay.classList.add('hidden');
+            if (e.target === overlay) {
+                overlay.classList.add('hidden');
+                if (overlay.id === 'tpe-modal') {
+                    tinymce.remove();
+                }
+            }
         });
     });
 

@@ -332,8 +332,101 @@ body.sidebar-open::before { content: ""; position: fixed; top: 0; left: 0; right
 /* ==================================================
    18. GAYA TATA PERAYAAN EKARISTI (BARU & FINAL)
    ================================================== */
-.tpe-container{font-family:'Lora',serif}.tpe-header{text-align:center;margin-bottom:2rem;padding-bottom:1rem;border-bottom:4px double var(--blue-border)}.tpe-header .tanggal{font-size:1.1rem;color:#555;margin:0}.tpe-header .perayaan{font-family:'Times New Roman',Times,serif;font-size:1.8rem;color:var(--blue-main);font-weight:700;margin:.25rem 0}.tpe-header .tahun-liturgi{font-size:1rem;color:var(--gold);font-weight:700}.jadwal-misa-table{width:100%;border-collapse:collapse;margin:2rem 0;box-shadow:0 4px 15px rgba(0,0,0,.08);border-radius:8px;overflow:hidden}.jadwal-misa-table td,.jadwal-misa-table th{padding:12px 15px;border:1px solid var(--blue-border);text-align:left;vertical-align:middle}.jadwal-misa-table thead th{background-color:var(--blue-main);color:var(--white);font-family:'Poppins',sans-serif;font-weight:500}.jadwal-misa-table tbody tr:nth-child(even){background-color:#f8faff}.jadwal-misa-table tbody tr:hover{background-color:var(--blue-soft)}.tpe-content{margin-top:2.5rem}.tpe-section{margin-bottom:2rem}.tpe-section .section-title{display:flex;align-items:center;gap:10px;font-family:'Poppins',sans-serif;font-weight:700;color:var(--blue-main);font-size:1.2rem;margin-bottom:.75rem;padding-bottom:.5rem;border-bottom:1px solid var(--blue-soft)}.tpe-section .section-title i{color:var(--gold)}.tpe-section .section-content{line-height:1.8;font-size:1.1rem;color:#333;white-space:pre-wrap;padding-left:5px}.tpe-section .bacaan-ref{font-weight:700;color:#000}
+.tpe-container-final {
+    font-family: 'Lora', serif;
+}
+.tpe-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 4px double var(--blue-border);
+}
+.tpe-header .tanggal {
+    font-size: 1.1rem;
+    color: #555;
+    margin: 0;
+}
+.tpe-header .perayaan {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.8rem;
+    color: var(--blue-main);
+    font-weight: 700;
+    margin: 0.25rem 0;
+}
+.tpe-header .tahun-liturgi {
+    font-size: 1rem;
+    color: var(--gold);
+    font-weight: 700;
+}
 
+.tpe-content-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: var(--blue-main);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--blue-soft);
+    padding-bottom: 0.5rem;
+}
+
+.jadwal-misa-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    border-radius: 8px;
+    overflow: hidden;
+}
+.jadwal-misa-table th, .jadwal-misa-table td {
+    padding: 12px 15px;
+    border: 1px solid var(--blue-border);
+    text-align: left;
+    vertical-align: middle;
+}
+.jadwal-misa-table thead th {
+    background-color: var(--blue-main);
+    color: var(--white);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+}
+.jadwal-misa-table tbody tr:nth-child(even) {
+    background-color: #f8faff;
+}
+.jadwal-misa-table tbody tr:hover {
+    background-color: var(--blue-soft);
+}
+
+.tpe-content {
+    margin-top: 2rem;
+}
+.tpe-section {
+    margin-bottom: 1.75rem;
+}
+.tpe-section .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: var(--blue-main);
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--blue-soft);
+}
+.tpe-section .section-title i {
+    color: var(--gold);
+}
+.tpe-section .section-content {
+    line-height: 1.8;
+    font-size: 1.1rem;
+    color: #333;
+    padding-left: 5px;
+}
+.tpe-section .bacaan-ref {
+    font-weight: 700;
+    color: #000;
+}
 
 /* ==================================================
    19. MEDIA QUERIES (BAGIAN RESPONSIVE DIPERBARUI)
@@ -352,5 +445,54 @@ body.sidebar-open::before { content: ""; position: fixed; top: 0; left: 0; right
   .pope-table td::before { content: attr(data-label); position: absolute; left: 15px; width: calc(45% - 20px); text-align: left; font-weight: bold; color: var(--blue-main); white-space: nowrap; }
 
   /* GAYA BARU UNTUK TABEL JADWAL MISA RESPONSIP */
-  .jadwal-misa-table thead{display:none}.jadwal-misa-table,.jadwal-misa-table tbody,.jadwal-misa-table td,.jadwal-misa-table tr{display:block;width:100%}.jadwal-misa-table tr{margin-bottom:1rem;border:1px solid var(--blue-border);border-radius:8px;overflow:hidden}.jadwal-misa-table td{text-align:right;padding-left:50%;position:relative;border:none;border-bottom:1px solid var(--blue-soft)}.jadwal-misa-table tr:last-child td:last-child{border-bottom:none}.jadwal-misa-table td:before{content:attr(data-label);position:absolute;left:15px;width:calc(50% - 20px);text-align:left;font-weight:700;color:var(--blue-main)}
+  .jadwal-misa-table thead {
+      display: none;
+  }
+  .jadwal-misa-table,
+  .jadwal-misa-table tbody,
+  .jadwal-misa-table tr,
+  .jadwal-misa-table td {
+      display: block;
+      width: 100%;
+  }
+  .jadwal-misa-table tr {
+      margin-bottom: 1rem;
+      border: 1px solid var(--blue-border);
+      border-radius: 8px;
+      overflow: hidden;
+  }
+  .jadwal-misa-table td {
+      text-align: right;
+      padding-left: 50%;
+      position: relative;
+      border: none;
+      border-bottom: 1px solid var(--blue-soft);
+  }
+  .jadwal-misa-table tr:last-child td:last-child {
+      border-bottom: none;
+  }
+  .jadwal-misa-table td:before {
+      content: attr(data-label);
+      position: absolute;
+      left: 15px;
+      width: calc(50% - 20px);
+      text-align: left;
+      font-weight: 700;
+      color: var(--blue-main);
+  }
+}
+/* ==================================================
+   20. GAYA TAMBAHAN UNTUK DOA UMAT
+   ================================================== */
+.doa-umat-baris {
+    margin: 0 0 0.5rem 0 !important;
+    padding: 0 !important;
+    line-height: 1.7;
+}
+.doa-umat-baris.umat {
+    padding-left: 2rem !important; /* Beri indentasi untuk jawaban umat */
+    font-style: italic;
+}
+.doa-umat-baris.pemimpin {
+    font-weight: bold;
 }
