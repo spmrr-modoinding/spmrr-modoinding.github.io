@@ -190,3 +190,5 @@ table tfoot { font-size: 1.1em; }
   tfoot > tr > td { font-weight: bold; background-color: #f2f2f2 !important; }
   tr.group-header-bidang td, tr.group-header-sub td { background-color: inherit !important; }
 }
+/* PERBAIKAN FINAL UNTUK EDITOR TINYMCE TERKUNCI */
+.tox { z-index: 9999 !important; }
