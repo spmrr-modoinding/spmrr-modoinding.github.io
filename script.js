@@ -16,18 +16,13 @@
  * - Mengelola fungsionalitas modal untuk pratinjau PDF.
  */
 
-// =================================================================
-// BAGIAN INI DIHAPUS SELURUHNYA. DATA DOA AKAN DIAMBIL DARI DATABASE.
-// =================================================================
-
-
 document.addEventListener('DOMContentLoaded', () => {
 
     // =================================================================
     // INISIALISASI & VARIABEL GLOBAL
     // =================================================================
     const db = firebase.firestore();
-    let publicUmatChart = null; // Variabel untuk menyimpan instance grafik umat
+    let publicUmatChart = null; 
 
     // Inisialisasi library pihak ketiga
     GLightbox({ selector: '.glightbox' });
@@ -38,22 +33,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // FUNGSI BANTU (HELPERS)
     // =================================================================
 
-    /**
-     * Menampilkan indikator loading di dalam sebuah elemen kontainer.
-     * @param {HTMLElement} container - Elemen DOM tempat loading akan ditampilkan.
-     * @param {string} message - Pesan yang ditampilkan bersama spinner.
-     */
     const showLoading = (container, message = 'Memuat data...') => {
         if (container) {
             container.innerHTML = `<div class="feedback-container"><div class="spinner"></div><p>${message}</p></div>`;
         }
     };
 
-    /**
-     * Menampilkan pesan error di dalam sebuah elemen kontainer.
-     * @param {HTMLElement} container - Elemen DOM tempat pesan error akan ditampilkan.
-     * @param {string} message - Pesan error yang akan ditampilkan.
-     */
     const showError = (container, message) => {
         if (container) {
             container.innerHTML = `<div class="error-alert"><strong>Gagal Memuat:</strong> ${message}</div>`;
@@ -63,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // =================================================================
     // FUNGSI-FUNGSI UTAMA PEMUAT DATA
     // =================================================================
-
+    
     const createTpeHtml = (data) => {
         if (!data) {
             return '<div class="alert alert-warning text-center">Tata Perayaan Ekaristi belum tersedia.</div>';
@@ -344,8 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
             showError(container, `Pastikan file 'kalender_liturgi_2025.json' ada. (${error.message})`);
         }
     };
-
-    // --- FUNGSI INI DIGANTI SELURUHNYA ---
+    
     const loadPrayers = async () => {
         const listContainer = document.querySelector('#doa-list-container');
         const detailContainer = document.querySelector('#doa-detail-container');
@@ -353,6 +337,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const doaWrapper = document.querySelector('#doa-wrapper');
 
         if (!listContainer || !doaWrapper) return;
+
+        detailContainer.classList.add('hidden'); // Sembunyikan detail saat awal
         
         doaList.innerHTML = `<div class="feedback-container"><div class="spinner"></div><p>Memuat daftar doa...</p></div>`;
 
@@ -392,15 +378,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (currentPrayer) {
                         document.querySelector('#doa-detail-title').textContent = currentPrayer.title;
                         renderPrayerContent('indonesia');
-                        listContainer.style.display = 'none';
-                        detailContainer.style.display = 'block';
+                        
+                        listContainer.classList.add('hidden');
+                        detailContainer.classList.remove('hidden');
                     }
                 }
             });
 
             document.querySelector('#doa-back-btn').addEventListener('click', () => {
-                detailContainer.style.display = 'none';
-                listContainer.style.display = 'block';
+                detailContainer.classList.add('hidden');
+                listContainer.classList.remove('hidden');
                 currentPrayer = null;
             });
 
