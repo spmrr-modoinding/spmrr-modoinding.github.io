@@ -27,6 +27,7 @@
                 <button class="nav-tab-btn" data-target="programs-section"><i class="bi bi-file-earmark-text-fill"></i> Program Kerja</button>
                 <button class="nav-tab-btn" data-target="tpe-section"><i class="bi bi-book-fill"></i> Tata Perayaan Ekaristi</button>
                 <button class="nav-tab-btn" data-target="announcements-section"><i class="bi bi-calendar-event-fill"></i> Agenda / Pengumuman</button>
+                <button class="nav-tab-btn" data-target="prayers-section"><i class="bi bi-book-half"></i> Manajemen Doa</button>
                 <button class="nav-tab-btn" data-target="pastors-section"><i class="bi bi-person-check-fill"></i> Kehadiran Pastor</button>
                 <button class="nav-tab-btn" data-target="stats-section"><i class="bi bi-bar-chart-line-fill"></i> Statistik Umat</button>
             </div>
@@ -60,6 +61,27 @@
                 <div class="table-wrapper"><table id="announcements-table"><thead><tr><th>Judul</th><th>Tanggal & Waktu</th><th>Lokasi</th><th>Catatan</th><th class="no-print" style="width: 120px;">Aksi</th></tr></thead><tbody id="announcements-table-body"></tbody></table></div>
             </div>
 
+            <div id="prayers-section" class="management-section">
+                <div class="table-header">
+                    <h2><i class="bi bi-book-half"></i> Manajemen Pustaka Doa</h2>
+                    <div class="action-buttons no-print">
+                        <button class="action-btn" id="add-prayer-btn"><i class="bi bi-plus-square-fill"></i> Tambah Doa Baru</button>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table id="prayers-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;">Urutan</th>
+                                <th>Judul Doa</th>
+                                <th class="no-print" style="width: 120px;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="prayers-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
             <div id="pastors-section" class="management-section">
                 <div class="table-header"><h2><i class="bi bi-person-check-fill"></i> Manajemen Kehadiran Pastor</h2></div>
                 <div id="pastor-list-container"></div>
@@ -74,38 +96,40 @@
     </main>
 
     <div id="program-modal" class="modal-overlay hidden no-print"><div class="modal-content"><div class="modal-header"><h2 id="program-modal-title"></h2><button class="close-modal-btn" data-target="program-modal">&times;</button></div><div class="modal-body"><form id="program-form"><div class="form-section"><div class="input-group"><label for="modal-bidang">Bidang Program</label><select id="modal-bidang" required></select></div><div class="input-group"><label for="modal-sub-bidang">Judul Sub-Kelompok</label><select id="modal-sub-bidang" required></select></div><hr><div class="input-group"><label for="modal-lokasi">Pusat Paroki / Stasi</label><select id="modal-lokasi" required><option value="" disabled selected>Pilih Lokasi...</option><option value="Pusat Paroki">Pusat Paroki</option><option value="Stasi">Stasi</option></select></div><div class="input-group"><label for="modal-nama-unit">Wilayah Rohani / Kelompok Kategorial</label><input type="text" id="modal-nama-unit" required></div><div class="input-group"><label for="modal-nama_kegiatan">Nama Program / Kegiatan</label><input type="text" id="modal-nama_kegiatan" required></div><div class="input-group"><label for="modal-sasaran">Sasaran</label><input type="text" id="modal-sasaran"></div><div class="input-group"><label for="modal-indikator">Indikator Keberhasilan</label><input type="text" id="modal-indikator"></div><div class="input-group"><label for="modal-model">Model</label><input type="text" id="modal-model"></div><div class="input-group"><label for="modal-materi">Materi</label><input type="text" id="modal-materi"></div><div class="input-group"><label for="modal-waktu">Tempat & Waktu</label><input type="text" id="modal-waktu"></div><div class="input-group"><label for="modal-pic">PIC</label><input type="text" id="modal-pic"></div></div><div class="form-section"><h3>Sumber Dana</h3><div class="input-group"><label for="modal-sumber-dana-kas">Untuk Kolom "Kas Paroki"</label><select id="modal-sumber-dana-kas"><option value="-">-</option><option value="Kas Paroki">Kas Paroki</option><option value="Kas Stasi">Kas Stasi</option></select></div><div class="input-group"><label for="modal-sumber-dana-swadaya">Untuk Kolom "Swadaya"</label><select id="modal-sumber-dana-swadaya"><option value="-">-</option><option value="Swadaya">Swadaya</option><option value="Kas Stasi">Kas Stasi</option></select></div></div><div class="form-section"><h3>Rincian Anggaran</h3><div id="modal-anggaran-items-container"></div><button type="button" id="modal-add-anggaran-btn" class="add-btn"><i class="bi bi-plus-circle"></i> Tambah Rincian</button><div class="total-anggaran"><strong>Total Anggaran: <span id="modal-total-anggaran-display">Rp 0</span></strong></div></div><div class="submit-section"><button type="submit" class="submit-btn">Simpan Program</button><p id="program-form-message" class="form-message"></p></div></form></div></div></div>
-    
-    <div id="announcement-modal" class="modal-overlay hidden no-print"><div class="modal-content" style="max-width: 600px;"><div class="modal-header"><h2 id="announcement-modal-title"></h2><button class="close-modal-btn" data-target="announcement-modal">&times;</button></div><div class="modal-body"><form id="announcement-form"><div class="input-group"><label for="ann-judul">Judul Pengumuman</label><input type="text" id="ann-judul" required></div><div class="input-group"><label for="ann-tanggal">Tanggal</label><input type="text" id="ann-tanggal" placeholder="Contoh: 25 Desember 2025"></div><div class="input-group"><label for="ann-jam">Jam</label><input type="text" id="ann-jam" placeholder="Contoh: 19:00 WITA"></div><div class="input-group"><label for="ann-lokasi">Lokasi</label><input type="text" id="ann-lokasi"></div><div class="input-group"><label for="ann-catatan">Catatan / Keterangan</label><textarea id="ann-catatan" rows="4"></textarea></div><div class="submit-section"><button type="submit" class="submit-btn">Simpan</button><p id="announcement-form-message" class="form-message"></p></div></form></div></div></div>
-    
+    <div id="announcement-modal" class="modal-overlay hidden no-print"><div class="modal-content" style="max-width: 600px;"><div class="modal-header"><h2 id="announcement-modal-title"></h2><button class="close-modal-btn" data-target="announcement-modal">&times;</button></div><div class="modal-body"><form id="announcement-form"><div class="input-group"><label for="ann-judul">Judul Pengumuman</label><input type="text" id="ann-judul" required></div><div class="input-group"><label for="ann-tanggal">Tanggal</label><input type="text" id="ann-tanggal" placeholder="Contoh: 25 Desember 2025"></div><div class="input-group"><label for="ann-jam">Jam</label><input type="text" id="ann-jam" placeholder="Contoh: 19:00 WITA"></div><div class="input-group"><label for="ann-lokasi">Lokasi</label><input type="text" id="ann-lokasi"></div><div class="input-group"><label for="ann-catatan">Catatan / Keterangan</label><textarea id="ann-catatan" class="tinymce-editor" rows="4"></textarea></div><div class="submit-section"><button type="submit" class="submit-btn">Simpan</button><p id="announcement-form-message" class="form-message"></p></div></form></div></div></div>
     <div id="stat-modal" class="modal-overlay hidden no-print"><div class="modal-content" style="max-width: 500px;"><div class="modal-header"><h2 id="stat-modal-title"></h2><button class="close-modal-btn" data-target="stat-modal">&times;</button></div><div class="modal-body"><form id="stat-form"><input type="hidden" id="stat-doc-id"><div class="input-group"><label for="stat-kk">Jumlah KK</label><input type="number" id="stat-kk" required></div><div class="input-group"><label for="stat-laki">Jumlah Laki-laki</label><input type="number" id="stat-laki" required></div><div class="input-group"><label for="stat-perempuan">Jumlah Perempuan</label><input type="number" id="stat-perempuan" required></div><div class="submit-section"><button type="submit" class="submit-btn">Simpan Perubahan</button><p id="stat-form-message" class="form-message"></p></div></form></div></div></div>
-    
-    <div id="tpe-modal" class="modal-overlay hidden no-print">
-        <div class="modal-content"><div class="modal-header"><h2 id="tpe-modal-title"></h2><button class="close-modal-btn" data-target="tpe-modal">&times;</button></div>
-            <div class="modal-body">
-                <form id="tpe-form">
-                    <p><strong>Penting:</strong> Pilih tanggal hari Minggu untuk misa. ID dokumen akan otomatis dibuat berdasarkan tanggal ini (misal: 2025-09-21).</p>
-                    <div class="input-group"><label for="tpe-tanggal">Tanggal Misa (Hari Minggu)</label><input type="date" id="tpe-tanggal" required></div>
-                    <div class="input-group"><label for="tpe-nama-perayaan">Nama Perayaan</label><input type="text" id="tpe-nama-perayaan" placeholder="Contoh: PESTA KEMULIAAN SALIB SUCI" required></div>
-                    <div class="input-group"><label for="tpe-tahun-liturgi">Tahun Liturgi</label><input type="text" id="tpe-tahun-liturgi" placeholder="Contoh: Th. C/I"></div>
-                    <div class="input-group"><label for="tpe-tema">Tema</label><input type="text" id="tpe-tema"></div><hr>
-                    
-                    <h3>Jadwal Misa</h3>
-                    <div id="tpe-jadwal-container"></div>
-                    <button type="button" id="tpe-add-jadwal-btn" class="add-btn"><i class="bi bi-plus-circle"></i> Tambah Baris Jadwal</button><hr>
+    <div id="tpe-modal" class="modal-overlay hidden no-print"><div class="modal-content"><div class="modal-header"><h2 id="tpe-modal-title"></h2><button class="close-modal-btn" data-target="tpe-modal">&times;</button></div><div class="modal-body"><form id="tpe-form"><p><strong>Penting:</strong> Pilih tanggal hari Minggu untuk misa. ID dokumen akan otomatis dibuat berdasarkan tanggal ini (misal: 2025-09-21).</p><div class="input-group"><label for="tpe-tanggal">Tanggal Misa (Hari Minggu)</label><input type="date" id="tpe-tanggal" required></div><div class="input-group"><label for="tpe-nama-perayaan">Nama Perayaan</label><input type="text" id="tpe-nama-perayaan" placeholder="Contoh: PESTA KEMULIAAN SALIB SUCI" required></div><div class="input-group"><label for="tpe-tahun-liturgi">Tahun Liturgi</label><input type="text" id="tpe-tahun-liturgi" placeholder="Contoh: Th. C/I"></div><div class="input-group"><label for="tpe-tema">Tema</label><input type="text" id="tpe-tema"></div><hr><h3>Jadwal Misa</h3><div id="tpe-jadwal-container"></div><button type="button" id="tpe-add-jadwal-btn" class="add-btn"><i class="bi bi-plus-circle"></i> Tambah Baris Jadwal</button><hr><h3>Detail Tata Perayaan</h3><div class="input-group"><label for="tpe-antifon-pembuka">Antifon Pembuka</label><textarea id="tpe-antifon-pembuka" class="tinymce-editor"></textarea></div><div class="input-group"><label for="tpe-doa-kolekta">Doa Kolekta</label><textarea id="tpe-doa-kolekta" class="tinymce-editor"></textarea></div><div class="input-group"><label for="tpe-bacaan-1">Bacaan 1 (Ref)</label><textarea id="tpe-bacaan-1" class="tinymce-editor"></textarea></div><div class="input-group"><label for="tpe-mazmur">Mazmur Tanggapan</label><textarea id="tpe-mazmur" class="tinymce-editor"></textarea></div><div class="input-group"><label for="tpe-bacaan-2">Bacaan 2 (Ref)</label><textarea id="tpe-bacaan-2" class="tinymce-editor"></textarea></div><div class="input-group"><label for="tpe-bait-injil">Bait Pengantar Injil</label><textarea id="tpe-bait-injil" class="tinymce-editor"></textarea></div><div class="input-group"><label for="tpe-bacaan-injil">Bacaan Injil (Ref)</label><textarea id="tpe-bacaan-injil" class="tinymce-editor"></textarea></div><div class="input-group"><label for="tpe-doa-umat">Doa Umat</label><textarea id="tpe-doa-umat" class="tinymce-editor"></textarea></div><div class="input-group"><label for="tpe-doa-persembahan">Doa Atas Persembahan</label><textarea id="tpe-doa-persembahan" class="tinymce-editor"></textarea></div><div class="input-group"><label for="tpe-antifon-komuni">Antifon Komuni</label><textarea id="tpe-antifon-komuni" class="tinymce-editor"></textarea></div><div class="input-group"><label for="tpe-doa-sesudah-komuni">Doa Sesudah Komuni</label><textarea id="tpe-doa-sesudah-komuni" class="tinymce-editor"></textarea></div><div class="submit-section"><button type="submit" class="submit-btn">Simpan TPE</button><p id="tpe-form-message" class="form-message"></p></div></form></div></div></div>
 
-                    <h3>Detail Tata Perayaan</h3>
-                    <div class="input-group"><label for="tpe-antifon-pembuka">Antifon Pembuka</label><textarea id="tpe-antifon-pembuka" class="tinymce-editor"></textarea></div>
-                    <div class="input-group"><label for="tpe-doa-kolekta">Doa Kolekta</label><textarea id="tpe-doa-kolekta" class="tinymce-editor"></textarea></div>
-                    <div class="input-group"><label for="tpe-bacaan-1">Bacaan 1 (Ref)</label><textarea id="tpe-bacaan-1" class="tinymce-editor"></textarea></div>
-                    <div class="input-group"><label for="tpe-mazmur">Mazmur Tanggapan</label><textarea id="tpe-mazmur" class="tinymce-editor"></textarea></div>
-                    <div class="input-group"><label for="tpe-bacaan-2">Bacaan 2 (Ref)</label><textarea id="tpe-bacaan-2" class="tinymce-editor"></textarea></div>
-                    <div class="input-group"><label for="tpe-bait-injil">Bait Pengantar Injil</label><textarea id="tpe-bait-injil" class="tinymce-editor"></textarea></div>
-                    <div class="input-group"><label for="tpe-bacaan-injil">Bacaan Injil (Ref)</label><textarea id="tpe-bacaan-injil" class="tinymce-editor"></textarea></div>
-                    <div class="input-group"><label for="tpe-doa-umat">Doa Umat</label><textarea id="tpe-doa-umat" class="tinymce-editor"></textarea></div>
-                    <div class="input-group"><label for="tpe-doa-persembahan">Doa Atas Persembahan</label><textarea id="tpe-doa-persembahan" class="tinymce-editor"></textarea></div>
-                    <div class="input-group"><label for="tpe-antifon-komuni">Antifon Komuni</label><textarea id="tpe-antifon-komuni" class="tinymce-editor"></textarea></div>
-                    <div class="input-group"><label for="tpe-doa-sesudah-komuni">Doa Sesudah Komuni</label><textarea id="tpe-doa-sesudah-komuni" class="tinymce-editor"></textarea></div>
-                    <div class="submit-section"><button type="submit" class="submit-btn">Simpan TPE</button><p id="tpe-form-message" class="form-message"></p></div>
+    <div id="prayer-modal" class="modal-overlay hidden no-print">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="prayer-modal-title">Tambah Doa Baru</h2>
+                <button class="close-modal-btn" data-target="prayer-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="prayer-form">
+                    <div class="input-group">
+                        <label for="prayer-title">Judul Doa</label>
+                        <input type="text" id="prayer-title" placeholder="Contoh: Bapa Kami" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="prayer-order">Nomor Urut Tampilan</label>
+                        <input type="number" id="prayer-order" placeholder="Contoh: 1 (untuk Tanda Salib)" required>
+                        <small style="font-size: 0.8em; color: #666;">Doa akan diurutkan dari nomor terkecil.</small>
+                    </div>
+                    <hr>
+                    <div class="input-group">
+                        <label for="prayer-content-indonesia">Konten Doa (Bahasa Indonesia)</label>
+                        <textarea id="prayer-content-indonesia" class="tinymce-editor"></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label for="prayer-content-latin">Konten Doa (Bahasa Latin)</label>
+                        <textarea id="prayer-content-latin" class="tinymce-editor"></textarea>
+                    </div>
+                    <div class="submit-section">
+                        <button type="submit" class="submit-btn">Simpan Doa</button>
+                        <p id="prayer-form-message" class="form-message"></p>
+                    </div>
                 </form>
             </div>
         </div>
@@ -118,7 +142,7 @@
     <script src="firebase-config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.tiny.cloud/1/1akpqpkakprks4ax3fxalesq9igopabgnerczppvcuphy241/tinymce/8/tinymce.min.js" referrerpolicy="origin"></script>
-    
     <script src="admin-dashboard.js"></script>
+
 </body>
 </html>

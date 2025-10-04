@@ -9,39 +9,16 @@
  * - Pengumuman / Agenda.
  * - Status kehadiran Pastor.
  * - Statistik Umat (tabel dan grafik).
+ * - Pustaka Doa.
  * - Memuat data statis dari file JSON:
  * - Kalender Liturgi.
  * - Sejarah Paus.
- * - Mengelola Pustaka Doa (data hardcoded).
  * - Mengelola fungsionalitas modal untuk pratinjau PDF.
  */
 
 // =================================================================
-// DATA DOA-DOA (Disimpan di sini agar tidak perlu request ke server)
+// BAGIAN INI DIHAPUS SELURUHNYA. DATA DOA AKAN DIAMBIL DARI DATABASE.
 // =================================================================
-const prayersData = [
-    {
-        title: 'Tanda Salib',
-        content: { indonesia: `<p>Dalam nama Bapa dan Putra dan Roh Kudus. Amin.</p>`, latin: `<p>In nomine Patris, et Filii, et Spiritus Sancti. Amen.</p>` }
-    },
-    {
-        title: 'Bapa Kami',
-        content: { indonesia: `<p>Bapa kami yang ada di surga, dimuliakanlah nama-Mu.<br>Datanglah kerajaan-Mu. Jadilah kehendak-Mu di atas bumi seperti di dalam surga.</p><p>Berilah kami rezeki pada hari ini, dan ampunilah kesalahan kami, seperti kami pun mengampuni yang bersalah kepada kami.</p><p>Dan janganlah masukkan kami ke dalam pencobaan, tetapi bebaskanlah kami dari yang jahat. Amin.</p>`, latin: `<p>Pater noster, qui es in caelis: sanctificetur Nomen Tuum;<br>adveniat Regnum Tuum; fiat voluntas Tua, sicut in caelo, et in terra.</p><p>Panem nostrum cotidianum da nobis hodie; et dimitte nobis debita nostra, sicut et nos dimittimus debitoribus nostris;</p><p>et ne nos inducas in tentationem; sed libera nos a Malo. Amen.</p>` }
-    },
-    {
-        title: 'Aku Percaya (Syahadat Para Rasul)',
-        content: { indonesia: `<p>Aku percaya akan Allah, Bapa yang Mahakuasa, pencipta langit dan bumi.<br>Dan akan Yesus Kristus, Putra-Nya yang tunggal, Tuhan kita.<br>Yang dikandung dari Roh Kudus, dilahirkan oleh Perawan Maria.</p><p>Yang menderita sengsara dalam pemerintahan Pontius Pilatus, disalibkan, wafat, dan dimakamkan.<br>Yang turun ke tempat penantian, pada hari ketiga bangkit dari antara orang mati.<br>Yang naik ke surga, duduk di sebelah kanan Allah Bapa yang Mahakuasa.<br>Dari situ Ia akan datang mengadili orang hidup dan mati.</p><p>Aku percaya akan Roh Kudus, Gereja Katolik yang kudus, persekutuan para kudus, pengampunan dosa, kebangkitan badan, kehidupan kekal. Amin.</p>`, latin: `<p>Credo in Deum Patrem omnipotentem, Creatorem caeli et terrae, et in Iesum Christum, Filium Eius unicum, Dominum nostrum, qui conceptus est de Spiritu Sancto, natus ex Maria Virgine, passus sub Pontio Pilato, crucifixus, mortuus, et sepultus, descendit ad inferos, tertia die resurrexit a mortuis, ascendit ad caelos, sedet ad dexteram Dei Patris omnipotentis, inde venturus est iudicare vivos et mortuos. Credo in Spiritum Sanctum, sanctam Ecclesiam catholicam, sanctorum communionem, remissionem peccatorum, carnis resurrectionem, vitam aeternam. Amen.</p>` }
-    },
-    {
-        title: 'Salam Maria',
-        content: { indonesia: `<p>Salam Maria, penuh rahmat, Tuhan sertamu,<br>terpujilah engkau di antara wanita, dan terpujilah buah tubuhmu, Yesus.</p><p>Santa Maria, bunda Allah, doakanlah kami yang berdosa ini, sekarang dan waktu kami mati. Amin.</p>`, latin: `<p>Ave Maria, gratia plena, Dominus tecum, benedicta tu in mulieribus, et benedictus fructus ventris tui, Iesus. Sancta Maria, Mater Dei, ora pro nobis peccatoribus, nunc et in hora mortis nostrae. Amen.</p>` }
-    },
-    {
-        title: 'Kemuliaan',
-        content: { indonesia: `<p>Kemuliaan kepada Bapa dan Putra dan Roh Kudus,<br>seperti pada permulaan, sekarang, selalu, dan sepanjang segala abad. Amin.</p>`, latin: `<p>Gloria Patri, et Filio, et Spiritui Sancto.<br>Sicut erat in principio, et nunc, et semper, et in saecula saeculorum. Amen.</p>` }
-    },
-    // ... (data doa lainnya tetap sama) ...
-];
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -87,25 +64,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // FUNGSI-FUNGSI UTAMA PEMUAT DATA
     // =================================================================
 
-    /**
-     * Membuat konten HTML untuk Tata Perayaan Ekaristi (TPE).
-     * @param {object} data - Objek data TPE dari Firestore.
-     * @returns {string} String HTML yang siap ditampilkan.
-     */
     const createTpeHtml = (data) => {
         if (!data) {
             return '<div class="alert alert-warning text-center">Tata Perayaan Ekaristi belum tersedia.</div>';
         }
 
-        // Membuat baris-baris tabel jadwal misa
-        const tableRows = (data.jadwal_misa || []).map(misa => `
+        const jadwalMisa = data.jadwal_misa || [];
+        const tableRows = jadwalMisa.length > 0 ? jadwalMisa.map(misa => `
             <tr>
                 <td data-label="Jam">${misa.jam || '-'}</td>
                 <td data-label="Tempat">${misa.tempat || '-'}</td>
                 <td data-label="Perayaan">${misa.perayaan || '-'}</td>
                 <td data-label="Pelayan">${misa.pelayan || '-'}</td>
             </tr>
-        `).join('');
+        `).join('') : '<tr><td colspan="4" class="text-center">Jadwal Misa belum tersedia.</td></tr>';
         
         const jadwalHtml = `
             <h3 class="tpe-content-title">Jadwal Misa & Tema</h3>
@@ -120,9 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const tpe = data.tata_perayaan || {};
         
-        // Fungsi untuk memformat Doa Umat agar memiliki style berbeda untuk Pemimpin (P/I) dan Umat (U)
         const formatDoaUmat = (htmlContent) => {
-            if (!htmlContent) return '';
+            if (!htmlContent || htmlContent.trim() === '') return '';
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = htmlContent;
             tempDiv.querySelectorAll('p').forEach(p => {
@@ -134,9 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return `<div class="section-content">${tempDiv.innerHTML}</div>`;
         };
 
-        // Fungsi untuk membuat setiap bagian TPE (misal: Antifon, Bacaan, dll)
         const createSection = (title, content) => {
-            if (!content) return '';
+            if (!content || content.trim() === '') return '';
             const contentHtml = (title === 'Doa Umat') ? formatDoaUmat(content) : `<div class="section-content">${content}</div>`;
             return `<div class="tpe-section"><h4 class="section-title"><i class="bi bi-cross"></i> ${title}</h4>${contentHtml}</div>`;
         };
@@ -157,7 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
             ${createSection('Doa Sesudah Komuni', tpe.doa_sesudah_komuni)}
         `;
 
-        // Menggabungkan semua bagian menjadi satu kontainer utuh
         return `<div class="tpe-container-final">
                     <div class="tpe-header">
                         <p class="tanggal">${data.tanggal_display || ''}</p>
@@ -168,16 +137,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>`;
     };
     
-    /**
-     * Memuat TPE untuk minggu ini dan minggu depan dari Firestore.
-     */
     const loadWeeklyLiturgy = async () => {
         const currentContainer = document.getElementById('current-week-tpe');
         const nextContainer = document.getElementById('next-week-tpe');
         const controlsContainer = document.getElementById('tpe-preview-controls');
         if (!currentContainer) return;
         
-        // Logika untuk menentukan tanggal dokumen TPE yang relevan (berdasarkan hari Sabtu terakhir)
         const now = new Date();
         const dayOfWeek = now.getDay();
         const diffToLastSaturday = (dayOfWeek + 1) % 7;
@@ -198,11 +163,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
     
-            // Menampilkan TPE minggu ini
             const currentData = snapshot.docs[0]?.data();
             currentContainer.innerHTML = createTpeHtml(currentData);
     
-            // Jika ada data untuk minggu depan, siapkan pratinjaunya
             const nextData = snapshot.docs[1]?.data();
             if (nextData) {
                 nextContainer.innerHTML = createTpeHtml(nextData);
@@ -223,9 +186,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    /**
-     * Memuat data pengumuman/agenda terbaru dari Firestore.
-     */
     const loadAnnouncementsPublic = async () => {
         const container = document.querySelector('#agenda-container');
         if (!container) return;
@@ -238,8 +198,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             container.innerHTML = snapshot.docs.map(doc => {
                 const item = doc.data();
-                const catatanFormatted = (item.catatan || 'Tidak ada catatan.').replace(/\n/g, '<br>');
-                return `<div class="col-12 mb-4"><div class="card shadow-sm agenda-card"><div class="card-body"><h5 class="card-title text-primary"><i class="bi bi-bookmark-fill me-2"></i>${item.judul}</h5><div class="mt-3 pt-3 border-top"><p class="mb-2"><i class="bi bi-calendar-event me-2"></i><strong>Tanggal:</strong> ${item.tanggal || '-'}</p><p class="mb-2"><i class="bi bi-clock me-2"></i><strong>Jam:</strong> ${item.jam || '-'}</p><p class="mb-2"><i class="bi bi-geo-alt-fill me-2"></i><strong>Lokasi:</strong> ${item.lokasi || '-'}</p><p class="mb-0 mt-3"><i class="bi bi-info-circle-fill me-2"></i><strong>Catatan:</strong><br><span class="d-inline-block mt-1 ps-4">${catatanFormatted}</span></p></div></div></div></div>`;
+                const catatanFormatted = item.catatan || '<span class="text-muted">Tidak ada catatan.</span>';
+                return `<div class="col-12 mb-4"><div class="card shadow-sm agenda-card"><div class="card-body"><h5 class="card-title text-primary"><i class="bi bi-bookmark-fill me-2"></i>${item.judul}</h5><div class="mt-3 pt-3 border-top"><p class="mb-2"><i class="bi bi-calendar-event me-2"></i><strong>Tanggal:</strong> ${item.tanggal || '-'}</p><p class="mb-2"><i class="bi bi-clock me-2"></i><strong>Jam:</strong> ${item.jam || '-'}</p><p class="mb-2"><i class="bi bi-geo-alt-fill me-2"></i><strong>Lokasi:</strong> ${item.lokasi || '-'}</p><div class="mb-0 mt-3"><p class="mb-1"><i class="bi bi-info-circle-fill me-2"></i><strong>Catatan:</strong></p><div class="catatan-content ps-4">${catatanFormatted}</div></div></div></div></div></div>`;
             }).join('');
         } catch (error) {
             console.error("Gagal memuat pengumuman: ", error);
@@ -247,9 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    /**
-     * Memuat status kehadiran pastor dari Firestore.
-     */
     const loadPastorStatus = async () => {
         const container = document.querySelector('#pastor');
         if (!container) return;
@@ -272,9 +229,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    /**
-     * Memuat statistik umat (tabel dan grafik) dari Firestore.
-     */
     const loadPublicStats = async () => {
         const tableContainer = document.querySelector('#statistik-table-container');
         const mainContainer = document.querySelector('#statistik');
@@ -300,7 +254,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const totalRow = `<tfoot><tr><td colspan="2">Jumlah</td><td>${totalKK}</td><td>${totalLaki}</td><td>${totalPerempuan}</td><td>${totalJiwa}</td></tr></tfoot>`;
             tableContainer.innerHTML = `<table class="stats-table"><thead><tr><th>No</th><th>Nama Wilayah</th><th>KK</th><th>Laki-laki</th><th>Perempuan</th><th>Jumlah Jiwa</th></tr></thead><tbody>${tableRows}</tbody>${totalRow}</table>`;
 
-            // Membuat atau memperbarui grafik
             const labels = snapshot.docs.map(doc => doc.data().name);
             const data = snapshot.docs.map(doc => (doc.data().laki_laki || 0) + (doc.data().perempuan || 0));
             const ctx = document.getElementById('public-umat-chart').getContext('2d');
@@ -316,9 +269,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    /**
-     * Memuat dan menampilkan daftar sejarah Paus dari file JSON.
-     */
     const loadSejarahPausFromJson = async () => {
         const container = document.querySelector('#sejarah-paus-container');
         if (!container) return;
@@ -337,7 +287,6 @@ document.addEventListener('DOMContentLoaded', () => {
             container.innerHTML = `<div class="pope-search-wrapper"><input type="text" id="popeSearchInput" class="form-control" placeholder="Cari Paus (nama, tahun, negara)..."></div><div class="pope-table-wrapper"><table class="pope-table"><thead><tr><th>No.</th><th>Nama Paus</th><th>Masa Jabatan</th><th>Negara Asal</th><th>Catatan Singkat</th></tr></thead><tbody id="pope-table-body"></tbody></table></div>`;
             renderTable(allPopes);
 
-            // Tambahkan event listener untuk fungsionalitas pencarian
             document.getElementById('popeSearchInput').addEventListener('input', (e) => {
                 const query = e.target.value.toLowerCase();
                 const filteredPopes = allPopes.filter(pope => 
@@ -354,9 +303,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    /**
-     * Memuat dan menampilkan kalender liturgi dari file JSON.
-     */
     const loadKalenderFromJson = async () => {
         const container = document.querySelector('#kalender-container');
         if (!container) return;
@@ -366,7 +312,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) throw new Error(`Gagal memuat file: ${response.statusText}`);
             const data = await response.json();
 
-            // Mengelompokkan data berdasarkan bulan
             const groupedByMonth = data.reduce((acc, item) => {
                 const date = new Date(item.tanggal + 'T12:00:00Z');
                 const monthYear = date.toLocaleString('id-ID', { month: 'long', year: 'numeric' });
@@ -375,7 +320,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return acc;
             }, {});
             
-            // Membuat HTML untuk setiap bulan
             let html = '';
             const sortedMonths = Object.keys(groupedByMonth).sort((a, b) => new Date('01 ' + a) - new Date('01 ' + b));
             for (const month of sortedMonths) {
@@ -401,71 +345,87 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    /**
-     * Menginisialisasi fungsionalitas halaman Doa-Doa.
-     */
-    const loadPrayers = () => {
+    // --- FUNGSI INI DIGANTI SELURUHNYA ---
+    const loadPrayers = async () => {
         const listContainer = document.querySelector('#doa-list-container');
         const detailContainer = document.querySelector('#doa-detail-container');
         const doaList = document.querySelector('#doa-list');
-        if (!listContainer || !prayersData) return;
+        const doaWrapper = document.querySelector('#doa-wrapper');
 
-        let currentPrayer = null;
-
-        // Tampilkan daftar doa
-        doaList.innerHTML = prayersData.map(prayer => `<button type="button" class="list-group-item list-group-item-action">${prayer.title}</button>`).join('');
+        if (!listContainer || !doaWrapper) return;
         
-        // Fungsi untuk menampilkan konten doa berdasarkan bahasa yang dipilih
-        const renderPrayerContent = (lang) => {
-            if (currentPrayer) {
-                document.querySelector('#doa-detail-content').innerHTML = currentPrayer.content[lang];
-                document.querySelectorAll('#doa-lang-selector button').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
-            }
-        };
+        doaList.innerHTML = `<div class="feedback-container"><div class="spinner"></div><p>Memuat daftar doa...</p></div>`;
 
-        // Event listener untuk daftar doa (menggunakan event delegation)
-        doaList.addEventListener('click', (e) => {
-            if (e.target.matches('button.list-group-item-action')) {
-                const clickedTitle = e.target.textContent.trim();
-                currentPrayer = prayersData.find(p => p.title === clickedTitle);
+        try {
+            const snapshot = await db.collection('prayers').orderBy('order').get();
+            const prayersDataFromDb = snapshot.docs.map(doc => {
+                const data = doc.data();
+                return {
+                    title: data.title,
+                    content: {
+                        indonesia: data.content_indonesia,
+                        latin: data.content_latin
+                    }
+                };
+            });
+
+            if (prayersDataFromDb.length === 0) {
+                doaList.innerHTML = '<p class="text-center">Data doa belum tersedia. Silakan tambahkan melalui halaman admin.</p>';
+                return;
+            }
+
+            let currentPrayer = null;
+
+            doaList.innerHTML = prayersDataFromDb.map(prayer => `<button type="button" class="list-group-item list-group-item-action">${prayer.title}</button>`).join('');
+            
+            const renderPrayerContent = (lang) => {
                 if (currentPrayer) {
-                    document.querySelector('#doa-detail-title').textContent = currentPrayer.title;
-                    renderPrayerContent('indonesia'); // Default ke Bahasa Indonesia
-                    listContainer.style.display = 'none';
-                    detailContainer.style.display = 'block';
+                    document.querySelector('#doa-detail-content').innerHTML = currentPrayer.content[lang] || '<p><em>Konten tidak tersedia untuk bahasa ini.</em></p>';
+                    document.querySelectorAll('#doa-lang-selector button').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
                 }
-            }
-        });
+            };
 
-        // Event listener untuk tombol kembali
-        document.querySelector('#doa-back-btn').addEventListener('click', () => {
-            detailContainer.style.display = 'none';
-            listContainer.style.display = 'block';
-            currentPrayer = null;
-        });
+            doaList.addEventListener('click', (e) => {
+                if (e.target.matches('button.list-group-item-action')) {
+                    const clickedTitle = e.target.textContent.trim();
+                    currentPrayer = prayersDataFromDb.find(p => p.title === clickedTitle);
+                    if (currentPrayer) {
+                        document.querySelector('#doa-detail-title').textContent = currentPrayer.title;
+                        renderPrayerContent('indonesia');
+                        listContainer.style.display = 'none';
+                        detailContainer.style.display = 'block';
+                    }
+                }
+            });
 
-        // Event listener untuk pemilih bahasa
-        document.querySelector('#doa-lang-selector').addEventListener('click', (e) => {
-            if (e.target.matches('button')) {
-                renderPrayerContent(e.target.dataset.lang);
-            }
-        });
+            document.querySelector('#doa-back-btn').addEventListener('click', () => {
+                detailContainer.style.display = 'none';
+                listContainer.style.display = 'block';
+                currentPrayer = null;
+            });
+
+            document.querySelector('#doa-lang-selector').addEventListener('click', (e) => {
+                if (e.target.matches('button')) {
+                    renderPrayerContent(e.target.dataset.lang);
+                }
+            });
+
+        } catch (error) {
+            console.error("Gagal memuat data doa dari Firestore:", error);
+            doaList.innerHTML = `<div class="error-alert"><strong>Gagal Memuat:</strong> Daftar doa tidak dapat ditampilkan.</div>`;
+        }
     };
+
 
     // =================================================================
     // MANAJEMEN NAVIGASI & UI
     // =================================================================
 
-    /**
-     * Mengaktifkan tab konten yang dipilih dan menonaktifkan yang lain.
-     * @param {string} tabId - ID dari elemen konten tab yang akan diaktifkan.
-     */
     function activateTab(tabId) {
         document.querySelectorAll('.tab-button').forEach(btn => btn.classList.toggle('active', btn.dataset.tab === tabId));
         document.querySelectorAll('.tab-content').forEach(content => {
             content.classList.toggle('active', content.id === tabId);
         });
-        // Tutup sidebar secara otomatis di mobile setelah tab dipilih
         const sidebarMenu = document.getElementById('sidebarMenu');
         if (window.innerWidth <= 768 && sidebarMenu.classList.contains('active')) {
             sidebarMenu.classList.remove('active');
@@ -473,9 +433,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /**
-     * Menginisialisasi event listener untuk sidebar dan tombol navigasi.
-     */
     function setupNavigation() {
         const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
         const sidebarMenu = document.getElementById('sidebarMenu');
@@ -485,7 +442,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 sidebarMenu.classList.toggle('active');
                 document.body.classList.toggle('sidebar-open');
             });
-            // Klik di luar sidebar akan menutupnya (hanya di mobile)
             document.body.addEventListener('click', (event) => {
                 if (window.innerWidth <= 768 && document.body.classList.contains('sidebar-open') && !sidebarMenu.contains(event.target) && !sidebarToggleBtn.contains(event.target)) {
                     sidebarMenu.classList.remove('active');
@@ -494,7 +450,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
         
-        // Event listener untuk semua tombol tab di sidebar
         document.querySelectorAll('#sidebarMenu .tab-button[data-tab]').forEach(button => {
             button.addEventListener('click', (event) => {
                 event.preventDefault();
@@ -503,9 +458,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    /**
-     * Menginisialisasi modal pratinjau PDF.
-     */
     function setupPreviewModal() {
         const previewModal = document.getElementById('previewModal');
         if (previewModal) {
@@ -538,14 +490,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // TITIK MASUK UTAMA (ENTRY POINT)
     // =================================================================
     
-    /**
-     * Fungsi utama untuk memuat semua data awal yang diperlukan saat halaman pertama kali dibuka.
-     */
     const initializePage = () => {
         setupNavigation();
         setupPreviewModal();
         
-        // Muat semua data dinamis dan statis
         loadWeeklyLiturgy();
         loadAnnouncementsPublic();
         loadPastorStatus();
@@ -554,10 +502,8 @@ document.addEventListener('DOMContentLoaded', () => {
         loadSejarahPausFromJson();
         loadPrayers();
         
-        // Aktifkan tab default
         activateTab('beranda');
     };
     
-    // Jalankan inisialisasi
     initializePage();
 });

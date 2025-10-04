@@ -16,9 +16,3 @@ const firebaseConfig = {
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
-
-// Inisialisasi service yang akan digunakan di file lain dan jadikan variabel global
-// agar bisa diakses oleh script.js dan admin-dashboard.js
-const db = firebase.firestore();
-const auth = firebase.auth();
-const messaging = firebase.messaging ? firebase.messaging() : null; // Cek jika messaging didukung

@@ -369,6 +369,16 @@ body.sidebar-open::before {
 .doa-umat-baris.umat { padding-left: 2rem !important; font-style: italic; }
 .doa-umat-baris.pemimpin { font-weight: bold; }
 
+/* Gaya tambahan untuk gambar di dalam konten TPE */
+.tpe-section .section-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1rem auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
 /* ==================================================
    13. MEDIA QUERIES (RESPONSIVE)
    ================================================== */

@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentEditProgramId = null;
     let currentEditAnnouncementId = null;
     let currentEditTpeId = null;
+    let currentEditPrayerId = null; // <-- DITAMBAHKAN
 
     // Kumpulan elemen DOM yang sering digunakan
     const modals = {
@@ -30,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         announcement: document.getElementById('announcement-modal'),
         stat: document.getElementById('stat-modal'),
         tpe: document.getElementById('tpe-modal'),
+        prayer: document.getElementById('prayer-modal'), // <-- DITAMBAHKAN
     };
     
     // Data statis untuk dropdown program kerja
@@ -76,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         listenToTPEs();
         listenToPastors();
         listenToParishStats();
+        listenToPrayers(); // <-- DITAMBAHKAN
         
         updateSummaryDashboard();
         setupDropdowns();
@@ -87,13 +90,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. FUNGSI-FUNGSI LISTENER DATA (REALTIME DARI FIREBASE)
     // =================================================================
     
-    /**
-     * Mendengarkan dan menampilkan data Program Kerja dari Firebase.
-     */
     const listenToPrograms = () => {
         const programsTableBody = document.getElementById('programs-table-body');
         const tableFooter = document.getElementById('table-footer');
-        showTableLoading(programsTableBody, 18); // Disesuaikan colspan
+        showTableLoading(programsTableBody, 18);
         tableFooter.innerHTML = '';
 
         db.collection('programs').orderBy('bidang').onSnapshot(snapshot => {
@@ -167,10 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
             showTableError(programsTableBody, 18, `Gagal memuat data program kerja. (${error.message})`);
         });
     };
-
-    /**
-     * Mendengarkan dan menampilkan data Pengumuman dari Firebase.
-     */
+    
     const listenToAnnouncements = () => {
         const announcementsTableBody = document.getElementById('announcements-table-body');
         showTableLoading(announcementsTableBody, 5);
@@ -181,11 +178,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const tableHTML = snapshot.docs.map(doc => {
                 const ann = doc.data();
+                const catatanPratinjau = ann.catatan ? ann.catatan.replace(/<[^>]+>/g, '').substring(0, 100) + '...' : '-';
                 return `<tr data-id="${doc.id}">
                     <td>${ann.judul || '-'}</td>
                     <td>${ann.tanggal || ''}${ann.jam ? ' | ' + ann.jam : ''}</td>
                     <td>${ann.lokasi || '-'}</td>
-                    <td>${(ann.catatan || '-').replace(/\n/g, '<br>')}</td>
+                    <td>${catatanPratinjau}</td>
                     <td class="no-print">
                         <button class="action-btn-sm edit edit-announcement">Edit</button>
                         <button class="action-btn-sm delete delete-announcement">Hapus</button>
@@ -199,9 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
     
-    /**
-     * Mendengarkan dan menampilkan data TPE dari Firebase.
-     */
     const listenToTPEs = () => {
         const tpeTableBody = document.getElementById('tpe-table-body');
         showTableLoading(tpeTableBody, 3);
@@ -228,9 +223,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    /**
-     * Mendengarkan dan menampilkan data Pastor dari Firebase.
-     */
     const listenToPastors = () => {
         const pastorListContainer = document.getElementById('pastor-list-container');
         pastorListContainer.innerHTML = `<div class="feedback-container"><div class="spinner"></div><p>Memuat data pastor...</p></div>`;
@@ -258,9 +250,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
     
-    /**
-     * Mendengarkan dan menampilkan data Statistik Umat dari Firebase.
-     */
     const listenToParishStats = () => {
         const statsTableBody = document.getElementById('stats-table-body');
         const statsTableFooter = document.getElementById('stats-table-footer');
@@ -301,6 +290,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }, error => showTableError(statsTableBody, 7, `Gagal memuat data statistik. (${error.message})`));
     };
 
+    // --- FUNGSI BARU DITAMBAHKAN ---
+    const listenToPrayers = () => {
+        const prayersTableBody = document.getElementById('prayers-table-body');
+        showTableLoading(prayersTableBody, 3);
+        db.collection('prayers').orderBy('order').onSnapshot(snapshot => {
+            if (snapshot.empty) {
+                showTableEmpty(prayersTableBody, 3, 'Belum ada data doa. Silakan tambahkan doa baru.');
+                return;
+            }
+            prayersTableBody.innerHTML = snapshot.docs.map(doc => {
+                const prayer = doc.data();
+                return `<tr data-id="${doc.id}">
+                    <td>${prayer.order}</td>
+                    <td>${prayer.title || '-'}</td>
+                    <td class="no-print">
+                        <button class="action-btn-sm edit edit-prayer">Edit</button>
+                        <button class="action-btn-sm delete delete-prayer">Hapus</button>
+                    </td>
+                </tr>`;
+            }).join('');
+        }, error => {
+            console.error("Error saat memuat data doa:", error);
+            showTableError(prayersTableBody, 3, `Gagal memuat data doa. (${error.message})`);
+        });
+    };
+
     // =================================================================
     // 4. FUNGSI PEMBARUAN DASHBOARD
     // =================================================================
@@ -335,8 +350,8 @@ document.addEventListener('DOMContentLoaded', () => {
         tinymce.remove('.tinymce-editor');
         tinymce.init({
             selector: '.tinymce-editor',
-            plugins: 'autolink lists link wordcount',
-            toolbar: 'undo redo | blocks | bold italic underline | bullist numlist | link removeformat',
+            plugins: 'autolink lists link wordcount image',
+            toolbar: 'undo redo | blocks | bold italic underline | bullist numlist | link image | removeformat',
             menubar: false,
             height: 250
         });
@@ -555,7 +570,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 tanggal: document.getElementById('ann-tanggal').value,
                 jam: document.getElementById('ann-jam').value,
                 lokasi: document.getElementById('ann-lokasi').value,
-                catatan: document.getElementById('ann-catatan').value,
+                catatan: tinymce.get('ann-catatan') ? tinymce.get('ann-catatan').getContent() : document.getElementById('ann-catatan').value,
             };
             try {
                 if (currentEditAnnouncementId) {
@@ -705,12 +720,89 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (error) { msg.textContent = 'Gagal menyimpan.'; msg.className = 'form-message error'; }
         });
 
+        // --- BAGIAN BARU DITAMBAHKAN: EVENT LISTENERS UNTUK DOA ---
+        document.getElementById('add-prayer-btn').addEventListener('click', () => {
+            currentEditPrayerId = null;
+            document.getElementById('prayer-modal-title').textContent = 'Tambah Doa Baru';
+            document.getElementById('prayer-form').reset();
+            document.getElementById('prayer-form-message').textContent = '';
+            modals.prayer.classList.remove('hidden');
+            initTinyMCE();
+            setTimeout(() => { 
+                tinymce.get('prayer-content-indonesia')?.setContent('');
+                tinymce.get('prayer-content-latin')?.setContent('');
+            }, 500);
+        });
+
+        document.getElementById('prayers-table-body').addEventListener('click', async (e) => {
+            const target = e.target;
+            const docId = target.closest('tr')?.dataset.id;
+            if (!docId) return;
+
+            if (target.classList.contains('delete-prayer')) {
+                if (confirm('Yakin ingin menghapus doa ini?')) {
+                    await db.collection('prayers').doc(docId).delete();
+                }
+            }
+
+            if (target.classList.contains('edit-prayer')) {
+                const doc = await db.collection('prayers').doc(docId).get();
+                if (doc.exists) {
+                    const data = doc.data();
+                    currentEditPrayerId = doc.id;
+                    document.getElementById('prayer-modal-title').textContent = 'Edit Doa';
+                    document.getElementById('prayer-form').reset();
+                    document.getElementById('prayer-title').value = data.title || '';
+                    document.getElementById('prayer-order').value = data.order || 99;
+                    modals.prayer.classList.remove('hidden');
+                    initTinyMCE();
+                    setTimeout(() => {
+                        tinymce.get('prayer-content-indonesia')?.setContent(data.content_indonesia || '');
+                        tinymce.get('prayer-content-latin')?.setContent(data.content_latin || '');
+                    }, 500);
+                }
+            }
+        });
+
+        document.getElementById('prayer-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const msg = document.getElementById('prayer-form-message');
+            msg.textContent = 'Menyimpan...';
+
+            const prayerData = {
+                title: document.getElementById('prayer-title').value,
+                order: parseInt(document.getElementById('prayer-order').value, 10),
+                content_indonesia: tinymce.get('prayer-content-indonesia').getContent(),
+                content_latin: tinymce.get('prayer-content-latin').getContent(),
+            };
+
+            try {
+                if (currentEditPrayerId) {
+                    await db.collection('prayers').doc(currentEditPrayerId).update(prayerData);
+                } else {
+                    await db.collection('prayers').add(prayerData);
+                }
+                msg.textContent = 'Berhasil disimpan!';
+                msg.className = 'form-message success';
+                setTimeout(() => {
+                    modals.prayer.classList.add('hidden');
+                    tinymce.remove();
+                }, 1500);
+            } catch (error) {
+                msg.textContent = 'Gagal menyimpan.';
+                msg.className = 'form-message error';
+                console.error("Error saving prayer: ", error);
+            }
+        });
+
         document.querySelectorAll('.close-modal-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const modal = document.getElementById(btn.dataset.target);
                 if (modal) {
                     modal.classList.add('hidden');
-                    if (btn.dataset.target === 'tpe-modal' || btn.dataset.target === 'announcement-modal') tinymce.remove();
+                    if (['tpe-modal', 'announcement-modal', 'prayer-modal'].includes(btn.dataset.target)) {
+                        tinymce.remove();
+                    }
                 }
             });
         });
@@ -719,7 +811,9 @@ document.addEventListener('DOMContentLoaded', () => {
             overlay.addEventListener('click', (e) => {
                 if (e.target === overlay) {
                     overlay.classList.add('hidden');
-                    if (overlay.id === 'tpe-modal' || overlay.id === 'announcement-modal') tinymce.remove();
+                    if (['tpe-modal', 'announcement-modal', 'prayer-modal'].includes(overlay.id)) {
+                        tinymce.remove();
+                    }
                 }
             });
         });
