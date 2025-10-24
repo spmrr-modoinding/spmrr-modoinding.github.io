@@ -4,6 +4,7 @@
  * * FUNGSI UTAMA:
  * - Menginisialisasi Firebase dan komponen UI (Particles, GLightbox).
  * - Mengelola logika navigasi tab dan sidebar.
+ * - [DIPERBARUI] Menerapkan Lazy Loading untuk data tab.
  * - Memuat data dinamis dari Firebase Firestore:
  * - Tata Perayaan Ekaristi (TPE) mingguan.
  * - Pengumuman / Agenda.
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // =================================================================
     const db = firebase.firestore();
     let publicUmatChart = null; 
+    const loadedTabs = new Set(); // <-- Pelacak untuk lazy loading
 
     // Inisialisasi library pihak ketiga
     GLightbox({ selector: '.glightbox' });
@@ -128,6 +130,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const controlsContainer = document.getElementById('tpe-preview-controls');
         if (!currentContainer) return;
         
+        // Tampilkan loading spinner khusus untuk TPE
+        currentContainer.innerHTML = `<div class="feedback-container"><div class="spinner"></div><p>Memuat Jadwal & Tata Perayaan Ekaristi...</p></div>`;
+
         const now = new Date();
         const dayOfWeek = now.getDay();
         const diffToLastSaturday = (dayOfWeek + 1) % 7;
@@ -440,7 +445,38 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('#sidebarMenu .tab-button[data-tab]').forEach(button => {
             button.addEventListener('click', (event) => {
                 event.preventDefault();
-                activateTab(button.dataset.tab);
+                const tabId = button.dataset.tab;
+                activateTab(tabId); // Aktifkan tab secara visual
+
+                // [DIPERBARUI] Logika Lazy Loading
+                if (!loadedTabs.has(tabId)) {
+                    console.log(`Memuat data untuk tab: ${tabId}`);
+                    switch (tabId) {
+                        case 'agenda':
+                            loadAnnouncementsPublic();
+                            break;
+                        case 'pastor':
+                            // Halaman pastor memuat data sendiri dari #pastor
+                            // Jika #pastor ada di tab 'pastor', panggil di sini.
+                            // Berdasarkan HTML Anda, #pastor ada di tab 'pastor', jadi panggil di sini
+                            loadPastorStatus();
+                            break;
+                        case 'statistik':
+                            loadPublicStats();
+                            break;
+                        case 'kalender':
+                            loadKalenderFromJson();
+                            break;
+                        case 'sejarah-paus':
+                            loadSejarahPausFromJson();
+                            break;
+                        case 'doa':
+                            loadPrayers();
+                            break;
+                        // Tab 'beranda' dan 'sekretariat' tidak perlu memuat data khusus
+                    }
+                    loadedTabs.add(tabId); // Tandai sudah dimuat
+                }
             });
         });
     }
@@ -481,13 +517,11 @@ document.addEventListener('DOMContentLoaded', () => {
         setupNavigation();
         setupPreviewModal();
         
+        // [DIPERBARUI] Hanya muat data untuk tab 'beranda' saat awal
         loadWeeklyLiturgy();
-        loadAnnouncementsPublic();
-        loadPastorStatus();
-        loadPublicStats();
-        loadKalenderFromJson();
-        loadSejarahPausFromJson();
-        loadPrayers();
+        loadedTabs.add('beranda');
+        
+        // Data untuk tab lain akan dimuat oleh setupNavigation() saat diklik
         
         activateTab('beranda');
     };

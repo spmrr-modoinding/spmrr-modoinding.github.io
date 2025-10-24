@@ -1,0 +1,20 @@
+/*
+ * theme.css
+ * File ini berisi semua variabel CSS global (skema warna)
+ * untuk digunakan di SEMUA halaman (publik dan admin)
+ * agar tercipta konsistensi desain dan kemudahan maintenance.
+ */
+
+:root {
+  --blue-main: #004a99;
+  --blue-light: #b3d9ff;
+  --blue-bg: #e6f2ff;
+  --blue-hover: #cce5ff;
+  --blue-soft: #d9ecff;
+  --blue-border: #b3d1ff;
+  --gold: #d4af37;
+  --green: #4caf50;
+  --red: #f44336;
+  --white: #ffffff;
+  --sidebar-active-border: var(--gold);
+}

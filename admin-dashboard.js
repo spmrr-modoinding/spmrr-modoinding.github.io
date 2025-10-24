@@ -9,6 +9,10 @@
  * 4. FUNGSI PEMBARUAN DASHBOARD
  * 5. FUNGSI BANTU (HELPERS) UNTUK FORM & UI
  * 6. INISIALISASI & EVENT LISTENERS
+ *
+ * * PERUBAHAN:
+ * - Menambahkan logika untuk menonaktifkan tombol 'submit' saat proses
+ * penyimpanan (async) untuk mencegah klik ganda.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -23,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentEditProgramId = null;
     let currentEditAnnouncementId = null;
     let currentEditTpeId = null;
-    let currentEditPrayerId = null; // <-- DITAMBAHKAN
+    let currentEditPrayerId = null; 
 
     // Kumpulan elemen DOM yang sering digunakan
     const modals = {
@@ -31,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         announcement: document.getElementById('announcement-modal'),
         stat: document.getElementById('stat-modal'),
         tpe: document.getElementById('tpe-modal'),
-        prayer: document.getElementById('prayer-modal'), // <-- DITAMBAHKAN
+        prayer: document.getElementById('prayer-modal'), 
     };
     
     // Data statis untuk dropdown program kerja
@@ -78,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         listenToTPEs();
         listenToPastors();
         listenToParishStats();
-        listenToPrayers(); // <-- DITAMBAHKAN
+        listenToPrayers(); 
         
         updateSummaryDashboard();
         setupDropdowns();
@@ -290,7 +294,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, error => showTableError(statsTableBody, 7, `Gagal memuat data statistik. (${error.message})`));
     };
 
-    // --- FUNGSI BARU DITAMBAHKAN ---
     const listenToPrayers = () => {
         const prayersTableBody = document.getElementById('prayers-table-body');
         showTableLoading(prayersTableBody, 3);
@@ -321,21 +324,30 @@ document.addEventListener('DOMContentLoaded', () => {
     // =================================================================
     const updateSummaryDashboard = async () => {
         try {
-            const programsSnap = await db.collection('programs').get();
+            // Gunakan Promise.all untuk menjalankan query secara paralel
+            const [programsSnap, announcementsSnap, statsSnap] = await Promise.all([
+                db.collection('programs').get(),
+                db.collection('announcements').get(),
+                db.collection('parish_stats').get()
+            ]);
+
             let totalBudget = 0;
             programsSnap.forEach(doc => { totalBudget += doc.data().total_anggaran || 0; });
             document.getElementById('summary-programs-count').textContent = programsSnap.size;
             document.getElementById('summary-budget-total').textContent = `Rp ${totalBudget.toLocaleString('id-ID')}`;
 
-            const announcementsSnap = await db.collection('announcements').get();
             document.getElementById('summary-announcements-count').textContent = announcementsSnap.size;
 
-            const statsSnap = await db.collection('parish_stats').get();
             let totalUmat = 0;
             statsSnap.forEach(doc => { totalUmat += (doc.data().laki_laki || 0) + (doc.data().perempuan || 0); });
             document.getElementById('summary-umat-total').textContent = totalUmat.toLocaleString('id-ID');
         } catch (error) {
             console.error("Gagal memuat data ringkasan:", error);
+            // Tampilkan error di UI jika perlu
+            document.getElementById('summary-programs-count').textContent = 'Error';
+            document.getElementById('summary-budget-total').textContent = 'Error';
+            document.getElementById('summary-announcements-count').textContent = 'Error';
+            document.getElementById('summary-umat-total').textContent = 'Error';
         }
     };
 
@@ -508,18 +520,31 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('program-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const msg = document.getElementById('program-form-message');
+            const submitBtn = e.target.querySelector('button[type="submit"]');
             msg.textContent = 'Menyimpan...';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Menyimpan...';
+
             const rincianAnggaran = [];
             document.getElementById('modal-anggaran-items-container').querySelectorAll('.anggaran-item').forEach(item => {
                 const perincian = item.querySelector('.anggaran-perincian').value;
                 if (perincian) { rincianAnggaran.push({ perincian: perincian, volume: Number(item.querySelector('.anggaran-vol').value) || 0, satuan: item.querySelector('.anggaran-satuan').value, harga_satuan: Number(item.querySelector('.anggaran-harga').value) || 0, jumlah: (Number(item.querySelector('.anggaran-vol').value) || 0) * (Number(item.querySelector('.anggaran-harga').value) || 0) }); }
             });
             const programData = { bidang: document.getElementById('modal-bidang').value, sub_bidang_title: document.getElementById('modal-sub-bidang').value, pusat_paroki_stasi: document.getElementById('modal-lokasi').value, nama_unit: document.getElementById('modal-nama-unit').value, nama_kegiatan: document.getElementById('modal-nama_kegiatan').value, sasaran: document.getElementById('modal-sasaran').value, indikator: document.getElementById('modal-indikator').value, model_materi: document.getElementById('modal-model').value, materi: document.getElementById('modal-materi').value, tempat_waktu: document.getElementById('modal-waktu').value, pic: document.getElementById('modal-pic').value, sumber_dana_kas: document.getElementById('modal-sumber-dana-kas').value, sumber_dana_swadaya: document.getElementById('modal-sumber-dana-swadaya').value, anggaran: rincianAnggaran, total_anggaran: parseFloat(document.getElementById('modal-total-anggaran-display').textContent.replace(/[^0-9]/g, '')), };
+            
             try {
                 if (currentEditProgramId) { await db.collection('programs').doc(currentEditProgramId).update(programData); } else { programData.createdAt = firebase.firestore.FieldValue.serverTimestamp(); await db.collection('programs').add(programData); }
                 msg.textContent = 'Berhasil!'; msg.className = 'form-message success';
-                setTimeout(() => modals.program.classList.add('hidden'), 1500);
-            } catch (error) { msg.textContent = 'Gagal menyimpan.'; msg.className = 'form-message error'; }
+                setTimeout(() => {
+                    modals.program.classList.add('hidden');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Simpan Program';
+                }, 1500);
+            } catch (error) { 
+                msg.textContent = 'Gagal menyimpan.'; msg.className = 'form-message error'; 
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Simpan Program';
+            }
         });
 
         document.getElementById('modal-anggaran-items-container').addEventListener('click', (e) => { if (e.target.classList.contains('remove-btn')) { e.target.parentElement.remove(); calculateModalTotal(); }});
@@ -564,7 +589,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('announcement-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const msg = document.getElementById('announcement-form-message');
+            const submitBtn = e.target.querySelector('button[type="submit"]');
             msg.textContent = 'Menyimpan...';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Menyimpan...';
+            
             const data = {
                 judul: document.getElementById('ann-judul').value,
                 tanggal: document.getElementById('ann-tanggal').value,
@@ -580,9 +609,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     await db.collection('announcements').add(data);
                 }
                 msg.textContent = 'Berhasil!'; msg.className = 'form-message success';
-                setTimeout(() => modals.announcement.classList.add('hidden'), 1000);
+                setTimeout(() => {
+                    modals.announcement.classList.add('hidden');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Simpan';
+                }, 1000);
             } catch (error) {
                 msg.textContent = 'Gagal menyimpan.'; msg.className = 'form-message error';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Simpan';
             }
         });
 
@@ -644,9 +679,15 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('tpe-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const msg = document.getElementById('tpe-form-message');
+            const submitBtn = e.target.querySelector('button[type="submit"]');
             const tanggalInput = document.getElementById('tpe-tanggal').value;
+            
             if (!tanggalInput) { msg.textContent = 'Tanggal Misa wajib diisi!'; msg.className = 'form-message error'; return; }
+            
             msg.textContent = 'Menyimpan...';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Menyimpan...';
+
             const tataPerayaanData = {};
             const editorIds = [ 'tpe-antifon-pembuka', 'tpe-doa-kolekta', 'tpe-bacaan-1', 'tpe-mazmur', 'tpe-bacaan-2', 'tpe-bait-injil', 'tpe-bacaan-injil', 'tpe-doa-umat', 'tpe-doa-persembahan', 'tpe-antifon-komuni', 'tpe-doa-sesudah-komuni' ];
             const keyMapping = { 'tpe-mazmur': 'mazmur_tanggapan', 'tpe-bait-injil': 'bait_pengantar_injil' };
@@ -670,10 +711,17 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 await db.collection('tata_perayaan_mingguan').doc(docId).set(tpeData, { merge: true });
                 msg.textContent = 'Berhasil disimpan!'; msg.className = 'form-message success';
-                setTimeout(() => { modals.tpe.classList.add('hidden'); tinymce.remove(); }, 1500);
+                setTimeout(() => { 
+                    modals.tpe.classList.add('hidden'); 
+                    tinymce.remove(); 
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Simpan TPE';
+                }, 1500);
             } catch (error) {
                 msg.textContent = 'Gagal menyimpan.'; msg.className = 'form-message error';
                 console.error("Error saving TPE: ", error);
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Simpan TPE';
             }
         });
 
@@ -711,16 +759,28 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const docId = document.getElementById('stat-doc-id').value;
             const msg = document.getElementById('stat-form-message');
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            
             const data = { kk: parseInt(document.getElementById('stat-kk').value, 10), laki_laki: parseInt(document.getElementById('stat-laki').value, 10), perempuan: parseInt(document.getElementById('stat-perempuan').value, 10) };
             msg.textContent = 'Menyimpan...';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Menyimpan...';
+
             try {
                 await db.collection('parish_stats').doc(docId).update(data);
                 msg.textContent = 'Berhasil!'; msg.className = 'form-message success';
-                setTimeout(() => modals.stat.classList.add('hidden'), 1000);
-            } catch (error) { msg.textContent = 'Gagal menyimpan.'; msg.className = 'form-message error'; }
+                setTimeout(() => {
+                    modals.stat.classList.add('hidden');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Simpan Perubahan';
+                }, 1000);
+            } catch (error) { 
+                msg.textContent = 'Gagal menyimpan.'; msg.className = 'form-message error'; 
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Simpan Perubahan';
+            }
         });
 
-        // --- BAGIAN BARU DITAMBAHKAN: EVENT LISTENERS UNTUK DOA ---
         document.getElementById('add-prayer-btn').addEventListener('click', () => {
             currentEditPrayerId = null;
             document.getElementById('prayer-modal-title').textContent = 'Tambah Doa Baru';
@@ -767,7 +827,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('prayer-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const msg = document.getElementById('prayer-form-message');
+            const submitBtn = e.target.querySelector('button[type="submit"]');
             msg.textContent = 'Menyimpan...';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Menyimpan...';
 
             const prayerData = {
                 title: document.getElementById('prayer-title').value,
@@ -787,14 +850,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     modals.prayer.classList.add('hidden');
                     tinymce.remove();
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Simpan Doa';
                 }, 1500);
             } catch (error) {
                 msg.textContent = 'Gagal menyimpan.';
                 msg.className = 'form-message error';
                 console.error("Error saving prayer: ", error);
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Simpan Doa';
             }
         });
 
+        // Event listener universal untuk menutup modal
         document.querySelectorAll('.close-modal-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const modal = document.getElementById(btn.dataset.target);

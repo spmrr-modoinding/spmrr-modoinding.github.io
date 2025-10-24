@@ -2,7 +2,7 @@
  * style.css
  * File gaya utama untuk halaman publik Paroki.
  * * DAFTAR ISI:
- * 1. IMPOR FONT & VARIABEL GLOBAL
+ * 1. IMPOR FONT
  * 2. RESET & GAYA DASAR
  * 3. LAYOUT UTAMA (HEADER, MAIN, FOOTER)
  * 4. SIDEBAR & NAVIGASI TAB
@@ -15,27 +15,20 @@
  * 11. ANIMASI & EFEK INTERAKTIF
  * 12. TATA PERAYAAN EKARISTI (TPE)
  * 13. MEDIA QUERIES (RESPONSIVE)
+ *
+ * * PERUBAHAN:
+ * - Menghapus blok :root (variabel) karena sudah dipindah ke theme.css
  */
 
 /* ==================================================
-   1. IMPOR FONT & VARIABEL GLOBAL
+   1. IMPOR FONT
    ================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&display=swap');
 
-:root {
-  --blue-main: #004a99;
-  --blue-light: #b3d9ff;
-  --blue-bg: #e6f2ff;
-  --blue-hover: #cce5ff;
-  --blue-soft: #d9ecff;
-  --blue-border: #b3d1ff;
-  --gold: #d4af37;
-  --green: #4caf50;
-  --red: #f44336;
-  --white: #ffffff;
-  --sidebar-active-border: var(--gold);
-}
+/* Variabel :root telah dipindahkan ke theme.css 
+  untuk konsistensi di seluruh situs.
+*/
 
 /* ==================================================
    2. RESET & GAYA DASAR
