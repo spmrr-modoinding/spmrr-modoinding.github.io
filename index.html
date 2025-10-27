@@ -3,29 +3,59 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    
     <title>Paroki Santa Perawan Maria Ratu Rosari Modoinding</title>
     
-    <meta name="description" content="Website resmi Paroki Santa Perawan Maria Ratu Rosari Modoinding. Temukan informasi agenda, liturgi, sejarah, statistik umat, dan kontak paroki.">
-    <meta name="keywords" content="Paroki Modoinding, Gereja Katolik Modoinding, SPMRR Modoinding, Jadwal Misa, Keuskupan Manado, Joseph Ansow, Stenly Ambun">
+    <meta name="description" content="Website resmi Gereja Katolik Paroki Santa Perawan Maria Ratu Rosari Modoinding. Temukan Jadwal Misa Paroki Modoinding, agenda OMK, Sejarah Paroki, dan kontak Sekretariat Paroki di Minahasa Selatan ini.">
 
-    <!-- 
-      PERUBAHAN: Tag Open Graph ditambahkan di bawah ini.
-      Ini adalah tag yang dibaca WhatsApp, Facebook, Telegram, dll. untuk membuat preview link.
-    -->
+    <meta name="keywords" content="Paroki Modoinding, Gereja Katolik Modoinding, SPMRR Modoinding, Jadwal Misa Paroki Modoinding, Sejarah Paroki Modoinding, Pastor Paroki Modoinding, Umat Paroki Modoinding, Gereja di Modoinding, Gereja Katolik di Minahasa Selatan, Keuskupan Manado, OMK Paroki Modoinding, Kontak Paroki Modoinding, Ratu Rosari Modoinding, Warta Paroki Modoinding, Misa di Gereja Modoinding">
+
     <meta property="og:title" content="Paroki Santa Perawan Maria Ratu Rosari Modoinding" />
-    <meta property="og:description" content="Website resmi Paroki. Temukan informasi agenda, liturgi, sejarah, statistik umat, dan kontak paroki." />
+    <meta property="og:description" content="Website resmi Gereja Katolik Paroki Santa Perawan Maria Ratu Rosari Modoinding. Temukan Jadwal Misa, agenda OMK, Sejarah Paroki, dan kontak." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://spmrr-modoinding.github.io/" />
-    <!-- Pastikan gambar 'gereja.jpeg' ada di folder utama Anda dan URL ini benar -->
     <meta property="og:image" content="https://spmrr-modoinding.github.io/gereja.jpeg" />
     <meta property="og:image:alt" content="Gereja Paroki Modoinding" />
-    <!-- Akhir dari Tag Open Graph -->
 
     <link rel="canonical" href="https://spmrr-modoinding.github.io/" />
     <meta name="google-site-verification" content="-f62cnhb4khOiPYXM5N5Ot7HoE8ksQ1GBv2hb5Q0SuI" />
 
-    <!-- Skrip iklan sudah dihapus -->
-    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4306107871475268"
+     crossorigin="anonymous"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Church",
+      "name": "Paroki Santa Perawan Maria Ratu Rosari Modoinding",
+      "alternateName": "Gereja Katolik Modoinding",
+      "description": "Website resmi Gereja Katolik Paroki Santa Perawan Maria Ratu Rosari Modoinding. Temukan Jadwal Misa Paroki Modoinding, agenda OMK, Sejarah Paroki, dan kontak Sekretariat Paroki di Minahasa Selatan ini.",
+      "url": "https://spmrr-modoinding.github.io/",
+      "logo": "https://spmrr-modoinding.github.io/logo-paroki.png",
+      "image": "https://spmrr-modoinding.github.io/gereja.jpeg",
+      "address": {
+        "@type "PostalAddress",
+        "streetAddress": "Jl. Trans Sulawesi, Desa Sinisir, Kec. Modoinding, Kab. Minahasa Selatan",
+        "addressLocality": "Modoinding",
+        "addressRegion": "Minahasa Selatan",
+        "postalCode": "95358",
+        "addressCountry": "ID"
+      },
+      "telephone": "+628992174306"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Beranda Paroki",
+        "item": "https://spmrr-modoinding.github.io/"
+      }]
+    }
+    </script>
     <link href="logo-paroki2.png" rel="icon" type="image/png"/>
     <link rel="manifest" href="manifest.json">
     
@@ -48,7 +78,9 @@
     <div class="container main-layout">
         
         <button class="btn btn-primary sidebar-toggle" id="sidebarToggleBtn" type="button" aria-label="Buka atau Tutup Menu">
-            <i class="bi bi:list"></i>
+            <span></span>
+            <span></span>
+            <span></span>
         </button>
 
         <aside class="sidebar" id="sidebarMenu">
@@ -80,19 +112,16 @@
                         <button id="tpe-preview-btn" class="btn btn-outline-primary">Lihat Pratinjau Minggu Depan &gt;&gt;</button>
                     </div>
                     <div id="current-week-tpe">
-                        <!-- Konten TPE Minggu Ini akan dimuat oleh script.js -->
                         <div class="feedback-container"><div class="spinner"></div><p>Memuat Jadwal & Tata Perayaan Ekaristi...</p></div>
                     </div>
                     <div id="next-week-tpe" style="display: none;">
-                        <!-- Konten TPE Minggu Depan akan dimuat oleh script.js -->
-                    </div>
+                        </div>
                 </div>
             </section>
 
             <section class="tab-content" id="agenda">
                 <h2>Agenda / Pengumuman Mingguan</h2>
                 <div class="row row-cols-1 row-cols-md-2 g-4 mt-3" id="agenda-container">
-                    <!-- Konten Agenda akan dimuat oleh script.js -->
                     <div class="feedback-container"><div class="spinner"></div><p>Memuat agenda...</p></div>
                 </div>
             </section>
@@ -102,8 +131,7 @@
                     <div id="doa-list-container">
                         <h2 class="doa-main-title">Pustaka Doa Katolik</h2>
                         <div id="doa-list" class="list-group">
-                            <!-- Daftar Doa akan dimuat oleh script.js -->
-                        </div>
+                            </div>
                     </div>
                     <div id="doa-detail-container" class="hidden">
                         <button id="doa-back-btn" class="btn btn-outline-primary mb-4"><i class="bi bi-arrow-left"></i> Kembali ke Daftar Doa</button>
@@ -118,7 +146,6 @@
             </section>
 
             <section class="tab-content" id="pastor">
-                <!-- Konten Status Pastor akan dimuat oleh script.js -->
                 <div class="feedback-container"><div class="spinner"></div><p>Memuat status pastor...</p></div>
             </section>
             
@@ -147,7 +174,6 @@
                 <h2>Statistik Umat</h2>
                 <div class="chart-container"><canvas id="public-umat-chart"></canvas></div>
                 <div id="statistik-table-container" class="overflow-auto">
-                    <!-- Konten Statistik akan dimuat oleh script.js -->
                     <div class="feedback-container"><div class="spinner"></div><p>Memuat statistik umat...</p></div>
                 </div>
             </section>
@@ -191,7 +217,6 @@
             <section class="tab-content" id="kalender">
                 <h2>Kalender Liturgi</h2>
                 <div id="kalender-container" class="mt-3">
-                    <!-- Konten Kalender akan dimuat oleh script.js -->
                     <div class="feedback-container"><div class="spinner"></div><p>Memuat kalender...</p></div>
                 </div>
             </section>
@@ -199,7 +224,6 @@
             <section class="tab-content" id="sejarah-paus">
                 <h2>Sejarah Paus</h2>
                 <div id="sejarah-paus-container" class="mt-3">
-                    <!-- Konten Sejarah Paus akan dimuat oleh script.js -->
                     <div class="feedback-container"><div class="spinner"></div><p>Memuat sejarah Paus...</p></div>
                 </div>
             </section>
@@ -252,4 +276,3 @@
     </script>
 </body>
 </html>
-

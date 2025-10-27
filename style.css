@@ -15,6 +15,7 @@
  * 11. ANIMASI & EFEK INTERAKTIF
  * 12. TATA PERAYAAN EKARISTI (TPE)
  * 13. MEDIA QUERIES (RESPONSIVE)
+ * 14. ANIMASI TOMBOL SIDEBAR (BARU)
  *
  * * PERUBAHAN:
  * - Menghapus blok :root (variabel) karena sudah dipindah ke theme.css
@@ -138,6 +139,8 @@ footer {
   transition-delay: 0s;
 }
 .tab-button-login { padding-bottom: 0.8rem; margin-bottom: 0.8rem; border-bottom: 1px solid var(--blue-border); }
+
+/* Ini adalah kode Anda yang sudah ada untuk animasi "satu per satu". Ini sudah benar. */
 .sidebar.active .tab-button { opacity: 1; transform: translateX(0); }
 .sidebar.active .tab-button:nth-child(1) { transition-delay: 0.1s; }
 .sidebar.active .tab-button:nth-child(2) { transition-delay: 0.15s; }
@@ -218,9 +221,19 @@ header .logo, header h1, header p { position: relative; z-index: 2; }
     border-radius: 50%; 
     font-size: 1.5rem; 
     cursor: pointer; 
-    transition: transform 0.3s ease-in-out, left 0.3s ease-in-out; 
+    /* PERUBAHAN: transisi rotate dihapus dari sini dan dipindah ke span */
+    transition: left 0.3s ease-in-out, transform 0.2s ease; /* 'transform' untuk animasi ditekan */
 }
-.sidebar-toggle.active { transform: rotate(90deg); left: 260px; }
+
+/* === PERUBAHAN DI SINI === */
+/* Aturan .active lama (transform: rotate(90deg)) dihapus */
+/* Sekarang kita hanya mengatur 'left' */
+.sidebar-toggle.active { 
+    left: 260px; 
+}
+/* === AKHIR PERUBAHAN === */
+
+
 body.sidebar-open::before { 
     content: ""; 
     position: fixed; 
@@ -402,7 +415,10 @@ body.sidebar-open::before {
   .main-layout { flex-direction: column; padding: 0 1rem; margin-left: 0; }
   main { padding: 1rem; }
   .sidebar { width: 220px; }
-  .sidebar-toggle.active { left: 230px; }
+  
+  /* PERUBAHAN: Disesuaikan agar pas dengan lebar sidebar baru */
+  .sidebar-toggle.active { left: 230px; } 
+  
   .pastors-beranda { gap: 1.5rem; }
   
   /* --- Pola untuk tabel responsif --- */
@@ -437,4 +453,57 @@ body.sidebar-open::before {
       font-weight: bold; 
       color: var(--blue-main); 
   }
+}
+
+/* ==================================================
+   14. ANIMASI TOMBOL SIDEBAR (BARU)
+   ================================================== */
+
+/* Penataan untuk 3 garis <span> di dalam tombol */
+.sidebar-toggle span {
+  display: block;
+  position: absolute;
+  width: 20px; /* Lebar garis hamburger */
+  height: 2px; /* Tebal garis hamburger */
+  background-color: white;
+  border-radius: 2px;
+  
+  /* Transisi untuk animasi hamburger-ke-X */
+  /* (cubic-bezier) adalah untuk efek 'membal' sedikit */
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Atur Posisi Awal 3 Garis */
+.sidebar-toggle span:nth-child(1) {
+  transform: translateY(-6px); /* Garis atas */
+}
+/* Garis tengah (span:nth-child(2)) tidak perlu diapa-apakan */
+.sidebar-toggle span:nth-child(3) {
+  transform: translateY(6px); /* Garis bawah */
+}
+
+
+/* * ANIMASI KELUAR-MASUK (Hamburger ke X) 
+ * Ini terjadi saat tombol memiliki kelas .active (dari script.js)
+ */
+.sidebar-toggle.active span:nth-child(1) {
+  /* Putar garis atas menjadi / */
+  transform: rotate(45deg) translateY(0);
+}
+.sidebar-toggle.active span:nth-child(2) {
+  /* Sembunyikan garis tengah */
+  opacity: 0;
+}
+.sidebar-toggle.active span:nth-child(3) {
+  /* Putar garis bawah menjadi \ */
+  transform: rotate(-45deg) translateY(0);
+}
+
+
+/* * ANIMASI SAAT DITEKAN (Permintaan "membal")
+ * Ini terjadi saat tombol diklik (mouse-down)
+ */
+.sidebar-toggle:active {
+  /* Buat tombol terlihat seperti 'ditekan' */
+  transform: scale(0.9);
 }

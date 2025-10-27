@@ -324,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (j.includes('Adven') || j.includes('Prapaskah')) return 'dot-purple';
                         return 'dot-default';
                     };
-                    html += `<li class="kalender-item"><div class="kalender-tanggal"><span class="tanggal-angka">${date.getDate()}</span><span class="tanggal-hari">${date.toLocaleDateString('id-ID', { weekday: 'long' })}</span></div><div class="kalender-info"><span class="kalender-judul ${getWarnaClass(judul)}">${judul}</span><span class="kalender-deskripsi">${(item.deskripsi || '').replace(/\n/g, '<br>')}</span></div></li>`;
+                    html += `<li class="kalender-item"><div class="kalender-tanggal"><span class="tanggal-angka">${date.getDate()}</span><span class="tanggal-hari">${date.toLocaleString('id-ID', { weekday: 'long' })}</span></div><div class="kalender-info"><span class="kalender-judul ${getWarnaClass(judul)}">${judul}</span><span class="kalender-deskripsi">${(item.deskripsi || '').replace(/\n/g, '<br>')}</span></div></li>`;
                 });
                 html += '</ul>';
             }
@@ -410,7 +410,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // =================================================================
-    // MANAJEMEN NAVIGASI & UI
+    // MANAJEMN NAVIGASI & UI
     // =================================================================
 
     function activateTab(tabId) {
@@ -419,9 +419,14 @@ document.addEventListener('DOMContentLoaded', () => {
             content.classList.toggle('active', content.id === tabId);
         });
         const sidebarMenu = document.getElementById('sidebarMenu');
+        
+        // === PERUBAHAN UNTUK MOBILE ===
+        // Tutup sidebar DAN reset tombol hamburger
         if (window.innerWidth <= 768 && sidebarMenu.classList.contains('active')) {
             sidebarMenu.classList.remove('active');
             document.body.classList.remove('sidebar-open');
+            // Juga hapus .active dari tombol
+            document.getElementById('sidebarToggleBtn').classList.remove('active');
         }
     }
 
@@ -431,13 +436,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (sidebarToggleBtn && sidebarMenu) {
             sidebarToggleBtn.addEventListener('click', () => {
+                
+                // === PERUBAHAN DI SINI ===
+                // Tambahkan/hapus kelas .active pada TOMBOL itu sendiri
+                sidebarToggleBtn.classList.toggle('active');
+                // === AKHIR PERUBAHAN ===
+                
                 sidebarMenu.classList.toggle('active');
                 document.body.classList.toggle('sidebar-open');
             });
+
             document.body.addEventListener('click', (event) => {
-                if (window.innerWidth <= 768 && document.body.classList.contains('sidebar-open') && !sidebarMenu.contains(event.target) && !sidebarToggleBtn.contains(event.target)) {
+                if (window.innerWidth <= 768 && document.body.classList.contains('sidebar-open') && !sidebarMenu.contains(event.target) && !sidebarToggleBtn.contains(event.target) && !sidebarToggleBtn.contains(event.target.closest('.sidebar-toggle'))) {
                     sidebarMenu.classList.remove('active');
                     document.body.classList.remove('sidebar-open');
+                    
+                    // === PERUBAHAN DI SINI ===
+                    // Pastikan tombol juga kembali ke state hamburger
+                    sidebarToggleBtn.classList.remove('active');
+                    // === AKHIR PERUBAHAN ===
                 }
             });
         }
@@ -456,9 +473,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             loadAnnouncementsPublic();
                             break;
                         case 'pastor':
-                            // Halaman pastor memuat data sendiri dari #pastor
-                            // Jika #pastor ada di tab 'pastor', panggil di sini.
-                            // Berdasarkan HTML Anda, #pastor ada di tab 'pastor', jadi panggil di sini
                             loadPastorStatus();
                             break;
                         case 'statistik':

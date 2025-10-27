@@ -84,7 +84,7 @@ tfoot tr td { font-weight:bold; background-color: var(--blue-bg); /* Diperbarui 
 /* Tabel dengan baris grup (Program Kerja) */
 tbody tr.group-header-bidang td { background-color: #d9e2f3 !important; font-weight: bold; text-align: left !important; padding-left: 1rem; }
 tbody tr.group-header-sub td { background-color: #fff2cc !important; font-style: italic; text-align: left !important; padding-left: 2rem; }
-tbody tr:not(.group-header-bidang):not(.group-header-sub):hover { background-color: var(--blue-hover); /* Diperbarui */ !important; }
+tbody tr:not(.group-header-bidang):not(.group-header-sub):hover { background-color: var(--blue-hover); /* Diperbarui */ important
 /* Tabel yang isinya lebih panjang agar tidak aneh */
 #announcements-table, #tpe-table { white-space: normal; }
 #announcements-table td, #tpe-table td { vertical-align: middle; }
@@ -203,3 +203,4 @@ tbody tr:not(.group-header-bidang):not(.group-header-sub):hover { background-col
    ================================================== */
 /* Memastikan editor TinyMCE tampil di atas modal */
 .tox-tinymce-aux { z-index: 9999 !important; }
+}
