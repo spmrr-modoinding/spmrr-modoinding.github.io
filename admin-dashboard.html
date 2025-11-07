@@ -149,7 +149,7 @@
     <div id="program-modal" class="modal-overlay hidden no-print"><div class="modal-content"><div class="modal-header"><h2 id="program-modal-title"></h2><button class="close-modal-btn" data-target="program-modal">&times;</button></div><div class="modal-body"><form id="program-form"><div class="form-section"><div class="input-group"><label for="modal-bidang">Bidang Program</label><select id="modal-bidang" required></select></div><div class="input-group"><label for="modal-sub-bidang">Judul Sub-Kelompok</label><select id="modal-sub-bidang" required></select></div><hr><div class="input-group"><label for="modal-lokasi">Pusat Paroki / Stasi</label><select id="modal-lokasi" required><option value="" disabled selected>Pilih Lokasi...</option><option value="Pusat Paroki">Pusat Paroki</option><option value="Stasi">Stasi</option></select></div><div class="input-group"><label for="modal-nama-unit">Wilayah Rohani / Kelompok Kategorial</label><input type="text" id="modal-nama-unit" required></div><div class="input-group"><label for="modal-nama_kegiatan">Nama Program / Kegiatan</label><input type="text" id="modal-nama_kegiatan" required></div><div class="input-group"><label for="modal-sasaran">Sasaran</label><input type="text" id="modal-sasaran"></div><div class="input-group"><label for="modal-indikator">Indikator Keberhasilan</label><input type="text" id="modal-indikator"></div><div class="input-group"><label for="modal-model">Model</label><input type="text" id="modal-model"></div><div class="input-group"><label for="modal-materi">Materi</label><input type="text" id="modal-materi"></div><div class="input-group"><label for="modal-waktu">Tempat & Waktu</label><input type="text" id="modal-waktu"></div><div class="input-group"><label for="modal-pic">PIC</label><input type="text" id="modal-pic"></div></div><div class="form-section"><h3>Sumber Dana</h3><div class="input-group"><label for="modal-sumber-dana-kas">Untuk Kolom "Kas Paroki"</label><select id="modal-sumber-dana-kas"><option value="-">-</option><option value="Kas Paroki">Kas Paroki</option><option value="Kas Stasi">Kas Stasi</option></select></div><div class="input-group"><label for="modal-sumber-dana-swadaya">Untuk Kolom "Swadaya"</label><select id="modal-sumber-dana-swadaya"><option value="-">-</option><option value="Swadaya">Swadaya</option><option value="Kas Stasi">Kas Stasi</option></select></div></div><div class="form-section"><h3>Rincian Anggaran</h3><div id="modal-anggaran-items-container"></div><button type="button" id="modal-add-anggaran-btn" class="add-btn"><i class="bi bi-plus-circle"></i> Tambah Rincian</button><div class="total-anggaran"><strong>Total Anggaran: <span id="modal-total-anggaran-display">Rp 0</span></strong></div></div><div class="submit-section"><button type="submit" class="submit-btn">Simpan Program</button><p id="program-form-message" class="form-message"></p></div></form></div></div></div>
     
     <div id="announcement-modal" class="modal-overlay hidden no-print"><div class="modal-content" style="max-width: 600px;"><div class="modal-header"><h2 id="announcement-modal-title"></h2><button class="close-modal-btn" data-target="announcement-modal">&times;</button></div><div class="modal-body"><form id="announcement-form"><div class="input-group"><label for="ann-judul">Judul Pengumuman</label><input type="text" id="ann-judul" required></div>
-        <div class="input-group"><label for="ann-tanggal">Tanggal</label><input type="date" id="ann-tanggal"></div>
+        <div class="input-group"><label for="ann-tanggal">Tanggal</label><input type="date" id="ann-tanggal" required></div>
         <div class="input-group"><label for="ann-jam">Jam</label><input type="time" id="ann-jam"></div>
         <div class="input-group"><label for="ann-lokasi">Lokasi</label><input type="text" id="ann-lokasi"></div><div class="input-group"><label for="ann-catatan">Catatan / Keterangan</label><textarea id="ann-catatan" class="tinymce-editor" rows="4"></textarea></div><div class="submit-section"><button type="submit" class="submit-btn">Simpan</button><p id="announcement-form-message" class="form-message"></p></div></form></div></div></div>
     
@@ -244,13 +244,10 @@
         </div>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    <script src="firebase-config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.tiny.cloud/1/1akpqpkakprks4ax3fxalesq9igopabgnerczppvcuphy241/tinymce/8/tinymce.min.js" referrerpolicy="origin"></script>
-    <script src="admin-dashboard.js"></script>
+    
+    <script type="module" src="admin-dashboard.js"></script>
 
 </body>
 </html>

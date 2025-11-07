@@ -1,44 +1,60 @@
 /*
- * admin-dashboard.js
+ * admin-dashboard.js (VERSI FIREBASE v9)
  * File skrip utama untuk fungsionalitas halaman admin.
  *
- * * DAFTAR ISI:
- * 1. INISIALISASI GLOBAL
- * 2. MANAJEMEN OTENTIKASI (LOGIN & AKSES)
- * 3. FUNGSI-FUNGSI LISTENER DATA (REALTIME DARI FIREBASE)
- * 4. FUNGSI PEMBARUAN DASHBOARD
- * 5. FUNGSI BANTU (HELPERS) UNTUK FORM & UI
- * 6. INISIALISASI & EVENT LISTENERS
- *
- * * PERUBAHAN (FULL FIX v2):
+ * * PERUBAHAN (FULL FIX v3 - V2.0):
+ * - (B11, B44) Migrasi penuh ke Firebase v9 SDK (modular).
  * - (B1, B7) Menonaktifkan initParticles().
  * - (B3) Menggabungkan setTableFeedback().
  * - (B6, B16) Menghapus uploadInitialStats().
  * - (B18) Menambahkan setupModalTabs() untuk modal TPE.
  * - (B19, A5) Menambahkan logika expand/collapse tabel program.
- * - (B32) Menyesuaikan listener pengumuman.
- * - [BARU] (B21) Menambahkan fungsi exportStatsToCSV().
- * - [BARU] (B23) Menambahkan fungsi filterProgramTable() dan listener-nya.
+ * - (B21) Menambahkan fungsi exportStatsToCSV().
+ * - (B23) Menambahkan fungsi filterProgramTable() dan listener-nya.
  */
+
+// [PERUBAHAN] Impor Firebase v9 (Poin B11)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+import { 
+    getAuth, 
+    onAuthStateChanged, 
+    signOut 
+} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+import { 
+    getFirestore, 
+    collection, 
+    doc, 
+    addDoc, 
+    updateDoc, 
+    deleteDoc, 
+    getDoc, 
+    getDocs, 
+    onSnapshot, 
+    query, 
+    orderBy, 
+    serverTimestamp,
+    setDoc
+} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+import { firebaseConfig } from "./firebase-config.js"; // [PERUBAHAN] Impor config
 
 document.addEventListener('DOMContentLoaded', () => {
     // =================================================================
     // 1. INISIALISASI GLOBAL
     // =================================================================
-    const db = firebase.firestore();
-    const auth = firebase.auth();
+    
+    // [PERUBAHAN] Inisialisasi Firebase v9
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+    
     let umatChart = null;
+    let currentParishStats = []; 
 
-    // [BARU] Variabel global untuk menyimpan data cache
-    let currentParishStats = []; // Untuk Ekspor CSV (Poin B21)
-
-    // Variabel untuk menyimpan ID dokumen yang sedang diedit
     let currentEditProgramId = null;
     let currentEditAnnouncementId = null;
     let currentEditTpeId = null;
     let currentEditPrayerId = null; 
 
-    // Kumpulan elemen DOM yang sering digunakan
     const modals = {
         program: document.getElementById('program-modal'),
         announcement: document.getElementById('announcement-modal'),
@@ -47,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
         prayer: document.getElementById('prayer-modal'), 
     };
     
-    // Data statis untuk dropdown program kerja
     const programStruktur = {
         "BIDANG I : MENJAGA PERSEKUTUAN DAN KEPEMIMPINAN YANG MELAYANI": ["1. Menata Struktur dan Manajemen Pastoral Paroki", "2. Menanamkan Dalam Diri Calon Pastor / Imam Pola Kepemimpinan Pastor yang Melayani, Kolegial, Transparan, Suka Mengunjungi Keluarga, Menjadi Mediator Dalam Konflik, dan Memahami manajemen Pastoral.", "3. Mengembangkan Sistem Pembinaan Berkelanjutan Bagi Para Imam / Pastor Untuk Menerapkan Pola Kepemimpinan Pastor yang Melayani, Kolegial, Transparan, Suka Mengunjungi Keluarga, Menjadi Mediator Dalam Konflik, dan Memahami Manajemen Pastoral.", "4. Menghidupkan Spritualitas KBG Sebagai Cara Hidup Mengumat yang Bercorak Ministerial / Kolegial dan Sinergis Dalam Persekutuan Wilayah Rohani dan Kelompok Kategorial", "5. Mengembangkan Situasi dan Semangat Hidup Kekeluargaan dan Persaudaraan", "6. Mempersiapkan Pemekaran Keuskupan Baru"],
         "BIDANG II : Menjaga Perbendaharaan Iman": ["7. Memperkuat Sistem dan Peran Seksi Pewartaan / Katekese Paroki", "8. Menyusun Modul Seksi Pewartaan/Katekese Paroki", "9. Kebutuhan: Meningkatkan Katekese Untuk Menunjang Kegiatan Pewartaan dan Pendalaman Iman di Tingkat Paroki", "10. Menata Kursus Perkawinan, Teologi Dasar, Kitab Suci Dasar, Liturgi Dasar, Untuk Umat (Teritorial & Kategorial)", "11. Menyiapkan dan Mengadakan Pembinaan Tenaga Katekese: Katekis, Para Calon Imam, Para Imam & Biarawan Biarawati", "12. Menyiapkan Sarana & Prasarana Katekese"],
@@ -60,29 +75,31 @@ document.addEventListener('DOMContentLoaded', () => {
     // =================================================================
     // 2. MANAJEMEN OTENTIKASI (LOGIN & AKSES)
     // =================================================================
-    auth.onAuthStateChanged(async (user) => {
+    
+    // [PERUBAHAN] Sintaks v9
+    onAuthStateChanged(auth, async (user) => {
         if (user) {
             try {
-                const userDoc = await db.collection('users').doc(user.uid).get();
-                if (userDoc.exists && userDoc.data().peran === 'admin') {
+                // [PERUBAHAN] Sintaks v9
+                const userDocRef = doc(db, 'users', user.uid);
+                const userDoc = await getDoc(userDocRef);
+                
+                if (userDoc.exists() && userDoc.data().peran === 'admin') {
                     initializeDashboard(userDoc.data());
                 } else {
                     alert('Anda tidak memiliki hak akses untuk halaman ini.');
-                    auth.signOut();
+                    signOut(auth);
                 }
             } catch (error) {
                 console.error("Error saat verifikasi peran:", error);
                 alert("Terjadi kesalahan saat verifikasi pengguna.");
-                auth.signOut();
+                signOut(auth);
             }
         } else {
             window.location.href = 'login.html';
         }
     });
 
-    /**
-     * Inisialisasi semua fungsionalitas dashboard setelah login berhasil.
-     */
     function initializeDashboard(userData) {
         document.getElementById('welcome-title').textContent = `PROGRAM KERJA: ${userData.nama_unit || 'PAROKI'}`;
         
@@ -108,7 +125,11 @@ document.addEventListener('DOMContentLoaded', () => {
         setTableFeedback(programsTableBody, 18, 'loading', 'Memuat data program kerja...');
         tableFooter.innerHTML = '';
 
-        db.collection('programs').orderBy('bidang').onSnapshot(snapshot => {
+        // [PERUBAHAN] Sintaks v9
+        const programsRef = collection(db, 'programs');
+        const q = query(programsRef, orderBy('bidang'));
+        
+        onSnapshot(q, (snapshot) => {
             if (snapshot.empty) {
                 setTableFeedback(programsTableBody, 18, 'empty', 'Belum ada data program kerja.');
                 tableFooter.innerHTML = '';
@@ -148,17 +169,14 @@ document.addEventListener('DOMContentLoaded', () => {
                             <td rowspan="${rowCount}">${program.materi||'-'}</td>
                             <td rowspan="${rowCount}">${program.tempat_waktu||'-'}</td>
                             <td rowspan,"${rowCount}">${program.pic||'-'}</td>
-                            
                             <td class="budget-detail-col">${hasAnggaran?(program.anggaran[0].perincian||'-'):'-'}</td>
                             <td class="budget-detail-col">${hasAnggaran?(program.anggaran[0].volume||'-'):'-'}</td>
                             <td class="budget-detail-col">${hasAnggaran?(program.anggaran[0].satuan||'-'):'-'}</td>
                             <td class="budget-detail-col">${hasAnggaran?('Rp ' + (program.anggaran[0].harga_satuan||0).toLocaleString('id-ID')):'-'}</td>
                             <td class="budget-detail-col">${hasAnggaran?('Rp ' + (program.anggaran[0].jumlah||0).toLocaleString('id-ID')):'-'}</td>
-                            
                             <td rowspan="${rowCount}">${'Rp ' + (program.total_anggaran||0).toLocaleString('id-ID')}</td>
                             <td rowspan="${rowCount}">${program.sumber_dana_kas||'-'}</td>
                             <td rowspan="${rowCount}">${program.sumber_dana_swadaya||'-'}</td>
-                            
                             <td rowspan="${rowCount}" class="no-print">
                                 <button class="action-btn-sm detail-toggle-btn">Detail <i class="bi bi-chevron-down"></i></button>
                                 <button class="action-btn-sm edit edit-program">Edit</button>
@@ -183,11 +201,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             programsTableBody.innerHTML = html;
             tableFooter.innerHTML = `<tr><td colspan="12" style="text-align:right; font-weight:bold;">JUMLAH BUDGET</td><td style="font-weight:bold;">${'Rp ' + grandTotal.toLocaleString('id-ID')}</td><td colspan="2"></td><td class="no-print"></td></tr>`;
-        
-            // [BARU] Terapkan filter yang mungkin sedang aktif (Poin B23)
             filterProgramTable(); 
-
-        }, error => {
+        }, (error) => {
             console.error("Error listening to programs:", error);
             setTableFeedback(programsTableBody, 18, 'error', `Gagal memuat data program kerja. (${error.message})`);
         });
@@ -197,7 +212,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const announcementsTableBody = document.getElementById('announcements-table-body');
         setTableFeedback(announcementsTableBody, 5, 'loading', 'Memuat data pengumuman...');
         
-        db.collection('announcements').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+        // [PERUBAHAN] Sintaks v9
+        const annRef = collection(db, 'announcements');
+        const q = query(annRef, orderBy('createdAt', 'desc'));
+
+        onSnapshot(q, (snapshot) => {
             if (snapshot.empty) {
                 setTableFeedback(announcementsTableBody, 5, 'empty', 'Belum ada pengumuman.');
                 return;
@@ -224,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </tr>`;
             }).join('');
             announcementsTableBody.innerHTML = tableHTML;
-        }, error => {
+        }, (error) => {
             console.error("Error listening to announcements:", error);
             setTableFeedback(announcementsTableBody, 5, 'error', `Gagal memuat data pengumuman. (${error.message})`);
         });
@@ -234,7 +253,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const tpeTableBody = document.getElementById('tpe-table-body');
         setTableFeedback(tpeTableBody, 3, 'loading', 'Memuat data TPE...');
         
-        db.collection('tata_perayaan_mingguan').onSnapshot(snapshot => {
+        // [PERUBAHAN] Sintaks v9
+        const tpeRef = collection(db, 'tata_perayaan_mingguan');
+        
+        onSnapshot(tpeRef, (snapshot) => {
             if (snapshot.empty) {
                 setTableFeedback(tpeTableBody, 3, 'empty', 'Belum ada data Tata Perayaan Ekaristi.');
                 return;
@@ -251,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </td>
                 </tr>`;
             }).join('');
-        }, error => {
+        }, (error) => {
             console.error("Error saat memuat TPE:", error);
             setTableFeedback(tpeTableBody, 3, 'error', `Gagal memuat data TPE. (${error.message})`);
         });
@@ -261,7 +283,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const pastorListContainer = document.getElementById('pastor-list-container');
         pastorListContainer.innerHTML = `<div class="feedback-container"><div class="spinner"></div><p>Memuat data pastor...</p></div>`;
         
-        db.collection('pastors').orderBy('order').onSnapshot(snapshot => {
+        // [PERUBAHAN] Sintaks v9
+        const pastorsRef = collection(db, 'pastors');
+        const q = query(pastorsRef, orderBy('order'));
+
+        onSnapshot(q, (snapshot) => {
             if (snapshot.empty) {
                 pastorListContainer.innerHTML = '<p style="text-align:center; padding: 2rem;">Belum ada data pastor.</p>';
                 return;
@@ -280,7 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="status-update-feedback" id="feedback-${doc.id}"></div>
                 </div>`;
             }).join('');
-        }, error => {
+        }, (error) => {
             pastorListContainer.innerHTML = `<div class="error-alert"><strong>Gagal:</strong> Gagal memuat data pastor. (${error.message})</div>`;
         });
     };
@@ -291,23 +317,28 @@ document.addEventListener('DOMContentLoaded', () => {
         setTableFeedback(statsTableBody, 7, 'loading', 'Memuat data statistik...');
         statsTableFooter.innerHTML = '';
 
-        db.collection('parish_stats').orderBy('order').onSnapshot(snapshot => {
+        // [PERUBAHAN] Sintaks v9
+        const statsRef = collection(db, 'parish_stats');
+        const q = query(statsRef, orderBy('order'));
+
+        onSnapshot(q, (snapshot) => {
             if (snapshot.empty) {
                 setTableFeedback(statsTableBody, 7, 'empty', 'Data statistik umat belum ada.');
-                currentParishStats = []; // [BARU] Kosongkan cache
+                currentParishStats = [];
                 return;
             }
             
-            // [BARU] Simpan data ke cache global untuk Ekspor (Poin B21)
-            currentParishStats = snapshot.docs.map(doc => doc.data());
+            // Simpan data ke cache global untuk Ekspor
+            currentParishStats = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
             let totalKK = 0, totalLaki = 0, totalPerempuan = 0;
-            statsTableBody.innerHTML = currentParishStats.map(stat => { // Loop dari cache
+            statsTableBody.innerHTML = currentParishStats.map(stat => {
                 const jumlahJiwa = (stat.laki_laki || 0) + (stat.perempuan || 0);
                 totalKK += stat.kk || 0;
                 totalLaki += stat.laki_laki || 0;
                 totalPerempuan += stat.perempuan || 0;
-                return `<tr data-id="${stat.id || stat.order}"> <td>${stat.order}</td>
+                return `<tr data-id="${stat.id}">
+                    <td>${stat.order}</td>
                     <td>${stat.name}</td>
                     <td>${stat.kk}</td>
                     <td>${stat.laki_laki}</td>
@@ -325,14 +356,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const ctx = document.getElementById('umat-chart').getContext('2d');
             if (umatChart) { umatChart.destroy(); }
             umatChart = new Chart(ctx, { type: 'bar', data: { labels: labels, datasets: [{ label: 'Jumlah Jiwa per Wilayah/Stasi', data: data, backgroundColor: 'rgba(0, 74, 153, 0.7)', borderColor: 'rgba(0, 74, 153, 1)', borderWidth: 1 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } }, plugins: { legend: { display: false }, title: { display: true, text: 'Visualisasi Jumlah Umat per Wilayah/Stasi' } } } });
-        }, error => setTableFeedback(statsTableBody, 7, 'error', `Gagal memuat data statistik. (${error.message})`));
+        }, (error) => setTableFeedback(statsTableBody, 7, 'error', `Gagal memuat data statistik. (${error.message})`));
     };
 
     const listenToPrayers = () => {
         const prayersTableBody = document.getElementById('prayers-table-body');
         setTableFeedback(prayersTableBody, 3, 'loading', 'Memuat data doa...');
         
-        db.collection('prayers').orderBy('order').onSnapshot(snapshot => {
+        // [PERUBAHAN] Sintaks v9
+        const prayersRef = collection(db, 'prayers');
+        const q = query(prayersRef, orderBy('order'));
+
+        onSnapshot(q, (snapshot) => {
             if (snapshot.empty) {
                 setTableFeedback(prayersTableBody, 3, 'empty', 'Belum ada data doa. Silakan tambahkan doa baru.');
                 return;
@@ -348,7 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </td>
                 </tr>`;
             }).join('');
-        }, error => {
+        }, (error) => {
             console.error("Error saat memuat data doa:", error);
             setTableFeedback(prayersTableBody, 3, 'error', `Gagal memuat data doa. (${error.message})`);
         });
@@ -359,16 +394,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // =================================================================
     const updateSummaryDashboard = async () => {
         try {
-            const [programsSnap, announcementsSnap, statsSnap] = await Promise.all([
-                db.collection('programs').get(),
-                db.collection('announcements').get(),
-                db.collection('parish_stats').get()
-            ]);
+            // [PERUBAHAN] Sintaks v9
+            const programsSnap = await getDocs(collection(db, 'programs'));
+            const announcementsSnap = await getDocs(collection(db, 'announcements'));
+            const statsSnap = await getDocs(collection(db, 'parish_stats'));
+
             let totalBudget = 0;
             programsSnap.forEach(doc => { totalBudget += doc.data().total_anggaran || 0; });
             document.getElementById('summary-programs-count').textContent = programsSnap.size;
             document.getElementById('summary-budget-total').textContent = `Rp ${totalBudget.toLocaleString('id-ID')}`;
+
             document.getElementById('summary-announcements-count').textContent = announcementsSnap.size;
+
             let totalUmat = 0;
             statsSnap.forEach(doc => { totalUmat += (doc.data().laki_laki || 0) + (doc.data().perempuan || 0); });
             document.getElementById('summary-umat-total').textContent = totalUmat.toLocaleString('id-ID');
@@ -384,10 +421,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // =================================================================
     // 5. FUNGSI BANTU (HELPERS) UNTUK FORM & UI
     // =================================================================
-
-    /**
-     * [PERBAIKAN] Fungsi helper terpadu untuk feedback tabel (Poin B3)
-     */
     const setTableFeedback = (tbody, colSpan, type, message) => {
         let html = '';
         switch (type) {
@@ -424,11 +457,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function setupDropdowns() {
         const modalBidang = document.getElementById('modal-bidang');
         const modalSubBidang = document.getElementById('modal-sub-bidang');
-        // [BARU] Ambil filter dropdown juga (Poin B23)
         const filterBidang = document.getElementById('program-bidang-filter');
         
         modalBidang.innerHTML = '<option value="" disabled selected>Pilih Bidang...</option>';
-        // Hapus opsi lama di filter (jika ada)
         filterBidang.innerHTML = '<option value="semua">Tampilkan Semua Bidang</option>'; 
         
         Object.keys(programStruktur).forEach(bidang => {
@@ -436,8 +467,7 @@ document.addEventListener('DOMContentLoaded', () => {
             option.value = bidang;
             option.textContent = bidang;
             modalBidang.appendChild(option);
-
-            // [BARU] Tambahkan juga ke dropdown filter (Poin B23)
+            
             const filterOption = document.createElement('option');
             filterOption.value = bidang;
             filterOption.textContent = bidang;
@@ -492,9 +522,6 @@ document.addEventListener('DOMContentLoaded', () => {
         container.appendChild(div);
     }
     
-    /**
-     * [BARU] Menangani logika tab di dalam modal (Poin B18)
-     */
     function setupModalTabs() {
         document.querySelectorAll('.modal-tab-nav').forEach(nav => {
             nav.addEventListener('click', (e) => {
@@ -512,18 +539,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /**
-     * [BARU] Fungsi untuk memfilter tabel program kerja (Poin B23)
-     */
     function filterProgramTable() {
         const filterValue = document.getElementById('program-bidang-filter').value;
         const rows = document.getElementById('programs-table-body').querySelectorAll('tr');
 
         rows.forEach(row => {
             if (filterValue === 'semua') {
-                row.style.display = ''; // Tampilkan semua baris
+                row.style.display = '';
             } else {
-                // Tampilkan jika data-bidang cocok dengan filter
                 if (row.dataset.bidang === filterValue) {
                     row.style.display = '';
                 } else {
@@ -533,9 +556,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /**
-     * [BARU] Fungsi untuk mengekspor statistik ke CSV (Poin B21)
-     */
     function exportStatsToCSV() {
         if (currentParishStats.length === 0) {
             alert('Data statistik kosong, tidak ada yang bisa diekspor.');
@@ -543,7 +563,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         let csvContent = "data:text/csv;charset=utf-8,";
-        csvContent += '"No","Nama Wilayah / Stasi","KK","Laki-laki","Perempuan","Jumlah Jiwa"\r\n'; // Header
+        csvContent += '"No","Nama Wilayah / Stasi","KK","Laki-laki","Perempuan","Jumlah Jiwa"\r\n';
 
         let totalKK = 0, totalLaki = 0, totalPerempuan = 0, totalJiwa = 0;
 
@@ -556,7 +576,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const row = [
                 stat.order,
-                `"${stat.name}"`, // Pastikan nama wilayah di dalam tanda kutip
+                `"${stat.name}"`,
                 stat.kk || 0,
                 stat.laki_laki || 0,
                 stat.perempuan || 0,
@@ -565,7 +585,6 @@ document.addEventListener('DOMContentLoaded', () => {
             csvContent += row + "\r\n";
         });
 
-        // Tambah baris Total
         const totalRow = [
             '"TOTAL"',
             `""`,
@@ -576,7 +595,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ].join(",");
         csvContent += totalRow + "\r\n";
 
-        // Buat link download
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
@@ -603,12 +621,13 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        document.getElementById('logout-button').addEventListener('click', () => auth.signOut());
+        // [PERUBAHAN] Sintaks v9
+        document.getElementById('logout-button').addEventListener('click', () => signOut(auth));
+        
         document.getElementById('print-btn').addEventListener('click', () => window.print());
         document.getElementById('q-add-program-btn').addEventListener('click', () => document.getElementById('add-program-btn').click());
         document.getElementById('q-add-announcement-btn').addEventListener('click', () => document.getElementById('add-announcement-btn').click());
 
-        // [BARU] Listener untuk tombol Ekspor dan Filter
         document.getElementById('export-stats-btn').addEventListener('click', exportStatsToCSV);
         document.getElementById('program-bidang-filter').addEventListener('change', filterProgramTable);
 
@@ -644,14 +663,18 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (target.classList.contains('delete-program')) { 
                 if (confirm(`Yakin hapus program ini?`)) { 
-                    await db.collection('programs').doc(docId).delete(); 
+                    // [PERUBAHAN] Sintaks v9
+                    await deleteDoc(doc(db, 'programs', docId)); 
                 } 
             }
             
             if (target.classList.contains('edit-program')) {
-                const doc = await db.collection('programs').doc(docId).get();
-                if (doc.exists) {
-                    const program = doc.data();
+                // [PERUBAHAN] Sintaks v9
+                const docRef = doc(db, 'programs', docId);
+                const docSnap = await getDoc(docRef);
+                
+                if (docSnap.exists()) {
+                    const program = docSnap.data();
                     currentEditProgramId = docId;
                     document.getElementById('program-modal-title').textContent = 'Edit Program Kerja';
                     document.getElementById('modal-bidang').value = program.bidang || '';
@@ -693,7 +716,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const programData = { bidang: document.getElementById('modal-bidang').value, sub_bidang_title: document.getElementById('modal-sub-bidang').value, pusat_paroki_stasi: document.getElementById('modal-lokasi').value, nama_unit: document.getElementById('modal-nama-unit').value, nama_kegiatan: document.getElementById('modal-nama_kegiatan').value, sasaran: document.getElementById('modal-sasaran').value, indikator: document.getElementById('modal-indikator').value, model_materi: document.getElementById('modal-model').value, materi: document.getElementById('modal-materi').value, tempat_waktu: document.getElementById('modal-waktu').value, pic: document.getElementById('modal-pic').value, sumber_dana_kas: document.getElementById('modal-sumber-dana-kas').value, sumber_dana_swadaya: document.getElementById('modal-sumber-dana-swadaya').value, anggaran: rincianAnggaran, total_anggaran: parseFloat(document.getElementById('modal-total-anggaran-display').textContent.replace(/[^0-9]/g, '')), };
             
             try {
-                if (currentEditProgramId) { await db.collection('programs').doc(currentEditProgramId).update(programData); } else { programData.createdAt = firebase.firestore.FieldValue.serverTimestamp(); await db.collection('programs').add(programData); }
+                // [PERUBAHAN] Sintaks v9
+                if (currentEditProgramId) { 
+                    const docRef = doc(db, 'programs', currentEditProgramId);
+                    await updateDoc(docRef, programData); 
+                } else { 
+                    programData.createdAt = serverTimestamp(); // [PERUBAHAN] v9 serverTimestamp
+                    await addDoc(collection(db, 'programs'), programData); 
+                }
                 msg.textContent = 'Berhasil!'; msg.className = 'form-message success';
                 setTimeout(() => {
                     modals.program.classList.add('hidden');
@@ -726,9 +756,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!row) return;
             const docId = row.dataset.id;
             if (target.classList.contains('edit-announcement')) {
-                const doc = await db.collection('announcements').doc(docId).get();
-                if (doc.exists) {
-                    const ann = doc.data();
+                // [PERUBAHAN] Sintaks v9
+                const docRef = doc(db, 'announcements', docId);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    const ann = docSnap.data();
                     currentEditAnnouncementId = docId;
                     document.getElementById('announcement-modal-title').textContent = 'Edit Pengumuman';
                     document.getElementById('ann-judul').value = ann.judul || '';
@@ -743,7 +775,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     }, 500);
                 }
             }
-            if (target.classList.contains('delete-announcement')) { if (confirm('Yakin hapus pengumuman ini?')) { await db.collection('announcements').doc(docId).delete(); } }
+            if (target.classList.contains('delete-announcement')) { 
+                if (confirm('Yakin hapus pengumuman ini?')) { 
+                    // [PERUBAHAN] Sintaks v9
+                    await deleteDoc(doc(db, 'announcements', docId)); 
+                } 
+            }
         });
 
         document.getElementById('announcement-form').addEventListener('submit', async (e) => {
@@ -762,11 +799,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 catatan: tinymce.get('ann-catatan') ? tinymce.get('ann-catatan').getContent() : document.getElementById('ann-catatan').value,
             };
             try {
+                // [PERUBAHAN] Sintaks v9
                 if (currentEditAnnouncementId) {
-                    await db.collection('announcements').doc(currentEditAnnouncementId).update(data);
+                    const docRef = doc(db, 'announcements', currentEditAnnouncementId);
+                    await updateDoc(docRef, data);
                 } else {
-                    data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-                    await db.collection('announcements').add(data);
+                    data.createdAt = serverTimestamp(); // [PERUBAHAN] v9 serverTimestamp
+                    await addDoc(collection(db, 'announcements'), data);
                 }
                 msg.textContent = 'Berhasil!'; msg.className = 'form-message success';
                 setTimeout(() => {
@@ -809,11 +848,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const target = e.target;
             const docId = target.closest('tr')?.dataset.id;
             if (!docId) return;
-            if (target.classList.contains('delete-tpe')) { if (confirm(`Yakin ingin menghapus TPE untuk tanggal ${docId}?`)) { await db.collection('tata_perayaan_mingguan').doc(docId).delete(); } }
+            
+            if (target.classList.contains('delete-tpe')) { 
+                if (confirm(`Yakin ingin menghapus TPE untuk tanggal ${docId}?`)) { 
+                    // [PERUBAHAN] Sintaks v9
+                    await deleteDoc(doc(db, 'tata_perayaan_mingguan', docId)); 
+                } 
+            }
+            
             if (target.classList.contains('edit-tpe')) {
-                const doc = await db.collection('tata_perayaan_mingguan').doc(docId).get();
-                if (doc.exists) {
-                    const data = doc.data();
+                // [PERUBAHAN] Sintaks v9
+                const docRef = doc(db, 'tata_perayaan_mingguan', docId);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
                     currentEditTpeId = doc.id;
                     document.getElementById('tpe-modal-title').textContent = 'Edit TPE';
                     document.getElementById('tpe-form').reset();
@@ -825,7 +873,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         panel.classList.toggle('active', index === 0);
                     });
                     
-                    document.getElementById('tpe-tanggal').value = doc.id;
+                    document.getElementById('tpe-tanggal').value = docId; // ID dokumen adalah tanggal
                     document.getElementById('tpe-nama-perayaan').value = data.nama_perayaan || '';
                     document.getElementById('tpe-tahun-liturgi').value = data.tahun_liturgi || '';
                     document.getElementById('tpe-tema').value = data.tema || '';
@@ -890,7 +938,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 tata_perayaan: tataPerayaanData
             };
             try {
-                await db.collection('tata_perayaan_mingguan').doc(docId).set(tpeData, { merge: true });
+                // [PERUBAHAN] Sintaks v9 (setDoc)
+                const docRef = doc(db, 'tata_perayaan_mingguan', docId);
+                await setDoc(docRef, tpeData, { merge: true }); // setDoc menggantikan set + merge
+                
                 msg.textContent = 'Berhasil disimpan!'; msg.className = 'form-message success';
                 setTimeout(() => { 
                     modals.tpe.classList.add('hidden'); 
@@ -913,7 +964,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const feedbackEl = document.getElementById(`feedback-${pastorId}`);
                 if (feedbackEl) feedbackEl.textContent = 'Menyimpan...';
                 try {
-                    await db.collection('pastors').doc(pastorId).update({ status: newStatus });
+                    // [PERUBAHAN] Sintaks v9
+                    const docRef = doc(db, 'pastors', pastorId);
+                    await updateDoc(docRef, { status: newStatus });
+                    
                     if (feedbackEl) { feedbackEl.textContent = 'Diperbarui!'; setTimeout(() => { feedbackEl.textContent = ''; }, 2000); }
                 } catch (error) { if (feedbackEl) feedbackEl.textContent = 'Gagal!'; }
             }
@@ -922,9 +976,13 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('stats-table-body').addEventListener('click', async (e) => {
             if (e.target.classList.contains('edit-stat')) {
                 const docId = e.target.closest('tr').dataset.id;
-                const doc = await db.collection('parish_stats').doc(docId).get();
-                if (doc.exists) {
-                    const stat = doc.data();
+                
+                // [PERUBAHAN] Sintaks v9
+                const docRef = doc(db, 'parish_stats', docId);
+                const docSnap = await getDoc(docRef);
+                
+                if (docSnap.exists()) {
+                    const stat = docSnap.data();
                     document.getElementById('stat-modal-title').textContent = `Edit: ${stat.name}`;
                     document.getElementById('stat-doc-id').value = docId;
                     document.getElementById('stat-kk').value = stat.kk;
@@ -948,7 +1006,10 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.textContent = 'Menyimpan...';
 
             try {
-                await db.collection('parish_stats').doc(docId).update(data);
+                // [PERUBAHAN] Sintaks v9
+                const docRef = doc(db, 'parish_stats', docId);
+                await updateDoc(docRef, data);
+                
                 msg.textContent = 'Berhasil!'; msg.className = 'form-message success';
                 setTimeout(() => {
                     modals.stat.classList.add('hidden');
@@ -982,15 +1043,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (target.classList.contains('delete-prayer')) {
                 if (confirm('Yakin ingin menghapus doa ini?')) {
-                    await db.collection('prayers').doc(docId).delete();
+                    // [PERUBAHAN] Sintaks v9
+                    await deleteDoc(doc(db, 'prayers', docId));
                 }
             }
 
             if (target.classList.contains('edit-prayer')) {
-                const doc = await db.collection('prayers').doc(docId).get();
-                if (doc.exists) {
-                    const data = doc.data();
-                    currentEditPrayerId = doc.id;
+                // [PERUBAHAN] Sintaks v9
+                const docRef = doc(db, 'prayers', docId);
+                const docSnap = await getDoc(docRef);
+                
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    currentEditPrayerId = docId;
                     document.getElementById('prayer-modal-title').textContent = 'Edit Doa';
                     document.getElementById('prayer-form').reset();
                     document.getElementById('prayer-title').value = data.title || '';
@@ -1021,10 +1086,12 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             try {
+                // [PERUBAHAN] Sintaks v9
                 if (currentEditPrayerId) {
-                    await db.collection('prayers').doc(currentEditPrayerId).update(prayerData);
+                    const docRef = doc(db, 'prayers', currentEditPrayerId);
+                    await updateDoc(docRef, prayerData);
                 } else {
-                    await db.collection('prayers').add(prayerData);
+                    await addDoc(collection(db, 'prayers'), prayerData);
                 }
                 msg.textContent = 'Berhasil disimpan!';
                 msg.className = 'form-message success';
