@@ -1,5 +1,5 @@
 /*
- * admin-dashboard.js (Versi Final, Lengkap, dan Siap Pakai)
+ * admin-dashboard.js
  * File skrip utama untuk fungsionalitas halaman admin.
  *
  * * DAFTAR ISI:
@@ -10,9 +10,15 @@
  * 5. FUNGSI BANTU (HELPERS) UNTUK FORM & UI
  * 6. INISIALISASI & EVENT LISTENERS
  *
- * * PERUBAHAN:
- * - Menambahkan logika untuk menonaktifkan tombol 'submit' saat proses
- * penyimpanan (async) untuk mencegah klik ganda.
+ * * PERUBAHAN (FULL FIX v2):
+ * - (B1, B7) Menonaktifkan initParticles().
+ * - (B3) Menggabungkan setTableFeedback().
+ * - (B6, B16) Menghapus uploadInitialStats().
+ * - (B18) Menambahkan setupModalTabs() untuk modal TPE.
+ * - (B19, A5) Menambahkan logika expand/collapse tabel program.
+ * - (B32) Menyesuaikan listener pengumuman.
+ * - [BARU] (B21) Menambahkan fungsi exportStatsToCSV().
+ * - [BARU] (B23) Menambahkan fungsi filterProgramTable() dan listener-nya.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -22,6 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const db = firebase.firestore();
     const auth = firebase.auth();
     let umatChart = null;
+
+    // [BARU] Variabel global untuk menyimpan data cache
+    let currentParishStats = []; // Untuk Ekspor CSV (Poin B21)
 
     // Variabel untuk menyimpan ID dokumen yang sedang diedit
     let currentEditProgramId = null;
@@ -87,7 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
         updateSummaryDashboard();
         setupDropdowns();
         setupEventListeners();
-        initParticles();
     }
 
     // =================================================================
@@ -97,12 +105,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const listenToPrograms = () => {
         const programsTableBody = document.getElementById('programs-table-body');
         const tableFooter = document.getElementById('table-footer');
-        showTableLoading(programsTableBody, 18);
+        setTableFeedback(programsTableBody, 18, 'loading', 'Memuat data program kerja...');
         tableFooter.innerHTML = '';
 
         db.collection('programs').orderBy('bidang').onSnapshot(snapshot => {
             if (snapshot.empty) {
-                showTableEmpty(programsTableBody, 18, 'Belum ada data program kerja.');
+                setTableFeedback(programsTableBody, 18, 'empty', 'Belum ada data program kerja.');
                 tableFooter.innerHTML = '';
                 return;
             }
@@ -122,14 +130,15 @@ document.addEventListener('DOMContentLoaded', () => {
             let html = '';
             let grandTotal = 0;
             for (const bidang in groupedData) {
-                html += `<tr class="group-header-bidang"><td colspan="18">${bidang}</td></tr>`;
+                html += `<tr class="group-header-bidang" data-bidang="${bidang}"><td colspan="18">${bidang}</td></tr>`;
                 for (const subBidang in groupedData[bidang]) {
-                    html += `<tr class="group-header-sub"><td colspan="18">${subBidang}</td></tr>`;
+                    html += `<tr class="group-header-sub" data-bidang="${bidang}"><td colspan="18">${subBidang}</td></tr>`;
                     groupedData[bidang][subBidang].forEach(program => {
                         grandTotal += program.total_anggaran || 0;
                         const hasAnggaran = program.anggaran && program.anggaran.length > 0;
                         const rowCount = hasAnggaran ? program.anggaran.length : 1;
-                        html += `<tr data-id="${program.id}">
+                        
+                        html += `<tr data-id="${program.id}" class="program-row" data-bidang="${bidang}">
                             <td rowspan="${rowCount}">${program.pusat_paroki_stasi||'-'}</td>
                             <td rowspan="${rowCount}">${program.nama_unit||'-'}</td>
                             <td rowspan="${rowCount}">${program.nama_kegiatan||'-'}</td>
@@ -138,26 +147,34 @@ document.addEventListener('DOMContentLoaded', () => {
                             <td rowspan="${rowCount}">${program.model_materi||'-'}</td>
                             <td rowspan="${rowCount}">${program.materi||'-'}</td>
                             <td rowspan="${rowCount}">${program.tempat_waktu||'-'}</td>
-                            <td rowspan="${rowCount}">${program.pic||'-'}</td>
-                            <td>${hasAnggaran?(program.anggaran[0].perincian||'-'):'-'}</td>
-                            <td>${hasAnggaran?(program.anggaran[0].volume||'-'):'-'}</td>
-                            <td>${hasAnggaran?(program.anggaran[0].satuan||'-'):'-'}</td>
-                            <td>${hasAnggaran?('Rp ' + (program.anggaran[0].harga_satuan||0).toLocaleString('id-ID')):'-'}</td>
-                            <td>${hasAnggaran?('Rp ' + (program.anggaran[0].jumlah||0).toLocaleString('id-ID')):'-'}</td>
+                            <td rowspan,"${rowCount}">${program.pic||'-'}</td>
+                            
+                            <td class="budget-detail-col">${hasAnggaran?(program.anggaran[0].perincian||'-'):'-'}</td>
+                            <td class="budget-detail-col">${hasAnggaran?(program.anggaran[0].volume||'-'):'-'}</td>
+                            <td class="budget-detail-col">${hasAnggaran?(program.anggaran[0].satuan||'-'):'-'}</td>
+                            <td class="budget-detail-col">${hasAnggaran?('Rp ' + (program.anggaran[0].harga_satuan||0).toLocaleString('id-ID')):'-'}</td>
+                            <td class="budget-detail-col">${hasAnggaran?('Rp ' + (program.anggaran[0].jumlah||0).toLocaleString('id-ID')):'-'}</td>
+                            
                             <td rowspan="${rowCount}">${'Rp ' + (program.total_anggaran||0).toLocaleString('id-ID')}</td>
                             <td rowspan="${rowCount}">${program.sumber_dana_kas||'-'}</td>
                             <td rowspan="${rowCount}">${program.sumber_dana_swadaya||'-'}</td>
-                            <td rowspan="${rowCount}" class="no-print"><button class="action-btn-sm edit edit-program">Edit</button><button class="action-btn-sm delete delete-program">Hapus</button></td>
+                            
+                            <td rowspan="${rowCount}" class="no-print">
+                                <button class="action-btn-sm detail-toggle-btn">Detail <i class="bi bi-chevron-down"></i></button>
+                                <button class="action-btn-sm edit edit-program">Edit</button>
+                                <button class="action-btn-sm delete delete-program">Hapus</button>
+                            </td>
                         </tr>`;
+                        
                         if (hasAnggaran && program.anggaran.length > 1) {
                             for (let i = 1; i < program.anggaran.length; i++) {
                                 const item = program.anggaran[i];
-                                html += `<tr data-id="${program.id}">
-                                    <td>${item.perincian||'-'}</td>
-                                    <td>${item.volume||'-'}</td>
-                                    <td>${item.satuan||'-'}</td>
-                                    <td>${'Rp ' + (item.harga_satuan||0).toLocaleString('id-ID')}</td>
-                                    <td>${'Rp ' + (item.jumlah||0).toLocaleString('id-ID')}</td>
+                                html += `<tr data-id="${program.id}" class="budget-detail-row" data-bidang="${bidang}">
+                                    <td class="budget-detail-col">${item.perincian||'-'}</td>
+                                    <td class="budget-detail-col">${item.volume||'-'}</td>
+                                    <td class="budget-detail-col">${item.satuan||'-'}</td>
+                                    <td class="budget-detail-col">${'Rp ' + (item.harga_satuan||0).toLocaleString('id-ID')}</td>
+                                    <td class="budget-detail-col">${'Rp ' + (item.jumlah||0).toLocaleString('id-ID')}</td>
                                 </tr>`;
                             }
                         }
@@ -165,27 +182,39 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             programsTableBody.innerHTML = html;
-            tableFooter.innerHTML = `<tr><td colspan="14" style="text-align:right; font-weight:bold;">JUMLAH BUDGET</td><td style="font-weight:bold;">${'Rp ' + grandTotal.toLocaleString('id-ID')}</td><td colspan="2"></td><td class="no-print"></td></tr>`;
+            tableFooter.innerHTML = `<tr><td colspan="12" style="text-align:right; font-weight:bold;">JUMLAH BUDGET</td><td style="font-weight:bold;">${'Rp ' + grandTotal.toLocaleString('id-ID')}</td><td colspan="2"></td><td class="no-print"></td></tr>`;
+        
+            // [BARU] Terapkan filter yang mungkin sedang aktif (Poin B23)
+            filterProgramTable(); 
+
         }, error => {
             console.error("Error listening to programs:", error);
-            showTableError(programsTableBody, 18, `Gagal memuat data program kerja. (${error.message})`);
+            setTableFeedback(programsTableBody, 18, 'error', `Gagal memuat data program kerja. (${error.message})`);
         });
     };
     
     const listenToAnnouncements = () => {
         const announcementsTableBody = document.getElementById('announcements-table-body');
-        showTableLoading(announcementsTableBody, 5);
+        setTableFeedback(announcementsTableBody, 5, 'loading', 'Memuat data pengumuman...');
+        
         db.collection('announcements').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
             if (snapshot.empty) {
-                showTableEmpty(announcementsTableBody, 5, 'Belum ada pengumuman.');
+                setTableFeedback(announcementsTableBody, 5, 'empty', 'Belum ada pengumuman.');
                 return;
             }
             const tableHTML = snapshot.docs.map(doc => {
                 const ann = doc.data();
                 const catatanPratinjau = ann.catatan ? ann.catatan.replace(/<[^>]+>/g, '').substring(0, 100) + '...' : '-';
+                let tanggalDisplay = ann.tanggal || '';
+                if (ann.tanggal) {
+                     try {
+                        const dateObj = new Date(ann.tanggal + 'T12:00:00'); 
+                        tanggalDisplay = dateObj.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+                    } catch (e) { tanggalDisplay = ann.tanggal; }
+                }
                 return `<tr data-id="${doc.id}">
                     <td>${ann.judul || '-'}</td>
-                    <td>${ann.tanggal || ''}${ann.jam ? ' | ' + ann.jam : ''}</td>
+                    <td>${tanggalDisplay}${ann.jam ? ' | ' + ann.jam : ''}</td>
                     <td>${ann.lokasi || '-'}</td>
                     <td>${catatanPratinjau}</td>
                     <td class="no-print">
@@ -197,16 +226,17 @@ document.addEventListener('DOMContentLoaded', () => {
             announcementsTableBody.innerHTML = tableHTML;
         }, error => {
             console.error("Error listening to announcements:", error);
-            showTableError(announcementsTableBody, 5, `Gagal memuat data pengumuman. (${error.message})`);
+            setTableFeedback(announcementsTableBody, 5, 'error', `Gagal memuat data pengumuman. (${error.message})`);
         });
     };
     
     const listenToTPEs = () => {
         const tpeTableBody = document.getElementById('tpe-table-body');
-        showTableLoading(tpeTableBody, 3);
+        setTableFeedback(tpeTableBody, 3, 'loading', 'Memuat data TPE...');
+        
         db.collection('tata_perayaan_mingguan').onSnapshot(snapshot => {
             if (snapshot.empty) {
-                showTableEmpty(tpeTableBody, 3, 'Belum ada data Tata Perayaan Ekaristi.');
+                setTableFeedback(tpeTableBody, 3, 'empty', 'Belum ada data Tata Perayaan Ekaristi.');
                 return;
             }
             const sortedDocs = snapshot.docs.sort((a, b) => b.id.localeCompare(a.id));
@@ -223,13 +253,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }).join('');
         }, error => {
             console.error("Error saat memuat TPE:", error);
-            showTableError(tpeTableBody, 3, `Gagal memuat data TPE. (${error.message})`);
+            setTableFeedback(tpeTableBody, 3, 'error', `Gagal memuat data TPE. (${error.message})`);
         });
     };
 
     const listenToPastors = () => {
         const pastorListContainer = document.getElementById('pastor-list-container');
         pastorListContainer.innerHTML = `<div class="feedback-container"><div class="spinner"></div><p>Memuat data pastor...</p></div>`;
+        
         db.collection('pastors').orderBy('order').onSnapshot(snapshot => {
             if (snapshot.empty) {
                 pastorListContainer.innerHTML = '<p style="text-align:center; padding: 2rem;">Belum ada data pastor.</p>';
@@ -257,23 +288,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const listenToParishStats = () => {
         const statsTableBody = document.getElementById('stats-table-body');
         const statsTableFooter = document.getElementById('stats-table-footer');
-        showTableLoading(statsTableBody, 7);
+        setTableFeedback(statsTableBody, 7, 'loading', 'Memuat data statistik...');
         statsTableFooter.innerHTML = '';
+
         db.collection('parish_stats').orderBy('order').onSnapshot(snapshot => {
             if (snapshot.empty) {
-                statsTableBody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding: 2rem;"><p>Data statistik umat belum ada.</p><button id="upload-initial-stats-btn" class="action-btn" style="background-color: #28a745; border-color: #28a745; color: white;"><i class="bi bi-upload"></i> Unggah Data Statistik Awal</button><div id="upload-feedback" style="margin-top: 1rem; font-style: italic;"></div></td></tr>`;
-                document.getElementById('upload-initial-stats-btn').addEventListener('click', uploadInitialStats);
+                setTableFeedback(statsTableBody, 7, 'empty', 'Data statistik umat belum ada.');
+                currentParishStats = []; // [BARU] Kosongkan cache
                 return;
             }
+            
+            // [BARU] Simpan data ke cache global untuk Ekspor (Poin B21)
+            currentParishStats = snapshot.docs.map(doc => doc.data());
+
             let totalKK = 0, totalLaki = 0, totalPerempuan = 0;
-            statsTableBody.innerHTML = snapshot.docs.map(doc => {
-                const stat = doc.data();
+            statsTableBody.innerHTML = currentParishStats.map(stat => { // Loop dari cache
                 const jumlahJiwa = (stat.laki_laki || 0) + (stat.perempuan || 0);
                 totalKK += stat.kk || 0;
                 totalLaki += stat.laki_laki || 0;
                 totalPerempuan += stat.perempuan || 0;
-                return `<tr data-id="${doc.id}">
-                    <td>${stat.order}</td>
+                return `<tr data-id="${stat.id || stat.order}"> <td>${stat.order}</td>
                     <td>${stat.name}</td>
                     <td>${stat.kk}</td>
                     <td>${stat.laki_laki}</td>
@@ -286,20 +320,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const totalJiwa = totalLaki + totalPerempuan;
             statsTableFooter.innerHTML = `<tr style="font-weight: bold; background-color: #e6f2ff;"><td colspan="2">JUMLAH</td><td>${totalKK}</td><td>${totalLaki}</td><td>${totalPerempuan}</td><td>${totalJiwa}</td><td class="no-print"></td></tr>`;
 
-            const labels = snapshot.docs.map(doc => doc.data().name);
-            const data = snapshot.docs.map(doc => (doc.data().laki_laki || 0) + (doc.data().perempuan || 0));
+            const labels = currentParishStats.map(stat => stat.name);
+            const data = currentParishStats.map(stat => (stat.laki_laki || 0) + (stat.perempuan || 0));
             const ctx = document.getElementById('umat-chart').getContext('2d');
             if (umatChart) { umatChart.destroy(); }
             umatChart = new Chart(ctx, { type: 'bar', data: { labels: labels, datasets: [{ label: 'Jumlah Jiwa per Wilayah/Stasi', data: data, backgroundColor: 'rgba(0, 74, 153, 0.7)', borderColor: 'rgba(0, 74, 153, 1)', borderWidth: 1 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } }, plugins: { legend: { display: false }, title: { display: true, text: 'Visualisasi Jumlah Umat per Wilayah/Stasi' } } } });
-        }, error => showTableError(statsTableBody, 7, `Gagal memuat data statistik. (${error.message})`));
+        }, error => setTableFeedback(statsTableBody, 7, 'error', `Gagal memuat data statistik. (${error.message})`));
     };
 
     const listenToPrayers = () => {
         const prayersTableBody = document.getElementById('prayers-table-body');
-        showTableLoading(prayersTableBody, 3);
+        setTableFeedback(prayersTableBody, 3, 'loading', 'Memuat data doa...');
+        
         db.collection('prayers').orderBy('order').onSnapshot(snapshot => {
             if (snapshot.empty) {
-                showTableEmpty(prayersTableBody, 3, 'Belum ada data doa. Silakan tambahkan doa baru.');
+                setTableFeedback(prayersTableBody, 3, 'empty', 'Belum ada data doa. Silakan tambahkan doa baru.');
                 return;
             }
             prayersTableBody.innerHTML = snapshot.docs.map(doc => {
@@ -315,7 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }).join('');
         }, error => {
             console.error("Error saat memuat data doa:", error);
-            showTableError(prayersTableBody, 3, `Gagal memuat data doa. (${error.message})`);
+            setTableFeedback(prayersTableBody, 3, 'error', `Gagal memuat data doa. (${error.message})`);
         });
     };
 
@@ -324,26 +359,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // =================================================================
     const updateSummaryDashboard = async () => {
         try {
-            // Gunakan Promise.all untuk menjalankan query secara paralel
             const [programsSnap, announcementsSnap, statsSnap] = await Promise.all([
                 db.collection('programs').get(),
                 db.collection('announcements').get(),
                 db.collection('parish_stats').get()
             ]);
-
             let totalBudget = 0;
             programsSnap.forEach(doc => { totalBudget += doc.data().total_anggaran || 0; });
             document.getElementById('summary-programs-count').textContent = programsSnap.size;
             document.getElementById('summary-budget-total').textContent = `Rp ${totalBudget.toLocaleString('id-ID')}`;
-
             document.getElementById('summary-announcements-count').textContent = announcementsSnap.size;
-
             let totalUmat = 0;
             statsSnap.forEach(doc => { totalUmat += (doc.data().laki_laki || 0) + (doc.data().perempuan || 0); });
             document.getElementById('summary-umat-total').textContent = totalUmat.toLocaleString('id-ID');
         } catch (error) {
             console.error("Gagal memuat data ringkasan:", error);
-            // Tampilkan error di UI jika perlu
             document.getElementById('summary-programs-count').textContent = 'Error';
             document.getElementById('summary-budget-total').textContent = 'Error';
             document.getElementById('summary-announcements-count').textContent = 'Error';
@@ -354,9 +384,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // =================================================================
     // 5. FUNGSI BANTU (HELPERS) UNTUK FORM & UI
     // =================================================================
-    const showTableLoading = (tbody, colSpan) => tbody.innerHTML = `<tr><td colspan="${colSpan}"><div class="feedback-container"><div class="spinner"></div><p>Memuat data...</p></div></td></tr>`;
-    const showTableError = (tbody, colSpan, message) => tbody.innerHTML = `<tr><td colspan="${colSpan}"><div class="error-alert"><strong>Gagal:</strong> ${message}</div></td></tr>`;
-    const showTableEmpty = (tbody, colSpan, message) => tbody.innerHTML = `<tr><td colspan="${colSpan}" style="text-align:center; padding: 2rem;">${message}</td></tr>`;
+
+    /**
+     * [PERBAIKAN] Fungsi helper terpadu untuk feedback tabel (Poin B3)
+     */
+    const setTableFeedback = (tbody, colSpan, type, message) => {
+        let html = '';
+        switch (type) {
+            case 'loading':
+                html = `<tr><td colspan="${colSpan}"><div class="feedback-container"><div class="spinner"></div><p>${message}</p></div></td></tr>`;
+                break;
+            case 'error':
+                html = `<tr><td colspan="${colSpan}"><div class="error-alert"><strong>Gagal:</strong> ${message}</div></td></tr>`;
+                break;
+            case 'empty':
+                html = `<tr><td colspan="${colSpan}" style="text-align:center; padding: 2rem;">${message}</td></tr>`;
+                break;
+        }
+        if (tbody) {
+            tbody.innerHTML = html;
+        }
+    };
 
     function initTinyMCE() {
         tinymce.remove('.tinymce-editor');
@@ -365,20 +413,37 @@ document.addEventListener('DOMContentLoaded', () => {
             plugins: 'autolink lists link wordcount image',
             toolbar: 'undo redo | blocks | bold italic underline | bullist numlist | link image | removeformat',
             menubar: false,
-            height: 250
+            height: 250,
+            valid_elements: '*[*]',
+            valid_children: '+body[style]',
+            invalid_elements: 'script,applet,iframe,object,embed',
+            invalid_attributes: 'onerror,onload,onclick,onmouseover,onmouseout,onfocus,onblur'
         });
     }
 
     function setupDropdowns() {
         const modalBidang = document.getElementById('modal-bidang');
         const modalSubBidang = document.getElementById('modal-sub-bidang');
+        // [BARU] Ambil filter dropdown juga (Poin B23)
+        const filterBidang = document.getElementById('program-bidang-filter');
+        
         modalBidang.innerHTML = '<option value="" disabled selected>Pilih Bidang...</option>';
+        // Hapus opsi lama di filter (jika ada)
+        filterBidang.innerHTML = '<option value="semua">Tampilkan Semua Bidang</option>'; 
+        
         Object.keys(programStruktur).forEach(bidang => {
             const option = document.createElement('option');
             option.value = bidang;
             option.textContent = bidang;
             modalBidang.appendChild(option);
+
+            // [BARU] Tambahkan juga ke dropdown filter (Poin B23)
+            const filterOption = document.createElement('option');
+            filterOption.value = bidang;
+            filterOption.textContent = bidang;
+            filterBidang.appendChild(filterOption);
         });
+
         modalBidang.addEventListener('change', () => {
             const selectedBidang = modalBidang.value;
             const subBidangList = programStruktur[selectedBidang] || [];
@@ -412,30 +477,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         document.getElementById('modal-total-anggaran-display').textContent = `Rp ${total.toLocaleString('id-ID')}`;
     }
-
-    async function uploadInitialStats() {
-        const uploadBtn = document.getElementById('upload-initial-stats-btn');
-        const feedbackEl = document.getElementById('upload-feedback');
-        if (!confirm('Apakah Anda yakin ingin mengunggah 28 data statistik awal? Tindakan ini hanya boleh dilakukan satu kali.')) return;
-        uploadBtn.disabled = true;
-        feedbackEl.textContent = 'Memulai proses unggah...';
-        const parishStatsData = [ { order: 1, name: 'St. Fransiskus Asisi Sinisir', kk: 23, laki_laki: 41, perempuan: 30 }, { order: 2, name: 'St. Dominikus Sinisir', kk: 22, laki_laki: 28, perempuan: 31 }, { order: 3, name: 'St. Ignatius Sinisir', kk: 20, laki_laki: 24, perempuan: 25 }, { order: 4, name: 'Sta. Skolastika Sinisir', kk: 26, laki_laki: 39, perempuan: 32 }, { order: 5, name: 'St. Vincensius Sinisir', kk: 20, laki_laki: 28, perempuan: 28 }, { order: 6, name: 'St. Stefanus Sinisir', kk: 21, laki_laki: 23, perempuan: 28 }, { order: 7, name: 'Sta. Ursula Sinisir', kk: 19, laki_laki: 26, perempuan: 34 }, { order: 8, name: 'Sta. Maria Bunda Karmel Sinisir', kk: 21, laki_laki: 29, perempuan: 34 }, { order: 9, name: 'St. Romualdus Sinisir', kk: 21, laki_laki: 33, perempuan: 35 }, { order: 10, name: 'Sta. Faustina Sinisir', kk: 19, laki_laki: 30, perempuan: 26 }, { order: 11, name: 'Sta. Theresia Sinisir', kk: 22, laki_laki: 38, perempuan: 28 }, { order: 12, name: 'St. Mikael Sinisir', kk: 13, laki_laki: 16, perempuan: 17 }, { order: 13, name: 'Antonius Maria Claret Makaaroyen', kk: 20, laki_laki: 30, perempuan: 28 }, { order: 14, name: 'St. Alfonsus Maria de Liquori Makaaroyen', kk: 19, laki_laki: 23, perempuan: 29 }, { order: 15, name: 'Sta. Angela Merici Tambelang', kk: 21, laki_laki: 35, perempuan: 28 }, { order: 16, name: 'St. Aloysius Gonzaga Tambelang', kk: 22, laki_laki: 46, perempuan: 34 }, { order: 17, name: 'Sta. Katarina siena Tambelang', kk: 20, laki_laki: 26, perempuan: 31 }, { order: 18, name: 'St. Robertus Belarminus Tambelang', kk: 20, laki_laki: 33, perempuan: 26 }, { order: 19, name: 'St. Yohanes Krisostomus Tambelang', kk: 15, laki_laki: 19, perempuan: 27 }, { order: 20, name: 'St. Fransiskus D sales Tambelang', kk: 19, laki_laki: 34, perempuan: 33 }, { order: 21, name: 'St. Pius X Tambelang', kk: 20, laki_laki: 43, perempuan: 32 }, { order: 22, name: 'St. Hironimus Kinamang', kk: 22, laki_laki: 38, perempuan: 32 }, { order: 23, name: 'St. Lukas Kinamang', kk: 24, laki_laki: 32, perempuan: 45 }, { order: 24, name: 'Sta. Agata Kinamang', kk: 23, laki_laki: 36, perempuan: 30 }, { order: 25, name: 'Sta. Rita de cascia Kinamang', kk: 23, laki_laki: 36, perempuan: 30 }, { order: 26, name: 'St. Laurensius Kinamang', kk: 21, laki_laki: 28, perempuan: 27 }, { order: 27, name: 'Stasi Christus Rex Liningaan', kk: 22, laki_laki: 34, perempuan: 32 }, { order: 28, name: 'Stasi Hati Kudus Yesus Mobuya', kk: 11, laki_laki: 19, perempuan: 16 } ];
-        try {
-            const batch = db.batch();
-            parishStatsData.forEach(stat => {
-                const docRef = db.collection('parish_stats').doc();
-                batch.set(docRef, stat);
-            });
-            await batch.commit();
-            feedbackEl.textContent = 'BERHASIL!';
-            feedbackEl.style.color = 'green';
-        } catch (error) {
-            console.error('Gagal:', error);
-            feedbackEl.textContent = `GAGAL! ${error.message}`;
-            feedbackEl.style.color = 'red';
-            uploadBtn.disabled = false;
-        }
-    }
     
     function addJadwalMisaRow(item = {}) {
         const container = document.getElementById('tpe-jadwal-container');
@@ -451,10 +492,108 @@ document.addEventListener('DOMContentLoaded', () => {
         container.appendChild(div);
     }
     
+    /**
+     * [BARU] Menangani logika tab di dalam modal (Poin B18)
+     */
+    function setupModalTabs() {
+        document.querySelectorAll('.modal-tab-nav').forEach(nav => {
+            nav.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal-tab-btn')) {
+                    const targetId = e.target.dataset.target;
+                    const modalBody = e.target.closest('.modal-body');
+
+                    nav.querySelectorAll('.modal-tab-btn').forEach(btn => btn.classList.remove('active'));
+                    e.target.classList.add('active');
+
+                    modalBody.querySelectorAll('.modal-tab-panel').forEach(panel => panel.classList.remove('active'));
+                    document.getElementById(targetId).classList.add('active');
+                }
+            });
+        });
+    }
+
+    /**
+     * [BARU] Fungsi untuk memfilter tabel program kerja (Poin B23)
+     */
+    function filterProgramTable() {
+        const filterValue = document.getElementById('program-bidang-filter').value;
+        const rows = document.getElementById('programs-table-body').querySelectorAll('tr');
+
+        rows.forEach(row => {
+            if (filterValue === 'semua') {
+                row.style.display = ''; // Tampilkan semua baris
+            } else {
+                // Tampilkan jika data-bidang cocok dengan filter
+                if (row.dataset.bidang === filterValue) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        });
+    }
+
+    /**
+     * [BARU] Fungsi untuk mengekspor statistik ke CSV (Poin B21)
+     */
+    function exportStatsToCSV() {
+        if (currentParishStats.length === 0) {
+            alert('Data statistik kosong, tidak ada yang bisa diekspor.');
+            return;
+        }
+
+        let csvContent = "data:text/csv;charset=utf-8,";
+        csvContent += '"No","Nama Wilayah / Stasi","KK","Laki-laki","Perempuan","Jumlah Jiwa"\r\n'; // Header
+
+        let totalKK = 0, totalLaki = 0, totalPerempuan = 0, totalJiwa = 0;
+
+        currentParishStats.forEach(stat => {
+            const jumlahJiwa = (stat.laki_laki || 0) + (stat.perempuan || 0);
+            totalKK += stat.kk || 0;
+            totalLaki += stat.laki_laki || 0;
+            totalPerempuan += stat.perempuan || 0;
+            totalJiwa += jumlahJiwa;
+
+            const row = [
+                stat.order,
+                `"${stat.name}"`, // Pastikan nama wilayah di dalam tanda kutip
+                stat.kk || 0,
+                stat.laki_laki || 0,
+                stat.perempuan || 0,
+                jumlahJiwa
+            ].join(",");
+            csvContent += row + "\r\n";
+        });
+
+        // Tambah baris Total
+        const totalRow = [
+            '"TOTAL"',
+            `""`,
+            totalKK,
+            totalLaki,
+            totalPerempuan,
+            totalJiwa
+        ].join(",");
+        csvContent += totalRow + "\r\n";
+
+        // Buat link download
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "statistik_umat_paroki_modoinding.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+
     // =================================================================
     // 6. INISIALISASI & EVENT LISTENERS
     // =================================================================
     function setupEventListeners() {
+        
+        setupModalTabs(); 
+
         document.querySelectorAll('.nav-tab-btn').forEach(tab => {
             tab.addEventListener('click', () => {
                 document.querySelectorAll('.nav-tab-btn').forEach(t => t.classList.remove('active'));
@@ -468,6 +607,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('print-btn').addEventListener('click', () => window.print());
         document.getElementById('q-add-program-btn').addEventListener('click', () => document.getElementById('add-program-btn').click());
         document.getElementById('q-add-announcement-btn').addEventListener('click', () => document.getElementById('add-announcement-btn').click());
+
+        // [BARU] Listener untuk tombol Ekspor dan Filter
+        document.getElementById('export-stats-btn').addEventListener('click', exportStatsToCSV);
+        document.getElementById('program-bidang-filter').addEventListener('change', filterProgramTable);
+
 
         document.getElementById('add-program-btn').addEventListener('click', () => {
             currentEditProgramId = null;
@@ -485,9 +629,25 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('programs-table-body').addEventListener('click', async (e) => {
             const target = e.target;
             const row = target.closest('tr');
+            
+            const detailButton = target.closest('.detail-toggle-btn');
+            if (detailButton) {
+                e.preventDefault();
+                const programRow = target.closest('.program-row');
+                const isExpanded = programRow.classList.toggle('is-expanded');
+                detailButton.innerHTML = isExpanded ? 'Tutup <i class="bi bi-chevron-up"></i>' : 'Detail <i class="bi bi-chevron-down"></i>';
+                return; 
+            }
+            
             if (!row) return;
             const docId = row.dataset.id;
-            if (target.classList.contains('delete-program')) { if (confirm(`Yakin hapus program ini?`)) { await db.collection('programs').doc(docId).delete(); } }
+            
+            if (target.classList.contains('delete-program')) { 
+                if (confirm(`Yakin hapus program ini?`)) { 
+                    await db.collection('programs').doc(docId).delete(); 
+                } 
+            }
+            
             if (target.classList.contains('edit-program')) {
                 const doc = await db.collection('programs').doc(docId).get();
                 if (doc.exists) {
@@ -628,6 +788,14 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('tpe-jadwal-container').innerHTML = '';
             addJadwalMisaRow();
             document.getElementById('tpe-form-message').textContent = '';
+            
+            document.querySelectorAll('#tpe-modal .modal-tab-btn').forEach((btn, index) => {
+                btn.classList.toggle('active', index === 0);
+            });
+            document.querySelectorAll('#tpe-modal .modal-tab-panel').forEach((panel, index) => {
+                panel.classList.toggle('active', index === 0);
+            });
+
             modals.tpe.classList.remove('hidden');
             initTinyMCE();
         });
@@ -649,6 +817,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     currentEditTpeId = doc.id;
                     document.getElementById('tpe-modal-title').textContent = 'Edit TPE';
                     document.getElementById('tpe-form').reset();
+                    
+                    document.querySelectorAll('#tpe-modal .modal-tab-btn').forEach((btn, index) => {
+                        btn.classList.toggle('active', index === 0);
+                    });
+                    document.querySelectorAll('#tpe-modal .modal-tab-panel').forEach((panel, index) => {
+                        panel.classList.toggle('active', index === 0);
+                    });
+                    
                     document.getElementById('tpe-tanggal').value = doc.id;
                     document.getElementById('tpe-nama-perayaan').value = data.nama_perayaan || '';
                     document.getElementById('tpe-tahun-liturgi').value = data.tahun_liturgi || '';
@@ -682,7 +858,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const submitBtn = e.target.querySelector('button[type="submit"]');
             const tanggalInput = document.getElementById('tpe-tanggal').value;
             
-            if (!tanggalInput) { msg.textContent = 'Tanggal Misa wajib diisi!'; msg.className = 'form-message error'; return; }
+            if (!tanggalInput) { 
+                msg.textContent = 'Tanggal Misa wajib diisi!'; 
+                msg.className = 'form-message error'; 
+                document.querySelector('.modal-tab-btn[data-target="tpe-tab-1"]').click();
+                return; 
+            }
             
             msg.textContent = 'Menyimpan...';
             submitBtn.disabled = true;
@@ -887,9 +1068,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function initParticles() {
-        if (typeof particlesJS !== 'undefined') {
-            particlesJS("particles-js", { "particles": { "number": { "value": 80 }, "color": { "value": "#004a99" }, "shape": { "type": "circle" }, "opacity": { "value": 0.5, "anim": { "enable": false } }, "size": { "value": 3, "random": true }, "line_linked": { "enable": true, "distance": 150, "color": "#004a99", "opacity": 0.4, "width": 1 }, "move": { "enable": true, "speed": 6 } }, "interactivity": { "events": { "onhover": { "enable": true, "mode": "repulse" } } }, "retina_detect": true });
-        }
-    }
 });

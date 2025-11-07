@@ -3,22 +3,29 @@
  * File gaya utama untuk halaman publik Paroki.
  * * DAFTAR ISI:
  * 1. IMPOR FONT
- * 2. RESET & GAYA DASAR
- * 3. LAYOUT UTAMA (HEADER, MAIN, FOOTER)
- * 4. SIDEBAR & NAVIGASI TAB
- * 5. KONTEN SPESIFIK (BERANDA, PASTOR, AGENDA, STATISTIK)
- * 6. KOMPONEN LAINNYA (PARTICLES, TOGGLE)
- * 7. KALENDER & SEJARAH PAUS
- * 8. HALAMAN TENTANG PAROKI
- * 9. IKON SOSIAL MEDIA
- * 10. GAYA FEEDBACK (LOADING & ERROR)
- * 11. ANIMASI & EFEK INTERAKTIF
- * 12. TATA PERAYAAN EKARISTI (TPE)
- * 13. MEDIA QUERIES (RESPONSIVE)
- * 14. ANIMASI TOMBOL SIDEBAR (BARU)
+ * 2. VARIABEL DARK MODE (POIN A11)
+ * 3. RESET & GAYA DASAR
+ * 4. LAYOUT UTAMA (HEADER, MAIN, FOOTER)
+ * 5. SIDEBAR & NAVIGASI TAB
+ * 6. KONTEN SPESIFIK (BERANDA, PASTOR, AGENDA, STATISTIK)
+ * 7. KOMPONEN LAINNYA (PARTICLES, TOGGLE)
+ * 8. SEJARAH PAUS
+ * 9. HALAMAN TENTANG PAROKI
+ * 10. IKON SOSIAL MEDIA
+ * 11. GAYA FEEDBACK (LOADING & ERROR)
+ * 12. ANIMASI & EFEK INTERAKTIF
+ * 13. TATA PERAYAAN EKARISTI (TPE)
+ * 14. MEDIA QUERIES (RESPONSIVE)
+ * 15. ANIMASI TOMBOL SIDEBAR
+ * 16. FITUR PENCARIAN (DOA, DLL)
+ * 17. GAYA FULLCALENDAR (LITURGI)
+ * 18. GAYA AGENDA FULLCALENDAR
+ * 19. FITUR DARK MODE (TOMBOL)
+ * 20. FITUR CETAK PDF TPE
  *
- * * PERUBAHAN:
- * - Menghapus blok :root (variabel) karena sudah dipindah ke theme.css
+ * * PERUBAHAN (FULL FIX v3):
+ * - Menambahkan semua gaya untuk Dark Mode (Poin A11).
+ * - Menambahkan gaya untuk tombol Cetak PDF TPE (Poin A9).
  */
 
 /* ==================================================
@@ -27,12 +34,72 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&display=swap');
 
-/* Variabel :root telah dipindahkan ke theme.css 
-  untuk konsistensi di seluruh situs.
-*/
+/* ==================================================
+   2. VARIABEL DARK MODE (POIN A11)
+   ================================================== */
+:root, :root[data-theme="light"] {
+  --bg-color: var(--blue-bg);
+  --text-color: #333;
+  --text-color-light: #555;
+  --header-bg: var(--blue-light);
+  --header-text: var(--blue-main);
+  --main-bg: var(--white);
+  --sidebar-bg: rgba(179, 217, 255, 0.85);
+  --sidebar-text: var(--blue-main);
+  --sidebar-hover-bg: var(--blue-hover);
+  --sidebar-hover-text: #002a66;
+  --footer-bg: var(--blue-soft);
+  --footer-border: var(--blue-border);
+  --table-head-bg: var(--blue-bg);
+  --table-row-even-bg: #f2f2f2;
+  --table-row-hover-bg: var(--blue-soft);
+  --card-bg: var(--white);
+  --card-border: var(--blue-border);
+  --card-bg-alt: #f8faff;
+  --doa-bg: #fdfdfd;
+  --doa-list-bg: #f8faff;
+  --doa-list-text: var(--blue-main);
+  --doa-list-hover-bg: var(--blue-main);
+  --doa-list-hover-text: var(--white);
+  --input-bg: var(--blue-bg);
+  --input-border: var(--blue-border);
+  --modal-content-bg: var(--white);
+  
+  /* Transisi */
+  --theme-transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+:root[data-theme="dark"] {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --text-color-light: #aaa;
+  --header-bg: #1f2937;
+  --header-text: var(--blue-light);
+  --main-bg: #1e1e1e;
+  --sidebar-bg: rgba(25, 30, 40, 0.85);
+  --sidebar-text: var(--blue-light);
+  --sidebar-hover-bg: #374151;
+  --sidebar-hover-text: var(--white);
+  --footer-bg: #1f2937;
+  --footer-border: #374151;
+  --table-head-bg: #374151;
+  --table-row-even-bg: #2a2a2a;
+  --table-row-hover-bg: #374151;
+  --card-bg: #2a2a2a;
+  --card-border: #374151;
+  --card-bg-alt: #2a2a2a;
+  --doa-bg: #1e1e1e;
+  --doa-list-bg: #2a2a2a;
+  --doa-list-text: var(--blue-light);
+  --doa-list-hover-bg: var(--blue-main);
+  --doa-list-hover-text: var(--white);
+  --input-bg: #374151;
+  --input-border: #4b5563;
+  --modal-content-bg: #2a2a2a;
+}
 
 /* ==================================================
-   2. RESET & GAYA DASAR
+   3. RESET & GAYA DASAR
    ================================================== */
 * { box-sizing: border-box; }
 html { height: 100%; }
@@ -43,21 +110,30 @@ body {
   display: flex;
   flex-direction: column;
   font-family: 'Poppins', sans-serif;
-  background-color: #f0f6ff;
-  color: #333;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: var(--theme-transition);
 }
-h1, h2, h3, h4, h5, h6 { font-family: 'Times New Roman', Times, serif; }
+h1, h2, h3, h4, h5, h6 { 
+  font-family: 'Times New Roman', Times, serif; 
+  transition: var(--theme-transition);
+}
+/* [DARK MODE] Ubah warna link bootstrap */
+:root[data-theme="dark"] .text-primary {
+    color: var(--blue-light) !important;
+}
 
 /* ==================================================
-   3. LAYOUT UTAMA (HEADER, MAIN, FOOTER)
+   4. LAYOUT UTAMA (HEADER, MAIN, FOOTER)
    ================================================== */
 header {
   position: relative;
   padding: 0.3rem 1rem;
   text-align: center;
-  background-color: var(--blue-light);
-  color: var(--blue-main);
+  background-color: var(--header-bg);
+  color: var(--header-text);
   z-index: 1;
+  transition: var(--theme-transition);
 }
 .logo { width: 100px; margin-bottom: 0.3rem; transition: transform 0.5s ease; }
 .logo:hover { transform: scale(1.1); }
@@ -76,24 +152,29 @@ header p { font-size: 0.9rem; margin: 0.2rem 0 0; }
 main {
   flex: 1;
   padding: 1.5rem;
-  background-color: var(--white);
+  background-color: var(--main-bg);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden;
+  transition: var(--theme-transition);
+}
+:root[data-theme="dark"] main {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 footer {
   text-align: center;
   padding: 1rem;
-  background-color: var(--blue-soft);
+  background-color: var(--footer-bg);
   font-size: 0.9rem;
-  color: #555;
-  border-top: 2px solid var(--blue-border);
+  color: var(--text-color-light);
+  border-top: 2px solid var(--footer-border);
   margin-top: auto;
+  transition: var(--theme-transition);
 }
 
 /* ==================================================
-   4. SIDEBAR & NAVIGASI TAB
+   5. SIDEBAR & NAVIGASI TAB
    ================================================== */
 .sidebar {
   position: fixed;
@@ -103,17 +184,20 @@ footer {
   height: auto;
   max-height: 90vh;
   padding: 0.5rem;
-  background-color: rgba(179, 217, 255, 0.85);
+  background-color: var(--sidebar-bg);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  color: var(--blue-main);
+  color: var(--sidebar-text);
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.2);
   overflow-y: auto;
   z-index: 1040;
   transform: translateX(-110%);
-  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), var(--theme-transition);
+}
+:root[data-theme="dark"] .sidebar {
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 .sidebar.active { transform: translateX(0); }
 .tab-button {
@@ -128,7 +212,7 @@ footer {
   background: none;
   font-size: 0.9rem;
   font-weight: bold;
-  color: var(--blue-main);
+  color: var(--sidebar-text);
   text-align: left;
   text-decoration: none;
   cursor: pointer;
@@ -138,9 +222,8 @@ footer {
   transition: background-color 0.3s ease, color 0.3s ease, border-left-color 0.3s ease, opacity 0.4s ease, transform 0.4s ease;
   transition-delay: 0s;
 }
-.tab-button-login { padding-bottom: 0.8rem; margin-bottom: 0.8rem; border-bottom: 1px solid var(--blue-border); }
+.tab-button-login { padding-bottom: 0.8rem; margin-bottom: 0.8rem; border-bottom: 1px solid var(--footer-border); } /* Diperbarui */
 
-/* Ini adalah kode Anda yang sudah ada untuk animasi "satu per satu". Ini sudah benar. */
 .sidebar.active .tab-button { opacity: 1; transform: translateX(0); }
 .sidebar.active .tab-button:nth-child(1) { transition-delay: 0.1s; }
 .sidebar.active .tab-button:nth-child(2) { transition-delay: 0.15s; }
@@ -156,8 +239,8 @@ footer {
 .tab-button i { transition: transform 0.3s ease; }
 .tab-button:hover, .tab-button.active {
   transform: translateX(5px) scale(1.02);
-  background-color: var(--blue-hover);
-  color: #002a66;
+  background-color: var(--sidebar-hover-bg);
+  color: var(--sidebar-hover-text);
   border-left-color: var(--sidebar-active-border);
 }
 .tab-button:hover i { transform: rotate(-5deg) scale(1.1); }
@@ -166,13 +249,16 @@ footer {
 .tab-content.active { display: block; animation: fadeInUp 1s ease-out forwards; }
 
 /* ==================================================
-   5. KONTEN SPESIFIK (BERANDA, PASTOR, AGENDA, STATISTIK)
+   6. KONTEN SPESIFIK (BERANDA, PASTOR, AGENDA, STATISTIK)
    ================================================== */
 /* --- Beranda: Pastor --- */
-.pastor-title { font-size: 1.4rem; font-weight: bold; color: var(--blue-main); text-align: center; margin-bottom: 0.5rem; }
+.pastor-title { font-size: 1.4rem; font-weight: bold; color: var(--header-text); text-align: center; margin-bottom: 0.5rem; } /* Diperbarui */
 .pastors-beranda { display: flex; justify-content: center; align-items: flex-start; gap: 2rem; flex-wrap: nowrap; margin-top: 1rem; padding: 20px; border-radius: 12px; position: relative; overflow: hidden; z-index: 1; background-color: rgba(255, 255, 255, 0.7); }
+:root[data-theme="dark"] .pastors-beranda {
+    background-color: rgba(42, 42, 42, 0.7);
+}
 .pastors-beranda::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('gereja.jpeg'); background-size: 100% auto;; background-position: center; opacity: 0.3; z-index: -1; border-radius: inherit; }
-.pastors-beranda::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: inherit; box-shadow: inset 0 0 80px 20px rgba(240, 246, 255, 0.9); z-index: 0; }
+.pastors-beranda::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: inherit; box-shadow: inset 0 0 80px 20px var(--main-bg); z-index: 0; transition: var(--theme-transition); } /* Diperbarui */
 .pastor-item-beranda { text-align: center; z-index: 1; }
 .pastors-beranda .pastor-photo { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 4px solid var(--blue-main); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); transition: transform 0.3s ease; cursor: pointer; }
 .pastor-photo-joseph { object-position: center 30%; }
@@ -182,25 +268,26 @@ footer {
 /* --- Profil Pastor: Status Kehadiran --- */
 .pastor-status { display: flex; justify-content: space-around; text-align: center; margin-top: 1.5rem; flex-wrap: wrap; gap: 1rem; }
 .pastor-status .pastor-photo { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid #ccc; }
+:root[data-theme="dark"] .pastor-status .pastor-photo { border-color: #555; }
 .pastor-status .indicator { display: inline-block; padding: 0.3rem 0.8rem; border-radius: 20px; color: var(--white); font-size: 0.8rem; font-weight: bold; margin-top: 0.5rem; }
 .pastor-status .indicator.green { background-color: var(--green); }
 .pastor-status .indicator.red { background-color: var(--red); }
 
-/* --- Agenda & Pengumuman --- */
-.agenda-card { border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-.agenda-card:hover { transform: translateY(-8px); box-shadow: 0 12px 28px rgba(0, 74, 153, 0.15); }
-
 /* --- Statistik Umat --- */
 .stats-table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; font-size: 0.9rem; }
-.stats-table th, .stats-table td { border: 1px solid #ddd; padding: 10px 12px; text-align: left; }
-.stats-table thead th { background-color: var(--blue-main); color: var(--white); text-align: center; }
-.stats-table tbody tr:nth-child(even) { background-color: #f2f2f2; }
-.stats-table tbody tr:hover { background-color: var(--blue-soft); }
-.stats-table tfoot tr { font-weight: bold; background-color: var(--blue-soft); }
-.chart-container { position: relative; height: 400px; width: 100%; margin: 2rem 0; }
+.stats-table th, .stats-table td { border: 1px solid var(--footer-border); padding: 10px 12px; text-align: left; transition: var(--theme-transition); } /* Diperbarui */
+.stats-table thead th { background-color: var(--header-text); color: var(--main-bg); text-align: center; } /* Diperbarui */
+.stats-table tbody tr:nth-child(even) { background-color: var(--table-row-even-bg); }
+.stats-table tbody tr:hover { background-color: var(--table-row-hover-bg); }
+.stats-table tfoot tr { font-weight: bold; background-color: var(--table-row-hover-bg); }
+
+/* [DARK MODE] Chart.js text color */
+:root[data-theme="dark"] .chart-container {
+    color: #e0e0e0;
+}
 
 /* ==================================================
-   6. KOMPONEN LAINNYA (PARTICLES, TOGGLE)
+   7. KOMPONEN LAINNYA (PARTICLES, TOGGLE)
    ================================================== */
 #particles-js { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
 header .logo, header h1, header p { position: relative; z-index: 2; }
@@ -221,19 +308,11 @@ header .logo, header h1, header p { position: relative; z-index: 2; }
     border-radius: 50%; 
     font-size: 1.5rem; 
     cursor: pointer; 
-    /* PERUBAHAN: transisi rotate dihapus dari sini dan dipindah ke span */
-    transition: left 0.3s ease-in-out, transform 0.2s ease; /* 'transform' untuk animasi ditekan */
+    transition: left 0.3s ease-in-out, transform 0.2s ease;
 }
-
-/* === PERUBAHAN DI SINI === */
-/* Aturan .active lama (transform: rotate(90deg)) dihapus */
-/* Sekarang kita hanya mengatur 'left' */
 .sidebar-toggle.active { 
     left: 260px; 
 }
-/* === AKHIR PERUBAHAN === */
-
-
 body.sidebar-open::before { 
     content: ""; 
     position: fixed; 
@@ -243,64 +322,46 @@ body.sidebar-open::before {
 }
 
 /* ==================================================
-   7. KALENDER & SEJARAH PAUS
+   8. SEJARAH PAUS
    ================================================== */
-/* --- Kalender --- */
-.kalender-bulan { background-color: var(--blue-main); color: var(--white); padding: 0.75rem 1.5rem; margin-top: 1.5rem; border-radius: 8px 8px 0 0; font-size: 1.2rem; position: sticky; top: 0; z-index: 10; }
-.kalender-list { list-style: none; padding: 0; margin: 0; border: 1px solid var(--blue-border); border-top: none; border-radius: 0 0 8px 8px; margin-bottom: 1.5rem; }
-.kalender-item { display: flex; align-items: flex-start; padding: 1rem 1.5rem; border-bottom: 1px solid var(--blue-soft); gap: 1rem; }
-.kalender-item:last-child { border-bottom: none; }
-.kalender-tanggal { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 60px; flex-shrink: 0; text-align: center; background-color: #f0f6ff; border-radius: 8px; padding: 0.5rem; border: 1px solid var(--blue-soft); }
-.kalender-tanggal .tanggal-angka { font-size: 1.8rem; font-weight: bold; color: var(--blue-main); line-height: 1; }
-.kalender-tanggal .tanggal-hari { font-size: 0.75rem; color: #555; margin-top: 0.25rem; }
-.kalender-info { display: flex; flex-direction: column; }
-.kalender-judul { font-weight: bold; font-size: 1.1rem; margin-bottom: 0.25rem; display: flex; align-items: center; }
-.kalender-judul::before { content: ''; display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 10px; flex-shrink: 0; }
-.kalender-judul.dot-red::before { background-color: var(--red); }
-.kalender-judul.dot-white::before { background-color: #f8f9fa; border: 1px solid #ccc; }
-.kalender-judul.dot-green::before { background-color: var(--green); }
-.kalender-judul.dot-purple::before { background-color: #6f42c1; }
-.kalender-judul.dot-default::before { background-color: #6c757d; }
-.kalender-deskripsi { font-size: 0.9rem; color: #495057; line-height: 1.5; }
-
-/* --- Sejarah Paus --- */
 .pope-search-wrapper { margin-bottom: 1.5rem; }
-#popeSearchInput { max-width: 400px; margin: 0 auto; display: block; border-radius: 20px; padding-left: 1.5rem; }
-.pope-table-wrapper { overflow-x: auto; max-height: 70vh; border: 1px solid var(--blue-border); border-radius: 12px; }
+#popeSearchInput { max-width: 400px; margin: 0 auto; display: block; border-radius: 20px; padding-left: 1.5rem; background-color: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-color); transition: var(--theme-transition); }
+.pope-table-wrapper { overflow-x: auto; max-height: 70vh; border: 1px solid var(--footer-border); border-radius: 12px; } /* Diperbarui */
 .pope-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 .pope-table thead { position: sticky; top: 0; z-index: 5; }
-.pope-table th { background-color: var(--blue-main); color: var(--white); padding: 12px 15px; text-align: left; font-weight: bold; white-space: nowrap; }
-.pope-table td { padding: 12px 15px; border-bottom: 1px solid var(--blue-soft); vertical-align: top; }
-.pope-table tbody tr:nth-child(even) { background-color: #f8faff; }
-.pope-table tbody tr:hover { background-color: var(--blue-soft); }
-.pope-table .pope-latin-name { display: block; font-size: 0.8rem; color: #6c757d; font-style: italic; }
+.pope-table th { background-color: var(--header-text); color: var(--main-bg); padding: 12px 15px; text-align: left; font-weight: bold; white-space: nowrap; transition: var(--theme-transition); } /* Diperbarui */
+.pope-table td { padding: 12px 15px; border-bottom: 1px solid var(--footer-border); vertical-align: top; transition: var(--theme-transition); } /* Diperbarui */
+.pope-table tbody tr:nth-child(even) { background-color: var(--table-row-even-bg); }
+.pope-table tbody tr:hover { background-color: var(--table-row-hover-bg); }
+.pope-table .pope-latin-name { display: block; font-size: 0.8rem; color: var(--text-color-light); font-style: italic; }
 
 /* ==================================================
-   8. HALAMAN TENTANG PAROKI
+   9. HALAMAN TENTANG PAROKI
    ================================================== */
 .tentang-section { margin-bottom: 3rem; }
-.tentang-section h2 { text-align: center; color: var(--blue-main); margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--blue-soft); }
+.tentang-section h2 { text-align: center; color: var(--header-text); margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--footer-bg); } /* Diperbarui */
 .sejarah-paroki-text { text-align: justify; font-size: 1.1rem; line-height: 1.7; max-width: 800px; margin: 0 auto 1.5rem auto; }
 .pusat-paroki-img-container { max-width: 700px; margin: 0 auto; }
 .pusat-paroki-img { display: block; max-width: 100%; height: auto; margin: 0 auto; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
-.stasi-table-wrapper { overflow-x: auto; border: 1px solid var(--blue-border); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.stasi-table-wrapper { overflow-x: auto; border: 1px solid var(--footer-border); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); } /* Diperbarui */
 .stasi-table { width: 100%; border-collapse: collapse; }
-.stasi-table th, .stasi-table td { padding: 1rem; border-bottom: 1px solid var(--blue-soft); text-align: left; vertical-align: middle; }
-.stasi-table thead th { background-color: var(--blue-bg); font-weight: bold; color: var(--blue-main); }
+.stasi-table th, .stasi-table td { padding: 1rem; border-bottom: 1px solid var(--footer-border); text-align: left; vertical-align: middle; transition: var(--theme-transition); } /* Diperbarui */
+.stasi-table thead th { background-color: var(--table-head-bg); font-weight: bold; color: var(--header-text); } /* Diperbarui */
 .stasi-table tbody tr:last-child td { border-bottom: none; }
-.stasi-table tbody tr:hover { background-color: #f8faff; }
+.stasi-table tbody tr:hover { background-color: var(--table-row-hover-bg); }
 .stasi-photo { width: 120px; height: 80px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; display: block; margin: 0 auto; }
 .stasi-photo:hover { transform: scale(1.05); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 .pastors-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; justify-content: center; }
-.pastor-card { background-color: var(--white); border-radius: 12px; border: 1px solid var(--blue-border); box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.pastor-card { background-color: var(--card-bg); border-radius: 12px; border: 1px solid var(--card-border); box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden; text-align: center; transition: var(--theme-transition), transform 0.3s ease, box-shadow 0.3s ease; } /* Diperbarui */
 .pastor-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 74, 153, 0.15); }
+:root[data-theme="dark"] .pastor-card:hover { box-shadow: 0 8px 20px rgba(0, 100, 200, 0.15); }
 .pastor-card img { width: 100%; height: 280px; object-fit: cover; object-position: top; }
 .pastor-card-body { padding: 1rem; }
-.pastor-card h3 { margin: 0 0 0.25rem 0; color: var(--blue-main); font-size: 1.1rem; }
-.pastor-card .masa-jabatan { color: #666; font-size: 0.85rem; }
+.pastor-card h3 { margin: 0 0 0.25rem 0; color: var(--header-text); font-size: 1.1rem; } /* Diperbarui */
+.pastor-card .masa-jabatan { color: var(--text-color-light); font-size: 0.85rem; } /* Diperbarui */
 
 /* ==================================================
-   9. IKON SOSIAL MEDIA
+   10. IKON SOSIAL MEDIA
    ================================================== */
 .social-icons { display: flex; justify-content: center; align-items: center; gap: 25px; margin-top: 2rem; padding: 20px; }
 .social-icon { --icon-size: 60px; position: relative; display: flex; justify-content: center; align-items: center; width: var(--icon-size); height: var(--icon-size); border-radius: 50%; font-size: calc(var(--icon-size) * 0.5); text-decoration: none; color: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
@@ -315,49 +376,61 @@ body.sidebar-open::before {
 @keyframes tiktok-animation { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
 
 /* ==================================================
-   10. GAYA FEEDBACK (LOADING & ERROR)
+   11. GAYA FEEDBACK (LOADING & ERROR)
    ================================================== */
-.feedback-container { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2rem; text-align: center; color: #555; min-height: 150px; }
-.spinner { width: 40px; height: 40px; border: 4px solid #f0f6ff; border-top: 4px solid var(--blue-main); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1rem; }
+.feedback-container { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2rem; text-align: center; color: var(--text-color-light); min-height: 150px; } /* Diperbarui */
+.spinner { width: 40px; height: 40px; border: 4px solid var(--blue-bg); border-top: 4px solid var(--blue-main); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1rem; }
+:root[data-theme="dark"] .spinner { border: 4px solid #374151; border-top: 4px solid var(--blue-light); }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 .error-alert { width: 100%; padding: 1rem; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 8px; }
+:root[data-theme="dark"] .error-alert { background-color: #4a2125; color: #f5c6cb; border-color: #721c24; }
 
 /* ==================================================
-   11. ANIMASI & EFEK INTERAKTIF
+   12. ANIMASI & EFEK INTERAKTIF
    ================================================== */
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
 /* --- Daftar Download --- */
-.formulir-download .list-group-item-action { transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, border-left-color 0.3s ease; border-left: 4px solid transparent; }
-.formulir-download .list-group-item-action:hover { transform: translateX(10px); box-shadow: 0 5px 15px rgba(0, 74, 153, 0.1); border-left-color: var(--blue-main); z-index: 2; }
+.formulir-download .list-group-item-action { 
+    background-color: var(--main-bg); 
+    color: var(--text-color); 
+    border-color: var(--footer-border);
+    transition: var(--theme-transition), transform 0.2s ease-out, box-shadow 0.2s ease-out, border-left-color 0.3s ease; 
+    border-left: 4px solid transparent; 
+}
+.formulir-download .list-group-item-action:hover { 
+    transform: translateX(10px); 
+    box-shadow: 0 5px 15px rgba(0, 74, 153, 0.1); 
+    border-left-color: var(--blue-main); 
+    z-index: 2; 
+    background-color: var(--table-row-hover-bg);
+}
 .formulir-download .list-group-item-action .bi { transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
 .formulir-download .list-group-item-action:hover .bi { transform: scale(1.2) rotate(5deg); }
 
 /* --- Halaman Doa-doa --- */
-.doa-container { font-family: 'Lora', serif; background: #fdfdfd; }
-.doa-main-title { text-align: center; color: var(--blue-main); font-weight: 700; margin-bottom: 0.5rem; position: relative; padding-bottom: 1rem; }
+.doa-container { font-family: 'Lora', serif; background: var(--doa-bg); transition: var(--theme-transition); }
+.doa-main-title { text-align: center; color: var(--header-text); font-weight: 700; margin-bottom: 0.5rem; position: relative; padding-bottom: 1rem; }
 .doa-main-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background-color: var(--gold); border-radius: 2px; }
-.doa-subtitle { text-align: center; color: #666; margin-bottom: 2.5rem; font-style: italic; }
+.doa-subtitle { text-align: center; color: var(--text-color-light); margin-bottom: 2.5rem; font-style: italic; }
 #doa-list.list-group { border: none; }
-#doa-list .list-group-item { padding: 1.25rem 1.5rem; margin-bottom: 0.75rem; border: 1px solid var(--blue-border); border-radius: 8px !important; font-size: 1.1rem; font-weight: 700; color: var(--blue-main); background-color: #f8faff; transition: all 0.3s ease-in-out; position: relative; overflow: hidden; padding-left: 4rem; }
+#doa-list .list-group-item { padding: 1.25rem 1.5rem; margin-bottom: 0.75rem; border: 1px solid var(--card-border); border-radius: 8px !important; font-size: 1.1rem; font-weight: 700; color: var(--doa-list-text); background-color: var(--doa-list-bg); transition: all 0.3s ease-in-out; position: relative; overflow: hidden; padding-left: 4rem; }
 #doa-list .list-group-item::before { content: '\f192'; font-family: 'bootstrap-icons'; position: absolute; left: 1.5rem; top: 50%; transform: translateY(-50%); font-size: 1.2rem; color: var(--gold); transition: all 0.3s ease; }
-#doa-list .list-group-item:hover { background-color: var(--blue-main); color: var(--white); border-color: var(--blue-main); box-shadow: 0 8px 20px rgba(0, 74, 153, 0.2); transform: translateY(-5px); }
+#doa-list .list-group-item:hover { background-color: var(--doa-list-hover-bg); color: var(--doa-list-hover-text); border-color: var(--doa-list-hover-bg); box-shadow: 0 8px 20px rgba(0, 74, 153, 0.2); transform: translateY(-5px); }
 #doa-list .list-group-item:hover::before { color: var(--white); transform: translateY(-50%) scale(1.1) rotate(-5deg); }
 
-/* --- Blok yang Diperbarui untuk Transisi Halus --- */
 #doa-list-container,
 #doa-detail-container {
     transition: opacity 0.4s ease, transform 0.4s ease;
 }
-
 #doa-detail-container {
-    border: 1px solid var(--blue-border);
+    border: 1px solid var(--card-border);
     padding: 2rem;
     border-radius: 12px;
-    background-color: #fdfdff;
+    background-color: var(--doa-bg);
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: var(--theme-transition);
 }
-
 .hidden {
     opacity: 0;
     pointer-events: none;
@@ -365,40 +438,36 @@ body.sidebar-open::before {
     position: absolute;
     width: 100%;
 }
-/* --- Akhir Blok yang Diperbarui --- */
-
-#doa-detail-title { color: var(--blue-main); text-align: center; border-bottom: 2px solid var(--gold); padding-bottom: 0.75rem; margin-bottom: 2rem !important; }
-#doa-detail-content { line-height: 1.9; font-size: 1.1rem; color: #333; }
-#doa-detail-content h4 { font-weight: 700; color: var(--blue-main); margin-top: 2rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px dashed var(--blue-border); }
+#doa-detail-title { color: var(--header-text); text-align: center; border-bottom: 2px solid var(--gold); padding-bottom: 0.75rem; margin-bottom: 2rem !important; }
+#doa-detail-content { line-height: 1.9; font-size: 1.1rem; color: var(--text-color); }
+#doa-detail-content h4 { font-weight: 700; color: var(--header-text); margin-top: 2rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px dashed var(--footer-border); }
 #doa-detail-content hr { margin: 2.5rem 0; border-top: 1px solid var(--gold); opacity: 0.5; }
 #doa-lang-selector.btn-group { display: flex; justify-content: center; width: 100%; }
-#doa-lang-selector .btn { background-color: #f0f6ff; color: var(--blue-main); border: 1px solid var(--blue-border); font-weight: bold; transition: all 0.3s ease; }
+#doa-lang-selector .btn { background-color: var(--input-bg); color: var(--header-text); border: 1px solid var(--input-border); font-weight: bold; transition: all 0.3s ease; }
 #doa-lang-selector .btn.active, #doa-lang-selector .btn:not(.active):hover { background-color: var(--blue-main); color: var(--white); border-color: var(--blue-main); }
 
 /* ==================================================
-   12. TATA PERAYAAN EKARISTI (TPE)
+   13. TATA PERAYAAN EKARISTI (TPE)
    ================================================== */
 .tpe-container-final { font-family: 'Lora', serif; }
-.tpe-header { text-align: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 4px double var(--blue-border); }
-.tpe-header .tanggal { font-size: 1.1rem; color: #555; margin: 0; }
-.tpe-header .perayaan { font-family: 'Times New Roman', Times, serif; font-size: 1.8rem; color: var(--blue-main); font-weight: 700; margin: 0.25rem 0; }
+.tpe-header { text-align: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 4px double var(--footer-border); } /* Diperbarui */
+.tpe-header .tanggal { font-size: 1.1rem; color: var(--text-color-light); margin: 0; }
+.tpe-header .perayaan { font-family: 'Times New Roman', Times, serif; font-size: 1.8rem; color: var(--header-text); font-weight: 700; margin: 0.25rem 0; }
 .tpe-header .tahun-liturgi { font-size: 1rem; color: var(--gold); font-weight: 700; }
-.tpe-content-title { font-family: 'Poppins', sans-serif; font-weight: 700; color: var(--blue-main); text-align: center; margin-bottom: 1.5rem; border-bottom: 2px solid var(--blue-soft); padding-bottom: 0.5rem; }
+.tpe-content-title { font-family: 'Poppins', sans-serif; font-weight: 700; color: var(--header-text); text-align: center; margin-bottom: 1.5rem; border-bottom: 2px solid var(--footer-bg); padding-bottom: 0.5rem; }
 .jadwal-misa-table { width: 100%; border-collapse: collapse; margin: 1rem 0; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-radius: 8px; overflow: hidden; }
-.jadwal-misa-table th, .jadwal-misa-table td { padding: 12px 15px; border: 1px solid var(--blue-border); text-align: left; vertical-align: middle; }
-.jadwal-misa-table thead th { background-color: var(--blue-main); color: var(--white); font-family: 'Poppins', sans-serif; font-weight: 500; }
-.jadwal-misa-table tbody tr:nth-child(even) { background-color: #f8faff; }
-.jadwal-misa-table tbody tr:hover { background-color: var(--blue-soft); }
+.jadwal-misa-table th, .jadwal-misa-table td { padding: 12px 15px; border: 1px solid var(--footer-border); text-align: left; vertical-align: middle; transition: var(--theme-transition); }
+.jadwal-misa-table thead th { background-color: var(--header-text); color: var(--main-bg); font-family: 'Poppins', sans-serif; font-weight: 500; }
+.jadwal-misa-table tbody tr:nth-child(even) { background-color: var(--table-row-even-bg); }
+.jadwal-misa-table tbody tr:hover { background-color: var(--table-row-hover-bg); }
 .tpe-content { margin-top: 2rem; }
 .tpe-section { margin-bottom: 1.75rem; }
-.tpe-section .section-title { display: flex; align-items: center; gap: 10px; font-family: 'Poppins', sans-serif; font-weight: 700; color: var(--blue-main); font-size: 1.1rem; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--blue-soft); }
+.tpe-section .section-title { display: flex; align-items: center; gap: 10px; font-family: 'Poppins', sans-serif; font-weight: 700; color: var(--header-text); font-size: 1.1rem; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--footer-bg); }
 .tpe-section .section-title i { color: var(--gold); }
-.tpe-section .section-content { line-height: 1.8; font-size: 1.1rem; color: #333; padding-left: 5px; text-align: justify; hyphens: auto; }
+.tpe-section .section-content { line-height: 1.8; font-size: 1.1rem; color: var(--text-color); padding-left: 5px; text-align: justify; hyphens: auto; }
 .doa-umat-baris { margin: 0 0 0.5rem 0 !important; padding: 0 !important; line-height: 1.7; }
 .doa-umat-baris.umat { padding-left: 2rem !important; font-style: italic; }
 .doa-umat-baris.pemimpin { font-weight: bold; }
-
-/* Gaya tambahan untuk gambar di dalam konten TPE */
 .tpe-section .section-content img {
     max-width: 100%;
     height: auto;
@@ -409,19 +478,17 @@ body.sidebar-open::before {
 }
 
 /* ==================================================
-   13. MEDIA QUERIES (RESPONSIVE)
+   14. MEDIA QUERIES (RESPONSIVE)
    ================================================== */
 @media (max-width: 768px) {
   .main-layout { flex-direction: column; padding: 0 1rem; margin-left: 0; }
   main { padding: 1rem; }
   .sidebar { width: 220px; }
   
-  /* PERUBAHAN: Disesuaikan agar pas dengan lebar sidebar baru */
   .sidebar-toggle.active { left: 230px; } 
   
   .pastors-beranda { gap: 1.5rem; }
   
-  /* --- Pola untuk tabel responsif --- */
   .pope-table thead, .jadwal-misa-table thead { display: none; }
   .pope-table, .pope-table tbody, .pope-table tr, .pope-table td,
   .jadwal-misa-table, .jadwal-misa-table tbody, .jadwal-misa-table tr, .jadwal-misa-table td { 
@@ -430,7 +497,7 @@ body.sidebar-open::before {
   }
   .pope-table tr, .jadwal-misa-table tr { 
       margin-bottom: 1rem; 
-      border: 1px solid var(--blue-border); 
+      border: 1px solid var(--footer-border); 
       border-radius: 8px; 
       overflow: hidden; 
   }
@@ -439,7 +506,7 @@ body.sidebar-open::before {
       padding-left: 50%; 
       position: relative; 
       border: none;
-      border-bottom: 1px solid var(--blue-soft); 
+      border-bottom: 1px solid var(--footer-bg); 
   }
   .pope-table tr td:last-child, .jadwal-misa-table tr td:last-child {
       border-bottom: none;
@@ -451,59 +518,240 @@ body.sidebar-open::before {
       width: calc(50% - 20px); 
       text-align: left; 
       font-weight: bold; 
-      color: var(--blue-main); 
+      color: var(--header-text); 
+  }
+  .fc-header-toolbar {
+    flex-direction: column;
+    gap: 10px;
+  }
+  /* [DARK MODE] Tombol pindah ke atas di mobile */
+  .theme-switcher-wrapper {
+      bottom: auto;
+      top: 10px;
+      right: 10px;
+      left: auto;
   }
 }
 
 /* ==================================================
-   14. ANIMASI TOMBOL SIDEBAR (BARU)
+   15. ANIMASI TOMBOL SIDEBAR
    ================================================== */
-
-/* Penataan untuk 3 garis <span> di dalam tombol */
 .sidebar-toggle span {
   display: block;
   position: absolute;
-  width: 20px; /* Lebar garis hamburger */
-  height: 2px; /* Tebal garis hamburger */
+  width: 20px;
+  height: 2px;
   background-color: white;
   border-radius: 2px;
-  
-  /* Transisi untuk animasi hamburger-ke-X */
-  /* (cubic-bezier) adalah untuk efek 'membal' sedikit */
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-
-/* Atur Posisi Awal 3 Garis */
 .sidebar-toggle span:nth-child(1) {
-  transform: translateY(-6px); /* Garis atas */
+  transform: translateY(-6px);
 }
-/* Garis tengah (span:nth-child(2)) tidak perlu diapa-apakan */
 .sidebar-toggle span:nth-child(3) {
-  transform: translateY(6px); /* Garis bawah */
+  transform: translateY(6px);
 }
-
-
-/* * ANIMASI KELUAR-MASUK (Hamburger ke X) 
- * Ini terjadi saat tombol memiliki kelas .active (dari script.js)
- */
 .sidebar-toggle.active span:nth-child(1) {
-  /* Putar garis atas menjadi / */
   transform: rotate(45deg) translateY(0);
 }
 .sidebar-toggle.active span:nth-child(2) {
-  /* Sembunyikan garis tengah */
   opacity: 0;
 }
 .sidebar-toggle.active span:nth-child(3) {
-  /* Putar garis bawah menjadi \ */
   transform: rotate(-45deg) translateY(0);
+}
+.sidebar-toggle:active {
+  transform: scale(0.9);
+}
+
+/* ==================================================
+   16. FITUR PENCARIAN (POIN B25)
+   ================================================== */
+.doa-search-wrapper {
+    margin-bottom: 1.5rem;
+}
+#doaSearchInput {
+    max-width: 400px;
+    margin: 0 auto;
+    display: block;
+    border-radius: 20px;
+    padding-left: 1.5rem;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    color: var(--text-color);
+}
+#doaSearchInput:focus {
+    border-color: var(--blue-main);
+    box-shadow: 0 0 0 4px rgba(0, 74, 153, 0.1);
+}
+:root[data-theme="dark"] #doaSearchInput:focus {
+    box-shadow: 0 0 0 4px rgba(0, 100, 200, 0.2);
 }
 
 
-/* * ANIMASI SAAT DITEKAN (Permintaan "membal")
- * Ini terjadi saat tombol diklik (mouse-down)
- */
-.sidebar-toggle:active {
-  /* Buat tombol terlihat seperti 'ditekan' */
-  transform: scale(0.9);
+/* ==================================================
+   17. GAYA FULLCALENDAR (LITURGI - Poin A8)
+   ================================================== */
+.fc .fc-button-primary {
+    background-color: var(--blue-main) !important;
+    border-color: var(--blue-main) !important;
+    color: var(--white) !important;
+}
+.fc .fc-button-primary:hover {
+    background-color: #003a75 !important;
+}
+.fc .fc-button-primary:active {
+    background-color: #002a66 !important;
+}
+.fc .fc-daygrid-day.fc-day-today {
+    background-color: var(--blue-bg) !important;
+}
+:root[data-theme="dark"] .fc .fc-daygrid-day.fc-day-today {
+    background-color: #2a2a2a !important;
+}
+.fc .fc-col-header-cell-cushion {
+    color: var(--header-text);
+    font-weight: bold;
+    text-decoration: none;
+    transition: var(--theme-transition);
+}
+.fc-event {
+    border: 1px solid rgba(0,0,0,0.2) !important;
+    font-size: 0.8rem !important;
+    padding: 2px 4px;
+}
+.fc-event-main {
+    color: #fff !important; 
+}
+.fc-event[style*="background-color: rgb(255, 255, 255)"] .fc-event-main {
+    color: #333 !important; 
+}
+.fc-list-event-dot {
+    border-color: var(--blue-main) !important;
+}
+:root[data-theme="dark"] .fc-list-day-text, 
+:root[data-theme="dark"] .fc-list-event-time {
+    color: var(--text-color);
+}
+
+/* ==================================================
+   18. GAYA AGENDA FULLCALENDAR (POIN A8)
+   ================================================== */
+#agenda-calendar-container .fc-event {
+    background-color: var(--gold) !important;
+    border-color: #b89b30 !important;
+    color: #333 !important;
+}
+#agenda-calendar-container .fc-event-main {
+    color: #333 !important;
+}
+
+/* Kustomisasi popover (jika diklik) */
+.fc-popover {
+    z-index: 1050; 
+    background-color: var(--main-bg);
+    border: 1px solid var(--footer-border);
+}
+.fc-popover-header {
+    background-color: var(--header-bg);
+    color: var(--header-text);
+    transition: var(--theme-transition);
+}
+.fc-popover-body {
+    background-color: var(--main-bg);
+    transition: var(--theme-transition);
+}
+.fc-popover-body .fc-event-main {
+    color: var(--text-color) !important;
+}
+
+/* ==================================================
+   19. [BARU] FITUR DARK MODE (TOMBOL) (POIN A11)
+   ================================================== */
+.theme-switcher-wrapper {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    z-index: 1100;
+}
+.theme-toggle {
+    background-color: var(--main-bg);
+    border: 2px solid var(--footer-border);
+    color: var(--header-text);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: var(--theme-transition), transform 0.2s ease;
+}
+.theme-toggle:hover {
+    transform: scale(1.1);
+}
+.theme-toggle .icon-sun,
+.theme-toggle .icon-moon {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.theme-toggle .icon-sun {
+    display: none; /* Sembunyikan matahari di mode terang */
+}
+/* Tampilkan ikon yang benar berdasarkan tema */
+:root[data-theme="light"] .theme-toggle .icon-moon {
+    display: block;
+    transform: rotate(0deg);
+    opacity: 1;
+}
+:root[data-theme="light"] .theme-toggle .icon-sun {
+    display: none;
+    transform: rotate(90deg);
+    opacity: 0;
+}
+:root[data-theme="dark"] .theme-toggle .icon-moon {
+    display: none;
+    transform: rotate(90deg);
+    opacity: 0;
+}
+:root[data-theme="dark"] .theme-toggle .icon-sun {
+    display: block;
+    transform: rotate(0deg);
+    opacity: 1;
+}
+
+/* [DARK MODE] Modal Bootstrap */
+:root[data-theme="dark"] .modal-content {
+    background-color: var(--modal-content-bg);
+    color: var(--text-color);
+}
+:root[data-theme="dark"] .modal-header {
+    border-bottom: 1px solid var(--footer-border);
+}
+:root[data-theme="dark"] .modal-footer {
+    border-top: 1px solid var(--footer-border);
+}
+:root[data-theme="dark"] .btn-close {
+    filter: invert(1);
+}
+
+/* ==================================================
+   20. [BARU] FITUR CETAK PDF TPE (POIN A9)
+   ================================================== */
+.tpe-print-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px dashed var(--footer-border);
+}
+#print-tpe-btn {
+    background-color: var(--red);
+    border-color: var(--red);
+    font-weight: bold;
+}
+#print-tpe-btn:hover {
+    background-color: #c33024;
+    border-color: #c33024;
 }

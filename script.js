@@ -1,20 +1,13 @@
 /*
  * script.js (Versi Final & Rapi)
  * File skrip utama untuk halaman publik Paroki.
- * * FUNGSI UTAMA:
- * - Menginisialisasi Firebase dan komponen UI (Particles, GLightbox).
- * - Mengelola logika navigasi tab dan sidebar.
- * - [DIPERBARUI] Menerapkan Lazy Loading untuk data tab.
- * - Memuat data dinamis dari Firebase Firestore:
- * - Tata Perayaan Ekaristi (TPE) mingguan.
- * - Pengumuman / Agenda.
- * - Status kehadiran Pastor.
- * - Statistik Umat (tabel dan grafik).
- * - Pustaka Doa.
- * - Memuat data statis dari file JSON:
- * - Kalender Liturgi.
- * - Sejarah Paus.
- * - Mengelola fungsionalitas modal untuk pratinjau PDF.
+ *
+ * * PERUBAHAN (FULL FIX v4 - V2.0):
+ * - (A8) Menambahkan Kalender Agenda & Kalender Liturgi (FullCalendar).
+ * - (B15, B42) Menambahkan DOMPurify.sanitize() untuk keamanan XSS.
+ * - (B25) Menambahkan logika pencarian untuk Pustaka Doa.
+ * - [BARU] (A9) Menambahkan fungsi Ekspor TPE ke PDF (html2pdf.js).
+ * - [BARU] (A11) Menambahkan fungsi Dark Mode (toggle) & penyimpanan localStorage.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -24,7 +17,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // =================================================================
     const db = firebase.firestore();
     let publicUmatChart = null; 
-    const loadedTabs = new Set(); // <-- Pelacak untuk lazy loading
+    const loadedTabs = new Set(); 
+    let liturgicalCalendar = null;
+    let agendaCalendar = null;
+    let eventDetailModal = null;
+
+    // [BARU] Inisialisasi Modal Bootstrap
+    if (document.getElementById('eventDetailModal')) {
+        eventDetailModal = new bootstrap.Modal(document.getElementById('eventDetailModal'));
+    }
+
+    // [BARU] Panggil fungsi Dark Mode segera untuk menghindari kedipan (FOUC)
+    loadTheme();
 
     // Inisialisasi library pihak ketiga
     GLightbox({ selector: '.glightbox' });
@@ -35,17 +39,105 @@ document.addEventListener('DOMContentLoaded', () => {
     // FUNGSI BANTU (HELPERS)
     // =================================================================
 
-    const showLoading = (container, message = 'Memuat data...') => {
-        if (container) {
-            container.innerHTML = `<div class="feedback-container"><div class="spinner"></div><p>${message}</p></div>`;
+    const setFeedback = (container, type, message) => {
+        if (!container) return;
+        let html = '';
+        switch (type) {
+            case 'loading':
+                html = `<div class="feedback-container" role="status" aria-live="polite"><div class="spinner"></div><p>${message}</p></div>`;
+                break;
+            case 'error':
+                html = `<div class="error-alert" role="alert"><strong>Gagal Memuat:</strong> ${message}</div>`;
+                break;
+            case 'empty':
+                html = `<div class="feedback-container" role="status" aria-live="polite"><p>${message}</p></div>`;
+                break;
         }
+        container.innerHTML = html;
     };
 
-    const showError = (container, message) => {
-        if (container) {
-            container.innerHTML = `<div class="error-alert"><strong>Gagal Memuat:</strong> ${message}</div>`;
+    // =================================================================
+    // [BARU] FUNGSI FITUR V2.0 (DARK MODE & PDF)
+    // =================================================================
+
+    /**
+     * [BARU] Menerapkan tema (Dark/Light) dari localStorage atau preferensi sistem (Poin A11)
+     */
+    function loadTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        let currentTheme = 'light'; // Default
+        
+        if (savedTheme) {
+            currentTheme = savedTheme;
+        } else if (systemPrefersDark) {
+            currentTheme = 'dark';
         }
-    };
+        
+        document.documentElement.setAttribute('data-theme', currentTheme);
+    }
+
+    /**
+     * [BARU] Mengganti tema dan menyimpannya di localStorage (Poin A11)
+     */
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = (currentTheme === 'light') ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+    }
+
+    /**
+     * [BARU] Mencetak TPE ke PDF menggunakan html2pdf (Poin A9)
+     */
+    function printTPE() {
+        const printBtn = document.getElementById('print-tpe-btn');
+        const originalText = printBtn.innerHTML;
+        
+        // Tampilkan loading spinner
+        printBtn.disabled = true;
+        printBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Mengunduh...';
+
+        // Tentukan TPE mana yang sedang aktif
+        const currentTpe = document.getElementById('current-week-tpe');
+        const nextTpe = document.getElementById('next-week-tpe');
+        
+        let elementToPrint, perayaanNama;
+        
+        if (currentTpe.style.display !== 'none') {
+            elementToPrint = currentTpe.querySelector('.tpe-container-final');
+            perayaanNama = elementToPrint.querySelector('.perayaan').textContent.trim();
+        } else if (nextTpe.style.display !== 'none') {
+            elementToPrint = nextTpe.querySelector('.tpe-container-final');
+            perayaanNama = elementToPrint.querySelector('.perayaan').textContent.trim();
+        } else {
+            elementToPrint = currentTpe.querySelector('.tpe-container-final');
+            perayaanNama = elementToPrint.querySelector('.perayaan').textContent.trim();
+        }
+
+        const filename = `TPE - ${perayaanNama}.pdf`;
+
+        // Opsi untuk html2pdf
+        const opt = {
+            margin:       10,
+            filename:     filename,
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        // Panggil library
+        html2pdf().set(opt).from(elementToPrint).save().then(() => {
+            // Kembalikan tombol ke state normal
+            printBtn.disabled = false;
+            printBtn.innerHTML = originalText;
+        }).catch((err) => {
+            console.error("Gagal membuat PDF:", err);
+            printBtn.disabled = false;
+            printBtn.innerHTML = "Gagal, Coba Lagi";
+        });
+    }
 
     // =================================================================
     // FUNGSI-FUNGSI UTAMA PEMUAT DATA
@@ -82,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const formatDoaUmat = (htmlContent) => {
             if (!htmlContent || htmlContent.trim() === '') return '';
             const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = htmlContent;
+            tempDiv.innerHTML = DOMPurify.sanitize(htmlContent, {USE_PROFILES: {html: true}});
             tempDiv.querySelectorAll('p').forEach(p => {
                 const text = p.textContent.trim();
                 if (text.startsWith('P:') || text.startsWith('I:')) p.classList.add('doa-umat-baris', 'pemimpin');
@@ -94,7 +186,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const createSection = (title, content) => {
             if (!content || content.trim() === '') return '';
-            const contentHtml = (title === 'Doa Umat') ? formatDoaUmat(content) : `<div class="section-content">${content}</div>`;
+            const contentHtml = (title === 'Doa Umat') 
+                ? formatDoaUmat(content) 
+                : `<div class="section-content">${DOMPurify.sanitize(content, {USE_PROFILES: {html: true}})}</div>`;
             return `<div class="tpe-section"><h4 class="section-title"><i class="bi bi-cross"></i> ${title}</h4>${contentHtml}</div>`;
         };
         
@@ -128,10 +222,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentContainer = document.getElementById('current-week-tpe');
         const nextContainer = document.getElementById('next-week-tpe');
         const controlsContainer = document.getElementById('tpe-preview-controls');
+        const printWrapper = document.querySelector('.tpe-print-wrapper'); // [BARU]
         if (!currentContainer) return;
         
-        // Tampilkan loading spinner khusus untuk TPE
-        currentContainer.innerHTML = `<div class="feedback-container"><div class="spinner"></div><p>Memuat Jadwal & Tata Perayaan Ekaristi...</p></div>`;
+        setFeedback(currentContainer, 'loading', 'Memuat Jadwal & Tata Perayaan Ekaristi...');
+        if (printWrapper) printWrapper.style.display = 'none'; // Sembunyikan tombol cetak saat loading
 
         const now = new Date();
         const dayOfWeek = now.getDay();
@@ -149,12 +244,14 @@ document.addEventListener('DOMContentLoaded', () => {
                                      .get();
     
             if (snapshot.empty) {
-                showError(currentContainer, 'Tata Perayaan Ekaristi untuk minggu ini belum tersedia.');
+                setFeedback(currentContainer, 'error', 'Tata Perayaan Ekaristi untuk minggu ini belum tersedia.');
+                if (printWrapper) printWrapper.style.display = 'none';
                 return;
             }
     
             const currentData = snapshot.docs[0]?.data();
             currentContainer.innerHTML = createTpeHtml(currentData);
+            if (printWrapper) printWrapper.style.display = 'block'; // [BARU] Tampilkan tombol cetak
     
             const nextData = snapshot.docs[1]?.data();
             if (nextData) {
@@ -172,35 +269,112 @@ document.addEventListener('DOMContentLoaded', () => {
     
         } catch (error) {
             console.error("Gagal memuat TPE:", error);
-            showError(currentContainer, `Gagal memuat data. (${error.message})`);
+            setFeedback(currentContainer, 'error', `Gagal memuat data. (${error.message})`);
+            if (printWrapper) printWrapper.style.display = 'none';
         }
     };
 
-    const loadAnnouncementsPublic = async () => {
-        const container = document.querySelector('#agenda-container');
-        if (!container) return;
-        showLoading(container, 'Memuat agenda terbaru...');
-        try {
-            const snapshot = await db.collection('announcements').orderBy('createdAt', 'desc').get();
-            if (snapshot.empty) {
-                container.innerHTML = '<p class="text-center my-4">Saat ini belum ada agenda / pengumuman terbaru.</p>';
-                return;
-            }
-            container.innerHTML = snapshot.docs.map(doc => {
-                const item = doc.data();
-                const catatanFormatted = item.catatan || '<span class="text-muted">Tidak ada catatan.</span>';
-                return `<div class="col-12 mb-4"><div class="card shadow-sm agenda-card"><div class="card-body"><h5 class="card-title text-primary"><i class="bi bi-bookmark-fill me-2"></i>${item.judul}</h5><div class="mt-3 pt-3 border-top"><p class="mb-2"><i class="bi bi-calendar-event me-2"></i><strong>Tanggal:</strong> ${item.tanggal || '-'}</p><p class="mb-2"><i class="bi bi-clock me-2"></i><strong>Jam:</strong> ${item.jam || '-'}</p><p class="mb-2"><i class="bi bi-geo-alt-fill me-2"></i><strong>Lokasi:</strong> ${item.lokasi || '-'}</p><div class="mb-0 mt-3"><p class="mb-1"><i class="bi bi-info-circle-fill me-2"></i><strong>Catatan:</strong></p><div class="catatan-content ps-4">${catatanFormatted}</div></div></div></div></div></div>`;
-            }).join('');
-        } catch (error) {
-            console.error("Gagal memuat pengumuman: ", error);
-            showError(container, `Terjadi kesalahan saat memuat agenda. (${error.message})`);
+    /**
+     * [BARU] Inisialisasi Kalender Agenda dari Firestore (Poin A8)
+     */
+    const initializeAgendaCalendar = () => {
+        const calendarEl = document.getElementById('agenda-calendar-container');
+        if (!calendarEl) return;
+        
+        if (typeof FullCalendar === 'undefined') {
+            setFeedback(calendarEl, 'error', 'Library kalender gagal dimuat.');
+            return;
         }
+        
+        if (agendaCalendar) {
+            agendaCalendar.render();
+            return;
+        }
+
+        agendaCalendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: 'id',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,listWeek'
+            },
+            buttonText: {
+                today: 'Hari Ini',
+                month: 'Bulan',
+                week: 'Minggu',
+                list: 'Daftar'
+            },
+            height: 'auto',
+            
+            events: async (fetchInfo, successCallback, failureCallback) => {
+                try {
+                    const snapshot = await db.collection('announcements').get();
+                    const events = snapshot.docs.map(doc => {
+                        const item = doc.data();
+                        
+                        let startDateTime = item.tanggal;
+                        if (item.tanggal && item.jam) {
+                            startDateTime = `${item.tanggal}T${item.jam}`;
+                        }
+                        
+                        return {
+                            title: item.judul,
+                            start: startDateTime,
+                            allDay: !item.jam,
+                            extendedProps: {
+                                lokasi: item.lokasi || '-',
+                                catatan: item.catatan || 'Tidak ada catatan.',
+                                jam: item.jam || 'Seharian'
+                            }
+                        };
+                    });
+                    successCallback(events);
+                } catch (error) {
+                    console.error("Gagal memuat agenda: ", error);
+                    failureCallback(error);
+                    setFeedback(calendarEl, 'error', `Gagal memuat data agenda. (${error.message})`);
+                }
+            },
+            
+            eventClick: function(info) {
+                const props = info.event.extendedProps;
+                
+                document.getElementById('eventDetailModalLabel').innerText = info.event.title;
+                
+                let tanggalEvent = info.event.start.toLocaleDateString('id-ID', {
+                    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+                });
+                
+                document.getElementById('eventDetailModalBody').innerHTML = DOMPurify.sanitize(`
+                    <p>
+                        <strong><i class="bi bi-calendar-event me-2"></i>Kapan:</strong><br>
+                        ${tanggalEvent}
+                        <br>
+                        <strong><i class="bi bi-clock me-2"></i>Jam:</strong> ${props.jam}
+                    </p>
+                    <p>
+                        <strong><i class="bi bi-geo-alt-fill me-2"></i>Lokasi:</strong><br>
+                        ${props.lokasi}
+                    </p>
+                    <hr>
+                    <p><strong><i class="bi bi-info-circle-fill me-2"></i>Catatan:</strong></p>
+                    <div>${props.catatan}</div>
+                `);
+                
+                if (eventDetailModal) {
+                    eventDetailModal.show();
+                }
+            }
+        });
+
+        agendaCalendar.render();
     };
 
     const loadPastorStatus = async () => {
         const container = document.querySelector('#pastor');
         if (!container) return;
-        showLoading(container, 'Memuat status pastor...');
+        setFeedback(container, 'loading', 'Memuat status pastor...');
         try {
             const snapshot = await db.collection('pastors').orderBy('order').get();
             if (snapshot.empty) {
@@ -215,7 +389,7 @@ document.addEventListener('DOMContentLoaded', () => {
             container.innerHTML = `<h2>Kehadiran Pastor Hari Ini</h2><div class="pastor-status">${statusItems}</div><p class="mt-3" style="font-size: 0.9rem; color: #555;">Keterangan:<br/><span class="indicator green" style="padding: 2px 10px;">Di Tempat</span> = Pastor berada di pastoran.<br/><span class="indicator red" style="padding: 2px 10px;">Lainnya</span> = Pastor sedang pelayanan di luar, cuti, atau sakit.</p>`;
         } catch (error) {
             console.error("Gagal memuat status pastor:", error);
-            showError(container, `Gagal memuat status pastor. (${error.message})`);
+            setFeedback(container, 'error', `Gagal memuat status pastor. (${error.message})`);
         }
     };
 
@@ -223,7 +397,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tableContainer = document.querySelector('#statistik-table-container');
         const mainContainer = document.querySelector('#statistik');
         if (!tableContainer || !mainContainer) return;
-        showLoading(tableContainer, 'Memuat statistik umat...');
+        setFeedback(tableContainer, 'loading', 'Memuat statistik umat...');
         try {
             const snapshot = await db.collection('parish_stats').orderBy('order').get();
             if (snapshot.empty) {
@@ -251,18 +425,34 @@ document.addEventListener('DOMContentLoaded', () => {
             publicUmatChart = new Chart(ctx, {
                 type: 'bar',
                 data: { labels: labels, datasets: [{ label: 'Jumlah Jiwa', data: data, backgroundColor: 'rgba(0, 74, 153, 0.7)', borderColor: 'rgba(0, 74, 153, 1)', borderWidth: 1 }] },
-                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } }, plugins: { legend: { display: false }, title: { display: true, text: 'Visualisasi Jumlah Umat per Wilayah/Stasi' } } }
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    scales: { 
+                        y: { 
+                            beginAtZero: true,
+                            ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--text-color') }
+                        },
+                        x: {
+                            ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--text-color') }
+                        }
+                    }, 
+                    plugins: { 
+                        legend: { display: false }, 
+                        title: { display: true, text: 'Visualisasi Jumlah Umat per Wilayah/Stasi', color: getComputedStyle(document.documentElement).getPropertyValue('--text-color') } 
+                    } 
+                }
             });
         } catch (error) {
             console.error("Gagal memuat statistik umat:", error);
-            showError(mainContainer, `Gagal memuat data. (${error.message})`);
+            setFeedback(mainContainer, 'error', `Gagal memuat data. (${error.message})`);
         }
     };
 
     const loadSejarahPausFromJson = async () => {
         const container = document.querySelector('#sejarah-paus-container');
         if (!container) return;
-        showLoading(container, 'Memuat sejarah Paus...');
+        setFeedback(container, 'loading', 'Memuat sejarah Paus...');
         try {
             const response = await fetch('sejarah_paus.json');
             if (!response.ok) throw new Error(`Gagal memuat file: ${response.statusText}`);
@@ -289,50 +479,82 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         } catch (error) {
             console.error("Gagal memuat Sejarah Paus dari JSON:", error);
-            showError(container, `Pastikan file 'sejarah_paus.json' ada. (${error.message})`);
+            setFeedback(container, 'error', `Pastikan file 'sejarah_paus.json' ada. (${error.message})`);
         }
     };
 
-    const loadKalenderFromJson = async () => {
-        const container = document.querySelector('#kalender-container');
-        if (!container) return;
-        showLoading(container, `Memuat kalender liturgi...`);
-        try {
-            const response = await fetch('kalender_liturgi_2025.json');
-            if (!response.ok) throw new Error(`Gagal memuat file: ${response.statusText}`);
-            const data = await response.json();
+    const initializeLiturgicalCalendar = () => {
+        const calendarEl = document.getElementById('kalender-container');
+        if (!calendarEl) return;
 
-            const groupedByMonth = data.reduce((acc, item) => {
-                const date = new Date(item.tanggal + 'T12:00:00Z');
-                const monthYear = date.toLocaleString('id-ID', { month: 'long', year: 'numeric' });
-                if (!acc[monthYear]) acc[monthYear] = [];
-                acc[monthYear].push(item);
-                return acc;
-            }, {});
-            
-            let html = '';
-            const sortedMonths = Object.keys(groupedByMonth).sort((a, b) => new Date('01 ' + a) - new Date('01 ' + b));
-            for (const month of sortedMonths) {
-                html += `<h3 class="kalender-bulan">${month}</h3><ul class="kalender-list">`;
-                groupedByMonth[month].forEach(item => {
-                    const date = new Date(item.tanggal + 'T12:00:00Z');
-                    const judul = item.judul || 'Tidak ada judul';
-                    const getWarnaClass = (j) => {
-                        if (j.includes('Hari Raya')) return 'dot-red';
-                        if (j.includes('Pesta')) return 'dot-white';
-                        if (j.includes('Biasa')) return 'dot-green';
-                        if (j.includes('Adven') || j.includes('Prapaskah')) return 'dot-purple';
-                        return 'dot-default';
-                    };
-                    html += `<li class="kalender-item"><div class="kalender-tanggal"><span class="tanggal-angka">${date.getDate()}</span><span class="tanggal-hari">${date.toLocaleString('id-ID', { weekday: 'long' })}</span></div><div class="kalender-info"><span class="kalender-judul ${getWarnaClass(judul)}">${judul}</span><span class="kalender-deskripsi">${(item.deskripsi || '').replace(/\n/g, '<br>')}</span></div></li>`;
-                });
-                html += '</ul>';
-            }
-            container.innerHTML = html;
-        } catch (error) {
-            console.error("Gagal memuat Kalender Liturgi dari JSON:", error);
-            showError(container, `Pastikan file 'kalender_liturgi_2025.json' ada. (${error.message})`);
+        if (typeof FullCalendar === 'undefined') {
+            setFeedback(calendarEl, 'error', 'Library kalender gagal dimuat.');
+            return;
         }
+
+        if (liturgicalCalendar) {
+            liturgicalCalendar.render();
+            return;
+        }
+
+        liturgicalCalendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: 'id', 
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,listWeek'
+            },
+            buttonText: {
+                today: 'Hari Ini',
+                month: 'Bulan',
+                week: 'Minggu',
+                list: 'Daftar'
+            },
+            height: 'auto',
+            eventSources: [
+                {
+                    url: 'kalender_liturgi_2025.json',
+                    failure: function() {
+                        setFeedback(calendarEl, 'error', 'Gagal memuat data kalender_liturgi_2025.json');
+                    }
+                }
+            ],
+            eventDataTransform: function(eventData) {
+                let color = 'var(--blue-main)'; // Default
+                let textColor = '#FFFFFF';
+                const judul = eventData.judul || '';
+                
+                if (judul.startsWith('🔴')) {
+                    color = 'var(--red)';
+                } else if (judul.startsWith('🟢')) {
+                    color = 'var(--green)';
+                } else if (judul.startsWith('🟣')) {
+                    color = '#6f42c1'; 
+                } else if (judul.startsWith('⚪')) {
+                    if (judul.includes('[P]') || judul.includes('[H]')) {
+                         color = '#FFFFFF';
+                         textColor = '#333333';
+                    }
+                }
+
+                return {
+                    title: judul.substring(2).trim(),
+                    start: eventData.tanggal,
+                    allDay: true,
+                    color: color,
+                    textColor: textColor,
+                    description: eventData.deskripsi
+                };
+            },
+            eventMouseEnter: function(info) {
+                if (info.event.extendedProps.description) {
+                    info.el.title = info.event.extendedProps.description;
+                }
+            }
+        });
+
+        liturgicalCalendar.render();
     };
     
     const loadPrayers = async () => {
@@ -340,12 +562,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const detailContainer = document.querySelector('#doa-detail-container');
         const doaList = document.querySelector('#doa-list');
         const doaWrapper = document.querySelector('#doa-wrapper');
+        const searchInput = document.getElementById('doaSearchInput'); 
 
         if (!listContainer || !doaWrapper) return;
 
-        detailContainer.classList.add('hidden'); // Sembunyikan detail saat awal
+        detailContainer.classList.add('hidden');
         
-        doaList.innerHTML = `<div class="feedback-container"><div class="spinner"></div><p>Memuat daftar doa...</p></div>`;
+        setFeedback(doaList, 'loading', 'Memuat daftar doa...');
 
         try {
             const snapshot = await db.collection('prayers').orderBy('order').get();
@@ -361,17 +584,40 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (prayersDataFromDb.length === 0) {
-                doaList.innerHTML = '<p class="text-center">Data doa belum tersedia. Silakan tambahkan melalui halaman admin.</p>';
+                setFeedback(doaList, 'empty', 'Data doa belum tersedia.');
+                searchInput.style.display = 'none'; 
                 return;
             }
 
             let currentPrayer = null;
 
-            doaList.innerHTML = prayersDataFromDb.map(prayer => `<button type="button" class="list-group-item list-group-item-action">${prayer.title}</button>`).join('');
+            const renderPrayerList = (filterQuery = '') => {
+                const query = filterQuery.toLowerCase();
+                const filteredPrayers = prayersDataFromDb.filter(prayer => 
+                    prayer.title.toLowerCase().includes(query)
+                );
+                
+                if (filteredPrayers.length === 0) {
+                    doaList.innerHTML = '<p class="text-center">Doa tidak ditemukan.</p>';
+                } else {
+                    doaList.innerHTML = filteredPrayers.map(prayer => 
+                        `<button type="button" class="list-group-item list-group-item-action">${prayer.title}</button>`
+                    ).join('');
+                }
+            };
+            
+            renderPrayerList();
+
+            searchInput.addEventListener('input', (e) => {
+                renderPrayerList(e.target.value);
+            });
             
             const renderPrayerContent = (lang) => {
                 if (currentPrayer) {
-                    document.querySelector('#doa-detail-content').innerHTML = currentPrayer.content[lang] || '<p><em>Konten tidak tersedia untuk bahasa ini.</em></p>';
+                    const contentElement = document.querySelector('#doa-detail-content');
+                    const content = currentPrayer.content[lang] || '<p><em>Konten tidak tersedia untuk bahasa ini.</em></p>';
+                    contentElement.innerHTML = DOMPurify.sanitize(content, {USE_PROFILES: {html: true}});
+                    
                     document.querySelectorAll('#doa-lang-selector button').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
                 }
             };
@@ -404,7 +650,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error("Gagal memuat data doa dari Firestore:", error);
-            doaList.innerHTML = `<div class="error-alert"><strong>Gagal Memuat:</strong> Daftar doa tidak dapat ditampilkan.</div>`;
+            setFeedback(doaList, 'error', `Daftar doa tidak dapat ditampilkan.`);
         }
     };
 
@@ -414,34 +660,36 @@ document.addEventListener('DOMContentLoaded', () => {
     // =================================================================
 
     function activateTab(tabId) {
-        document.querySelectorAll('.tab-button').forEach(btn => btn.classList.toggle('active', btn.dataset.tab === tabId));
+        document.querySelectorAll('.tab-button').forEach(btn => {
+            const isActive = btn.dataset.tab === tabId;
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-selected', isActive ? 'true' : 'false'); 
+        });
         document.querySelectorAll('.tab-content').forEach(content => {
             content.classList.toggle('active', content.id === tabId);
         });
-        const sidebarMenu = document.getElementById('sidebarMenu');
         
-        // === PERUBAHAN UNTUK MOBILE ===
-        // Tutup sidebar DAN reset tombol hamburger
+        const sidebarMenu = document.getElementById('sidebarMenu');
+        const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
+        
         if (window.innerWidth <= 768 && sidebarMenu.classList.contains('active')) {
             sidebarMenu.classList.remove('active');
             document.body.classList.remove('sidebar-open');
-            // Juga hapus .active dari tombol
-            document.getElementById('sidebarToggleBtn').classList.remove('active');
+            sidebarToggleBtn.classList.remove('active');
+            sidebarToggleBtn.setAttribute('aria-expanded', 'false');
         }
     }
 
-    function setupNavigation() {
+    function setupEventListeners() {
         const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
         const sidebarMenu = document.getElementById('sidebarMenu');
+        const themeToggleBtn = document.getElementById('theme-toggle'); // [BARU]
+        const printTpeBtn = document.getElementById('print-tpe-btn'); // [BARU]
 
         if (sidebarToggleBtn && sidebarMenu) {
             sidebarToggleBtn.addEventListener('click', () => {
-                
-                // === PERUBAHAN DI SINI ===
-                // Tambahkan/hapus kelas .active pada TOMBOL itu sendiri
-                sidebarToggleBtn.classList.toggle('active');
-                // === AKHIR PERUBAHAN ===
-                
+                const isActive = sidebarToggleBtn.classList.toggle('active');
+                sidebarToggleBtn.setAttribute('aria-expanded', String(isActive));
                 sidebarMenu.classList.toggle('active');
                 document.body.classList.toggle('sidebar-open');
             });
@@ -450,11 +698,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (window.innerWidth <= 768 && document.body.classList.contains('sidebar-open') && !sidebarMenu.contains(event.target) && !sidebarToggleBtn.contains(event.target) && !sidebarToggleBtn.contains(event.target.closest('.sidebar-toggle'))) {
                     sidebarMenu.classList.remove('active');
                     document.body.classList.remove('sidebar-open');
-                    
-                    // === PERUBAHAN DI SINI ===
-                    // Pastikan tombol juga kembali ke state hamburger
                     sidebarToggleBtn.classList.remove('active');
-                    // === AKHIR PERUBAHAN ===
+                    sidebarToggleBtn.setAttribute('aria-expanded', 'false');
                 }
             });
         }
@@ -463,14 +708,13 @@ document.addEventListener('DOMContentLoaded', () => {
             button.addEventListener('click', (event) => {
                 event.preventDefault();
                 const tabId = button.dataset.tab;
-                activateTab(tabId); // Aktifkan tab secara visual
+                activateTab(tabId); 
 
-                // [DIPERBARUI] Logika Lazy Loading
                 if (!loadedTabs.has(tabId)) {
                     console.log(`Memuat data untuk tab: ${tabId}`);
                     switch (tabId) {
                         case 'agenda':
-                            loadAnnouncementsPublic();
+                            initializeAgendaCalendar();
                             break;
                         case 'pastor':
                             loadPastorStatus();
@@ -479,7 +723,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             loadPublicStats();
                             break;
                         case 'kalender':
-                            loadKalenderFromJson();
+                            initializeLiturgicalCalendar();
                             break;
                         case 'sejarah-paus':
                             loadSejarahPausFromJson();
@@ -487,18 +731,37 @@ document.addEventListener('DOMContentLoaded', () => {
                         case 'doa':
                             loadPrayers();
                             break;
-                        // Tab 'beranda' dan 'sekretariat' tidak perlu memuat data khusus
                     }
-                    loadedTabs.add(tabId); // Tandai sudah dimuat
+                    loadedTabs.add(tabId);
+                }
+                
+                // [BARU] Render ulang kalender jika tab diklik lagi (untuk responsif)
+                if (tabId === 'agenda' && agendaCalendar) {
+                    agendaCalendar.render();
+                }
+                if (tabId === 'kalender' && liturgicalCalendar) {
+                    liturgicalCalendar.render();
                 }
             });
         });
+
+        // [BARU] Listener untuk tombol Dark Mode (Poin A11)
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', toggleTheme);
+        }
+
+        // [BARU] Listener untuk tombol Cetak PDF (Poin A9)
+        if (printTpeBtn) {
+            printTpeBtn.addEventListener('click', printTPE);
+        }
     }
     
     function setupPreviewModal() {
-        const previewModal = document.getElementById('previewModal');
-        if (previewModal) {
-            previewModal.addEventListener('show.bs.modal', function (event) {
+        const previewModalEl = document.getElementById('previewModal');
+        if (previewModalEl) {
+            // const previewModal = new bootstrap.Modal(previewModalEl); // Tidak perlu inisialisasi jika pakai data-bs-toggle
+            
+            previewModalEl.addEventListener('show.bs.modal', function (event) {
                 const button = event.relatedTarget;
                 const pdfSrc = button.getAttribute('data-pdf-src');
                 const formName = button.textContent.trim();
@@ -517,7 +780,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
             
-            previewModal.addEventListener('hidden.bs.modal', () => {
+            previewModalEl.addEventListener('hidden.bs.modal', () => {
                 document.getElementById('pdf-viewer').src = 'about:blank';
             });
         }
@@ -528,17 +791,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // =================================================================
     
     const initializePage = () => {
-        setupNavigation();
+        setupEventListeners(); // Mengganti nama fungsi setupNavigation
         setupPreviewModal();
         
-        // [DIPERBARUI] Hanya muat data untuk tab 'beranda' saat awal
         loadWeeklyLiturgy();
         loadedTabs.add('beranda');
         
-        // Data untuk tab lain akan dimuat oleh setupNavigation() saat diklik
-        
         activateTab('beranda');
     };
+    
+    // Cek library penting
+    if (typeof DOMPurify === 'undefined') {
+        console.error("DOMPurify gagal dimuat. Keamanan konten terganggu.");
+    }
+    if (typeof FullCalendar === 'undefined') {
+        console.error("FullCalendar gagal dimuat.");
+    }
+    if (typeof html2pdf === 'undefined') {
+        console.error("html2pdf gagal dimuat.");
+    }
     
     initializePage();
 });

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="light">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -65,7 +65,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
     <link href="theme.css" rel="stylesheet">
+    
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/main.min.css' rel='stylesheet' />
+    
     <link href="style.css" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js" integrity="sha512-H+rglffZ6f52nwD4vN/j0CAvcoi2hGfXXGyG+ka9MBlkPizVvkM2IOjA/HWsGD+1N90GGzHYClA13f2IZDq0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
 
@@ -77,37 +82,43 @@
 
     <div class="container main-layout">
         
-        <button class="btn btn-primary sidebar-toggle" id="sidebarToggleBtn" type="button" aria-label="Buka atau Tutup Menu">
+        <button class="btn btn-primary sidebar-toggle" id="sidebarToggleBtn" type="button" aria-label="Buka atau Tutup Menu" aria-expanded="false" aria-controls="sidebarMenu">
             <span></span>
             <span></span>
             <span></span>
         </button>
 
-        <aside class="sidebar" id="sidebarMenu">
-            <nav class="nav d-flex flex-column">
+        <aside class="sidebar" id="sidebarMenu" role="navigation">
+            <nav class="nav d-flex flex-column" role="tablist" aria-label="Navigasi Utama">
                 <a href="login.html" class="tab-button tab-button-login"><i class="bi bi-key-fill"></i><span>Login Admin</span></a>
-                <button class="tab-button active" data-tab="beranda"><i class="bi bi-house-door-fill"></i><span>Beranda</span></button>
-                <button class="tab-button" data-tab="agenda"><i class="bi bi-calendar-event"></i><span>Agenda & Pengumuman</span></button>
-                <button class="tab-button" data-tab="doa"><i class="bi bi-book-half"></i><span>Doa-Doa</span></button>
-                <button class="tab-button" data-tab="pastor"><i class="bi bi-person-vcard-fill"></i><span>Profil Pastor</span></button>
-                <button class="tab-button" data-tab="sekretariat"><i class="bi bi-envelope-fill"></i><span>Sekretariat & Komsos</span></button>
-                <button class="tab-button" data-tab="statistik"><i class="bi bi-bar-chart-line-fill"></i><span>Statistik Umat</span></button>
-                <button class="tab-button" data-tab="tentang"><i class="bi bi-info-circle-fill"></i><span>Tentang Paroki</span></button>
-                <button class="tab-button" data-tab="kalender"><i class="bi bi-calendar-check-fill"></i><span>Kalender Liturgi</span></button>
-                <button class="tab-button" data-tab="sejarah-paus"><i class="bi bi-person-badge-fill"></i><span>Sejarah Paus</span></button>
+                <button class="tab-button active" data-tab="beranda" role="tab" aria-selected="true" id="tab-btn-beranda" aria-controls="beranda"><i class="bi bi-house-door-fill"></i><span>Beranda</span></button>
+                <button class="tab-button" data-tab="agenda" role="tab" aria-selected="false" id="tab-btn-agenda" aria-controls="agenda"><i class="bi bi-calendar-event"></i><span>Agenda & Pengumuman</span></button>
+                <button class="tab-button" data-tab="doa" role="tab" aria-selected="false" id="tab-btn-doa" aria-controls="doa"><i class="bi bi-book-half"></i><span>Doa-Doa</span></button>
+                <button class="tab-button" data-tab="pastor" role="tab" aria-selected="false" id="tab-btn-pastor" aria-controls="pastor"><i class="bi bi-person-vcard-fill"></i><span>Profil Pastor</span></button>
+                <button class="tab-button" data-tab="sekretariat" role="tab" aria-selected="false" id="tab-btn-sekretariat" aria-controls="sekretariat"><i class="bi bi-envelope-fill"></i><span>Sekretariat & Komsos</span></button>
+                <button class="tab-button" data-tab="statistik" role="tab" aria-selected="false" id="tab-btn-statistik" aria-controls="statistik"><i class="bi bi-bar-chart-line-fill"></i><span>Statistik Umat</span></button>
+                <button class="tab-button" data-tab="tentang" role="tab" aria-selected="false" id="tab-btn-tentang" aria-controls="tentang"><i class="bi bi-info-circle-fill"></i><span>Tentang Paroki</span></button>
+                <button class="tab-button" data-tab="kalender" role="tab" aria-selected="false" id="tab-btn-kalender" aria-controls="kalender"><i class="bi bi-calendar-check-fill"></i><span>Kalender Liturgi</span></button>
+                <button class="tab-button" data-tab="sejarah-paus" role="tab" aria-selected="false" id="tab-btn-sejarah-paus" aria-controls="sejarah-paus"><i class="bi bi-person-badge-fill"></i><span>Sejarah Paus</span></button>
             </nav>
         </aside>
 
         <main>
-            <section class="tab-content active" id="beranda">
+            <section class="tab-content active" id="beranda" role="tabpanel" aria-labelledby="tab-btn-beranda">
                 <h2 class="text-center pastor-title">Pastor Paroki & Pastor Rekan</h2>
                 <div class="pastors-beranda">
-                    <div class="pastor-item-beranda"><a href="pastor-joseph.jpg" class="glightbox" data-gallery="pastor-beranda"><img alt="Foto Pastor Joseph Ansow, Pr." class="pastor-photo pastor-photo-joseph" src="pastor-joseph.jpg" onerror="this.onerror=null;this.src='https://placehold.co/100x100/e6f2ff/004a99?text=Foto';"></a><p><b>P. Joseph Ansow, Pr.</b></p></div>
-                    <div class="pastor-item-beranda"><a href="pastor-stenly.jpg" class="glightbox" data-gallery="pastor-beranda"><img alt="Foto Pastor Stenly Ambun, Pr." class="pastor-photo" src="pastor-stenly.jpg" onerror="this.onerror=null;this.src='https://placehold.co/100x100/e6f2ff/004a99?text=Foto';"></a><p><b>P. Stenly Ambun, Pr.</b></p></div>
+                    <div class="pastor-item-beranda"><a href="pastor-joseph.jpg" class="glightbox" data-gallery="pastor-beranda"><img alt="Foto Pastor Joseph Ansow, Pr." class="pastor-photo pastor-photo-joseph" src="pastor-joseph.jpg" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/100x100/e6f2ff/004a99?text=Foto';"></a><p><b>P. Joseph Ansow, Pr.</b></p></div>
+                    <div class="pastor-item-beranda"><a href="pastor-stenly.jpg" class="glightbox" data-gallery="pastor-beranda"><img alt="Foto Pastor Stenly Ambun, Pr." class="pastor-photo" src="pastor-stenly.jpg" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/100x100/e6f2ff/004a99?text=Foto';"></a><p><b>P. Stenly Ambun, Pr.</b></p></div>
                 </div>
                 <hr class="my-5">
 
                 <div id="liturgi-mingguan-wrapper">
+                    <div class="tpe-print-wrapper" style="display: none;">
+                        <button id="print-tpe-btn" class="btn btn-primary">
+                            <i class="bi bi-file-earmark-pdf-fill"></i> Cetak/Simpan PDF
+                        </button>
+                    </div>
+                
                     <div id="tpe-preview-controls" class="text-center mb-4" style="display: none;">
                         <button id="tpe-preview-btn" class="btn btn-outline-primary">Lihat Pratinjau Minggu Depan &gt;&gt;</button>
                     </div>
@@ -119,17 +130,21 @@
                 </div>
             </section>
 
-            <section class="tab-content" id="agenda">
-                <h2>Agenda / Pengumuman Mingguan</h2>
-                <div class="row row-cols-1 row-cols-md-2 g-4 mt-3" id="agenda-container">
-                    <div class="feedback-container"><div class="spinner"></div><p>Memuat agenda...</p></div>
-                </div>
+            <section class="tab-content" id="agenda" role="tabpanel" aria-labelledby="tab-btn-agenda">
+                <h2>Agenda & Pengumuman Paroki</h2>
+                <div id="agenda-calendar-container" class="mt-3">
+                    </div>
             </section>
             
-            <section class="tab-content doa-container" id="doa">
+            <section class="tab-content doa-container" id="doa" role="tabpanel" aria-labelledby="tab-btn-doa">
                 <div id="doa-wrapper">
                     <div id="doa-list-container">
                         <h2 class="doa-main-title">Pustaka Doa Katolik</h2>
+                        
+                        <div class="doa-search-wrapper">
+                            <input type="text" id="doaSearchInput" class="form-control" placeholder="Cari doa (misal: Bapa Kami)...">
+                        </div>
+                        
                         <div id="doa-list" class="list-group">
                             </div>
                     </div>
@@ -145,11 +160,11 @@
                 </div>
             </section>
 
-            <section class="tab-content" id="pastor">
+            <section class="tab-content" id="pastor" role="tabpanel" aria-labelledby="tab-btn-pastor">
                 <div class="feedback-container"><div class="spinner"></div><p>Memuat status pastor...</p></div>
             </section>
             
-            <section class="tab-content" id="sekretariat">
+            <section class="tab-content" id="sekretariat" role="tabpanel" aria-labelledby="tab-btn-sekretariat">
                 <h2 class="text-center"><b>SEKRETARIAT & KOMSOS</b></h2>
                 <div class="social-icons">
                     <a href="https://www.facebook.com/share/19K6ZFiifj/" target="_blank" class="social-icon fb" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
@@ -170,7 +185,7 @@
                 </div>
             </section>
             
-            <section class="tab-content" id="statistik">
+            <section class="tab-content" id="statistik" role="tabpanel" aria-labelledby="tab-btn-statistik">
                 <h2>Statistik Umat</h2>
                 <div class="chart-container"><canvas id="public-umat-chart"></canvas></div>
                 <div id="statistik-table-container" class="overflow-auto">
@@ -178,7 +193,7 @@
                 </div>
             </section>
             
-            <section class="tab-content" id="tentang">
+            <section class="tab-content" id="tentang" role="tabpanel" aria-labelledby="tab-btn-tentang">
                 <div class="tentang-section">
                     <h2>Sejarah Singkat Paroki</h2>
                     <p class="sejarah-paroki-text">Paroki Santa Perawan Maria Ratu Rosari (SPMRR) berlokasi di Desa Sinisir, Kecamatan Modoinding, Kabupaten Minahasa Selatan, sebuah wilayah dataran tinggi yang subur dan dikenal luas sebagai salah satu lumbung hortikultura utama di Provinsi Sulawesi Utara. Konteks geografis dan sosio-ekonomi ini secara langsung membentuk karakteristik umat paroki, yang sebagian besar menggantungkan hidupnya pada sektor pertanian. Di tengah lanskap agraris ini, berdiri Gereja Paroki Santa Perawan Maria Ratu Rosari Suci, Sinisir, yang menjadi pusat kehidupan rohani bagi komunitas Katolik setempat. Pemilihan Santa Perawan Maria dengan gelar Ratu Rosari sebagai pelindung paroki tidak hanya memberikan nama, tetapi juga menanamkan sebuah identitas devosional yang kuat yang berpusat pada tradisi doa Rosario, sebuah ciri khas spiritualitas Katolik.</p>
@@ -194,7 +209,7 @@
                             <tbody>
                                 <tr><td>Stasi Sta. Theresia - Makaaroyen</td><td><a href="https://placehold.co/800x600/004a99/ffffff?text=Luar+Makaaroyen" class="glightbox" data-gallery="stasi-1" data-title="Tampak Luar Gereja Stasi St. Mikael Makaaroyen"><img src="https://placehold.co/120x80/004a99/ffffff?text=Luar" loading="lazy" width="120" height="80" alt="Foto Luar Stasi Makaaroyen" class="stasi-photo" onerror="this.onerror=null;this.src='https://placehold.co/120x80/e6f2ff/004a99?text=Error';"></a></td><td><a href="https://placehold.co/800x600/004a99/ffffff?text=Dalam+Makaaroyen" class="glightbox" data-gallery="stasi-1" data-title="Tampak Dalam Gereja Stasi St. Mikael Makaaroyen"><img src="https://placehold.co/120x80/004a99/ffffff?text=Dalam" loading="lazy" width="120" height="80" alt="Foto Dalam Stasi Makaaroyen" class="stasi-photo" onerror="this.onerror=null;this.src='https://placehold.co/120x80/e6f2ff/004a99?text=Error';"></a></td></tr>
                                 <tr><td>Stasi Hati Kudus Yesus - Mobuya</td><td><a href="https://placehold.co/800x600/4caf50/ffffff?text=Luar+Wulurmaatus" class="glightbox" data-gallery="stasi-2" data-title="Tampak Luar Gereja Stasi Kristus Raja Wulurmaatus"><img src="https://placehold.co/120x80/4caf50/ffffff?text=Luar" loading="lazy" width="120" height="80" alt="Foto Luar Stasi Wulurmaatus" class="stasi-photo" onerror="this.onerror=null;this.src='https://placehold.co/120x80/e6f2ff/004a99?text=Error';"></a></td><td><a href="https://placehold.co/800x600/4caf50/ffffff?text=Dalam+Wulurmaatus" class="glightbox" data-gallery="stasi-2" data-title="Tampak Dalam Gereja Stasi Kristus Raja Wulurmaatus"><img src="https://placehold.co/120x80/4caf50/ffffff?text=Dalam" loading="lazy" width="120" height="80" alt="Foto Dalam Stasi Wulurmaatus" class="stasi-photo" onerror="this.onerror=null;this.src='https://placehold.co/120x80/e6f2ff/004a99?text=Error';"></a></td></tr>
-                                <tr><td>Stasi Rex Mundi - Tambelang</td><td><a href="https://placehold.co/800x600/f44336/ffffff?text=Luar+Palelon" class="glightbox" data-gallery="stasi-3" data-title="Tampak Luar Gereja Stasi Hati Kudus Yesus Palelon"><img src="https://placehold.co/120x80/f44336/ffffff?text=Luar" loading="lazy" width="120" height="80" alt="Foto Luar Stasi Palelon" class="stasi-photo" onerror="this.onerror=null;this.src='https://placehold.co/120x80/e6f2ff/004a99?text=Error';"></a></td><td><a href="https://placehold.co/800x600/f44336/ffffff?text=Dalam+Palelon" class="glightbox" data-gallery="stasi-3" data-title="Tampak Dalam Gereja Stasi Hati Kudus Yesus Palelon"><img src="https://placehold.co/120x80/f44336/ffffff?text=Dalam" loading="lazy" width="120" height="80" alt="Foto Dalam Stasi Palelon" class="stasi-photo" onerror="this.onerror=null;this.src='https://placehold.co/120x80/e6f2ff/004a99?text=Error';"></a></td></tr>
+                                <tr><td>Stasi Rex Mundi - Tambelang</td><td><a href="https://placehold.co/800x600/f44336/ffffff?text=Luar+Palelon" class="glightbox" data-gallery="stasi-3" data-title="Tampak Luar Gereja Stasi Hati Kudus Yesus Palelon"><img src="https://placehold.co/120x80/f44336/ffffff?text=Luar" loading="lazy" width="120" height="80" alt="Foto Luar Stasi Palelon" class="stasi-photo" onerror="this.onerror=null;this.src='https://placehold.co/120x80/e6f2ff/004a99?text=Error';"></a></td><td><a href="https://placehold.co/800x600/f44336/ffffff?text=Dalam+Palelon" class="glightbox" data-gallery="stasi-3" data-title="Tampak Dalam Gereja Stasi Hati Kudus Yesus Palelon"><img src="httpss://placehold.co/120x80/f44336/ffffff?text=Dalam" loading="lazy" width="120" height="80" alt="Foto Dalam Stasi Palelon" class="stasi-photo" onerror="this.onerror=null;this.src='https://placehold.co/120x80/e6f2ff/004a99?text=Error';"></a></td></tr>
                                 <tr><td>Stasi St. Andreas - Kinamang</td><td><a href="https://placehold.co/800x600/ff9800/ffffff?text=Luar+Pinasungkulan" class="glightbox" data-gallery="stasi-4" data-title="Tampak Luar Gereja Stasi St. Yusuf Pinasungkulan"><img src="https://placehold.co/120x80/ff9800/ffffff?text=Luar" loading="lazy" width="120" height="80" alt="Foto Luar Stasi Pinasungkulan" class="stasi-photo" onerror="this.onerror=null;this.src='https://placehold.co/120x80/e6f2ff/004a99?text=Error';"></a></td><td><a href="https://placehold.co/800x600/ff9800/ffffff?text=Dalam+Pinasungkulan" class="glightbox" data-gallery="stasi-4" data-title="Tampak Dalam Gereja Stasi St. Yusuf Pinasungkulan"><img src="https://placehold.co/120x80/ff9800/ffffff?text=Dalam" loading="lazy" width="120" height="80" alt="Foto Dalam Stasi Pinasungkulan" class="stasi-photo" onerror="this.onerror=null;this.src='https://placehold.co/120x80/e6f2ff/004a99?text=Error';"></a></td></tr>
                                 <tr><td>Stasi Christus Rex - Liningaan</td><td><a href="https://placehold.co/800x600/673ab7/ffffff?text=Luar+Sinisir" class="glightbox" data-gallery="stasi-5" data-title="Tampak Luar Gereja Stasi St. Petrus & Paulus Sinisir"><img src="https://placehold.co/120x80/673ab7/ffffff?text=Luar" loading="lazy" width="120" height="80" alt="Foto Luar Stasi Sinisir" class="stasi-photo" onerror="this.onerror=null;this.src='https://placehold.co/120x80/e6f2ff/004a99?text=Error';"></a></td><td><a href="https://placehold.co/800x600/673ab7/ffffff?text=Dalam+Sinisir" class="glightbox" data-gallery="stasi-5" data-title="Tampak Dalam Gereja Stasi St. Petrus & Paulus Sinisir"><img src="https://placehold.co/120x80/673ab7/ffffff?text=Dalam" loading="lazy" width="120" height="80" alt="Foto Dalam Stasi Sinisir" class="stasi-photo" onerror="this.onerror=null;this.src='https://placehold.co/120x80/e6f2ff/004a99?text=Error';"></a></td></tr>
                             </tbody>
@@ -214,20 +229,35 @@
                 </div>
             </section>
             
-            <section class="tab-content" id="kalender">
+            <section class="tab-content" id="kalender" role="tabpanel" aria-labelledby="tab-btn-kalender">
                 <h2>Kalender Liturgi</h2>
                 <div id="kalender-container" class="mt-3">
-                    <div class="feedback-container"><div class="spinner"></div><p>Memuat kalender...</p></div>
-                </div>
+                    </div>
             </section>
 
-            <section class="tab-content" id="sejarah-paus">
+            <section class="tab-content" id="sejarah-paus" role="tabpanel" aria-labelledby="tab-btn-sejarah-paus">
                 <h2>Sejarah Paus</h2>
                 <div id="sejarah-paus-container" class="mt-3">
                     <div class="feedback-container"><div class="spinner"></div><p>Memuat sejarah Paus...</p></div>
                 </div>
             </section>
         </main>
+    </div>
+    
+    <div class="modal fade" id="eventDetailModal" tabindex="-1" aria-labelledby="eventDetailModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="eventDetailModalLabel">Detail Agenda</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="eventDetailModalBody">
+            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
@@ -248,6 +278,13 @@
       </div>
     </div>
 
+    <div class="theme-switcher-wrapper">
+        <button id="theme-toggle" class="theme-toggle" aria-label="Ganti tema">
+            <i class="bi bi-moon-stars-fill icon-moon"></i>
+            <i class="bi bi-sun-fill icon-sun"></i>
+        </button>
+    </div>
+
     <footer>
         © 2025 - Paroki Santa Perawan Maria Ratu Rosari Modoinding. Dibuat oleh Sekretariat Paroki.
     </footer>
@@ -259,8 +296,15 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+    
     <script src="firebase-config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
     <script src="script.js" defer></script>
 
     <script>
