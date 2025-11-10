@@ -2,21 +2,22 @@
  * script.js (Versi Final & Rapi - Migrasi ke Firebase v9)
  * File skrip utama untuk halaman publik Paroki.
  *
- * * PERUBAHAN (FULL FIX v4 - V2.0):
- * - (B11, B44) Migrasi penuh ke Firebase v9 SDK (modular).
- * - (A8) Menambahkan Kalender Agenda & Kalender Liturgi (FullCalendar).
- * - (B15, B42) Menambahkan DOMPurify.sanitize() untuk keamanan XSS.
- * - (B25) Menambahkan logika pencarian untuk Pustaka Doa.
- * - (A9) Menambahkan fungsi Ekspor TPE ke PDF (html2pdf.js).
- * - (A11) Menambahkan fungsi Dark Mode (toggle) & penyimpanan localStorage.
- * - (B3, B17) Menggabungkan setFeedback() + aria.
- * - (A6) Memperbarui logika setupNavigation untuk atribut aria-.
+ * * PERBAIKAN (REQUEST PENGGUNA 11-NOV-2025 v1 - FCM):
+ * - Menambahkan fungsi untuk meminta izin Notifikasi Push (FCM).
+ * - Menambahkan listener untuk notifikasi saat web dibuka (foreground).
+ * - Menambahkan impor 'getMessaging', 'getToken', 'onMessage', 'doc', 'setDoc', 'serverTimestamp'.
  */
 
 // [PERUBAHAN] Impor Firebase v9 (Poin B11)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-import { getFirestore, collection, getDocs, query, orderBy, limit, where, documentId } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+import { 
+    getFirestore, collection, getDocs, query, orderBy, limit, where, documentId,
+    doc, setDoc, serverTimestamp // [BARU] Tambahan untuk simpan token FCM
+} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 import { firebaseConfig } from "./firebase-config.js"; // [PERUBAHAN] Impor config
+
+// [BARU] Impor untuk Firebase Messaging (Notifikasi Push)
+import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-messaging.js";
 
 // =================================================================
 // INISIALISASI & VARIABEL GLOBAL
@@ -86,7 +87,6 @@ function loadTheme() {
     }
     
     document.documentElement.setAttribute('data-theme', currentTheme);
-    // [PERBAIKAN] Ganti body, bukan html, untuk dark mode
     document.body.setAttribute('data-theme', currentTheme);
 }
 
@@ -260,7 +260,6 @@ const loadWeeklyLiturgy = async () => {
     const targetDateString = lastSaturday.toISOString().split('T')[0];
 
     try {
-        // [PERUBAHAN] Sintaks v9 (Poin B11)
         const tpeRef = collection(db, 'tata_perayaan_mingguan');
         const q = query(tpeRef, 
             where(documentId(), '>=', targetDateString), 
@@ -301,7 +300,7 @@ const loadWeeklyLiturgy = async () => {
 };
 
 /**
- * [PERUBAHAN] Inisialisasi Kalender Agenda dari Firestore (Poin A8)
+ * [PERBAIKAN] Inisialisasi Kalender Agenda (HANYA DARI FIREBASE)
  */
 const initializeAgendaCalendar = () => {
     const calendarEl = document.getElementById('agenda-calendar-container');
@@ -318,12 +317,14 @@ const initializeAgendaCalendar = () => {
     }
 
     agendaCalendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
+        // [PERBAIKAN] Ubah ini: Selalu 'listWeek' (Tampilan Daftar)
+        initialView: 'listWeek',
         locale: 'id',
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
-            right: 'dayGridMonth,listWeek'
+            // [PERBAIKAN] Hapus 'right' untuk menghilangkan tombol 'Bulan' & 'Daftar'
+            right: '' 
         },
         buttonText: {
             today: 'Hari Ini',
@@ -333,19 +334,19 @@ const initializeAgendaCalendar = () => {
         },
         height: 'auto',
         
-        // [PERUBAHAN] Ambil events dari Firestore v9 (Poin B11)
+        // [PERBAIKAN KUNCI] Paksa event tampil sebagai 'block'
+        eventDisplay: 'block', 
+        
         events: async (fetchInfo, successCallback, failureCallback) => {
             try {
                 const annRef = collection(db, 'announcements');
                 const snapshot = await getDocs(annRef);
                 const events = snapshot.docs.map(doc => {
                     const item = doc.data();
-                    
                     let startDateTime = item.tanggal;
                     if (item.tanggal && item.jam) {
                         startDateTime = `${item.tanggal}T${item.jam}`;
                     }
-                    
                     return {
                         title: item.judul,
                         start: startDateTime,
@@ -367,9 +368,7 @@ const initializeAgendaCalendar = () => {
         
         eventClick: function(info) {
             const props = info.event.extendedProps;
-            
             document.getElementById('eventDetailModalLabel').innerText = info.event.title;
-            
             let tanggalEvent = info.event.start.toLocaleDateString('id-ID', {
                 weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
             });
@@ -404,7 +403,6 @@ const loadPastorStatus = async () => {
     if (!container) return;
     setFeedback(container, 'loading', 'Memuat status pastor...');
     try {
-        // [PERUBAHAN] Sintaks v9 (Poin B11)
         const pastorsRef = collection(db, 'pastors');
         const q = query(pastorsRef, orderBy('order'));
         const snapshot = await getDocs(q);
@@ -431,7 +429,6 @@ const loadPublicStats = async () => {
     if (!tableContainer || !mainContainer) return;
     setFeedback(tableContainer, 'loading', 'Memuat statistik umat...');
     try {
-        // [PERUBAHAN] Sintaks v9 (Poin B11)
         const statsRef = collection(db, 'parish_stats');
         const q = query(statsRef, orderBy('order'));
         const snapshot = await getDocs(q);
@@ -459,7 +456,6 @@ const loadPublicStats = async () => {
         const ctx = document.getElementById('public-umat-chart').getContext('2d');
         if (publicUmatChart) { publicUmatChart.destroy(); }
         
-        // [PERBAIKAN] Ambil warna teks dari CSS Variables untuk Dark Mode
         const textColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color') || '#333';
 
         publicUmatChart = new Chart(ctx, {
@@ -536,9 +532,11 @@ const initializeLiturgicalCalendar = () => {
         liturgicalCalendar.render();
         return;
     }
+    
+    const isMobile = window.innerWidth <= 768;
 
     liturgicalCalendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
+        initialView: isMobile ? 'listWeek' : 'dayGridMonth',
         locale: 'id', 
         headerToolbar: {
             left: 'prev,next today',
@@ -552,6 +550,7 @@ const initializeLiturgicalCalendar = () => {
             list: 'Daftar'
         },
         height: 'auto',
+        
         eventSources: [
             {
                 url: 'kalender_liturgi_2025.json',
@@ -565,13 +564,13 @@ const initializeLiturgicalCalendar = () => {
             let textColor = '#FFFFFF';
             const judul = eventData.judul || '';
             
-            if (judul.startsWith('🔴')) {
+            if (judul.startsWith('閥')) {
                 color = 'var(--red)';
-            } else if (judul.startsWith('🟢')) {
+            } else if (judul.startsWith('泙')) {
                 color = 'var(--green)';
-            } else if (judul.startsWith('🟣')) {
+            } else if (judul.startsWith('泪')) {
                 color = '#6f42c1'; 
-            } else if (judul.startsWith('⚪')) {
+            } else if (judul.startsWith('笞ｪ')) {
                 if (judul.includes('[P]') || judul.includes('[H]')) {
                      color = '#FFFFFF';
                      textColor = '#333333';
@@ -611,7 +610,6 @@ const loadPrayers = async () => {
     setFeedback(doaList, 'loading', 'Memuat daftar doa...');
 
     try {
-        // [PERUBAHAN] Sintaks v9 (Poin B11)
         const prayersRef = collection(db, 'prayers');
         const q = query(prayersRef, orderBy('order'));
         const snapshot = await getDocs(q);
@@ -698,6 +696,72 @@ const loadPrayers = async () => {
     }
 };
 
+// =================================================================
+// [BARU] FUNGSI NOTIFIKASI PUSH (FCM)
+// =================================================================
+
+/**
+ * [BARU] Meminta izin notifikasi kepada pengguna
+ * dan menyimpan token mereka ke Firestore
+ */
+async function requestNotificationPermission() {
+    console.log('Meminta izin notifikasi...');
+    
+    try {
+        // Pastikan 'app' dan 'db' sudah diinisialisasi secara global
+        const messaging = getMessaging(app);
+        
+        // 1. Minta izin dari pengguna
+        const permission = await Notification.requestPermission();
+        
+        if (permission === 'granted') {
+            console.log('Izin notifikasi diberikan.');
+            
+            // 2. Dapatkan token
+            // !! PENTING: Ganti string di bawah ini dengan "VAPID key" Anda
+            // Anda bisa dapatkan di: Firebase Console > Project Settings > Cloud Messaging > Web Push certificates > Generate Key Pair
+            const vapidKey = "BBM6CSRCjYkUsHEWHebAdM76bMT8_WrSQefvxdDpf8VmM3BGMOS-yNPkUPOUWpk29XzDZkTZTprhMK"; 
+            
+            if (vapidKey === "BBM6CSRCjYkUsHEWHebAdM76bMT8_WrSQefvxdDpf8VmM3BGMOS-yNPkUPOUWpk29XzDZkTZTprhMK") {
+                console.error("!!! PENTING: Harap ganti 'vapidKey' di script.js dengan kunci Anda dari Firebase Console!");
+            }
+
+            const fcmToken = await getToken(messaging, { vapidKey: vapidKey });
+
+            if (fcmToken) {
+                console.log('FCM Token:', fcmToken);
+                
+                // 3. Simpan token ke Firestore
+                const tokenDocRef = doc(db, 'fcm_tokens', fcmToken);
+                await setDoc(tokenDocRef, { 
+                    token: fcmToken,
+                    createdAt: serverTimestamp() 
+                });
+                console.log('Token berhasil disimpan ke Firestore.');
+                
+            } else {
+                console.log('Tidak bisa mendapatkan token. Pastikan file firebase-messaging-sw.js ada di folder root.');
+            }
+        } else {
+            console.log('Izin notifikasi ditolak.');
+        }
+    } catch (err) {
+        console.error('Terjadi error saat meminta izin notifikasi: ', err);
+    }
+}
+
+// [BARU] Menangani notifikasi saat aplikasi dibuka (foreground)
+try {
+    const messaging = getMessaging(app);
+    onMessage(messaging, (payload) => {
+        console.log('Pesan diterima saat aplikasi dibuka: ', payload);
+        // Tampilkan notifikasi manual (alert sederhana)
+        alert(`Notifikasi Baru: \n${payload.notification.title}\n\n${payload.notification.body}`);
+    });
+} catch(err) {
+    console.error("Gagal inisialisasi onMessage listener: ", err);
+}
+
 
 // =================================================================
 // MANAJEMEN NAVIGASI & UI
@@ -780,10 +844,10 @@ function setupEventListeners() {
             }
             
             if (tabId === 'agenda' && agendaCalendar) {
-                agendaCalendar.render();
+                setTimeout(() => agendaCalendar.render(), 1);
             }
             if (tabId === 'kalender' && liturgicalCalendar) {
-                liturgicalCalendar.render();
+                setTimeout(() => liturgicalCalendar.render(), 1);
             }
         });
     });
@@ -837,11 +901,15 @@ const initializePage = () => {
     loadedTabs.add('beranda');
     
     activateTab('beranda');
+
+    // [BARU] Panggil fungsi minta izin notifikasi setelah 5 detik
+    // Jeda ini agar tidak terlalu agresif saat user baru buka web
+    setTimeout(requestNotificationPermission, 5000); 
 };
 
 // Cek library penting
 if (typeof DOMPurify === 'undefined') {
-    console.error("DOMPurify gagal dimuat. Keamanan konten terganggu.");
+    console.error("DOMPurify gagal dimuat. Keamanan terganggu.");
 }
 if (typeof FullCalendar === 'undefined') {
     console.error("FullCalendar gagal dimuat.");

@@ -26,6 +26,9 @@
  * * PERUBAHAN (FULL FIX v3):
  * - Menambahkan semua gaya untuk Dark Mode (Poin A11).
  * - Menambahkan gaya untuk tombol Cetak PDF TPE (Poin A9).
+ *
+ * * PERBAIKAN (REQUEST PENGGUNA 10-NOV-2025):
+ * - Memperbesar font kalender di mobile.
  */
 
 /* ==================================================
@@ -524,6 +527,12 @@ body.sidebar-open::before {
     flex-direction: column;
     gap: 10px;
   }
+  
+  /* [PERBAIKAN] Perbesar font kalender di mobile */
+  .fc-list-event-title, .fc-list-event-time {
+      font-size: 1rem !important; /* Pastikan teks di list view jelas */
+  }
+  
   /* [DARK MODE] Tombol pindah ke atas di mobile */
   .theme-switcher-wrapper {
       bottom: auto;
@@ -617,7 +626,7 @@ body.sidebar-open::before {
 }
 .fc-event {
     border: 1px solid rgba(0,0,0,0.2) !important;
-    font-size: 0.8rem !important;
+    font-size: 0.85rem !important; /* [PERBAIKAN] Sedikit diperbesar dari 0.8rem */
     padding: 2px 4px;
 }
 .fc-event-main {
@@ -637,121 +646,6 @@ body.sidebar-open::before {
 /* ==================================================
    18. GAYA AGENDA FULLCALENDAR (POIN A8)
    ================================================== */
-#agenda-calendar-container .fc-event {
-    background-color: var(--gold) !important;
-    border-color: #b89b30 !important;
-    color: #333 !important;
-}
 #agenda-calendar-container .fc-event-main {
-    color: #333 !important;
-}
-
-/* Kustomisasi popover (jika diklik) */
-.fc-popover {
-    z-index: 1050; 
-    background-color: var(--main-bg);
-    border: 1px solid var(--footer-border);
-}
-.fc-popover-header {
-    background-color: var(--header-bg);
-    color: var(--header-text);
-    transition: var(--theme-transition);
-}
-.fc-popover-body {
-    background-color: var(--main-bg);
-    transition: var(--theme-transition);
-}
-.fc-popover-body .fc-event-main {
-    color: var(--text-color) !important;
-}
-
-/* ==================================================
-   19. [BARU] FITUR DARK MODE (TOMBOL) (POIN A11)
-   ================================================== */
-.theme-switcher-wrapper {
-    position: fixed;
-    bottom: 15px;
-    right: 15px;
-    z-index: 1100;
-}
-.theme-toggle {
-    background-color: var(--main-bg);
-    border: 2px solid var(--footer-border);
-    color: var(--header-text);
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    transition: var(--theme-transition), transform 0.2s ease;
-}
-.theme-toggle:hover {
-    transform: scale(1.1);
-}
-.theme-toggle .icon-sun,
-.theme-toggle .icon-moon {
-    font-size: 1.2rem;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-}
-.theme-toggle .icon-sun {
-    display: none; /* Sembunyikan matahari di mode terang */
-}
-/* Tampilkan ikon yang benar berdasarkan tema */
-:root[data-theme="light"] .theme-toggle .icon-moon {
-    display: block;
-    transform: rotate(0deg);
-    opacity: 1;
-}
-:root[data-theme="light"] .theme-toggle .icon-sun {
-    display: none;
-    transform: rotate(90deg);
-    opacity: 0;
-}
-:root[data-theme="dark"] .theme-toggle .icon-moon {
-    display: none;
-    transform: rotate(90deg);
-    opacity: 0;
-}
-:root[data-theme="dark"] .theme-toggle .icon-sun {
-    display: block;
-    transform: rotate(0deg);
-    opacity: 1;
-}
-
-/* [DARK MODE] Modal Bootstrap */
-:root[data-theme="dark"] .modal-content {
-    background-color: var(--modal-content-bg);
-    color: var(--text-color);
-}
-:root[data-theme="dark"] .modal-header {
-    border-bottom: 1px solid var(--footer-border);
-}
-:root[data-theme="dark"] .modal-footer {
-    border-top: 1px solid var(--footer-border);
-}
-:root[data-theme="dark"] .btn-close {
-    filter: invert(1);
-}
-
-/* ==================================================
-   20. [BARU] FITUR CETAK PDF TPE (POIN A9)
-   ================================================== */
-.tpe-print-wrapper {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 1rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px dashed var(--footer-border);
-}
-#print-tpe-btn {
-    background-color: var(--red);
-    border-color: var(--red);
-    font-weight: bold;
-}
-#print-tpe-btn:hover {
-    background-color: #c33024;
-    border-color: #c33024;
+    color: var(--white) !important; 
 }

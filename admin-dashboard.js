@@ -2,15 +2,12 @@
  * admin-dashboard.js (VERSI FIREBASE v9)
  * File skrip utama untuk fungsionalitas halaman admin.
  *
- * * PERUBAHAN (FULL FIX v3 - V2.0):
- * - (B11, B44) Migrasi penuh ke Firebase v9 SDK (modular).
- * - (B1, B7) Menonaktifkan initParticles().
- * - (B3) Menggabungkan setTableFeedback().
- * - (B6, B16) Menghapus uploadInitialStats().
- * - (B18) Menambahkan setupModalTabs() untuk modal TPE.
- * - (B19, A5) Menambahkan logika expand/collapse tabel program.
- * - (B21) Menambahkan fungsi exportStatsToCSV().
- * - (B23) Menambahkan fungsi filterProgramTable() dan listener-nya.
+ * * PERUBAIKAN (REQUEST PENGGUNA 11-NOV-2025 v1 - FCM):
+ * - Menambahkan impor 'getFunctions' dan 'httpsCallable' dari Firebase Functions.
+ * - Menambahkan inisialisasi 'functions' dan 'sendGlobalNotification'.
+ * - Menambahkan event listener baru untuk form '#notification-form'.
+ * - Listener ini akan memanggil 'sendGlobalNotification' (Firebase Function)
+ * dengan 'title' dan 'body' dari form.
  */
 
 // [PERUBAHAN] Impor Firebase v9 (Poin B11)
@@ -35,6 +32,11 @@ import {
     serverTimestamp,
     setDoc
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+// [BARU] Impor untuk memanggil Firebase Functions
+import { 
+    getFunctions, 
+    httpsCallable 
+} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-functions.js";
 import { firebaseConfig } from "./firebase-config.js"; // [PERUBAHAN] Impor config
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -47,6 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const db = getFirestore(app);
     const auth = getAuth(app);
     
+    // [BARU] Inisialisasi Firebase Functions
+    // Pastikan region Anda benar (misal: 'asia-southeast2' untuk Jakarta)
+    const functions = getFunctions(app, 'asia-southeast2'); 
+    const sendGlobalNotification = httpsCallable(functions, 'sendGlobalNotification');
+
     let umatChart = null;
     let currentParishStats = []; 
 
@@ -76,11 +83,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. MANAJEMEN OTENTIKASI (LOGIN & AKSES)
     // =================================================================
     
-    // [PERUBAHAN] Sintaks v9
     onAuthStateChanged(auth, async (user) => {
         if (user) {
             try {
-                // [PERUBAHAN] Sintaks v9
                 const userDocRef = doc(db, 'users', user.uid);
                 const userDoc = await getDoc(userDocRef);
                 
@@ -125,7 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
         setTableFeedback(programsTableBody, 18, 'loading', 'Memuat data program kerja...');
         tableFooter.innerHTML = '';
 
-        // [PERUBAHAN] Sintaks v9
         const programsRef = collection(db, 'programs');
         const q = query(programsRef, orderBy('bidang'));
         
@@ -212,7 +216,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const announcementsTableBody = document.getElementById('announcements-table-body');
         setTableFeedback(announcementsTableBody, 5, 'loading', 'Memuat data pengumuman...');
         
-        // [PERUBAHAN] Sintaks v9
         const annRef = collection(db, 'announcements');
         const q = query(annRef, orderBy('createdAt', 'desc'));
 
@@ -253,7 +256,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const tpeTableBody = document.getElementById('tpe-table-body');
         setTableFeedback(tpeTableBody, 3, 'loading', 'Memuat data TPE...');
         
-        // [PERUBAHAN] Sintaks v9
         const tpeRef = collection(db, 'tata_perayaan_mingguan');
         
         onSnapshot(tpeRef, (snapshot) => {
@@ -283,7 +285,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const pastorListContainer = document.getElementById('pastor-list-container');
         pastorListContainer.innerHTML = `<div class="feedback-container"><div class="spinner"></div><p>Memuat data pastor...</p></div>`;
         
-        // [PERUBAHAN] Sintaks v9
         const pastorsRef = collection(db, 'pastors');
         const q = query(pastorsRef, orderBy('order'));
 
@@ -317,7 +318,6 @@ document.addEventListener('DOMContentLoaded', () => {
         setTableFeedback(statsTableBody, 7, 'loading', 'Memuat data statistik...');
         statsTableFooter.innerHTML = '';
 
-        // [PERUBAHAN] Sintaks v9
         const statsRef = collection(db, 'parish_stats');
         const q = query(statsRef, orderBy('order'));
 
@@ -363,7 +363,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const prayersTableBody = document.getElementById('prayers-table-body');
         setTableFeedback(prayersTableBody, 3, 'loading', 'Memuat data doa...');
         
-        // [PERUBAHAN] Sintaks v9
         const prayersRef = collection(db, 'prayers');
         const q = query(prayersRef, orderBy('order'));
 
@@ -394,7 +393,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // =================================================================
     const updateSummaryDashboard = async () => {
         try {
-            // [PERUBAHAN] Sintaks v9
             const programsSnap = await getDocs(collection(db, 'programs'));
             const announcementsSnap = await getDocs(collection(db, 'announcements'));
             const statsSnap = await getDocs(collection(db, 'parish_stats'));
@@ -621,7 +619,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // [PERUBAHAN] Sintaks v9
         document.getElementById('logout-button').addEventListener('click', () => signOut(auth));
         
         document.getElementById('print-btn').addEventListener('click', () => window.print());
@@ -663,13 +660,11 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (target.classList.contains('delete-program')) { 
                 if (confirm(`Yakin hapus program ini?`)) { 
-                    // [PERUBAHAN] Sintaks v9
                     await deleteDoc(doc(db, 'programs', docId)); 
                 } 
             }
             
             if (target.classList.contains('edit-program')) {
-                // [PERUBAHAN] Sintaks v9
                 const docRef = doc(db, 'programs', docId);
                 const docSnap = await getDoc(docRef);
                 
@@ -716,12 +711,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const programData = { bidang: document.getElementById('modal-bidang').value, sub_bidang_title: document.getElementById('modal-sub-bidang').value, pusat_paroki_stasi: document.getElementById('modal-lokasi').value, nama_unit: document.getElementById('modal-nama-unit').value, nama_kegiatan: document.getElementById('modal-nama_kegiatan').value, sasaran: document.getElementById('modal-sasaran').value, indikator: document.getElementById('modal-indikator').value, model_materi: document.getElementById('modal-model').value, materi: document.getElementById('modal-materi').value, tempat_waktu: document.getElementById('modal-waktu').value, pic: document.getElementById('modal-pic').value, sumber_dana_kas: document.getElementById('modal-sumber-dana-kas').value, sumber_dana_swadaya: document.getElementById('modal-sumber-dana-swadaya').value, anggaran: rincianAnggaran, total_anggaran: parseFloat(document.getElementById('modal-total-anggaran-display').textContent.replace(/[^0-9]/g, '')), };
             
             try {
-                // [PERUBAHAN] Sintaks v9
                 if (currentEditProgramId) { 
                     const docRef = doc(db, 'programs', currentEditProgramId);
                     await updateDoc(docRef, programData); 
                 } else { 
-                    programData.createdAt = serverTimestamp(); // [PERUBAHAN] v9 serverTimestamp
+                    programData.createdAt = serverTimestamp(); 
                     await addDoc(collection(db, 'programs'), programData); 
                 }
                 msg.textContent = 'Berhasil!'; msg.className = 'form-message success';
@@ -756,7 +750,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!row) return;
             const docId = row.dataset.id;
             if (target.classList.contains('edit-announcement')) {
-                // [PERUBAHAN] Sintaks v9
                 const docRef = doc(db, 'announcements', docId);
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
@@ -777,7 +770,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (target.classList.contains('delete-announcement')) { 
                 if (confirm('Yakin hapus pengumuman ini?')) { 
-                    // [PERUBAHAN] Sintaks v9
                     await deleteDoc(doc(db, 'announcements', docId)); 
                 } 
             }
@@ -799,12 +791,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 catatan: tinymce.get('ann-catatan') ? tinymce.get('ann-catatan').getContent() : document.getElementById('ann-catatan').value,
             };
             try {
-                // [PERUBAHAN] Sintaks v9
                 if (currentEditAnnouncementId) {
                     const docRef = doc(db, 'announcements', currentEditAnnouncementId);
                     await updateDoc(docRef, data);
                 } else {
-                    data.createdAt = serverTimestamp(); // [PERUBAHAN] v9 serverTimestamp
+                    data.createdAt = serverTimestamp(); 
                     await addDoc(collection(db, 'announcements'), data);
                 }
                 msg.textContent = 'Berhasil!'; msg.className = 'form-message success';
@@ -851,13 +842,11 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (target.classList.contains('delete-tpe')) { 
                 if (confirm(`Yakin ingin menghapus TPE untuk tanggal ${docId}?`)) { 
-                    // [PERUBAHAN] Sintaks v9
                     await deleteDoc(doc(db, 'tata_perayaan_mingguan', docId)); 
                 } 
             }
             
             if (target.classList.contains('edit-tpe')) {
-                // [PERUBAHAN] Sintaks v9
                 const docRef = doc(db, 'tata_perayaan_mingguan', docId);
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
@@ -938,7 +927,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 tata_perayaan: tataPerayaanData
             };
             try {
-                // [PERUBAHAN] Sintaks v9 (setDoc)
                 const docRef = doc(db, 'tata_perayaan_mingguan', docId);
                 await setDoc(docRef, tpeData, { merge: true }); // setDoc menggantikan set + merge
                 
@@ -964,7 +952,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const feedbackEl = document.getElementById(`feedback-${pastorId}`);
                 if (feedbackEl) feedbackEl.textContent = 'Menyimpan...';
                 try {
-                    // [PERUBAHAN] Sintaks v9
                     const docRef = doc(db, 'pastors', pastorId);
                     await updateDoc(docRef, { status: newStatus });
                     
@@ -976,8 +963,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('stats-table-body').addEventListener('click', async (e) => {
             if (e.target.classList.contains('edit-stat')) {
                 const docId = e.target.closest('tr').dataset.id;
-                
-                // [PERUBAHAN] Sintaks v9
                 const docRef = doc(db, 'parish_stats', docId);
                 const docSnap = await getDoc(docRef);
                 
@@ -1006,7 +991,6 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.textContent = 'Menyimpan...';
 
             try {
-                // [PERUBAHAN] Sintaks v9
                 const docRef = doc(db, 'parish_stats', docId);
                 await updateDoc(docRef, data);
                 
@@ -1043,13 +1027,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (target.classList.contains('delete-prayer')) {
                 if (confirm('Yakin ingin menghapus doa ini?')) {
-                    // [PERUBAHAN] Sintaks v9
                     await deleteDoc(doc(db, 'prayers', docId));
                 }
             }
 
             if (target.classList.contains('edit-prayer')) {
-                // [PERUBAHAN] Sintaks v9
                 const docRef = doc(db, 'prayers', docId);
                 const docSnap = await getDoc(docRef);
                 
@@ -1086,7 +1068,6 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             try {
-                // [PERUBAHAN] Sintaks v9
                 if (currentEditPrayerId) {
                     const docRef = doc(db, 'prayers', currentEditPrayerId);
                     await updateDoc(docRef, prayerData);
@@ -1109,6 +1090,44 @@ document.addEventListener('DOMContentLoaded', () => {
                 submitBtn.textContent = 'Simpan Doa';
             }
         });
+        
+        // [BARU] Event listener untuk form notifikasi
+        document.getElementById('notification-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const title = document.getElementById('notif-title').value;
+            const body = document.getElementById('notif-body').value;
+            const msgEl = document.getElementById('notification-form-message');
+            const submitBtn = document.getElementById('send-notification-btn');
+
+            if (!confirm(`Anda yakin ingin mengirim notifikasi ini ke SEMUA umat?\n\nJudul: ${title}\nPesan: ${body}`)) {
+                return;
+            }
+
+            msgEl.textContent = 'Mengirim...';
+            msgEl.className = 'form-message';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Mengirim...';
+
+            try {
+                // Panggil Firebase Function 'sendGlobalNotification'
+                const result = await sendGlobalNotification({ title, body });
+                
+                console.log('Hasil dari function:', result.data);
+                msgEl.textContent = `Notifikasi berhasil dikirim! (${result.data.message || ''})`;
+                msgEl.className = 'form-message success';
+                document.getElementById('notification-form').reset();
+
+            } catch (error) {
+                console.error('Gagal mengirim notifikasi:', error);
+                msgEl.textContent = 'Gagal mengirim notifikasi. Cek console.';
+                msgEl.className = 'form-message error';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Kirim Notifikasi ke Semua Umat';
+            }
+        });
+
 
         // Event listener universal untuk menutup modal
         document.querySelectorAll('.close-modal-btn').forEach(btn => {

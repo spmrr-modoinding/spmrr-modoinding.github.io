@@ -31,6 +31,7 @@
                 <button class="nav-tab-btn" data-target="prayers-section"><i class="bi bi-book-half"></i> Manajemen Doa</button>
                 <button class="nav-tab-btn" data-target="pastors-section"><i class="bi bi-person-check-fill"></i> Kehadiran Pastor</button>
                 <button class="nav-tab-btn" data-target="stats-section"><i class="bi bi-bar-chart-line-fill"></i> Statistik Umat</button>
+                <button class="nav-tab-btn" data-target="notifications-section"><i class="bi bi-send-fill"></i> Kirim Notifikasi</button>
             </div>
 
             <div id="summary-section" class="management-section active">
@@ -143,7 +144,33 @@
                 <div class="chart-container"><canvas id="umat-chart"></canvas></div>
                 <div class="table-wrapper"><table id="stats-table"><thead><tr><th>No</th><th>Nama Wilayah / Stasi</th><th>KK</th><th>Laki-laki</th><th>Perempuan</th><th>Jumlah Jiwa</th><th class="no-print">Aksi</th></tr></thead><tbody id="stats-table-body"></tbody><tfoot id="stats-table-footer"></tfoot></table></div>
             </div>
-        </div>
+
+            <div id="notifications-section" class="management-section">
+                <div class="table-header">
+                    <h2><i class="bi bi-send-fill"></i> Kirim Notifikasi Push ke Umat</h2>
+                </div>
+                
+                <div style="max-width: 600px;">
+                    <p>Notifikasi ini akan dikirim ke semua umat (di HP Android & Desktop) yang telah mengizinkan notifikasi.</p>
+                    
+                    <form id="notification-form">
+                        <div class="input-group">
+                            <label for="notif-title">Judul Notifikasi</label>
+                            <input type="text" id="notif-title" placeholder="Contoh: Jadwal Misa Baru" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="notif-body">Isi Pesan</label>
+                            <textarea id="notif-body" rows="3" placeholder="Contoh: Jadwal misa minggu ini telah terbit di website." required></textarea>
+                        </div>
+                        
+                        <div class="submit-section">
+                            <button type="submit" id="send-notification-btn" class="submit-btn" style="background-color: var(--blue-main);">Kirim Notifikasi ke Semua Umat</button>
+                            <p id="notification-form-message" class="form-message"></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            </div>
     </main>
 
     <div id="program-modal" class="modal-overlay hidden no-print"><div class="modal-content"><div class="modal-header"><h2 id="program-modal-title"></h2><button class="close-modal-btn" data-target="program-modal">&times;</button></div><div class="modal-body"><form id="program-form"><div class="form-section"><div class="input-group"><label for="modal-bidang">Bidang Program</label><select id="modal-bidang" required></select></div><div class="input-group"><label for="modal-sub-bidang">Judul Sub-Kelompok</label><select id="modal-sub-bidang" required></select></div><hr><div class="input-group"><label for="modal-lokasi">Pusat Paroki / Stasi</label><select id="modal-lokasi" required><option value="" disabled selected>Pilih Lokasi...</option><option value="Pusat Paroki">Pusat Paroki</option><option value="Stasi">Stasi</option></select></div><div class="input-group"><label for="modal-nama-unit">Wilayah Rohani / Kelompok Kategorial</label><input type="text" id="modal-nama-unit" required></div><div class="input-group"><label for="modal-nama_kegiatan">Nama Program / Kegiatan</label><input type="text" id="modal-nama_kegiatan" required></div><div class="input-group"><label for="modal-sasaran">Sasaran</label><input type="text" id="modal-sasaran"></div><div class="input-group"><label for="modal-indikator">Indikator Keberhasilan</label><input type="text" id="modal-indikator"></div><div class="input-group"><label for="modal-model">Model</label><input type="text" id="modal-model"></div><div class="input-group"><label for="modal-materi">Materi</label><input type="text" id="modal-materi"></div><div class="input-group"><label for="modal-waktu">Tempat & Waktu</label><input type="text" id="modal-waktu"></div><div class="input-group"><label for="modal-pic">PIC</label><input type="text" id="modal-pic"></div></div><div class="form-section"><h3>Sumber Dana</h3><div class="input-group"><label for="modal-sumber-dana-kas">Untuk Kolom "Kas Paroki"</label><select id="modal-sumber-dana-kas"><option value="-">-</option><option value="Kas Paroki">Kas Paroki</option><option value="Kas Stasi">Kas Stasi</option></select></div><div class="input-group"><label for="modal-sumber-dana-swadaya">Untuk Kolom "Swadaya"</label><select id="modal-sumber-dana-swadaya"><option value="-">-</option><option value="Swadaya">Swadaya</option><option value="Kas Stasi">Kas Stasi</option></select></div></div><div class="form-section"><h3>Rincian Anggaran</h3><div id="modal-anggaran-items-container"></div><button type="button" id="modal-add-anggaran-btn" class="add-btn"><i class="bi bi-plus-circle"></i> Tambah Rincian</button><div class="total-anggaran"><strong>Total Anggaran: <span id="modal-total-anggaran-display">Rp 0</span></strong></div></div><div class="submit-section"><button type="submit" class="submit-btn">Simpan Program</button><p id="program-form-message" class="form-message"></p></div></form></div></div></div>
