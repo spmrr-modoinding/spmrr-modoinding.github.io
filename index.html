@@ -1,313 +1,414 @@
 <!DOCTYPE html>
-<html lang="id" data-theme="light">
+<html lang="id">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paroki Santa Perawan Maria Ratu Rosari Modoinding</title>
     
-    <meta name="description" content="Website resmi Gereja Katolik Paroki Santa Perawan Maria Ratu Rosari Modoinding. Temukan Jadwal Misa Paroki Modoinding, agenda OMK, Sejarah Paroki, dan kontak Sekretariat Paroki di Minahasa Selatan ini.">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 
-    <meta name="keywords" content="Paroki Modoinding, Gereja Katolik Modoinding, SPMRR Modoinding, Jadwal Misa Paroki Modoinding, Sejarah Paroki Modoinding, Pastor Paroki Modoinding, Umat Paroki Modoinding, Gereja di Modoinding, Gereja Katolik di Minahasa Selatan, Keuskupan Manado, OMK Paroki Modoinding, Kontak Paroki Modoinding, Ratu Rosari Modoinding, Warta Paroki Modoinding, Misa di Gereja Modoinding">
-
-    <meta property="og:title" content="Paroki Santa Perawan Maria Ratu Rosari Modoinding" />
-    <meta property="og:description" content="Website resmi Gereja Katolik Paroki Santa Perawan Maria Ratu Rosari Modoinding. Temukan Jadwal Misa, agenda OMK, Sejarah Paroki, dan kontak." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://spmrr-modoinding.github.io/" />
-    <meta property="og:image" content="https://spmrr-modoinding.github.io/gereja.jpeg" />
-    <meta property="og:image:alt" content="Gereja Paroki Modoinding" />
-
-    <link rel="canonical" href="https://spmrr-modoinding.github.io/" />
-    <meta name="google-site-verification" content="-f62cnhb4khOiPYXM5N5Ot7HoE8ksQ1GBv2hb5Q0SuI" />
-
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4306107871475268"
-     crossorigin="anonymous"></script>
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Church",
-      "name": "Paroki Santa Perawan Maria Ratu Rosari Modoinding",
-      "alternateName": "Gereja Katolik Modoinding",
-      "description": "Website resmi Gereja Katolik Paroki Santa Perawan Maria Ratu Rosari Modoinding. Temukan Jadwal Misa Paroki Modoinding, agenda OMK, Sejarah Paroki, dan kontak Sekretariat Paroki di Minahasa Selatan ini.",
-      "url": "https://spmrr-modoinding.github.io/",
-      "logo": "https://spmrr-modoinding.github.io/logo-paroki.png",
-      "image": "https://spmrr-modoinding.github.io/gereja.jpeg",
-      "address": {
-        "@type "PostalAddress",
-        "streetAddress": "Jl. Trans Sulawesi, Desa Sinisir, Kec. Modoinding, Kab. Minahasa Selatan",
-        "addressLocality": "Modoinding",
-        "addressRegion": "Minahasa Selatan",
-        "postalCode": "95358",
-        "addressCountry": "ID"
-      },
-      "telephone": "+628992174306"
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [{
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Beranda Paroki",
-        "item": "https://spmrr-modoinding.github.io/"
-      }]
-    }
-    </script>
-    <link href="logo-paroki2.png" rel="icon" type="image/png"/>
-    <link rel="manifest" href="manifest.json">
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
-    <link href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-    <link href="theme.css" rel="stylesheet">
-    
-    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/main.min.css' rel='stylesheet' />
-    
-    <link href="style.css" rel="stylesheet">
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js" integrity="sha512-H+rglffZ6f52nwD4vN/j0CAvcoi2hGfXXGyG+ka9MBlkPizVvkM2IOjA/HWsGD+1N90GGzHYClA13f2IZDq0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body data-theme="light"> <header>
-        <div id="particles-js"></div>
-        <img alt="Logo Paroki" class="logo" src="logo-paroki.png" onerror="this.onerror=null;this.src='https://placehold.co/100x100/e6f2ff/004a99?text=Logo';">
-        <h1><b>Paroki Santa Perawan Maria Ratu Rosari Modoinding</b></h1>
-    </header>
+<body>
 
-    <div class="container main-layout">
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-wrapper">
+                <i class="fas fa-church"></i>
+            </div>
+            <h3>Paroki SPMRR Modoinding</h3>
+        </div>
         
-        <button class="btn btn-primary sidebar-toggle" id="sidebarToggleBtn" type="button" aria-label="Buka atau Tutup Menu" aria-expanded="false" aria-controls="sidebarMenu">
+        <div class="nav-links">
+            <button class="tab-button active" onclick="openTab(event, 'beranda')">
+                <i class="fas fa-home"></i> <span>Beranda</span>
+            </button>
+            <button class="tab-button" onclick="openTab(event, 'sekretariat')">
+                <i class="fas fa-file-signature"></i> <span>Sekretariat</span>
+            </button>
+            <button class="tab-button" onclick="openTab(event, 'agenda')">
+                <i class="fas fa-bullhorn"></i> <span>Pengumuman</span>
+            </button>
+            <button class="tab-button" onclick="openTab(event, 'doa')">
+                <i class="fas fa-praying-hands"></i> <span>Pustaka Doa</span>
+            </button>
+            <button class="tab-button" onclick="openTab(event, 'statistik')">
+                <i class="fas fa-chart-pie"></i> <span>Statistik Umat</span>
+            </button>
+            <button class="tab-button" onclick="openTab(event, 'paus')">
+                <i class="fas fa-cross"></i> <span>Sejarah Paus</span>
+            </button>
+            <button class="tab-button" onclick="openTab(event, 'sejarah')">
+                <i class="fas fa-history"></i> <span>Sejarah Paroki</span>
+            </button>
+        </div>
+
+        <div class="sidebar-footer">
+            <a href="admin-dashboard.html" class="tab-button login-btn">
+                <i class="fas fa-user-lock"></i> <span>Login Pastor</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        
+        <div class="hamburger-menu" id="hamburger-menu">
             <span></span>
             <span></span>
             <span></span>
-        </button>
+        </div>
 
-        <aside class="sidebar" id="sidebarMenu" role="navigation">
-            <nav class="nav d-flex flex-column" role="tablist" aria-label="Navigasi Utama">
-                <a href="login.html" class="tab-button tab-button-login"><i class="bi bi-key-fill"></i><span>Login Admin</span></a>
-                <button class="tab-button active" data-tab="beranda" role="tab" aria-selected="true" id="tab-btn-beranda" aria-controls="beranda"><i class="bi bi-house-door-fill"></i><span>Beranda</span></button>
-                <button class="tab-button" data-tab="agenda" role="tab" aria-selected="false" id="tab-btn-agenda" aria-controls="agenda"><i class="bi bi-calendar-event"></i><span>Agenda & Pengumuman</span></button>
-                <button class="tab-button" data-tab="doa" role="tab" aria-selected="false" id="tab-btn-doa" aria-controls="doa"><i class="bi bi-book-half"></i><span>Doa-Doa</span></button>
-                <button class="tab-button" data-tab="pastor" role="tab" aria-selected="false" id="tab-btn-pastor" aria-controls="pastor"><i class="bi bi-person-vcard-fill"></i><span>Profil Pastor</span></button>
-                <button class="tab-button" data-tab="sekretariat" role="tab" aria-selected="false" id="tab-btn-sekretariat" aria-controls="sekretariat"><i class="bi bi-envelope-fill"></i><span>Sekretariat & Komsos</span></button>
-                <button class="tab-button" data-tab="statistik" role="tab" aria-selected="false" id="tab-btn-statistik" aria-controls="statistik"><i class="bi bi-bar-chart-line-fill"></i><span>Statistik Umat</span></button>
-                <button class="tab-button" data-tab="tentang" role="tab" aria-selected="false" id="tab-btn-tentang" aria-controls="tentang"><i class="bi bi-info-circle-fill"></i><span>Tentang Paroki</span></button>
-                <button class="tab-button" data-tab="kalender" role="tab" aria-selected="false" id="tab-btn-kalender" aria-controls="kalender"><i class="bi bi-calendar-check-fill"></i><span>Kalender Liturgi</span></button>
-                <button class="tab-button" data-tab="sejarah-paus" role="tab" aria-selected="false" id="tab-btn-sejarah-paus" aria-controls="sejarah-paus"><i class="bi bi-person-badge-fill"></i><span>Sejarah Paus</span></button>
-            </nav>
-        </aside>
+        <div class="overlay" id="overlay"></div>
 
-        <main>
-            <section class="tab-content active" id="beranda" role="tabpanel" aria-labelledby="tab-btn-beranda">
-                <h2 class="text-center pastor-title">Pastor Paroki & Pastor Rekan</h2>
-                <div class="pastors-beranda">
-                    <div class="pastor-item-beranda"><a href="pastor-joseph.jpg" class="glightbox" data-gallery="pastor-beranda"><img alt="Foto Pastor Joseph Ansow, Pr." class="pastor-photo pastor-photo-joseph" src="pastor-joseph.jpg" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/100x100/e6f2ff/004a99?text=Foto';"></a><p><b>P. Joseph Ansow, Pr.</b></p></div>
-                    <div class="pastor-item-beranda"><a href="pastor-stenly.jpg" class="glightbox" data-gallery="pastor-beranda"><img alt="Foto Pastor Stenly Ambun, Pr." class="pastor-photo" src="pastor-stenly.jpg" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/100x100/e6f2ff/004a99?text=Foto';"></a><p><b>P. Stenly Ambun, Pr.</b></p></div>
-                </div>
-                <hr class="my-5">
+        <header class="hero-section">
+            <div class="hero-overlay"></div>
+            <div class="hero-gradient"></div>
+            
+            <div class="hero-logos-container">
+                <img src="logo keuskupan.png" alt="Keuskupan Manado" class="logo-corner left fade-in-up">
+                <img src="logo-paroki.png" alt="Logo Paroki" class="logo-corner right fade-in-up">
+            </div>
 
-                <div id="liturgi-mingguan-wrapper">
-                    <div class="tpe-print-wrapper" style="display: none;">
-                        <button id="print-tpe-btn" class="btn btn-primary">
-                            <i class="bi bi-file-earmark-pdf-fill"></i> Cetak/Simpan PDF
-                        </button>
+            <div class="hero-content">
+                <div class="pastors-hero-wrapper fade-in-up">
+                    <div class="pastor-frame-container">
+                        <div class="pastor-photo-circle">
+                            <img src="foto-pastor-1.png" alt="Pastor 1" class="pastor-img-content">
+                        </div>
+                        <div class="pastor-label">RD. JOSEPH ANSOW</div>
                     </div>
+                    <div class="pastor-frame-container">
+                        <div class="pastor-photo-circle">
+                            <img src="foto-pastor-2.png" alt="Pastor 2" class="pastor-img-content">
+                        </div>
+                        <div class="pastor-label">RD. MIKI STEVANUS KOJONGIAN</div>
+                    </div>
+                </div>
                 
-                    <div id="tpe-preview-controls" class="text-center mb-4" style="display: none;">
-                        <button id="tpe-preview-btn" class="btn btn-outline-primary">Lihat Pratinjau Minggu Depan &gt;&gt;</button>
-                    </div>
-                    <div id="current-week-tpe">
-                        <div class="feedback-container"><div class="spinner"></div><p>Memuat Jadwal & Tata Perayaan Ekaristi...</p></div>
-                    </div>
-                    <div id="next-week-tpe" style="display: none;">
-                        </div>
-                </div>
-            </section>
-
-            <section class="tab-content" id="agenda" role="tabpanel" aria-labelledby="tab-btn-agenda">
-                <h2>Agenda & Pengumuman Paroki</h2>
-                <div id="agenda-calendar-container" class="mt-3">
-                    </div>
-            </section>
+                <h1 class="fade-in-up delay-1">Paroki Santa Perawan Maria<br>Ratu Rosari Modoinding</h1>
+                <p class="hero-subtitle fade-in-up delay-2">"Bersatu dalam Iman, Bertumbuh dalam Kasih, Melayani dengan Kerendahan Hati"</p>
+            </div>
             
-            <section class="tab-content doa-container" id="doa" role="tabpanel" aria-labelledby="tab-btn-doa">
-                <div id="doa-wrapper">
-                    <div id="doa-list-container">
-                        <h2 class="doa-main-title">Pustaka Doa Katolik</h2>
-                        
-                        <div class="doa-search-wrapper">
-                            <input type="text" id="doaSearchInput" class="form-control" placeholder="Cari doa (misal: Bapa Kami)...">
-                        </div>
-                        
-                        <div id="doa-list" class="list-group">
+            <div class="wave-shape">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                    <path fill="#f4f7f6" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+                </svg>
+            </div>
+        </header>
+
+        <main class="content-container">
+            
+            <div id="beranda" class="tab-content active">
+                <div class="section-header" style="margin-top: 0;">
+                    <h3>Jadwal Misa Mingguan</h3>
+                    <div class="divider"></div>
+                </div>
+                
+                <div class="jadwal-split-container">
+                    <div class="jadwal-column">
+                        <div class="jadwal-card pusat">
+                            <div class="j-icon"><i class="fas fa-church"></i></div>
+                            <div class="j-info">
+                                <h4>Pusat Paroki - Sinisir</h4>
+                                <span class="j-time">07.00 WITA</span>
                             </div>
-                    </div>
-                    <div id="doa-detail-container" class="hidden">
-                        <button id="doa-back-btn" class="btn btn-outline-primary mb-4"><i class="bi bi-arrow-left"></i> Kembali ke Daftar Doa</button>
-                        <h2 id="doa-detail-title" class="mb-3"></h2>
-                        <div id="doa-lang-selector" class="btn-group mb-4" role="group" aria-label="Pilih Bahasa">
-                          <button type="button" class="btn btn-primary active" data-lang="indonesia">Indonesia</button>
-                          <button type="button" class="btn btn-primary" data-lang="latin">Latin</button>
                         </div>
-                        <div id="doa-detail-content"></div>
+                        <div class="jadwal-card stasi">
+                            <div class="j-icon"><i class="fas fa-place-of-worship"></i></div>
+                            <div class="j-info">
+                                <h4>Stasi Sta. Theresia - Makaaroyen</h4>
+                                <span class="j-time">09.00 WITA</span>
+                            </div>
+                        </div>
+                        <div class="jadwal-card stasi">
+                            <div class="j-icon"><i class="fas fa-place-of-worship"></i></div>
+                            <div class="j-info">
+                                <h4>Stasi Hati Kudus Yesus - Mobuya</h4>
+                                <span class="j-time">11.00 WITA</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="jadwal-column">
+                        <div class="jadwal-card stasi">
+                            <div class="j-icon"><i class="fas fa-place-of-worship"></i></div>
+                            <div class="j-info">
+                                <h4>Stasi Rex Mundi - Tambelang</h4>
+                                <span class="j-time">07.00 WITA</span>
+                            </div>
+                        </div>
+                        <div class="jadwal-card stasi">
+                            <div class="j-icon"><i class="fas fa-place-of-worship"></i></div>
+                            <div class="j-info">
+                                <h4>Stasi St. Andreas - Kinamang</h4>
+                                <span class="j-time">09.00 WITA</span>
+                            </div>
+                        </div>
+                        <div class="jadwal-card stasi">
+                            <div class="j-icon"><i class="fas fa-place-of-worship"></i></div>
+                            <div class="j-info">
+                                <h4>Stasi Christus Rex - Liningaan</h4>
+                                <span class="j-time">11.00 WITA</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </section>
 
-            <section class="tab-content" id="pastor" role="tabpanel" aria-labelledby="tab-btn-pastor">
-                <div class="feedback-container"><div class="spinner"></div><p>Memuat status pastor...</p></div>
-            </section>
-            
-            <section class="tab-content" id="sekretariat" role="tabpanel" aria-labelledby="tab-btn-sekretariat">
-                <h2 class="text-center"><b>SEKRETARIAT & KOMSOS</b></h2>
-                <div class="social-icons">
-                    <a href="https://www.facebook.com/share/19K6ZFiifj/" target="_blank" class="social-icon fb" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://www.tiktok.com/@komsos_spmararos" target="_blank" class="social-icon tiktok" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-                    <a href="https://www.instagram.com/komsosparokimodoinding" target="_blank" class="social-icon ig" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <div class="section-header" style="margin-top: 4rem;">
+                    <h3>Tata Perayaan Ekaristi Mingguan</h3>
+                    <div class="divider"></div>
                 </div>
-                <div class="formulir-download mt-5">
-                    <h4 class="mb-3">📄 Unduh Formulir Paroki</h4>
-                    <p class="text-muted" style="font-size: 0.9rem;">- Klik pada nama formulir untuk melihat pratinjau.<br>- Print dengan ukuran kertas F4 (215 x 330 mm).</p>
-                    <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#previewModal" data-pdf-src="formulir/formulir-baptis.pdf">Formulir Baptis <i class="bi bi-box-arrow-up-right float-end"></i></a>
-                        <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#previewModal" data-pdf-src="formulir/formulir-krisma.pdf">Formulir Krisma <i class="bi bi-box-arrow-up-right float-end"></i></a>
-                        <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#previewModal" data-pdf-src="formulir/formulir-perkawinan.pdf">Formulir Perkawinan <i class="bi bi-box-arrow-up-right float-end"></i></a>
-                        <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#previewModal" data-pdf-src="formulir/formulir-penerimaan-anggota-baru.pdf">Formulir Penerimaan Anggota <i class="bi bi-box-arrow-up-right float-end"></i></a>
-                        <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#previewModal" data-pdf-src="formulir/formulir-komuni-pertama.pdf">Formulir Komuni Pertama <i class="bi bi-box-arrow-up-right float-end"></i></a>
-                        <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#previewModal" data-pdf-src="formulir/formulir-kursus-persiapan-perkawinan.pdf">Formulir Kursus Persiapan Perkawinan (KPP) <i class="bi bi-box-arrow-up-right float-end"></i></a>
+
+                <div id="latest-tpe-container">
+                    <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Memuat TPE Terbaru...</div>
+                </div>
+            </div>
+
+            <div id="sekretariat" class="tab-content">
+                <div class="section-header">
+                    <h2>Sekretariat & Komsos</h2>
+                    <div class="divider"></div>
+                </div>
+
+                <div class="komsos-wrapper modern-card" style="text-align: center; margin-bottom: 3rem;">
+                    
+                    <div class="social-icons-container">
+                        <a href="https://www.facebook.com/share/19K6ZFiifj/" target="_blank" class="social-btn fb"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.tiktok.com/@komsos_spmararos" target="_blank" class="social-btn tt"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://www.instagram.com/komsosparokimodoinding" target="_blank" class="social-btn ig"><i class="fab fa-instagram"></i></a>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem; color: var(--primary-blue); font-size: 1.2rem;">Kontak WhatsApp Sekretariat / Komsos</h3>
+                    <p style="margin-bottom: 1.5rem; font-size: 0.9rem; color: #666;">Hubungi kami untuk keperluan pelayanan administrasi & informasi.</p>
+                    
+                    <div class="wa-grid-container">
+                        <a href="https://wa.me/6282194283830" target="_blank" class="wa-btn">
+                            <i class="fab fa-whatsapp"></i> Grand Turangan (Koordinator)
+                        </a>
+                        <a href="https://wa.me/6282296193883" target="_blank" class="wa-btn">
+                            <i class="fab fa-whatsapp"></i> Gracio Turangan
+                        </a>
+                        <a href="https://wa.me/6281354493087" target="_blank" class="wa-btn">
+                            <i class="fab fa-whatsapp"></i> Rulan Tielung
+                        </a>
+                        <a href="https://wa.me/6285796624179" target="_blank" class="wa-btn">
+                            <i class="fab fa-whatsapp"></i> Marselino Sinaulan
+                        </a>
+                        <a href="https://wa.me/6285656621094" target="_blank" class="wa-btn">
+                            <i class="fab fa-whatsapp"></i> Klara Tendean
+                        </a>
+                        <a href="https://wa.me/6282197263877" target="_blank" class="wa-btn">
+                            <i class="fab fa-whatsapp"></i> Putri Tigau
+                        </a>
+                        <a href="https://wa.me/6289612699408" target="_blank" class="wa-btn">
+                            <i class="fab fa-whatsapp"></i> Keyti Nelwan
+                        </a>
+                         <a href="https://wa.me/628992174306" target="_blank" class="wa-btn">
+                            <i class="fab fa-whatsapp"></i> Feidy Tielung
+                        </a>
                     </div>
                 </div>
-            </section>
-            
-            <section class="tab-content" id="statistik" role="tabpanel" aria-labelledby="tab-btn-statistik">
-                <h2>Statistik Umat</h2>
-                <div class="chart-container"><canvas id="public-umat-chart"></canvas></div>
-                <div id="statistik-table-container" class="overflow-auto">
-                    <div class="feedback-container"><div class="spinner"></div><p>Memuat statistik umat...</p></div>
+
+                <div class="modern-card">
+                    <h3 class="card-title" style="margin-bottom:10px;"><i class="far fa-file-alt"></i> Unduh Formulir Paroki</h3>
+                    <p style="color:#666; font-size:0.9rem; margin-bottom: 20px;">
+                        - Klik pada nama formulir untuk melihat pratinjau.<br>
+                        - Print dengan ukuran kertas F4 (215 x 330 mm).
+                    </p>
+                    
+                    <div id="forms-list-container" class="forms-list">
+                        </div>
                 </div>
-            </section>
-            
-            <section class="tab-content" id="tentang" role="tabpanel" aria-labelledby="tab-btn-tentang">
-                <div class="tentang-section">
-                    <h2>Sejarah Singkat Paroki</h2>
-                    <p class="sejarah-paroki-text">Paroki Santa Perawan Maria Ratu Rosari (SPMRR) berlokasi di Desa Sinisir, Kecamatan Modoinding, Kabupaten Minahasa Selatan, sebuah wilayah dataran tinggi yang subur dan dikenal luas sebagai salah satu lumbung hortikultura utama di Provinsi Sulawesi Utara. Konteks geografis dan sosio-ekonomi ini secara langsung membentuk karakteristik umat paroki, yang sebagian besar menggantungkan hidupnya pada sektor pertanian. Di tengah lanskap agraris ini, berdiri Gereja Paroki Santa Perawan Maria Ratu Rosari Suci, Sinisir, yang menjadi pusat kehidupan rohani bagi komunitas Katolik setempat. Pemilihan Santa Perawan Maria dengan gelar Ratu Rosari sebagai pelindung paroki tidak hanya memberikan nama, tetapi juga menanamkan sebuah identitas devosional yang kuat yang berpusat pada tradisi doa Rosario, sebuah ciri khas spiritualitas Katolik.</p>
-                    <div class="pusat-paroki-img-container">
-                        <img src="gereja.jpeg" loading="lazy" alt="Gereja Pusat Paroki" class="pusat-paroki-img" onerror="this.onerror=null;this.src='https://placehold.co/700x394/e6f2ff/004a99?text=Gagal+Memuat';">
+            </div>
+
+            <div id="agenda" class="tab-content">
+                <div class="section-header">
+                    <h2>Warta Paroki</h2>
+                    <div class="divider"></div>
+                </div>
+                <div id="agenda-container" class="card-list-container">
+                    <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Memuat pengumuman...</div>
+                </div>
+            </div>
+
+            <div id="doa" class="tab-content">
+                <div class="section-header">
+                    <h2>Pustaka Doa Katolik</h2>
+                    <div class="divider"></div>
+                </div>
+                <div class="doa-grid">
+                    <div id="prayer-buttons" class="prayer-buttons-container"></div>
+                </div>
+                
+                <div id="prayer-display" class="prayer-card glass-effect" style="display:none;">
+                    <button onclick="closePrayer()" class="close-prayer-btn">&times;</button>
+                    <h3 id="prayer-title-display">Judul Doa</h3>
+                    
+                    <div class="toggle-language-wrapper">
+                        <div class="toggle-bg"></div>
+                        <button onclick="switchLang('indonesia')" class="lang-btn active" id="btn-indo">Indonesia</button>
+                        <button onclick="switchLang('latin')" class="lang-btn" id="btn-latin">Latin</button>
+                    </div>
+
+                    <div class="prayer-content-wrapper">
+                        <div id="prayer-content-display" class="prayer-text fade-in-text"></div>
                     </div>
                 </div>
-                <div class="tentang-section">
-                    <h2>Stasi-stasi</h2>
-                    <div class="stasi-table-wrapper">
-                        <table class="stasi-table">
-                            <thead><tr><th>Nama Stasi</th><th>Foto Luar</th><th>Foto Dalam</th></tr></thead>
-                            <tbody>
-                                <tr><td>Stasi Sta. Theresia - Makaaroyen</td><td><a href="https://placehold.co/800x600/004a99/ffffff?text=Luar+Makaaroyen" class="glightbox" data-gallery="stasi-1" data-title="Tampak Luar Gereja Stasi St. Mikael Makaaroyen"><img src="https://placehold.co/120x80/004a99/ffffff?text=Luar" loading="lazy" width="120" height="80" alt="Foto Luar Stasi Makaaroyen" class="stasi-photo" onerror="this.onerror=null;this.src='https://placehold.co/120x80/e6f2ff/004a99?text=Error';"></a></td><td><a href="https://placehold.co/800x600/004a99/ffffff?text=Dalam+Makaaroyen" class="glightbox" data-gallery="stasi-1" data-title="Tampak Dalam Gereja Stasi St. Mikael Makaaroyen"><img src="https://placehold.co/120x80/004a99/ffffff?text=Dalam" loading="lazy" width="120" height="80" alt="Foto Dalam Stasi Makaaroyen" class="stasi-photo" onerror="this.onerror=null;this.src='https://placehold.co/120x80/e6f2ff/004a99?text=Error';"></a></td></tr>
-                                <tr><td>Stasi Hati Kudus Yesus - Mobuya</td><td><a href="https://placehold.co/800x600/4caf50/ffffff?text=Luar+Wulurmaatus" class="glightbox" data-gallery="stasi-2" data-title="Tampak Luar Gereja Stasi Kristus Raja Wulurmaatus"><img src="https://placehold.co/120x80/4caf50/ffffff?text=Luar" loading="lazy" width="120" height="80" alt="Foto Luar Stasi Wulurmaatus" class="stasi-photo" onerror="this.onerror=null;this.src='https://placehold.co/120x80/e6f2ff/004a99?text=Error';"></a></td><td><a href="https://placehold.co/800x600/4caf50/ffffff?text=Dalam+Wulurmaatus" class="glightbox" data-gallery="stasi-2" data-title="Tampak Dalam Gereja Stasi Kristus Raja Wulurmaatus"><img src="https://placehold.co/120x80/4caf50/ffffff?text=Dalam" loading="lazy" width="120" height="80" alt="Foto Dalam Stasi Wulurmaatus" class="stasi-photo" onerror="this.onerror=null;this.src='https://placehold.co/120x80/e6f2ff/004a99?text=Error';"></a></td></tr>
-                                <tr><td>Stasi Rex Mundi - Tambelang</td><td><a href="https://placehold.co/800x600/f44336/ffffff?text=Luar+Palelon" class="glightbox" data-gallery="stasi-3" data-title="Tampak Luar Gereja Stasi Hati Kudus Yesus Palelon"><img src="https://placehold.co/120x80/f44336/ffffff?text=Luar" loading="lazy" width="120" height="80" alt="Foto Luar Stasi Palelon" class="stasi-photo" onerror="this.onerror=null;this.src='https://placehold.co/120x80/e6f2ff/004a99?text=Error';"></a></td><td><a href="https://placehold.co/800x600/f44336/ffffff?text=Dalam+Palelon" class="glightbox" data-gallery="stasi-3" data-title="Tampak Dalam Gereja Stasi Hati Kudus Yesus Palelon"><img src="httpss://placehold.co/120x80/f44336/ffffff?text=Dalam" loading="lazy" width="120" height="80" alt="Foto Dalam Stasi Palelon" class="stasi-photo" onerror="this.onerror=null;this.src='https://placehold.co/120x80/e6f2ff/004a99?text=Error';"></a></td></tr>
-                                <tr><td>Stasi St. Andreas - Kinamang</td><td><a href="https://placehold.co/800x600/ff9800/ffffff?text=Luar+Pinasungkulan" class="glightbox" data-gallery="stasi-4" data-title="Tampak Luar Gereja Stasi St. Yusuf Pinasungkulan"><img src="https://placehold.co/120x80/ff9800/ffffff?text=Luar" loading="lazy" width="120" height="80" alt="Foto Luar Stasi Pinasungkulan" class="stasi-photo" onerror="this.onerror=null;this.src='https://placehold.co/120x80/e6f2ff/004a99?text=Error';"></a></td><td><a href="https://placehold.co/800x600/ff9800/ffffff?text=Dalam+Pinasungkulan" class="glightbox" data-gallery="stasi-4" data-title="Tampak Dalam Gereja Stasi St. Yusuf Pinasungkulan"><img src="https://placehold.co/120x80/ff9800/ffffff?text=Dalam" loading="lazy" width="120" height="80" alt="Foto Dalam Stasi Pinasungkulan" class="stasi-photo" onerror="this.onerror=null;this.src='https://placehold.co/120x80/e6f2ff/004a99?text=Error';"></a></td></tr>
-                                <tr><td>Stasi Christus Rex - Liningaan</td><td><a href="https://placehold.co/800x600/673ab7/ffffff?text=Luar+Sinisir" class="glightbox" data-gallery="stasi-5" data-title="Tampak Luar Gereja Stasi St. Petrus & Paulus Sinisir"><img src="https://placehold.co/120x80/673ab7/ffffff?text=Luar" loading="lazy" width="120" height="80" alt="Foto Luar Stasi Sinisir" class="stasi-photo" onerror="this.onerror=null;this.src='https://placehold.co/120x80/e6f2ff/004a99?text=Error';"></a></td><td><a href="https://placehold.co/800x600/673ab7/ffffff?text=Dalam+Sinisir" class="glightbox" data-gallery="stasi-5" data-title="Tampak Dalam Gereja Stasi St. Petrus & Paulus Sinisir"><img src="https://placehold.co/120x80/673ab7/ffffff?text=Dalam" loading="lazy" width="120" height="80" alt="Foto Dalam Stasi Sinisir" class="stasi-photo" onerror="this.onerror=null;this.src='https://placehold.co/120x80/e6f2ff/004a99?text=Error';"></a></td></tr>
-                            </tbody>
+            </div>
+
+            <div id="statistik" class="tab-content">
+                <div class="section-header">
+                    <h2>Data Statistik Umat</h2>
+                    <div class="divider"></div>
+                </div>
+                <div class="modern-card chart-container hover-shadow">
+                    <canvas id="publicUmatChart"></canvas>
+                </div>
+                <div class="modern-card table-card" style="margin-top: 2rem;">
+                    <h3 class="card-title" style="margin-bottom: 1rem; text-align: center;">Detail Data Per Wilayah</h3>
+                    <div class="table-responsive">
+                        <table class="stats-table">
+                            <thead>
+                                <tr><th>No</th><th>Nama Wilayah / Stasi</th><th>KK</th><th>Laki-laki</th><th>Perempuan</th><th>Total Jiwa</th></tr>
+                            </thead>
+                            <tbody id="statistik-table-body"></tbody>
+                            <tfoot id="statistik-table-foot"></tfoot>
                         </table>
                     </div>
                 </div>
-                <div class="tentang-section">
-                    <h2>Pastor Paroki dari Masa ke Masa</h2>
-                    <div class="pastors-grid">
-                        <div class="pastor-card"><a href="pastor-joseph.jpg" class="glightbox" data-gallery="pastor-pendahulu"><img src="pastor-joseph.jpg" loading="lazy" alt="Foto Pastor Joseph Ansow, Pr." onerror="this.onerror=null;this.src='https://placehold.co/220x280/e6f2ff/004a99?text=Foto';"></a><div class="pastor-card-body"><h3>P. Joseph Ansow, Pr.</h3><p class="masa-jabatan">2025 - Sekarang</p></div></div>
-                        <div class="pastor-card"><a href="pastor-stenly.jpg" class="glightbox" data-gallery="pastor-pendahulu"><img src="pastor-stenly.jpg" loading="lazy" alt="Foto Pastor Stenly V. Ambun, Pr." onerror="this.onerror=null;this.src='https://placehold.co/220x280/e6f2ff/004a99?text=Foto';"></a><div class="pastor-card-body"><h3>P. Stenly V. Ambun, Pr.</h3><p class="masa-jabatan">2023 - Sekarang</p></div></div>
-                        <div class="pastor-card"><a href="pastor-feighty.jpg" class="glightbox" data-gallery="pastor-pendahulu"><img src="pastor-feighty.jpg" loading="lazy" alt="Foto Pastor Feighty Y. Boseke, Pr." onerror="this.onerror=null;this.src='https://placehold.co/220x280/e6f2ff/004a99?text=Foto';"></a><div class="pastor-card-body"><h3>P. Feighty Y. Boseke, Pr.</h3><p class="masa-jabatan">2018 - 2024</p></div></div>
-                        <div class="pastor-card"><a href="pastor-stevy.jpg" class="glightbox" data-gallery="pastor-pendahulu"><img src="pastor-stevy.jpg" loading="lazy" alt="Foto Pastor Stevy Motto, Pr." onerror="this.onerror=null;this.src='https://placehold.co/220x280/e6f2ff/004a99?text=Foto';"></a><div class="pastor-card-body"><h3>P. Stevy Motto, Pr.</h3><p class="masa-jabatan">2014 - 2017</p></div></div>
-                        <div class="pastor-card"><a href="pastor-yan.jpg" class="glightbox" data-gallery="pastor-pendahulu"><img src="pastor-yan.jpg" loading="lazy" alt="Foto Pastor Jan S. Koraag, Pr" onerror="this.onerror=null;this.src='https://placehold.co/220x280/e6f2ff/004a99?text=Foto';"></a><div class="pastor-card-body"><h3>P. Jan S. Koraag, Pr</h3><p class="masa-jabatan">2011 - 2014</p></div></div>
-                        <div class="pastor-card"><a href="pastor-Herman.jpg" class="glightbox" data-gallery="pastor-pendahulu"><img src="pastor-Herman.jpg" loading="lazy" alt="Foto Pastor Herman Saroinsong, Pr." onerror="this.onerror=null;this.src='https{placehold.co/220x280/e6f2ff/004a99?text=Foto';"></a><div class="pastor-card-body"><h3>P. Herman Saroinsong, Pr.</h3><p class="masa-jabatan">Pra Paroki</p></div></div>
-                    </div>
-                </div>
-            </section>
-            
-            <section class="tab-content" id="kalender" role="tabpanel" aria-labelledby="tab-btn-kalender">
-                <h2>Kalender Liturgi</h2>
-                <div id="kalender-container" class="mt-3">
-                    </div>
-            </section>
-
-            <section class="tab-content" id="sejarah-paus" role="tabpanel" aria-labelledby="tab-btn-sejarah-paus">
-                <h2>Sejarah Paus</h2>
-                <div id="sejarah-paus-container" class="mt-3">
-                    <div class="feedback-container"><div class="spinner"></div><p>Memuat sejarah Paus...</p></div>
-                </div>
-            </section>
-        </main>
-    </div>
-    
-    <div class="modal fade" id="eventDetailModal" tabindex="-1" aria-labelledby="eventDetailModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="eventDetailModalLabel">Detail Agenda</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body" id="eventDetailModalBody">
             </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-          </div>
+
+            <div id="paus" class="tab-content">
+                <div class="section-header">
+                    <h2>Sejarah Paus</h2>
+                    <div class="divider"></div>
+                </div>
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-pope" placeholder="Cari nama Paus..." onkeyup="filterPaus()">
+                </div>
+                <div id="pope-container" class="card-list-container">
+                    <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Memuat data paus...</div>
+                </div>
+            </div>
+
+            <div id="sejarah" class="tab-content">
+                <div class="section-header">
+                    <h2>Sejarah Paroki</h2>
+                    <div class="divider"></div>
+                </div>
+                <div class="modern-card article-content">
+                    <p>Paroki Santa Perawan Maria Ratu Rosari (SPMRR) berlokasi di Desa Sinisir, Kecamatan Modoinding, Kabupaten Minahasa Selatan.</p>
+                </div>
+
+                <div class="section-header" style="margin-top: 4rem;">
+                    <h3>Pastor Paroki Dari Masa Ke Masa</h3>
+                    <div class="divider"></div>
+                </div>
+
+                <div class="pastor-history-grid">
+                    <div class="pastor-history-card">
+                        <div class="ph-img-wrapper">
+                            <img src="pastor-joseph.jpg" onerror="this.src='https://via.placeholder.com/200x250?text=Foto+Pastor'" alt="Pastor 1">
+                        </div>
+                        <div class="ph-info">
+                            <h4>RD. Joseph Ansow</h4>
+                            <span class="ph-years">2025 - Sekarang</span>
+                        </div>
+                    </div>
+
+                    <div class="pastor-history-card">
+                        <div class="ph-img-wrapper">
+                            <img src="pastor-miki.png" onerror="this.src='https://via.placeholder.com/200x250?text=Foto+Pastor'" alt="Pastor 2">
+                        </div>
+                        <div class="ph-info">
+                            <h4>RD. Micki Stevanus Kojongian</h4>
+                            <span class="ph-years">2025 - Sekarang</span>
+                        </div>
+                    </div>
+
+                    <div class="pastor-history-card">
+                        <div class="ph-img-wrapper">
+                            <img src="pastor-stenly.jpg" onerror="this.src='https://via.placeholder.com/200x250?text=Foto+Pastor'" alt="Pastor 3">
+                        </div>
+                        <div class="ph-info">
+                            <h4>RD. Stenly Valentine Ambun</h4>
+                            <span class="ph-years">2024 - 2025</span>
+                        </div>
+                    </div>
+
+                    <div class="pastor-history-card">
+                        <div class="ph-img-wrapper">
+                            <img src="pastor-feighty.jpg" onerror="this.src='https://via.placeholder.com/200x250?text=Foto+Pastor'" alt="Pastor 4">
+                        </div>
+                        <div class="ph-info">
+                            <h4>RD. Feighty Yohanes Boseke</h4>
+                            <span class="ph-years">2017 - 2024</span>
+                        </div>
+                    </div>
+
+                    <div class="pastor-history-card">
+                        <div class="ph-img-wrapper">
+                            <img src="pastor-stevy.jpg" onerror="this.src='https://via.placeholder.com/200x250?text=Foto+Pastor'" alt="Pastor 5">
+                        </div>
+                        <div class="ph-info">
+                            <h4>RD. Stevy Motto</h4>
+                            <span class="ph-years">2014 - 2017</span>
+                        </div>
+                    </div>
+
+                    <div class="pastor-history-card">
+                        <div class="ph-img-wrapper">
+                            <img src="pastor-yan.jpg" onerror="this.src='https://via.placeholder.com/200x250?text=Foto+Pastor'" alt="Pastor 6">
+                        </div>
+                        <div class="ph-info">
+                            <h4>RD. Jan Silvianus Koraag</h4>
+                            <span class="ph-years">2011 - 2014</span>
+                        </div>
+                    </div>
+
+                    <div class="pastor-history-card">
+                        <div class="ph-img-wrapper">
+                            <img src="pastor-Herman.jpg" onerror="this.src='https://via.placeholder.com/200x250?text=Foto+Pastor'" alt="Pastor 7">
+                        </div>
+                        <div class="ph-info">
+                            <h4>RD. Herman Saroinsong</h4>
+                            <span class="ph-years">PraParoki</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="main-footer">
+            <div class="footer-content">
+                <p>&copy; 2026 Paroki Santa Perawan Maria Ratu Rosari Modoinding</p>
+            </div>
+        </footer>
+    </div>
+
+    <div id="pdf-preview-modal" class="modal-overlay">
+        <div class="modal-content-preview pdf-modal">
+            <div class="preview-toolbar">
+                <h4 id="pdf-title" style="color:var(--text-dark); margin:0;">Pratinjau</h4>
+                <button onclick="closePdfPreview()" class="btn-toolbar close"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <div class="pdf-container">
+                <iframe id="pdf-frame" src="" width="100%" height="100%"></iframe>
+            </div>
+
+            <div class="modal-footer">
+                <button onclick="printPdf()" class="btn-action-grey"><i class="fas fa-print"></i> Cetak</button>
+                <a id="download-btn" href="#" download class="btn-action-blue"><i class="fas fa-download"></i> Unduh</a>
+            </div>
         </div>
-      </div>
     </div>
 
-    <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-fullscreen-lg-down">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="previewModalLabel">Pratinjau Formulir</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body p-0" style="height: 75vh;">
-            <iframe id="pdf-viewer" src="" frameborder="0" width="100%" height="100%"></iframe>
-          </div>
-          <div class="modal-footer">
-            <button type="button" id="print-pdf-btn" class="btn btn-secondary"><i class="bi bi-printer-fill"></i> Cetak</button>
-            <a id="download-pdf-btn" href="#" class="btn btn-primary" download><i class="bi bi-download"></i> Unduh</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="theme-switcher-wrapper">
-        <button id="theme-toggle" class="theme-toggle" aria-label="Ganti tema">
-            <i class="bi bi-moon-stars-fill icon-moon"></i>
-            <i class="bi bi-sun-fill icon-sun"></i>
-        </button>
-    </div>
-
-    <footer>
-        © 2025 - Paroki Santa Perawan Maria Ratu Rosari Modoinding. Dibuat oleh Sekretariat Paroki.
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    
-    <script type="module" src="script.js"></script>
-
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('service-worker.js').then(registration => {
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-          }, err => {
-            console.log('ServiceWorker registration failed: ', err);
-          });
-        });
-      }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

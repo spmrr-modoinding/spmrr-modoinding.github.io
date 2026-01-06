@@ -1,169 +1,248 @@
-/*
- * login.css
- * File gaya untuk halaman login.
+/* * login.css - Redesign Modern Glassmorphism
  */
 
-/* ========== DASAR & LATAR BELAKANG ========== */
+:root {
+    --primary-blue: #004a99;
+    --dark-blue: #003366;
+    --accent-gold: #d4af37;
+    --text-dark: #333333;
+    --white: #ffffff;
+    --glass-bg: rgba(255, 255, 255, 0.90);
+    --glass-border: rgba(255, 255, 255, 0.6);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-  margin: 0;
-  padding: 1rem;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: Arial, sans-serif;
-  box-sizing: border-box;
-  background: linear-gradient(-45deg, #e0f2ff, #f0f6ff, #d1eaff, #e6f2ff);
-  background-size: 400% 400%;
-  animation: gradientBG 25s ease infinite;
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Ganti 'gereja.jpeg' dengan foto gereja yang bagus */
+    background: url('gereja.jpeg') no-repeat center center/cover;
+    position: relative;
+    overflow: hidden;
 }
 
-/* ========== FORM CONTAINER ========== */
+/* Overlay gelap agar teks tetap terbaca jelas */
+.bg-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, rgba(0, 51, 102, 0.8), rgba(0, 74, 153, 0.6));
+    z-index: 1;
+}
+
 .login-container {
-  width: 100%;
-  max-width: 400px;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
 }
 
-.login-form {
-  position: relative;
-  padding: 40px;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)),
-    url('gereja.jpeg');
-  background-size: cover;
-  background-position: center;
-  border-radius: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+/* Efek Kaca (Glassmorphism) */
+.login-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--glass-border);
+    text-align: center;
+    animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.login-logo {
-  width: 80px;
-  margin-bottom: 15px;
+/* Logo Styling */
+.logo-area {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
 }
 
-.login-form h2 {
-  color: #004a99;
-  margin-top: 0;
-  margin-bottom: 10px;
+.logo-circle {
+    width: 90px;
+    height: 90px;
+    background: white;
+    border-radius: 50%;
+    padding: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border: 3px solid var(--accent-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.login-form p {
-  color: #555;
-  margin-bottom: 30px;
-  font-size: 0.9em;
+.logo-circle img {
+    width: 100%;
+    height: auto;
 }
 
-/* ========== ELEMEN FORM ========== */
-.input-group {
-  text-align: left;
-  margin-bottom: 20px;
+/* Typography */
+.header-text h2 {
+    font-family: 'Playfair Display', serif;
+    color: var(--primary-blue);
+    font-size: 1.8rem;
+    margin-bottom: 5px;
 }
 
-.input-group label {
-  display: block;
-  margin-bottom: 5px;
-  color: #333;
-  font-weight: bold;
-  font-size: 0.9em;
+.header-text p {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 30px;
 }
 
-.input-group input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-sizing: border-box;
-  background-color: rgba(255, 255, 255, 0.8);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+/* Form Inputs */
+.input-wrapper {
+    text-align: left;
+    margin-bottom: 20px;
 }
 
-.input-group input:focus {
-  outline: none;
-  border-color: #004a99;
-  box-shadow: 0 0 0 4px rgba(0, 74, 153, 0.1);
+.input-wrapper label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+    margin-bottom: 8px;
+    display: block;
+    margin-left: 5px;
 }
 
-button {
-  width: 100%;
-  padding: 12px;
-  background-color: #004a99;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 1em;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+.input-icon-group {
+    position: relative;
 }
 
-button:hover {
-  background-color: #003366;
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0, 51, 102, 0.3);
+.input-icon-group i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    transition: color 0.3s;
 }
 
-button:active {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 51, 102, 0.3);
+.input-icon-group input {
+    width: 100%;
+    padding: 12px 15px 12px 45px; /* Padding kiri besar untuk ikon */
+    border: 2px solid #e1e5ee;
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s;
+    background: #f9fbfd;
 }
 
+.input-icon-group input:focus {
+    border-color: var(--primary-blue);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(0, 74, 153, 0.1);
+}
+
+.input-icon-group input:focus + i,
+.input-icon-group input:focus ~ i {
+    color: var(--primary-blue);
+}
+
+/* Button */
+.btn-login {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(0, 74, 153, 0.3);
+}
+
+.btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 74, 153, 0.4);
+    background: linear-gradient(135deg, var(--accent-gold), #b8860b);
+}
+
+.btn-login:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Error Message */
 .error-message {
-  color: #f44336;
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 5px;
-  border-radius: 4px;
-  font-weight: bold;
-  font-size: 0.85em !important;
-  min-height: 20px;
-  margin-top: -10px !important;
-  box-sizing: border-box;
-  display: block;
+    font-size: 0.85rem;
+    color: #e74c3c;
+    background: #fdeaea;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-left: 4px solid #e74c3c;
+    display: none; /* Hidden by default */
+    text-align: left;
 }
 
-.error-message:empty {
-  display: none;
+.error-message:not(:empty) {
+    display: block;
+    animation: shake 0.4s ease-in-out;
 }
 
+/* Footer & Links */
 .back-link {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 2px 5px;
-  color: #004a99;
-  background-color: rgba(255, 255, 255, 0.7);
-  text-decoration: none;
-  font-size: 0.9em;
-  font-weight: bold;
-  border-radius: 4px;
+    display: inline-block;
+    margin-top: 25px;
+    color: #666;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s;
 }
 
 .back-link:hover {
-  text-decoration: underline;
+    color: var(--primary-blue);
+    text-decoration: none;
 }
 
-/* ========== ANIMASI ========== */
-@keyframes gradientBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+.copyright {
+    margin-top: 30px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+    text-align: center;
 }
 
-@keyframes popIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+/* Animations */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-/* ========== RESPONSIVE ========== */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Responsive */
 @media (max-width: 480px) {
-  .login-form {
-    padding: 20px;
-  }
+    .login-card {
+        padding: 30px 20px;
+    }
+    .header-text h2 {
+        font-size: 1.5rem;
+    }
 }

@@ -1,268 +1,183 @@
-/*
- * admin-dashboard.css
- * File gaya untuk halaman dashboard admin.
- *
- * * DAFTAR ISI:
- * 1. DASAR & BODY
- * 2. HEADER
- * 3. LAYOUT UTAMA & KONTAINER
- * 4. NAVIGASI TAB & PANEL
- * 5. GAYA TABEL UMUM
- * 6. GAYA MODAL (POP-UP)
- * 7. FORMULIR & INPUT
- * 8. KOMPONEN SPESIFIK (Summary, Pastor, Grafik)
- * 9. GAYA UNTUK PRINT
- * 10. RESPONSIVE DESIGN
- * 11. PERBAIKAN KHUSUS (TINYMCE Z-INDEX)
- * 12. GAYA TABEL PROGRAM KERJA (POIN B19)
- * 13. GAYA TAB INTERNAL MODAL (POIN B18)
- * 14. [BARU] GAYA FILTER (POIN B23)
- */
-
-/* ==================================================
-   1. DASAR & BODY
-   ================================================== */
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: var(--blue-bg);
-  color: #333;
+/* admin-dashboard.css - Modern Clean Look */
+:root {
+    --primary-color: #004a99;
+    --secondary-color: #d4af37; /* Gold */
+    --bg-color: #f4f7f6;
+    --sidebar-bg: #ffffff;
+    --text-dark: #2c3e50;
+    --text-light: #7f8c8d;
+    --border-color: #e0e0e0;
+    --success: #27ae60;
+    --shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
 
-/* ==================================================
-   2. HEADER
-   ================================================== */
-header {
-  position: relative;
-  z-index: 1;
-  padding: 0.3rem 0.1rem;
-  text-align: center;
-  background-color: var(--blue-light);
-  color: var(--blue-main);
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-dark); display: flex; min-height: 100vh; }
+
+/* === SIDEBAR === */
+.sidebar {
+    width: 260px;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    display: flex; flex-direction: column;
+    position: fixed; height: 100vh;
+    z-index: 100;
 }
-.logo { width: 100px; margin-bottom: 0.3rem; transition: transform 0.5s ease; }
-.logo:hover { transform: scale(1.1); }
-header h1 { font-family:'Times New Roman', Times, serif; font-size: 1.5rem; margin: 0.2rem 0 0; }
-header p { font-size: 0.9rem; margin: 0.2rem 0 0; }
-.logout-button { position: absolute; top: 15px; right: 20px; background-color: var(--red); color: white; border: none; padding: 0.6rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: bold; display: flex; align-items: center; gap: 8px; transition: background-color 0.3s ease; z-index: 2; }
-.logout-button:hover { background-color: #c33024; }
 
-/* ==================================================
-   3. LAYOUT UTAMA & KONTAINER
-   ================================================== */
-.dashboard-main { padding: 2rem; max-width: 1400px; margin: 0 auto; }
-.table-container { background-color: var(--white); padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); }
-.table-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid var(--blue-bg); padding-bottom: 1rem; flex-wrap: wrap; gap: 1rem; }
-.table-header h2 { color: var(--blue-main); margin: 0; display: flex; align-items: center; gap: 10px; }
-.action-buttons { display: flex; gap: 10px; }
-.action-btn { background-color: var(--blue-bg); color: var(--blue-main); border: 1px solid var(--blue-main); padding: 0.5rem 1rem; cursor: pointer; border-radius: 8px; font-weight: bold; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
-.action-btn:hover { transform: translateY(-2px); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
+.sidebar-header { padding: 2rem 1.5rem; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid #f0f0f0; }
+.sidebar-logo { width: 40px; height: auto; }
+.sidebar-title h3 { font-size: 1.1rem; color: var(--primary-color); margin: 0; }
+.sidebar-title span { font-size: 0.85rem; color: var(--text-light); }
 
-/* ==================================================
-   4. NAVIGASI TAB & PANEL
-   ================================================== */
-.dashboard-nav { margin-bottom: 1.5rem; border-bottom: 2px solid #e0e0e0; padding-bottom: 0.5rem; display: flex; gap: 10px; flex-wrap: wrap; }
-.nav-tab-btn { padding: 10px 20px; border: none; background-color: transparent; cursor: pointer; font-size: 1rem; font-weight: bold; color: #555; border-bottom: 3px solid transparent; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px; }
-.nav-tab-btn:hover { color: var(--blue-main); }
-.nav-tab-btn.active { color: var(--blue-main); border-bottom-color: var(--blue-main); }
-.management-section { display: none; }
-.management-section.active { display: block; animation: fadeIn 0.5s ease-in-out; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.nav-links { list-style: none; padding: 1.5rem 1rem; flex: 1; }
+.nav-tab-btn {
+    width: 100%; display: flex; align-items: center; gap: 12px;
+    padding: 12px 15px; border: none; background: none;
+    text-align: left; font-size: 0.95rem; color: var(--text-light);
+    border-radius: 8px; cursor: pointer; transition: 0.3s;
+    font-family: inherit; font-weight: 500; margin-bottom: 5px;
+}
+.nav-tab-btn:hover { background-color: #f0f7ff; color: var(--primary-color); }
+.nav-tab-btn.active { background-color: var(--primary-color); color: white; box-shadow: 0 4px 10px rgba(0, 74, 153, 0.2); }
 
-/* ==================================================
-   5. GAYA TABEL UMUM
-   ================================================== */
-.table-wrapper { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; white-space: nowrap; }
-th, td { padding: 12px 15px; border: 1px solid #ddd; text-align: left; vertical-align: top; }
-th { background-color: var(--blue-bg); color: var(--blue-main); font-weight: bold; text-align: center; position: sticky; top: 0; z-index: 10; }
-tbody tr { transition: background-color 0.2s ease; }
-tbody tr:nth-child(even) { background-color: #f8f9fa; }
-tfoot tr td { font-weight:bold; background-color: var(--blue-bg); }
-tbody tr.group-header-bidang td { background-color: #d9e2f3 !important; font-weight: bold; text-align: left !important; padding-left: 1rem; }
-tbody tr.group-header-sub td { background-color: #fff2cc !important; font-style: italic; text-align: left !important; padding-left: 2rem; }
-tbody tr:not(.group-header-bidang):not(.group-header-sub):hover { background-color: var(--blue-hover); }
-#announcements-table, #tpe-table { white-space: normal; }
-#announcements-table td, #tpe-table td { vertical-align: middle; }
+.sidebar-footer { padding: 1.5rem; border-top: 1px solid #f0f0f0; }
+.logout-btn {
+    width: 100%; padding: 10px; border: 1px solid #fee; background: #fff5f5;
+    color: #e74c3c; border-radius: 8px; cursor: pointer; font-weight: 600;
+    display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.3s;
+}
+.logout-btn:hover { background: #e74c3c; color: white; }
 
-/* ==================================================
-   6. GAYA MODAL (POP-UP)
-   ================================================== */
-.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); display: flex; justify-content: center; align-items: center; z-index: 2000; transition: opacity 0.3s ease; }
-.modal-overlay.hidden { display: none; }
-.modal-content { background-color: var(--white); width: 90%; max-width: 800px; max-height: 90vh; border-radius: 12px; box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3); display: flex; flex-direction: column; transition: transform 0.3s ease, opacity 0.3s ease; }
-.modal-header { padding: 1rem 1.5rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-.modal-header h2 { margin: 0; color: var(--blue-main); font-size: 1.25rem; }
-.close-modal-btn { background: none; border: none; font-size: 2rem; cursor: pointer; color: #aaa; line-height: 1; }
-.modal-body { padding: 1.5rem; overflow-y: auto; }
+/* === MAIN CONTENT === */
+.main-content { margin-left: 260px; flex: 1; display: flex; flex-direction: column; }
+.topbar {
+    background: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid var(--border-color);
+}
+.topbar h2 { font-size: 1.25rem; font-weight: 600; }
+.user-info { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; font-weight: 600; color: var(--primary-color); }
 
-/* ==================================================
-   7. FORMULIR & INPUT
-   ================================================== */
-.form-section { margin-bottom: 1rem; }
-.input-group { margin-bottom: 1rem; }
-.input-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
-.input-group input, .input-group select, .modal-body textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; background-color: #f9f9f9; transition: border-color 0.3s ease, box-shadow 0.3s ease; font-family: Arial, sans-serif; }
-.input-group input:focus, .input-group select:focus, .modal-body textarea:focus { outline: none; border-color: var(--blue-main); background-color: #fff; box-shadow: 0 0 0 4px rgba(0, 74, 153, 0.1); }
-.modal-body textarea { min-height: 80px; resize: vertical; }
-#modal-anggaran-items-container .anggaran-item { display: grid; grid-template-columns: 3fr 1fr 1fr 1.5fr 2fr auto; gap: 10px; align-items: center; margin-bottom: 10px; }
-#tpe-jadwal-container .anggaran-item { display: grid; grid-template-columns: 1fr 2fr 2fr 2fr auto; gap: 10px; align-items: center; margin-bottom: 10px; }
-.remove-btn { background: var(--red); color: white; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; font-weight: bold; }
-.action-btn-sm { padding: 4px 8px; font-size: 0.8em; margin: 0 5px 5px 0; border-radius: 4px; border: 1px solid; cursor: pointer; }
-.edit { background-color: #ffc107; border-color: #ffc107; }
-.delete { background-color: var(--red); border-color: var(--red); color: white; }
-.detail-toggle-btn { background-color: #17a2b8; border-color: #17a2b8; color: white; }
-.detail-toggle-btn .bi { transition: transform 0.2s ease-in-out; }
-.is-expanded .detail-toggle-btn .bi { transform: rotate(180deg); }
-.add-btn, .submit-btn { transition: all 0.3s ease; border-radius: 8px; border: none; color: white; cursor: pointer; }
-.add-btn:hover, .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); }
-.add-btn { font-size: 0.9rem; padding: 0.4rem 0.8rem; background-color: #2196F3; }
-.submit-btn { font-size: 1rem; padding: 0.7rem 1.5rem; background-color: var(--green); width: 100%; }
-.submit-btn:disabled { background-color: #aaa; cursor: not-allowed; }
-.total-anggaran { margin-top: 1rem; text-align: right; font-size: 1.1rem; font-weight: bold; }
-.form-message { min-height: 20px; margin-top: 1rem; font-weight: bold; text-align: center; }
-.form-message.success { color: var(--green); }
-.form-message.error { color: var(--red); }
+.content-wrapper { padding: 2rem; }
+.management-section { display: none; animation: fadeIn 0.3s ease; }
+.management-section.active { display: block; }
 
-/* ==================================================
-   8. KOMPONEN SPESIFIK (Summary, Pastor, Grafik)
-   ================================================== */
+/* === DASHBOARD SUMMARY === */
+.welcome-banner {
+    background: linear-gradient(135deg, var(--primary-color), #003366);
+    color: white; padding: 2rem; border-radius: 16px;
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 2rem; position: relative; overflow: hidden;
+}
+.banner-img { opacity: 0.1; position: absolute; right: -20px; bottom: -20px; width: 150px; }
 .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
-.summary-card { background-color: #f8faff; border-left: 5px solid var(--blue-main); padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: transform 0.2s ease, box-shadow 0.2s ease; }
-.summary-card:hover { transform: translateY(-5px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-.summary-card h3 { margin: 0 0 0.5rem 0; font-size: 1.1rem; color: #333; }
-.summary-card p { margin: 0; font-size: 2.5rem; font-weight: bold; color: var(--blue-main); }
-.summary-card span { font-size: 0.9rem; color: #666; }
-.quick-actions { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #eee; display: flex; gap: 1rem; flex-wrap: wrap; }
-#q-add-program-btn { background-color: var(--green); border-color: var(--green); color: var(--white); }
-#q-add-announcement-btn { background-color: #17a2b8; border-color: #17a2b8; color: var(--white); }
-#pastor-list-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; }
-.pastor-management-card { border-radius: 12px; padding: 1rem; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: transform 0.3s ease, box-shadow 0.3s ease; }
-.pastor-management-card:hover { transform: translateY(-5px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-.pastor-management-card img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid var(--blue-main); }
-.pastor-management-card h5 { margin: 0.75rem 0 0.5rem 0; }
-.pastor-status-select { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; font-weight: bold; cursor: pointer; }
-.status-update-feedback { font-size: 0.8rem; color: var(--green); font-style: italic; min-height: 1.2rem; margin-top: 0.5rem; }
-.chart-container { position: relative; height: 400px; width: 100%; margin-bottom: 2rem; }
-
-/* ==================================================
-   9. GAYA FEEDBACK (LOADING & ERROR)
-   ================================================== */
-/* Dipindah ke theme.css */
-
-/* ==================================================
-   10. GAYA UNTUK PRINT
-   ================================================== */
-@media print {
-  @page { size: 330mm 215mm landscape; margin: 15mm; } 
-  body { background-color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .no-print { display: none !important; }
-  .dashboard-main, .table-container { padding: 0; margin: 0; box-shadow: none; border: none; max-width: 100%; }
-  .table-header { display: block; text-align: center; border: none; }
-  .table-header h2 { font-size: 14pt; margin-bottom: 10px; }
-  table { white-space: normal; font-size: 9pt; width: 100%; }
-  th, td { padding: 5px; border: 1px solid #000 !important; }
-  th { background-color: #e0e0e0 !important; }
-  tfoot > tr > td { background-color: #f2f2f2 !important; }
-  tr.group-header-bidang td, tr.group-header-sub td { background-color: inherit !important; }
+.stat-card {
+    background: white; padding: 1.5rem; border-radius: 12px;
+    display: flex; align-items: center; gap: 1rem;
+    box-shadow: var(--shadow); border: 1px solid white;
 }
+.icon-box {
+    width: 50px; height: 50px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+}
+.blue { background: #e6f0ff; color: var(--primary-color); }
+.gold { background: #fff8e1; color: var(--secondary-color); }
+.green { background: #e8f5e9; color: var(--success); }
+.text-box h3 { font-size: 1.5rem; margin: 0; line-height: 1; }
+.text-box p { font-size: 0.85rem; color: var(--text-light); margin: 5px 0 0; }
 
-/* ==================================================
-   11. RESPONSIVE DESIGN
-   ================================================== */
+/* === QUICK ACTIONS === */
+.section-subtitle { font-size: 1rem; color: var(--text-light); margin-bottom: 1rem; }
+.quick-actions-grid { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.quick-btn {
+    flex: 1; min-width: 200px; padding: 1.5rem; border: none;
+    background: white; border-radius: 12px; cursor: pointer;
+    box-shadow: var(--shadow); text-align: left; transition: transform 0.2s;
+    border-left: 4px solid var(--primary-color); display: flex; flex-direction: column; gap: 5px;
+}
+.quick-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+.quick-btn i { font-size: 1.8rem; color: var(--primary-color); margin-bottom: 5px; }
+.quick-btn span { font-weight: 600; font-size: 1rem; }
+.quick-btn small { color: var(--text-light); }
+.quick-btn.secondary { border-left-color: var(--secondary-color); }
+.quick-btn.secondary i { color: var(--secondary-color); }
+
+/* === TABLES & SECTIONS === */
+.section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.primary-btn {
+    background: var(--primary-color); color: white; border: none;
+    padding: 10px 20px; border-radius: 8px; cursor: pointer;
+    font-weight: 500; display: flex; align-items: center; gap: 8px; transition: 0.2s;
+}
+.primary-btn:hover { background: #003366; }
+.table-card { background: white; border-radius: 12px; padding: 1rem; box-shadow: var(--shadow); overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; min-width: 600px; }
+th { text-align: left; padding: 15px; color: var(--text-light); font-weight: 600; border-bottom: 1px solid #eee; font-size: 0.9rem; }
+td { padding: 15px; border-bottom: 1px solid #f9f9f9; vertical-align: middle; }
+.text-end { text-align: right; }
+.btn-action { width: 32px; height: 32px; border-radius: 6px; border: none; cursor: pointer; margin-left: 5px; }
+.edit { background: #fff8e1; color: #f39c12; }
+.delete { background: #ffebee; color: #e74c3c; }
+
+/* === MODALS & FORMS === */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+    z-index: 1000; display: flex; justify-content: center; align-items: center;
+}
+.modal-overlay.hidden { display: none; }
+.modal-content {
+    background: white; border-radius: 16px; padding: 0;
+    max-height: 90vh; display: flex; flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+.small-modal { width: 400px; }
+.wide-modal { width: 90%; max-width: 1100px; } /* Modal TPE Luas */
+
+.modal-header { padding: 1.5rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+.modal-body { padding: 2rem; overflow-y: auto; }
+.close-modal-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+
+/* FORM STYLES */
+.form-group { margin-bottom: 1rem; }
+.form-group label { display: block; margin-bottom: 5px; font-weight: 500; font-size: 0.9rem; color: #555; }
+.form-control {
+    width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;
+    font-family: inherit; transition: 0.2s;
+}
+.form-control:focus { border-color: var(--primary-color); outline: none; box-shadow: 0 0 0 3px rgba(0, 74, 153, 0.1); }
+.submit-btn {
+    background: var(--primary-color); color: white; border: none;
+    padding: 12px; border-radius: 8px; cursor: pointer; font-weight: 600; margin-top: 1rem;
+}
+.full-width { width: 100%; }
+.large { padding: 15px 40px; font-size: 1rem; }
+
+/* TPE SPECIFIC GRID FORM */
+.form-grid { display: grid; grid-template-columns: 350px 1fr; gap: 2rem; }
+.grid-col { display: flex; flex-direction: column; gap: 10px; }
+.form-section-title { color: var(--primary-color); border-bottom: 2px solid #eee; padding-bottom: 5px; margin-bottom: 15px; }
+.row-2 { display: flex; gap: 10px; }
+.row-2 .form-group, .row-2 .liturgy-group { flex: 1; }
+.liturgy-group { margin-bottom: 15px; }
+.alert-info { background: #e3f2fd; color: #0d47a1; padding: 10px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 1rem; }
+
+/* JADWAL MISA ITEM */
+.jadwal-item { display: flex; gap: 5px; margin-bottom: 5px; align-items: center; }
+.jadwal-item input { font-size: 0.85rem; padding: 5px; }
+.btn-remove { background: #ffeba7; border:none; width: 30px; height: 30px; cursor: pointer; border-radius: 4px; color: #8a6d3b; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+    .form-grid { grid-template-columns: 1fr; }
+}
 @media (max-width: 768px) {
-  header h1 { font-size: 1.2rem; }
-  .logout-button { padding: 0.5rem; font-size: 0; top: 10px; right: 10px; width: 40px; height: 40px; border-radius: 50%; }
-  .logout-button i { font-size: 1rem; margin: 0; }
-  .table-header { flex-direction: column; align-items: flex-start; }
-  .dashboard-main, .table-container { padding: 1rem; }
-  th, td { padding: 8px 10px; font-size: 0.9em; }
-  #modal-anggaran-items-container .anggaran-item,
-  #tpe-jadwal-container .anggaran-item { 
-      grid-template-columns: 1fr;
-  }
+    .sidebar { transform: translateX(-100%); transition: 0.3s; }
+    .sidebar.active { transform: translateX(0); }
+    .main-content { margin-left: 0; }
+    #sidebar-toggle { background: none; border: none; font-size: 1.5rem; display: block; }
 }
-
-/* ==================================================
-   12. PERBAIKAN KHUSUS (TINYMCE Z-INDEX)
-   ================================================== */
-.tox-tinymce-aux { z-index: 9999 !important; }
-
-/* ==================================================
-   13. GAYA TABEL PROGRAM KERJA (POIN B19)
-   ================================================== */
-.budget-detail-col,
-.budget-detail-row {
-    display: none;
-}
-.program-row.is-expanded .budget-detail-col {
-    display: table-cell;
-}
-.program-row.is-expanded .budget-detail-row {
-    display: table-row;
-    background-color: #f8faff;
-}
-.program-row .detail-toggle-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-}
-
-/* ==================================================
-   14. GAYA TAB INTERNAL MODAL (POIN B18)
-   ================================================== */
-.modal-tab-nav {
-    display: flex;
-    border-bottom: 2px solid var(--blue-bg);
-    margin-bottom: 1.5rem;
-}
-.modal-tab-btn {
-    padding: 0.75rem 1rem;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #555;
-    border-bottom: 3px solid transparent;
-    transition: all 0.3s ease;
-}
-.modal-tab-btn:hover {
-    color: var(--blue-main);
-}
-.modal-tab-btn.active {
-    color: var(--blue-main);
-    border-bottom-color: var(--blue-main);
-}
-.modal-tab-panel {
-    display: none;
-    animation: fadeIn 0.4s ease-in-out;
-}
-.modal-tab-panel.active {
-    display: block;
-}
-
-/* ==================================================
-   15. [BARU] GAYA FILTER (POIN B23)
-   ================================================== */
-.filter-group {
-    margin-bottom: 1.5rem;
-    padding: 1rem;
-    background-color: var(--blue-bg);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    max-width: 500px;
-}
-.filter-group label {
-    font-weight: bold;
-    color: var(--blue-main);
-}
-.filter-group select {
-    flex: 1;
-    padding: 0.5rem;
-    border: 1px solid var(--blue-border);
-    border-radius: 6px;
-    font-size: 0.9rem;
-}
+.d-md-none { display: none; }
+@media (max-width: 768px) { .d-md-none { display: block; } }
+.tox { z-index: 9999 !important; }
