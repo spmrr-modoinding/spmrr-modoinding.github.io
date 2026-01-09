@@ -104,67 +104,36 @@
         <main class="content-container">
             
             <div id="beranda" class="tab-content active">
-                <div class="section-header" style="margin-top: 0;">
-                    <h3>Jadwal Misa Mingguan</h3>
-                    <div class="divider"></div>
-                </div>
                 
-                <div class="jadwal-split-container">
-                    <div class="jadwal-column">
-                        <div class="jadwal-card pusat">
-                            <div class="j-icon"><i class="fas fa-church"></i></div>
-                            <div class="j-info">
-                                <h4>Pusat Paroki - Sinisir</h4>
-                                <span class="j-time">07.00 WITA</span>
-                            </div>
-                        </div>
-                        <div class="jadwal-card stasi">
-                            <div class="j-icon"><i class="fas fa-place-of-worship"></i></div>
-                            <div class="j-info">
-                                <h4>Stasi Sta. Theresia - Makaaroyen</h4>
-                                <span class="j-time">09.00 WITA</span>
-                            </div>
-                        </div>
-                        <div class="jadwal-card stasi">
-                            <div class="j-icon"><i class="fas fa-place-of-worship"></i></div>
-                            <div class="j-info">
-                                <h4>Stasi Hati Kudus Yesus - Mobuya</h4>
-                                <span class="j-time">11.00 WITA</span>
-                            </div>
-                        </div>
+                <div class="beranda-switcher-container">
+                    <button class="beranda-switch-btn active" onclick="switchBerandaView('jadwal')">
+                        <i class="fas fa-calendar-alt"></i> Jadwal Misa
+                    </button>
+                    <button class="beranda-switch-btn" onclick="switchBerandaView('tpe')">
+                        <i class="fas fa-book-open"></i> Tata Perayaan (TPE)
+                    </button>
+                </div>
+
+                <div id="view-jadwal" class="beranda-subview active">
+                    <div class="section-header" style="margin-top: 1rem;">
+                        <h3>Jadwal Misa Mingguan</h3>
+                        <div class="divider"></div>
                     </div>
-                    <div class="jadwal-column">
-                        <div class="jadwal-card stasi">
-                            <div class="j-icon"><i class="fas fa-place-of-worship"></i></div>
-                            <div class="j-info">
-                                <h4>Stasi Rex Mundi - Tambelang</h4>
-                                <span class="j-time">07.00 WITA</span>
-                            </div>
-                        </div>
-                        <div class="jadwal-card stasi">
-                            <div class="j-icon"><i class="fas fa-place-of-worship"></i></div>
-                            <div class="j-info">
-                                <h4>Stasi St. Andreas - Kinamang</h4>
-                                <span class="j-time">09.00 WITA</span>
-                            </div>
-                        </div>
-                        <div class="jadwal-card stasi">
-                            <div class="j-icon"><i class="fas fa-place-of-worship"></i></div>
-                            <div class="j-info">
-                                <h4>Stasi Christus Rex - Liningaan</h4>
-                                <span class="j-time">11.00 WITA</span>
-                            </div>
-                        </div>
+                    
+                    <div id="jadwal-dynamic-container" class="jadwal-grid-wrapper">
+                        <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Memuat Jadwal...</div>
                     </div>
                 </div>
 
-                <div class="section-header" style="margin-top: 4rem;">
-                    <h3>Tata Perayaan Ekaristi Mingguan</h3>
-                    <div class="divider"></div>
-                </div>
+                <div id="view-tpe" class="beranda-subview" style="display: none;">
+                    <div class="section-header" style="margin-top: 1rem;">
+                        <h3>Tata Perayaan Ekaristi</h3>
+                        <div class="divider"></div>
+                    </div>
 
-                <div id="latest-tpe-container">
-                    <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Memuat TPE Terbaru...</div>
+                    <div id="latest-tpe-container">
+                        <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Memuat TPE Terbaru...</div>
+                    </div>
                 </div>
             </div>
 
@@ -324,6 +293,7 @@
         <footer class="main-footer">
             <div class="footer-content">
                 <p>&copy; 2026 Paroki Santa Perawan Maria Ratu Rosari Modoinding</p>
+                <small style="color: rgba(255,255,255,0.7);">Dibuat oleh Sekretariat Paroki</small>
             </div>
         </footer>
     </div>
