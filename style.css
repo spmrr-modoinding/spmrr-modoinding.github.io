@@ -100,7 +100,7 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
 
 .hero-overlay {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: url('gereja.jpeg') 190% center/cover;
+    background: url('gereja.jpeg') center center / cover no-repeat;
     filter: blur(1px) brightness(0.9);
     opacity: 0.90;
     mix-blend-mode: overlay;
@@ -137,7 +137,7 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
     gap: 40px; margin-bottom: 2.5rem; margin-top: 1rem;
 }
 
-/* POSISI DESKTOP */
+/* POSISI DESKTOP (DEFAULT) */
 .pastor-frame-container:first-child { position: relative; left: -20px; }
 .pastor-frame-container:nth-child(2) { animation-delay: 2s; position: relative; left: 40px; }
 
@@ -166,6 +166,7 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
 
 .pastor-img-content { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
 
+/* STYLE NAMA PASTOR (DEFAULT DESKTOP) */
 .pastor-label {
     margin-top: -15px;
     background: linear-gradient(135deg, var(--accent-gold), #b8860b);
@@ -196,7 +197,7 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
 .wave-shape { position: absolute; bottom: -5px; left: 0; width: 100%; line-height: 0; z-index: 5; }
 
 /* ==================================================
-   4. ANIMATIONS
+   4. ANIMATIONS & COMPONENTS
    ================================================== */
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
 .fade-in-up { opacity: 0; animation: fadeInUp 0.8s forwards ease-out; }
@@ -209,20 +210,13 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
 .tab-content.active { display: block; animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
 @keyframes slideUpFade { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-/* ==================================================
-   5. CONTENT COMPONENTS
-   ================================================== */
+/* CONTENT STYLES */
 .content-container { padding: 0 2rem 4rem; max-width: 1200px; margin: -60px auto 0; position: relative; z-index: 10; }
 .section-header { text-align: center; margin-bottom: 3.5rem; }
 .section-header h2 { font-size: 2.2rem; color: var(--primary-blue); margin-bottom: 15px; }
 .divider { width: 80px; height: 5px; background: var(--accent-gold); margin: 0 auto; border-radius: 3px; }
 
-.modern-card {
-    background: white; border-radius: 16px; padding: 2rem;
-    box-shadow: var(--card-shadow); border-left: 5px solid var(--primary-blue);
-    display: flex; flex-direction: column; gap: 0.8rem;
-    transition: all 0.3s; position: relative; overflow: hidden;
-}
+.modern-card { background: white; border-radius: 16px; padding: 2rem; box-shadow: var(--card-shadow); border-left: 5px solid var(--primary-blue); display: flex; flex-direction: column; gap: 0.8rem; transition: all 0.3s; position: relative; overflow: hidden; }
 .modern-card.hover-lift:hover { transform: translateY(-8px); box-shadow: var(--hover-shadow); }
 .card-date { font-size: 0.8rem; color: var(--accent-gold); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
 .card-title { font-size: 1.3rem; color: var(--primary-blue); font-weight: 700; }
@@ -288,8 +282,6 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
 /* ==================================================
    NEW: SEKRETARIAT & KOMSOS
    ================================================== */
-
-/* SOCIAL ICONS */
 .social-icons-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
 .social-btn { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8rem; transition: transform 0.3s, box-shadow 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.2); text-decoration: none; }
 .social-btn:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
@@ -297,161 +289,161 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
 .social-btn.ig { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
 .social-btn.tt { background: #000000; }
 
-/* WHATSAPP GRID */
 .wa-grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 3rem; }
-.wa-btn {
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-    background: #25D366; color: white; padding: 12px 20px;
-    border-radius: 12px; text-decoration: none; font-weight: 600;
-    font-size: 0.95rem; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
-    transition: all 0.3s;
-}
+.wa-btn { display: flex; align-items: center; justify-content: center; gap: 10px; background: #25D366; color: white; padding: 12px 20px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 0.95rem; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); transition: all 0.3s; }
 .wa-btn:hover { background: #1ebd56; transform: translateY(-3px); box-shadow: 0 8px 15px rgba(37, 211, 102, 0.5); }
 .wa-btn i { font-size: 1.3rem; }
 
-/* FORMS LIST */
 .forms-list { display: flex; flex-direction: column; }
-.form-item {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 15px 10px; background: white; border-bottom: 1px solid #eee;
-    transition: 0.3s; cursor: pointer;
-}
+.form-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 10px; background: white; border-bottom: 1px solid #eee; transition: 0.3s; cursor: pointer; }
 .form-item:last-child { border-bottom: none; }
 .form-item:hover { background: #f9fcff; }
 .form-info { display: flex; align-items: center; gap: 15px; }
 .form-name { font-weight: 500; color: #444; font-size: 1rem; }
-.btn-preview-icon {
-    color: #999; font-size: 1rem; transition: 0.3s;
-}
+.btn-preview-icon { color: #999; font-size: 1rem; transition: 0.3s; }
 .form-item:hover .form-name { color: var(--primary-blue); }
 .form-item:hover .btn-preview-icon { color: var(--primary-blue); }
 
-/* --- PASTOR HISTORY GRID (NEW) --- */
-.pastor-history-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
-}
-.pastor-history-card {
-    background: white;
-    border-radius: 12px;
-    box-shadow: var(--card-shadow);
-    overflow: hidden;
-    text-align: center;
-    transition: transform 0.3s ease;
-    border: 1px solid #eee;
-}
-.pastor-history-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--hover-shadow);
-}
-.ph-img-wrapper {
-    width: 100%;
-    height: 220px;
-    background: #f4f7f6;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.ph-img-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top;
-}
-.ph-info {
-    padding: 15px;
-}
-.ph-info h4 {
-    color: var(--primary-blue);
-    font-size: 1rem;
-    margin-bottom: 5px;
-}
-.ph-years {
-    font-size: 0.85rem;
-    color: #666;
-    font-weight: 500;
-    display: inline-block;
-    background: #f0f7ff;
-    padding: 4px 10px;
-    border-radius: 20px;
-    color: var(--primary-blue);
-}
+.pastor-history-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; margin-top: 20px; }
+.pastor-history-card { background: white; border-radius: 12px; box-shadow: var(--card-shadow); overflow: hidden; text-align: center; transition: transform 0.3s ease; border: 1px solid #eee; }
+.pastor-history-card:hover { transform: translateY(-5px); box-shadow: var(--hover-shadow); }
+.ph-img-wrapper { width: 100%; height: 220px; background: #f4f7f6; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.ph-img-wrapper img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.ph-info { padding: 15px; }
+.ph-info h4 { color: var(--primary-blue); font-size: 1rem; margin-bottom: 5px; }
+.ph-years { font-size: 0.85rem; color: #666; font-weight: 500; display: inline-block; background: #f0f7ff; padding: 4px 10px; border-radius: 20px; color: var(--primary-blue); }
 
-/* MODAL PREVIEW PDF */
-.modal-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.6); z-index: 5000;
-    display: none; justify-content: center; align-items: center;
-    backdrop-filter: blur(3px);
-}
-.pdf-modal {
-    background: white; width: 90%; max-width: 850px; height: 90vh;
-    display: flex; flex-direction: column; border-radius: 8px;
-    box-shadow: 0 15px 50px rgba(0,0,0,0.3); overflow: hidden;
-}
-.preview-toolbar {
-    display: flex; justify-content: space-between; align-items: center;
-    background: white; padding: 15px 20px; border-bottom: 1px solid #eee;
-}
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 5000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(3px); }
+.pdf-modal { background: white; width: 90%; max-width: 850px; height: 90vh; display: flex; flex-direction: column; border-radius: 8px; box-shadow: 0 15px 50px rgba(0,0,0,0.3); overflow: hidden; }
+.preview-toolbar { display: flex; justify-content: space-between; align-items: center; background: white; padding: 15px 20px; border-bottom: 1px solid #eee; }
 .btn-toolbar.close { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #666; }
 .btn-toolbar.close:hover { color: #000; }
-
 .pdf-container { flex: 1; background: #525659; overflow: hidden; position: relative; }
 iframe { border: none; display: block; }
-
-.modal-footer {
-    padding: 15px 20px; background: white; border-top: 1px solid #eee;
-    display: flex; justify-content: flex-end; gap: 10px;
-}
-.btn-action-grey {
-    background: #6c757d; color: white; border: none; padding: 8px 15px;
-    border-radius: 5px; cursor: pointer; font-weight: 500; display: flex; align-items: center; gap: 5px; text-decoration: none; font-size: 0.9rem;
-}
-.btn-action-blue {
-    background: #007bff; color: white; border: none; padding: 8px 15px;
-    border-radius: 5px; cursor: pointer; font-weight: 500; display: flex; align-items: center; gap: 5px; text-decoration: none; font-size: 0.9rem;
-}
+.modal-footer { padding: 15px 20px; background: white; border-top: 1px solid #eee; display: flex; justify-content: flex-end; gap: 10px; }
+.btn-action-grey { background: #6c757d; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: 500; display: flex; align-items: center; gap: 5px; text-decoration: none; font-size: 0.9rem; }
+.btn-action-blue { background: #007bff; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: 500; display: flex; align-items: center; gap: 5px; text-decoration: none; font-size: 0.9rem; }
 .btn-action-grey:hover { background: #5a6268; }
 .btn-action-blue:hover { background: #0069d9; }
 
-/* ==================================================
-   MOBILE RESPONSIVE
-   ================================================== */
-.hamburger-menu {
-    position: fixed; top: 20px; left: 20px; width: 25px; height: 20px; z-index: 2001;
-    display: none; flex-direction: column; justify-content: space-between; cursor: pointer; background: transparent; border: none;
-}
-.hamburger-menu span { display: block; width: 100%; height: 3px; background-color: var(--primary-blue); border-radius: 4px; transition: all 0.4s; transform-origin: left; }
+.hamburger-menu { position: fixed; top: 15px; left: 10px; width: 18px; height: 15px; z-index: 2001; display: none; flex-direction: column; justify-content: space-between; cursor: pointer; background: transparent; border: none; }
+.hamburger-menu span { display: block; width: 100%; height: 2px; background-color: rgb(38, 0, 255); border-radius: 4px; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); transform-origin: left; box-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+.hamburger-menu.active span { background-color: var(--primary-blue); }
 .hamburger-menu.active span:nth-child(1) { transform: rotate(45deg) translate(0px, -3px); }
 .hamburger-menu.active span:nth-child(2) { opacity: 0; transform: scale(0); }
 .hamburger-menu.active span:nth-child(3) { transform: rotate(-45deg) translate(0px, 5px); }
-
-.overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(2px); z-index: 999;
-    opacity: 0; visibility: hidden; transition: all 0.3s ease;
-}
+.overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(2px); z-index: 999; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
 .overlay.active { opacity: 1; visibility: visible; }
 
+/* ==================================================
+   MOBILE RESPONSIVE (MEDIA QUERY) - PENGATURAN KHUSUS HP
+   ================================================== */
 @media (max-width: 768px) {
     .hamburger-menu { display: flex; }
     .main-content { margin-left: 0; }
     .sidebar { transform: translateX(-100%); box-shadow: none; }
     .sidebar.active { transform: translateX(0); box-shadow: 5px 0 25px rgba(0,0,0,0.2); }
-    .pastor-frame-container:first-child { left: -10px; }
-    .pastor-frame-container:nth-child(2) { left: 10px; margin-left: 0; }
-    .logo-corner { height: 75px; width: auto; pointer-events: auto; }
-    .logo-corner.left { margin-left: 0; }
-    .logo-corner.right { margin-right: 30px; }
-    .hero-section { min-height: 680px; padding-top: 150px; padding-bottom: 40px; }
-    .pastors-hero-wrapper { gap: 15px; margin-bottom: 1.5rem; }
-    .pastor-photo-circle { width: 110px; height: 110px; }
-    .pastor-label { font-size: 0.65rem; padding: 4px 10px; width: 120px; max-width: 120px; }
-    .pastor-frame-container:nth-child(2) { animation-delay: 2s; margin-left: 80px; position: relative; left: 5px; }
-    .hero-content h1 { font-size: 1.6rem; margin-top: 10px; }
+
+    /* --- [PENGATURAN LOGO HP] --- */
+    .hero-logos-container {
+        /* [GESER ATAS/BAWAH] Logo */
+        top: 20px; 
+        
+        /* [GESER KIRI/KANAN] Logo dari pinggir layar */
+        padding: 0 20px; 
+    }
+    
+    /* 1. LOGO KIRI (KEUSKUPAN) */
+    .logo-corner.left {
+        height: 50px; /* [UBESAR/KECIL LOGO] */
+        margin-left: 4px; /* [GESER KIRI/KANAN INDIVIDUAL] */
+    }
+
+    /* 2. LOGO KANAN (PAROKI) */
+    .logo-corner.right {
+        height: 50px; /* [UBESAR/KECIL LOGO] */
+        margin-right: 8px; /* [GESER KIRI/KANAN INDIVIDUAL] */
+    }
+
+    /* --- [PENGATURAN HERO SECTION HP] --- */
+    .hero-section { min-height: 600px; padding-top: 120px; padding-bottom: 40px; }
+
+    /* --- [PENGATURAN FOTO & NAMA PASTOR HP] --- */
+    .pastors-hero-wrapper { 
+        gap: 20px; /* Jarak antar Pastor kiri dan kanan */
+        margin-bottom: 1.5rem; 
+    }
+    
+    /* Container Pastor (Foto & Nama) */
+    .pastor-frame-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* [PENTING] Ini bikin foto dan nama RATA TENGAH OTOMATIS */
+        width: 100px; /* Lebar area pastor agar stabil */
+    }
+
+    .pastor-photo-circle { 
+        /* [UBESAR/KECIL FOTO] */
+        width: 85px; height: 90px; 
+    }
+
+    /* 3. PASTOR KIRI (RD. JOSEPH) */
+    .pastor-frame-container:first-child { 
+        left: 0; 
+        /* [GESER KIRI/KANAN] Negatif = Kiri, Positif = Kanan */
+        transform: translateX(-20px); 
+        
+        /* [GESER ATAS/BAWAH] */
+        margin-top: 0px; 
+    } 
+
+    /* 4. PASTOR KANAN (RD. MIKI) */
+    .pastor-frame-container:nth-child(2) { 
+        left: 0; margin-left: 0; animation-delay: 2s; 
+        
+        /* [GESER KIRI/KANAN] Positif = Kanan, Negatif = Kiri */
+        transform: translateX(30px); 
+        
+        /* [GESER ATAS/BAWAH] */
+        margin-top: 0px;
+    }
+
+    /* --- [STYLE KOTAK NAMA PASTOR HP] --- */
+    .pastor-label {
+        /* [JARAK NAMA DARI FOTO] */
+        margin-top: 10px; 
+        
+        /* [LEBAR KOTAK NAMA] auto = menyesuaikan panjang nama */
+        width: auto; 
+        min-width: 110px; /* Lebar minimal */
+        max-width: 140px; /* Batas lebar maksimal agar wrap kalau kepanjangan */
+        
+        /* [UKURAN HURUF NAMA] */
+        font-size: 0.65rem; 
+        
+        padding: 5px 12px;
+        background: linear-gradient(135deg, #d4af37, #b8860b);
+        border: 1px solid rgba(255,255,255,0.8);
+        border-radius: 20px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        
+        /* Agar teks panjang turun baris dengan rapi */
+        white-space: normal; 
+        line-height: 1.2;
+    }
+
+    /* --- [PENGATURAN KHUSUS NAMA PASTOR MIKI (KANAN) RATA KIRI] --- */
+    .pastor-frame-container:nth-child(2) .pastor-label {
+        text-align: center; /* PERMINTAAN USER: Rata Kiri */
+        padding-left: 1px; /* Sedikit jarak dari kiri */
+        width: 50px; /* Sedikit diperlebar agar muat */
+    }
+
+    /* --- [PENGATURAN JUDUL PAROKI HP] --- */
+    .hero-content h1 { 
+        font-size: 1.8rem; margin-top: 10px; line-height: 1.3;
+    }
+    
     .content-container { padding: 2rem 1.2rem 3rem; margin-top: -30px; }
     .jadwal-split-container { grid-template-columns: 1fr; gap: 1.5rem; }
     .tpe-paper { padding: 1.5rem; }
