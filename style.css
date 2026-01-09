@@ -85,7 +85,7 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
 .login-btn:hover { border-color: var(--accent-gold); background: #fffcf0; }
 
 /* ==================================================
-   3. HERO SECTION & LAYOUT
+   3. HERO SECTION & LAYOUT (DESKTOP DEFAULT)
    ================================================== */
 .main-content { margin-left: var(--sidebar-width); min-height: 100vh; transition: margin 0.3s; }
 
@@ -100,6 +100,7 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
 
 .hero-overlay {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    /* Standby Tengah */
     background: url('gereja.jpeg') center center / cover no-repeat;
     filter: blur(1px) brightness(0.9);
     opacity: 0.90;
@@ -114,6 +115,7 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
     z-index: 1;
 }
 
+/* LOGO DESKTOP */
 .hero-logos-container {
     position: absolute; 
     top: 30px; left: 0; width: 100%;
@@ -132,12 +134,12 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
 
 .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 0 20px; width: 100%; }
 
+/* PASTOR DESKTOP */
 .pastors-hero-wrapper {
     display: flex; justify-content: center;
     gap: 40px; margin-bottom: 2.5rem; margin-top: 1rem;
 }
 
-/* POSISI DESKTOP (DEFAULT) */
 .pastor-frame-container:first-child { position: relative; left: -20px; }
 .pastor-frame-container:nth-child(2) { animation-delay: 2s; position: relative; left: 40px; }
 
@@ -166,7 +168,7 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
 
 .pastor-img-content { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
 
-/* STYLE NAMA PASTOR (DEFAULT DESKTOP) */
+/* LABEL NAMA PASTOR DESKTOP */
 .pastor-label {
     margin-top: -15px;
     background: linear-gradient(135deg, var(--accent-gold), #b8860b);
@@ -197,7 +199,7 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
 .wave-shape { position: absolute; bottom: -5px; left: 0; width: 100%; line-height: 0; z-index: 5; }
 
 /* ==================================================
-   4. ANIMATIONS & COMPONENTS
+   4. ANIMATIONS
    ================================================== */
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
 .fade-in-up { opacity: 0; animation: fadeInUp 0.8s forwards ease-out; }
@@ -210,13 +212,20 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
 .tab-content.active { display: block; animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
 @keyframes slideUpFade { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-/* CONTENT STYLES */
+/* ==================================================
+   5. CONTENT COMPONENTS
+   ================================================== */
 .content-container { padding: 0 2rem 4rem; max-width: 1200px; margin: -60px auto 0; position: relative; z-index: 10; }
 .section-header { text-align: center; margin-bottom: 3.5rem; }
 .section-header h2 { font-size: 2.2rem; color: var(--primary-blue); margin-bottom: 15px; }
 .divider { width: 80px; height: 5px; background: var(--accent-gold); margin: 0 auto; border-radius: 3px; }
 
-.modern-card { background: white; border-radius: 16px; padding: 2rem; box-shadow: var(--card-shadow); border-left: 5px solid var(--primary-blue); display: flex; flex-direction: column; gap: 0.8rem; transition: all 0.3s; position: relative; overflow: hidden; }
+.modern-card {
+    background: white; border-radius: 16px; padding: 2rem;
+    box-shadow: var(--card-shadow); border-left: 5px solid var(--primary-blue);
+    display: flex; flex-direction: column; gap: 0.8rem;
+    transition: all 0.3s; position: relative; overflow: hidden;
+}
 .modern-card.hover-lift:hover { transform: translateY(-8px); box-shadow: var(--hover-shadow); }
 .card-date { font-size: 0.8rem; color: var(--accent-gold); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
 .card-title { font-size: 1.3rem; color: var(--primary-blue); font-weight: 700; }
@@ -252,8 +261,9 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
 .pope-number { width: 50px; height: 50px; background: var(--accent-gold); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: bold; flex-shrink: 0; box-shadow: 0 4px 10px rgba(212, 175, 55, 0.4); }
 
 .loading-spinner { text-align: center; color: #999; padding: 2rem; }
-.main-footer { text-align: center; padding: -25rem 0; background: var(--primary-blue); color: white; margin-top: 4rem; }
-.main-footer p { margin-bottom: 5px; font-size: 1rem; }
+/* FOOTER */
+.main-footer { text-align: center; padding: 10px 0; background: var(--primary-blue); color: white; margin-top: 4rem; }
+.main-footer p { margin-bottom: 0; font-size: 0.8rem; }
 
 /* === JADWAL MISA SPLIT === */
 .jadwal-split-container { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem; align-items: start; }
@@ -280,7 +290,7 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
 .label-bacaan { color: #d35400; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px; }
 
 /* ==================================================
-   NEW: SEKRETARIAT & KOMSOS
+   SEKRETARIAT & KOMSOS
    ================================================== */
 .social-icons-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
 .social-btn { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8rem; transition: transform 0.3s, box-shadow 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.2); text-decoration: none; }
@@ -313,6 +323,7 @@ h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
 .ph-info h4 { color: var(--primary-blue); font-size: 1rem; margin-bottom: 5px; }
 .ph-years { font-size: 0.85rem; color: #666; font-weight: 500; display: inline-block; background: #f0f7ff; padding: 4px 10px; border-radius: 20px; color: var(--primary-blue); }
 
+/* MODALS */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 5000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(3px); }
 .pdf-modal { background: white; width: 90%; max-width: 850px; height: 90vh; display: flex; flex-direction: column; border-radius: 8px; box-shadow: 0 15px 50px rgba(0,0,0,0.3); overflow: hidden; }
 .preview-toolbar { display: flex; justify-content: space-between; align-items: center; background: white; padding: 15px 20px; border-bottom: 1px solid #eee; }
@@ -326,8 +337,9 @@ iframe { border: none; display: block; }
 .btn-action-grey:hover { background: #5a6268; }
 .btn-action-blue:hover { background: #0069d9; }
 
-.hamburger-menu { position: fixed; top: 15px; left: 10px; width: 18px; height: 15px; z-index: 2001; display: none; flex-direction: column; justify-content: space-between; cursor: pointer; background: transparent; border: none; }
-.hamburger-menu span { display: block; width: 100%; height: 2px; background-color: rgb(38, 0, 255); border-radius: 4px; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); transform-origin: left; box-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+/* HAMBURGER MENU */
+.hamburger-menu { position: fixed; top: 10px; left: 10px; width: 15px; height: 15px; z-index: 2001; display: none; flex-direction: column; justify-content: space-between; cursor: pointer; background: transparent; border: none; }
+.hamburger-menu span { display: block; width: 100%; height: 2px; background-color: rgb(0, 17, 255); border-radius: 4px; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); transform-origin: left; box-shadow: 0 1px 3px rgba(0,0,0,0.5); }
 .hamburger-menu.active span { background-color: var(--primary-blue); }
 .hamburger-menu.active span:nth-child(1) { transform: rotate(45deg) translate(0px, -3px); }
 .hamburger-menu.active span:nth-child(2) { opacity: 0; transform: scale(0); }
@@ -356,13 +368,13 @@ iframe { border: none; display: block; }
     /* 1. LOGO KIRI (KEUSKUPAN) */
     .logo-corner.left {
         height: 50px; /* [UBESAR/KECIL LOGO] */
-        margin-left: 4px; /* [GESER KIRI/KANAN INDIVIDUAL] */
+        margin-left: 16px; /* [GESER KIRI/KANAN INDIVIDUAL] */
     }
 
     /* 2. LOGO KANAN (PAROKI) */
     .logo-corner.right {
         height: 50px; /* [UBESAR/KECIL LOGO] */
-        margin-right: 8px; /* [GESER KIRI/KANAN INDIVIDUAL] */
+        margin-right: 25px; /* [GESER KIRI/KANAN INDIVIDUAL] */
     }
 
     /* --- [PENGATURAN HERO SECTION HP] --- */
@@ -379,7 +391,7 @@ iframe { border: none; display: block; }
         display: flex;
         flex-direction: column;
         align-items: center; /* [PENTING] Ini bikin foto dan nama RATA TENGAH OTOMATIS */
-        width: 100px; /* Lebar area pastor agar stabil */
+        width: 140px; /* Lebar area pastor agar stabil */
     }
 
     .pastor-photo-circle { 
@@ -391,10 +403,10 @@ iframe { border: none; display: block; }
     .pastor-frame-container:first-child { 
         left: 0; 
         /* [GESER KIRI/KANAN] Negatif = Kiri, Positif = Kanan */
-        transform: translateX(-20px); 
+        transform: translateX(-10px); 
         
         /* [GESER ATAS/BAWAH] */
-        margin-top: 0px; 
+        margin-top: 0px;
     } 
 
     /* 4. PASTOR KANAN (RD. MIKI) */
@@ -402,7 +414,7 @@ iframe { border: none; display: block; }
         left: 0; margin-left: 0; animation-delay: 2s; 
         
         /* [GESER KIRI/KANAN] Positif = Kanan, Negatif = Kiri */
-        transform: translateX(30px); 
+        transform: translateX(15px); 
         
         /* [GESER ATAS/BAWAH] */
         margin-top: 0px;
@@ -415,11 +427,11 @@ iframe { border: none; display: block; }
         
         /* [LEBAR KOTAK NAMA] auto = menyesuaikan panjang nama */
         width: auto; 
-        min-width: 1px; /* Lebar minimal */
+        min-width: 100px; /* Lebar minimal */
         max-width: 100px; /* Batas lebar maksimal agar wrap kalau kepanjangan */
         
         /* [UKURAN HURUF NAMA] */
-        font-size: 0.60rem; 
+        font-size: 0.65rem; 
         
         padding: 5px 12px;
         background: linear-gradient(135deg, #d4af37, #b8860b);
@@ -429,19 +441,19 @@ iframe { border: none; display: block; }
         
         /* Agar teks panjang turun baris dengan rapi */
         white-space: normal; 
-        line-height: 1;
+        line-height: 1.2;
     }
 
     /* --- [PENGATURAN KHUSUS NAMA PASTOR MIKI (KANAN) RATA KIRI] --- */
     .pastor-frame-container:nth-child(2) .pastor-label {
         text-align: center; /* PERMINTAAN USER: Rata Kiri */
-        padding-left: -10px; /* Sedikit jarak dari kiri */
-        width: 100px; /* Sedikit diperlebar agar muat */
+        padding-left: px; /* Sedikit jarak dari kiri */
+        width: 50px; /* Sedikit diperlebar agar muat */
     }
 
     /* --- [PENGATURAN JUDUL PAROKI HP] --- */
     .hero-content h1 { 
-        font-size: 1.7rem; margin-top: 5px; line-height: 1.3;
+        font-size: 1.5rem; margin-top: 10px; line-height: 1.3;
     }
     
     .content-container { padding: 2rem 1.2rem 3rem; margin-top: -30px; }
@@ -451,46 +463,3 @@ iframe { border: none; display: block; }
     .social-btn { width: 50px; height: 50px; font-size: 1.5rem; }
     .pdf-modal { width: 100%; height: 100%; border-radius: 0; }
 }
-/* ... [CODE CSS LAMA TETAP SAMA] ... */
-
-/* === BERANDA SWITCHER (NEW FEATURE) === */
-.beranda-switcher-container {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 1.5rem;
-}
-
-.beranda-switch-btn {
-    background: white;
-    border: 2px solid var(--primary-blue);
-    color: var(--primary-blue);
-    padding: 10px 20px;
-    border-radius: 50px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.95rem;
-}
-
-.beranda-switch-btn:hover {
-    background: #f0f7ff;
-}
-
-.beranda-switch-btn.active {
-    background: var(--primary-blue);
-    color: white;
-    box-shadow: 0 4px 10px rgba(0, 74, 153, 0.3);
-}
-
-/* === JADWAL GRID (DYNAMIC) === */
-.jadwal-grid-wrapper {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
-}
-
-/* ... [PASTIKAN CODE CSS LAINNYA TETAP ADA SEPERTI DI FULL FIX SEBELUMNYA] ... */
