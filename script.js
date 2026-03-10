@@ -357,7 +357,7 @@ window.switchLang = function(lang) {
 }
 
 // =================================================================
-// 4. IN-APP NOTIFICATION CENTER LOGIC
+// 4. IN-APP NOTIFICATION CENTER & PUSH LOGIC
 // =================================================================
 let allNotifications = [];
 
@@ -391,15 +391,19 @@ function initNotificationCenter() {
         });
         renderNotifications();
     });
+
+    // Cek apakah pengguna sudah mengizinkan notifikasi HP (Sembunyikan banner jika sudah)
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function(OneSignal) {
+        if(OneSignal.Notifications.permission === "granted") {
+            const banner = document.getElementById('push-subscribe-banner');
+            if(banner) banner.style.display = 'none';
+        }
+    });
 }
 
-function getLocalData(key) {
-    return JSON.parse(localStorage.getItem(key) || '[]');
-}
-
-function saveLocalData(key, data) {
-    localStorage.setItem(key, JSON.stringify(data));
-}
+function getLocalData(key) { return JSON.parse(localStorage.getItem(key) || '[]'); }
+function saveLocalData(key, data) { localStorage.setItem(key, JSON.stringify(data)); }
 
 function renderNotifications() {
     const readIds = getLocalData('readNotifs');
@@ -409,57 +413,58 @@ function renderNotifications() {
     const readList = document.getElementById('notif-list-read');
     const badge = document.getElementById('notif-badge');
 
-    let unreadHtml = '';
-    let readHtml = '';
-    let unreadCount = 0;
+    let unreadHtml = '', readHtml = '', unreadCount = 0;
 
     allNotifications.forEach(n => {
-        if (deletedIds.includes(n.id)) return; // Lewati yang sudah dihapus
+        if (deletedIds.includes(n.id)) return; 
 
         const timeString = n.tanggal ? n.tanggal.toDate().toLocaleDateString('id-ID', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'}) : 'Baru saja';
         const isRead = readIds.includes(n.id);
 
         const card = `
-            <div class="notif-item ${isRead ? 'read' : ''}">
-                <button class="n-del-btn" onclick="hapusNotif('${n.id}', ${!isRead})"><i class="fas fa-trash"></i></button>
+            <div class="notif-item ${isRead ? 'read' : ''}" onclick="bacaDanBuka('${n.id}', '${n.kategori || ''}')">
+                <button class="n-del-btn" onclick="event.stopPropagation(); hapusNotif('${n.id}', ${!isRead})"><i class="fas fa-trash"></i></button>
                 <h4>${n.judul}</h4>
                 <p>${n.pesan}</p>
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                     <span class="n-time"><i class="far fa-clock"></i> ${timeString}</span>
-                    ${!isRead ? `<button class="n-read-btn" onclick="tandaiDibaca('${n.id}')">Tandai Dibaca</button>` : ''}
+                    <span class="click-hint">Klik untuk melihat</span>
                 </div>
             </div>
         `;
 
-        if (isRead) {
-            readHtml += card;
-        } else {
-            unreadHtml += card;
-            unreadCount++;
-        }
+        if (isRead) { readHtml += card; } else { unreadHtml += card; unreadCount++; }
     });
 
     if(unreadList) unreadList.innerHTML = unreadHtml || '<div class="empty-notif">Tidak ada notifikasi baru.</div>';
     if(readList) readList.innerHTML = readHtml || '<div class="empty-notif">Belum ada riwayat notifikasi.</div>';
 
-    // Update Badge Lonceng
     if (badge) {
-        if (unreadCount > 0) {
-            badge.style.display = 'flex';
-            badge.innerText = unreadCount;
-        } else {
-            badge.style.display = 'none';
-        }
+        if (unreadCount > 0) { badge.style.display = 'flex'; badge.innerText = unreadCount; } 
+        else { badge.style.display = 'none'; }
     }
 }
 
-// Fungsi Tandai Sudah Dibaca
-window.tandaiDibaca = function(id) {
+// Fungsi Klik Cerdas: Tandai Dibaca dan Arahkan Tab
+window.bacaDanBuka = function(id, kategori) {
     const readIds = getLocalData('readNotifs');
     if (!readIds.includes(id)) {
         readIds.push(id);
         saveLocalData('readNotifs', readIds);
         renderNotifications();
+    }
+    
+    // Tutup panel
+    const panel = document.getElementById('notif-panel');
+    if(panel) panel.classList.remove('show');
+
+    // Arahkan ke tab yang sesuai
+    if (kategori === 'tpe') {
+        openTab(null, 'beranda');
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    } else if (kategori === 'pengumuman') {
+        openTab(null, 'agenda');
+        window.scrollTo({top: 0, behavior: 'smooth'});
     }
 }
 
@@ -469,11 +474,25 @@ window.hapusNotif = function(id, isUnread) {
         const confirmDelete = confirm("Pesan ini belum dibaca. Anda yakin ingin menghapusnya?");
         if (!confirmDelete) return;
     }
-
     const deletedIds = getLocalData('deletedNotifs');
     if (!deletedIds.includes(id)) {
         deletedIds.push(id);
         saveLocalData('deletedNotifs', deletedIds);
         renderNotifications();
     }
+}
+
+// Memaksa Pop-Up Izin Tampil (Menembus Blokir HP)
+window.memintaIzinNotifikasi = function() {
+    window.OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.Slidedown.promptPush();
+        // Sembunyikan banner jika diizinkan
+        OneSignal.Notifications.addEventListener("permissionChange", function(permissionChange) {
+            if (permissionChange === "granted") {
+                const banner = document.getElementById('push-subscribe-banner');
+                if(banner) banner.style.display = 'none';
+                alert("Terima kasih! Notifikasi background telah diaktifkan.");
+            }
+        });
+    });
 }

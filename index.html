@@ -100,9 +100,15 @@
 
             <div class="notif-panel" id="notif-panel">
                 <div class="notif-header">
-                    <h3>Notifikasi</h3>
+                    <h3>Notifikasi Paroki</h3>
                     <button id="close-notif-btn">&times;</button>
                 </div>
+                
+                <div id="push-subscribe-banner" class="subscribe-banner">
+                    <p><i class="fas fa-mobile-alt"></i> Dapatkan pemberitahuan otomatis di HP Anda saat ada update jadwal atau pengumuman, meskipun website ditutup.</p>
+                    <button onclick="memintaIzinNotifikasi()" class="btn-subscribe-push">Aktifkan Notifikasi HP</button>
+                </div>
+
                 <div class="notif-tabs">
                     <button class="notif-tab active" data-tab="unread">Belum Dibaca</button>
                     <button class="notif-tab" data-tab="read">Sudah Dibaca</button>

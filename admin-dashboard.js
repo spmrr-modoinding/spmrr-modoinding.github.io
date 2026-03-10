@@ -39,11 +39,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- FUNGSI SIMPAN RIWAYAT NOTIFIKASI KE DATABASE ---
-    async function simpanRiwayatNotif(judul, isiPesan) {
+    async function simpanRiwayatNotif(judul, isiPesan, kategori) {
         try {
             await db.collection('app_notifications').add({
                 judul: judul,
                 pesan: isiPesan,
+                kategori: kategori, // 'tpe' atau 'pengumuman'
                 tanggal: firebase.firestore.FieldValue.serverTimestamp()
             });
             console.log("Riwayat notifikasi berhasil disimpan.");
@@ -254,10 +255,10 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // --- TRIGGER NOTIFIKASI TPE BARU ---
             const judulNotif = "TPE Minggu Ini Sudah Tersedia!";
-            const isiNotif = `Tata Perayaan Ekaristi untuk ${payload.nama_perayaan} sudah bisa dilihat di website.`;
+            const isiNotif = `Tata Perayaan Ekaristi untuk ${payload.nama_perayaan} sudah bisa dilihat di website. Buka untuk persiapan misa.`;
             
             kirimNotifikasi(judulNotif, isiNotif);
-            simpanRiwayatNotif(judulNotif, isiNotif); // Menyimpan ke Dalam Panel Lonceng
+            simpanRiwayatNotif(judulNotif, isiNotif, 'tpe');
 
             setTimeout(() => {
                 document.getElementById('tpe-modal')?.classList.add('hidden');
@@ -367,10 +368,10 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // --- TRIGGER NOTIFIKASI PENGUMUMAN BARU ---
             const judulNotif = "Warta Paroki Terbaru";
-            const isiNotif = data.judul; 
+            const isiNotif = `Ada pengumuman baru mengenai: ${data.judul}. Klik untuk membaca detailnya.`; 
             
             kirimNotifikasi(judulNotif, isiNotif);
-            simpanRiwayatNotif(judulNotif, isiNotif); // Menyimpan ke Dalam Panel Lonceng
+            simpanRiwayatNotif(judulNotif, isiNotif, 'pengumuman');
         }
         document.getElementById('announcement-modal')?.classList.add('hidden');
         if(typeof tinymce !== 'undefined') tinymce.remove();
