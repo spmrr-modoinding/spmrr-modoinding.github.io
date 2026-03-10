@@ -20,8 +20,10 @@ const db = firebase.firestore();
 // 2. DATA STATIC & VARIABLES
 // =================================================================
 
+// Variabel Global untuk menyimpan data Paus dari JSON
 let globalPausData = [];
 
+// Data Doa Statis
 const prayersData = [
     { title: 'Tanda Salib', content: { indonesia: `Dalam nama Bapa dan Putra dan Roh Kudus. Amin.`, latin: `In nomine Patris, et Filii, et Spiritus Sancti. Amen.` } },
     { title: 'Bapa Kami', content: { indonesia: `Bapa kami yang ada di surga, dimuliakanlah nama-Mu.\nDatanglah kerajaan-Mu. Jadilah kehendak-Mu di atas bumi seperti di dalam surga.\nBerilah kami rezeki pada hari ini, dan ampunilah kesalahan kami, seperti kami pun mengampuni yang bersalah kepada kami.\nDan janganlah masukkan kami ke dalam pencobaan, tetapi bebaskanlah kami dari yang jahat. Amin.`, latin: `Pater noster, qui es in caelis: sanctificetur Nomen Tuum;\nadveniat Regnum Tuum; fiat voluntas Tua, sicut in caelo, et in terra.\nPanem nostrum cotidianum da nobis hodie; et dimitte nobis debita nostra, sicut et nos dimittimus debitoribus nostris;\net ne nos inducas in tentationem; sed libera nos a Malo. Amen.` } },
@@ -29,6 +31,7 @@ const prayersData = [
     { title: 'Kemuliaan', content: { indonesia: `Kemuliaan kepada Bapa dan Putra dan Roh Kudus,\nseperti pada permulaan, sekarang, selalu, dan sepanjang segala abad. Amin.`, latin: `Gloria Patri, et Filio, et Spiritui Sancto.\nSicut erat in principio, et nunc, et semper, et in saecula saeculorum. Amen.` } }
 ];
 
+// Data Formulir PDF (Sesuaikan nama file dengan folder 'formulir/')
 const formsData = [
     { title: 'Formulir Baptis', file: 'formulir/formulir-baptis.pdf' },
     { title: 'Formulir Krisma', file: 'formulir/formulir-krisma.pdf' },
@@ -43,11 +46,10 @@ const formsData = [
 // =================================================================
 document.addEventListener('DOMContentLoaded', () => {
     // Load Data
-    loadJadwalMisa(); // NEW: Load Jadwal Misa dari Firebase
     loadAgendaRealtime();
     loadLatestTPE();
     loadStatistikRealtime();
-    loadSejarahPaus(); 
+    loadSejarahPaus(); // Fetch dari JSON
     loadPrayers();
     renderFormsList(); 
     
@@ -55,66 +57,17 @@ document.addEventListener('DOMContentLoaded', () => {
     setupMobileMenu(); 
 });
 
-// --- FUNGSI SWITCHER BERANDA ---
-window.switchBerandaView = function(viewName) {
-    const jadwalView = document.getElementById('view-jadwal');
-    const tpeView = document.getElementById('view-tpe');
-    const buttons = document.querySelectorAll('.beranda-switch-btn');
-
-    buttons.forEach(btn => btn.classList.remove('active'));
-
-    if(viewName === 'jadwal') {
-        jadwalView.style.display = 'block';
-        tpeView.style.display = 'none';
-        buttons[0].classList.add('active'); 
-    } else {
-        jadwalView.style.display = 'none';
-        tpeView.style.display = 'block';
-        buttons[1].classList.add('active'); 
-    }
-}
-
-// --- NEW: FUNGSI LOAD JADWAL MISA ---
-function loadJadwalMisa() {
-    const container = document.getElementById('jadwal-dynamic-container');
-    
-    db.collection('mass_schedules').orderBy('urutan', 'asc').onSnapshot(snap => {
-        if(snap.empty) { 
-            container.innerHTML = '<div style="text-align:center; padding:2rem; width:100%;">Belum ada jadwal misa.</div>'; 
-            return; 
-        }
-
-        let html = '';
-        snap.forEach(doc => {
-            const d = doc.data();
-            // Menentukan kelas CSS berdasarkan kategori
-            const typeClass = d.kategori === 'pusat' ? 'pusat' : 'stasi';
-            const iconClass = d.kategori === 'pusat' ? 'fa-church' : 'fa-place-of-worship';
-            
-            html += `
-                <div class="jadwal-card ${typeClass}">
-                    <div class="j-icon"><i class="fas ${iconClass}"></i></div>
-                    <div class="j-info">
-                        <h4>${d.lokasi}</h4>
-                        <span class="j-time">${d.waktu}</span>
-                    </div>
-                </div>
-            `;
-        });
-        
-        container.innerHTML = html;
-    });
-}
-
 // --- FUNGSI LOAD TPE TERBARU ---
 function loadLatestTPE() {
     const container = document.getElementById('latest-tpe-container');
+    // Ambil 1 data terbaru berdasarkan ID (Format Tanggal YYYY-MM-DD)
     db.collection('tata_perayaan_mingguan').limit(1).onSnapshot(snap => {
         if(snap.empty) { 
             container.innerHTML = '<div class="modern-card" style="text-align:center;">Belum ada Data TPE Minggu ini.</div>'; 
             return; 
         }
         
+        // Sortir manual untuk memastikan yang terbaru (descending by ID)
         const docs = snap.docs.sort((a,b) => b.id.localeCompare(a.id));
         const data = docs[0].data();
         const tpe = data.tata_perayaan || {};
@@ -132,13 +85,17 @@ function loadLatestTPE() {
                 <div class="tpe-content">
                     ${renderTPESection('Antifon Pembuka', tpe.antifon_pembuka)}
                     ${renderTPESection('Doa Kolekta', tpe.doa_kolekta)}
+                    
                     <hr style="margin: 2rem 0; border:0; border-top:1px solid #eee;">
+                    
                     ${renderTPESection('Bacaan Pertama', tpe.bacaan_1, 'label-bacaan')}
                     ${renderTPESection('Mazmur Tanggapan', tpe.mazmur_tanggapan)}
                     ${renderTPESection('Bacaan Kedua', tpe.bacaan_2, 'label-bacaan')}
                     ${renderTPESection('Bait Pengantar Injil', tpe.bait_pengantar_injil)}
                     ${renderTPESection('Bacaan Injil', tpe.bacaan_injil, 'label-bacaan')}
+                    
                     <hr style="margin: 2rem 0; border:0; border-top:1px solid #eee;">
+
                     ${renderTPESection('Doa Umat', tpe.doa_umat)}
                     ${renderTPESection('Doa Atas Persembahan', tpe.doa_persembahan)}
                     ${renderTPESection('Antifon Komuni', tpe.antifon_komuni)}
@@ -150,9 +107,15 @@ function loadLatestTPE() {
     });
 }
 
+// Helper Render Section TPE
 function renderTPESection(label, content, extraClass = '') {
     if (!content || content.trim() === '' || content === '<p><br></p>') return '';
-    return `<div class="tpe-section-block"><span class="tpe-label ${extraClass}">${label}</span><div class="tpe-text">${content}</div></div>`;
+    return `
+        <div class="tpe-section-block">
+            <span class="tpe-label ${extraClass}">${label}</span>
+            <div class="tpe-text">${content}</div>
+        </div>
+    `;
 }
 
 // --- FUNGSI STATISTIK & CHART ---
@@ -206,7 +169,7 @@ function loadAgendaRealtime() {
     });
 }
 
-// --- FUNGSI SEJARAH PAUS ---
+// --- FUNGSI SEJARAH PAUS (JSON) ---
 async function loadSejarahPaus() {
     try {
         const response = await fetch('sejarah_paus.json');
@@ -230,10 +193,13 @@ function renderSejarahPaus(data) {
                 <div class="pope-number">${d.urutan}</div>
                 <div style="flex:1;">
                     <h3 class="card-title" style="margin-bottom:5px; font-size:1.15rem;">
-                        ${d.nama} <small style="font-weight:normal; font-size:0.9rem; color:#666;">(${d.nama_latin})</small>
+                        ${d.nama} 
+                        <small style="font-weight:normal; font-size:0.9rem; color:#666;">(${d.nama_latin})</small>
                     </h3>
                     <div style="font-size:0.85rem; color:#888; margin-bottom:8px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-                        <span><i class="far fa-clock"></i> ${d.masa_jabatan}</span><span>|</span><span><i class="fas fa-globe"></i> ${d.negara_asal}</span>
+                        <span><i class="far fa-clock"></i> ${d.masa_jabatan}</span>
+                        <span>|</span>
+                        <span><i class="fas fa-globe"></i> ${d.negara_asal}</span>
                     </div>
                     <p style="font-size:0.95rem; color:#444; line-height:1.5;">${d.catatan}</p>
                 </div>
@@ -245,7 +211,11 @@ function renderSejarahPaus(data) {
 
 window.filterPaus = function() {
     const query = document.getElementById('search-pope').value.toLowerCase();
-    const filtered = globalPausData.filter(p => p.nama.toLowerCase().includes(query) || p.nama_latin.toLowerCase().includes(query) || p.catatan.toLowerCase().includes(query));
+    const filtered = globalPausData.filter(p => 
+        p.nama.toLowerCase().includes(query) || 
+        p.nama_latin.toLowerCase().includes(query) ||
+        p.catatan.toLowerCase().includes(query)
+    );
     renderSejarahPaus(filtered);
 }
 
@@ -258,7 +228,7 @@ function loadPrayers() {
     c.innerHTML = h;
 }
 
-// --- FUNGSI FORMULIR ---
+// --- FUNGSI FORMULIR & PDF PREVIEW ---
 function renderFormsList() {
     const container = document.getElementById('forms-list-container');
     if(!container) return;
@@ -266,8 +236,12 @@ function renderFormsList() {
     formsData.forEach((form, index) => {
         html += `
             <div class="form-item" onclick="openPdfPreview(${index})">
-                <div class="form-info"><div class="form-name">${form.title}</div></div>
-                <div class="btn-preview-icon"><i class="fas fa-external-link-alt"></i></div>
+                <div class="form-info">
+                    <div class="form-name">${form.title}</div>
+                </div>
+                <div class="btn-preview-icon">
+                    <i class="fas fa-external-link-alt"></i>
+                </div>
             </div>
         `;
     });
@@ -280,9 +254,11 @@ window.openPdfPreview = function(index) {
     const iframe = document.getElementById('pdf-frame');
     const title = document.getElementById('pdf-title');
     const downloadBtn = document.getElementById('download-btn');
+    
     title.innerText = "Pratinjau: " + form.title;
     iframe.src = form.file;
     downloadBtn.href = form.file;
+    
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden'; 
 }
@@ -295,10 +271,12 @@ window.closePdfPreview = function() {
 
 window.printPdf = function() {
     const iframe = document.getElementById('pdf-frame');
-    if (iframe && iframe.contentWindow) iframe.contentWindow.print();
+    if (iframe && iframe.contentWindow) {
+        iframe.contentWindow.print();
+    }
 }
 
-// --- TAB SYSTEM ---
+// --- TAB NAVIGATION SYSTEM ---
 function openTab(evt, tabName) {
     const tabContent = document.getElementsByClassName("tab-content");
     for (let i = 0; i < tabContent.length; i++) {
@@ -316,6 +294,7 @@ function openTab(evt, tabName) {
     }
     if(evt) evt.currentTarget.classList.add("active");
     
+    // Tutup sidebar di mobile setelah klik menu
     if (window.innerWidth <= 768) {
         const hamburger = document.getElementById('hamburger-menu');
         const sidebar = document.getElementById('sidebar');
@@ -326,11 +305,12 @@ function openTab(evt, tabName) {
     }
 }
 
-// --- MOBILE MENU ---
+// --- MOBILE MENU LOGIC ---
 function setupMobileMenu() {
     const hamburger = document.getElementById('hamburger-menu');
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
+
     if (hamburger && sidebar && overlay) {
         const toggleMenu = () => {
             hamburger.classList.toggle('active');
@@ -346,7 +326,7 @@ function setupMobileMenu() {
     }
 }
 
-// --- MODAL DOA ---
+// --- LOGIKA MODAL DOA ---
 let currPrayer = 0;
 window.showPrayer = function(i) {
     currPrayer = i;
