@@ -22,6 +22,18 @@
       OneSignalDeferred.push(async function(OneSignal) {
         await OneSignal.init({
           appId: "b93c1efb-e3cb-462f-9a43-44fad15e638f",
+          notifyButton: {
+            enable: true, /* Memunculkan lonceng di HP dan Laptop */
+            colors: {
+                'circle.background': '#004a99', /* Warna biru Paroki */
+                'circle.foreground': 'white',
+            },
+            text: {
+                'tip.state.unsubscribed': 'Terima Notifikasi Paroki',
+                'tip.state.subscribed': 'Anda sudah berlangganan notifikasi',
+                'tip.state.blocked': 'Notifikasi diblokir'
+            }
+          }
         });
       });
     </script>
