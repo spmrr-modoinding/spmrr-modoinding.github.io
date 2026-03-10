@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
             included_segments: ["All"], 
             headings: { "en": judul },
             contents: { "en": isiPesan },
-            url: "https://spmrr-modoinding.github.io" // URL GitHub Pages Anda
+            url: "https://spmrr-modoinding.github.io" 
         };
 
         try {
@@ -220,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
             msg.textContent = 'Berhasil tersimpan!';
             msg.style.color = 'green';
             
-            // --- KIRIM NOTIFIKASI TPE ---
+            // --- TRIGGER NOTIFIKASI TPE BARU ---
             const judulNotif = "TPE Minggu Ini Sudah Tersedia!";
             const isiNotif = `Tata Perayaan Ekaristi untuk ${payload.nama_perayaan} sudah bisa dilihat di website.`;
             kirimNotifikasi(judulNotif, isiNotif);
@@ -322,7 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
             data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
             await db.collection('announcements').add(data);
             
-            // --- KIRIM NOTIFIKASI PENGUMUMAN BARU ---
+            // --- TRIGGER NOTIFIKASI PENGUMUMAN BARU ---
             const judulNotif = "Warta Paroki Terbaru";
             const isiNotif = data.judul; 
             kirimNotifikasi(judulNotif, isiNotif);
