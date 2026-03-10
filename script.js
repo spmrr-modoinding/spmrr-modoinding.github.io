@@ -49,25 +49,24 @@ document.addEventListener('DOMContentLoaded', () => {
     loadAgendaRealtime();
     loadLatestTPE();
     loadStatistikRealtime();
-    loadSejarahPaus(); // Fetch dari JSON
+    loadSejarahPaus(); 
     loadPrayers();
     renderFormsList(); 
     
     // UI Setup
     setupMobileMenu(); 
+    initNotificationCenter(); // Initialize Notif Center
 });
 
 // --- FUNGSI LOAD TPE TERBARU ---
 function loadLatestTPE() {
     const container = document.getElementById('latest-tpe-container');
-    // Ambil 1 data terbaru berdasarkan ID (Format Tanggal YYYY-MM-DD)
     db.collection('tata_perayaan_mingguan').limit(1).onSnapshot(snap => {
         if(snap.empty) { 
             container.innerHTML = '<div class="modern-card" style="text-align:center;">Belum ada Data TPE Minggu ini.</div>'; 
             return; 
         }
         
-        // Sortir manual untuk memastikan yang terbaru (descending by ID)
         const docs = snap.docs.sort((a,b) => b.id.localeCompare(a.id));
         const data = docs[0].data();
         const tpe = data.tata_perayaan || {};
@@ -107,7 +106,6 @@ function loadLatestTPE() {
     });
 }
 
-// Helper Render Section TPE
 function renderTPESection(label, content, extraClass = '') {
     if (!content || content.trim() === '' || content === '<p><br></p>') return '';
     return `
@@ -294,7 +292,6 @@ function openTab(evt, tabName) {
     }
     if(evt) evt.currentTarget.classList.add("active");
     
-    // Tutup sidebar di mobile setelah klik menu
     if (window.innerWidth <= 768) {
         const hamburger = document.getElementById('hamburger-menu');
         const sidebar = document.getElementById('sidebar');
@@ -356,5 +353,127 @@ window.switchLang = function(lang) {
     } else {
         document.getElementById('btn-indo').classList.remove('active');
         document.getElementById('btn-latin').classList.add('active');
+    }
+}
+
+// =================================================================
+// 4. IN-APP NOTIFICATION CENTER LOGIC
+// =================================================================
+let allNotifications = [];
+
+function initNotificationCenter() {
+    const bellBtn = document.getElementById('notif-bell-btn');
+    const panel = document.getElementById('notif-panel');
+    const closeBtn = document.getElementById('close-notif-btn');
+    const tabs = document.querySelectorAll('.notif-tab');
+
+    // Toggle Panel
+    if(bellBtn) bellBtn.addEventListener('click', () => panel.classList.toggle('show'));
+    if(closeBtn) closeBtn.addEventListener('click', () => panel.classList.remove('show'));
+
+    // Tab Switching
+    tabs.forEach(tab => {
+        tab.addEventListener('click', (e) => {
+            tabs.forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.notif-list').forEach(l => l.classList.remove('active'));
+            
+            e.target.classList.add('active');
+            const targetId = e.target.getAttribute('data-tab');
+            document.getElementById(`notif-list-${targetId}`).classList.add('active');
+        });
+    });
+
+    // Ambil Notifikasi dari Firebase
+    db.collection('app_notifications').orderBy('tanggal', 'desc').limit(20).onSnapshot(snap => {
+        allNotifications = [];
+        snap.forEach(doc => {
+            allNotifications.push({ id: doc.id, ...doc.data() });
+        });
+        renderNotifications();
+    });
+}
+
+function getLocalData(key) {
+    return JSON.parse(localStorage.getItem(key) || '[]');
+}
+
+function saveLocalData(key, data) {
+    localStorage.setItem(key, JSON.stringify(data));
+}
+
+function renderNotifications() {
+    const readIds = getLocalData('readNotifs');
+    const deletedIds = getLocalData('deletedNotifs');
+
+    const unreadList = document.getElementById('notif-list-unread');
+    const readList = document.getElementById('notif-list-read');
+    const badge = document.getElementById('notif-badge');
+
+    let unreadHtml = '';
+    let readHtml = '';
+    let unreadCount = 0;
+
+    allNotifications.forEach(n => {
+        if (deletedIds.includes(n.id)) return; // Lewati yang sudah dihapus
+
+        const timeString = n.tanggal ? n.tanggal.toDate().toLocaleDateString('id-ID', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'}) : 'Baru saja';
+        const isRead = readIds.includes(n.id);
+
+        const card = `
+            <div class="notif-item ${isRead ? 'read' : ''}">
+                <button class="n-del-btn" onclick="hapusNotif('${n.id}', ${!isRead})"><i class="fas fa-trash"></i></button>
+                <h4>${n.judul}</h4>
+                <p>${n.pesan}</p>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span class="n-time"><i class="far fa-clock"></i> ${timeString}</span>
+                    ${!isRead ? `<button class="n-read-btn" onclick="tandaiDibaca('${n.id}')">Tandai Dibaca</button>` : ''}
+                </div>
+            </div>
+        `;
+
+        if (isRead) {
+            readHtml += card;
+        } else {
+            unreadHtml += card;
+            unreadCount++;
+        }
+    });
+
+    if(unreadList) unreadList.innerHTML = unreadHtml || '<div class="empty-notif">Tidak ada notifikasi baru.</div>';
+    if(readList) readList.innerHTML = readHtml || '<div class="empty-notif">Belum ada riwayat notifikasi.</div>';
+
+    // Update Badge Lonceng
+    if (badge) {
+        if (unreadCount > 0) {
+            badge.style.display = 'flex';
+            badge.innerText = unreadCount;
+        } else {
+            badge.style.display = 'none';
+        }
+    }
+}
+
+// Fungsi Tandai Sudah Dibaca
+window.tandaiDibaca = function(id) {
+    const readIds = getLocalData('readNotifs');
+    if (!readIds.includes(id)) {
+        readIds.push(id);
+        saveLocalData('readNotifs', readIds);
+        renderNotifications();
+    }
+}
+
+// Fungsi Hapus Notifikasi
+window.hapusNotif = function(id, isUnread) {
+    if (isUnread) {
+        const confirmDelete = confirm("Pesan ini belum dibaca. Anda yakin ingin menghapusnya?");
+        if (!confirmDelete) return;
+    }
+
+    const deletedIds = getLocalData('deletedNotifs');
+    if (!deletedIds.includes(id)) {
+        deletedIds.push(id);
+        saveLocalData('deletedNotifs', deletedIds);
+        renderNotifications();
     }
 }
