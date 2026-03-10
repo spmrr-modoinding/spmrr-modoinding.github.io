@@ -1,9 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
+    console.log("Sistem Admin Paroki diinisialisasi...");
+
     const db = firebase.firestore();
     const auth = firebase.auth();
     let umatChart = null;
     let currentEditAnnouncementId = null;
     let currentEditTpeId = null;
+
+    // --- FUNGSI AMAN UNTUK MENGHUBUNGKAN TOMBOL (ANTI-ERROR) ---
+    function pasangTombol(idTombol, event, fungsi) {
+        const tombol = document.getElementById(idTombol);
+        if (tombol) {
+            tombol.addEventListener(event, fungsi);
+        } else {
+            console.warn(`Tombol dengan ID ${idTombol} tidak ditemukan.`);
+        }
+    }
 
     // --- FUNGSI KIRIM NOTIFIKASI ONESIGNAL ---
     async function kirimNotifikasi(judul, isiPesan) {
@@ -32,12 +44,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await response.json();
             console.log("Status Notifikasi:", result);
         } catch (error) {
-            console.error("Gagal mengirim notifikasi:", error);
+            console.error("Notifikasi gagal dikirim (Biasanya karena aturan keamanan browser), abaikan saja jika data tersimpan:", error);
         }
     }
 
-    // --- HELPER: TINYMCE EDITOR ---
+    // --- HELPER: TINYMCE EDITOR (DILINDUNGI) ---
     function initTinyMCE() {
+        if (typeof tinymce === 'undefined') {
+            console.warn("Editor Teks lambat memuat, namun form tetap bisa digunakan.");
+            return;
+        }
         tinymce.remove('.tinymce-editor'); 
         tinymce.init({
             selector: '.tinymce-editor',
@@ -54,13 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- HELPER: SIDEBAR TOGGLE (MOBILE) ---
-    const sidebar = document.querySelector('.sidebar');
-    const toggleBtn = document.getElementById('sidebar-toggle');
-    if(toggleBtn) {
-        toggleBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('active');
-        });
-    }
+    pasangTombol('sidebar-toggle', 'click', () => {
+        const sidebar = document.querySelector('.sidebar');
+        if(sidebar) sidebar.classList.toggle('active');
+    });
 
     // --- HELPER: TAB NAVIGATION ---
     const navTabs = document.querySelectorAll('.nav-tab-btn');
@@ -74,13 +87,16 @@ document.addEventListener('DOMContentLoaded', () => {
             
             tab.classList.add('active');
             const targetId = tab.dataset.target;
-            document.getElementById(targetId).classList.add('active');
+            const targetElement = document.getElementById(targetId);
+            if(targetElement) targetElement.classList.add('active');
             
             const titleText = tab.querySelector('span').innerText;
             if(pageTitle) pageTitle.innerText = titleText;
             
-            // Tutup sidebar di mobile jika tab diklik
-            if(window.innerWidth <= 768) sidebar.classList.remove('active');
+            if(window.innerWidth <= 768) {
+                const sidebar = document.querySelector('.sidebar');
+                if(sidebar) sidebar.classList.remove('active');
+            }
         });
     });
 
@@ -97,48 +113,63 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const updateSummaryDashboard = async () => {
-        const annSnap = await db.collection('announcements').get();
-        document.getElementById('summary-announcements-count').textContent = annSnap.size;
-        
-        const statSnap = await db.collection('parish_stats').get();
-        let total = 0;
-        statSnap.forEach(doc => total += (doc.data().laki_laki + doc.data().perempuan) || 0);
-        document.getElementById('summary-umat-total').textContent = total.toLocaleString();
+        try {
+            const annSnap = await db.collection('announcements').get();
+            const sumAnn = document.getElementById('summary-announcements-count');
+            if(sumAnn) sumAnn.textContent = annSnap.size;
+            
+            const statSnap = await db.collection('parish_stats').get();
+            let total = 0;
+            statSnap.forEach(doc => total += (doc.data().laki_laki + doc.data().perempuan) || 0);
+            const sumUmat = document.getElementById('summary-umat-total');
+            if(sumUmat) sumUmat.textContent = total.toLocaleString();
+        } catch (e) {
+            console.error("Gagal memuat ringkasan:", e);
+        }
     };
 
     // ===========================================
     // 1. TPE (TATA PERAYAAN EKARISTI) LOGIC
     // ===========================================
-    
-    document.getElementById('q-add-tpe-btn').addEventListener('click', () => {
-        document.querySelector('[data-target="tpe-section"]').click();
-        setTimeout(() => document.getElementById('add-tpe-btn').click(), 200);
+    pasangTombol('q-add-tpe-btn', 'click', () => {
+        const targetTab = document.querySelector('[data-target="tpe-section"]');
+        if(targetTab) targetTab.click();
+        setTimeout(() => {
+            const btnTpe = document.getElementById('add-tpe-btn');
+            if(btnTpe) btnTpe.click();
+        }, 200);
     });
 
-    document.getElementById('add-tpe-btn').addEventListener('click', () => {
+    pasangTombol('add-tpe-btn', 'click', () => {
         currentEditTpeId = null;
-        document.getElementById('tpe-form').reset();
-        document.getElementById('tpe-form-message').textContent = '';
-        document.getElementById('tpe-modal').classList.remove('hidden');
+        const formTpe = document.getElementById('tpe-form');
+        if(formTpe) formTpe.reset();
+        
+        const msgTpe = document.getElementById('tpe-form-message');
+        if(msgTpe) msgTpe.textContent = '';
+        
+        const modalTpe = document.getElementById('tpe-modal');
+        if(modalTpe) modalTpe.classList.remove('hidden');
+        
         initTinyMCE();
     });
 
     function listenToTPEs() {
         const tbody = document.getElementById('tpe-table-body');
+        if(!tbody) return;
         tbody.innerHTML = '<tr><td colspan="3" class="text-center">Memuat...</td></tr>';
         
         db.collection('tata_perayaan_mingguan').onSnapshot(snap => {
             if(snap.empty) { tbody.innerHTML = '<tr><td colspan="3" class="text-center">Belum ada data TPE.</td></tr>'; return; }
             
             const sorted = snap.docs.sort((a,b) => b.id.localeCompare(a.id));
-            
             let html = '';
             sorted.forEach(doc => {
                 const d = doc.data();
                 html += `
                     <tr>
-                        <td><strong>${d.tanggal_display}</strong><br><small style="color:#888">${doc.id}</small></td>
-                        <td>${d.nama_perayaan}</td>
+                        <td><strong>${d.tanggal_display || ''}</strong><br><small style="color:#888">${doc.id}</small></td>
+                        <td>${d.nama_perayaan || ''}</td>
                         <td class="text-end">
                             <button class="btn-action edit edit-tpe" data-id="${doc.id}"><i class="bi bi-pencil-fill"></i></button>
                             <button class="btn-action delete delete-tpe" data-id="${doc.id}"><i class="bi bi-trash-fill"></i></button>
@@ -150,13 +181,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    document.getElementById('tpe-table-body').addEventListener('click', async (e) => {
+    pasangTombol('tpe-table-body', 'click', async (e) => {
         const btn = e.target.closest('button');
         if(!btn) return;
         const id = btn.dataset.id;
+        if(!id) return;
 
         if(btn.classList.contains('delete-tpe')) {
-            if(confirm('Hapus TPE tanggal ' + id + '?')) await db.collection('tata_perayaan_mingguan').doc(id).delete();
+            if(confirm('Hapus TPE tanggal ' + id + '?')) {
+                await db.collection('tata_perayaan_mingguan').doc(id).delete();
+            }
         }
 
         if(btn.classList.contains('edit-tpe')) {
@@ -177,28 +211,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 let key = f.replace(/-/g, '_'); 
                 if(f === 'mazmur') key = 'mazmur_tanggapan';
                 if(f === 'bait-injil') key = 'bait_pengantar_injil';
-                document.getElementById('tpe-'+f).value = tpe[key] || '';
+                
+                const element = document.getElementById('tpe-'+f);
+                if(element) element.value = tpe[key] || '';
             });
 
-            document.getElementById('tpe-modal').classList.remove('hidden');
+            const modal = document.getElementById('tpe-modal');
+            if(modal) modal.classList.remove('hidden');
             initTinyMCE();
         }
     });
 
-    document.getElementById('tpe-form').addEventListener('submit', async (e) => {
+    pasangTombol('tpe-form', 'submit', async (e) => {
         e.preventDefault();
         const msg = document.getElementById('tpe-form-message');
         const dateVal = document.getElementById('tpe-tanggal').value;
-        if(!dateVal) { msg.textContent = 'Tanggal wajib diisi'; return; }
+        if(!dateVal) { if(msg) msg.textContent = 'Tanggal wajib diisi'; return; }
         
-        msg.textContent = 'Menyimpan...';
+        if(msg) msg.textContent = 'Menyimpan...';
 
         const tpeData = {};
         const fields = ['antifon-pembuka', 'doa-kolekta', 'bacaan-1', 'mazmur', 'bacaan-2', 'bait-injil', 'bacaan-injil', 'doa-umat', 'doa-persembahan', 'antifon-komuni', 'doa-sesudah-komuni'];
         
         fields.forEach(f => {
-            const editor = tinymce.get('tpe-'+f);
-            const val = editor ? editor.getContent() : document.getElementById('tpe-'+f).value;
+            let val = '';
+            if (typeof tinymce !== 'undefined') {
+                const editor = tinymce.get('tpe-'+f);
+                val = editor ? editor.getContent() : document.getElementById('tpe-'+f).value;
+            } else {
+                val = document.getElementById('tpe-'+f).value;
+            }
+            
             let key = f.replace(/-/g, '_');
             if(f === 'mazmur') key = 'mazmur_tanggapan';
             if(f === 'bait-injil') key = 'bait_pengantar_injil';
@@ -217,42 +260,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             await db.collection('tata_perayaan_mingguan').doc(dateVal).set(payload);
-            msg.textContent = 'Berhasil tersimpan!';
-            msg.style.color = 'green';
+            if(msg) { msg.textContent = 'Berhasil tersimpan!'; msg.style.color = 'green'; }
             
-            // --- TRIGGER NOTIFIKASI TPE BARU ---
+            // Trigger Notifikasi
             const judulNotif = "TPE Minggu Ini Sudah Tersedia!";
             const isiNotif = `Tata Perayaan Ekaristi untuk ${payload.nama_perayaan} sudah bisa dilihat di website.`;
             kirimNotifikasi(judulNotif, isiNotif);
 
             setTimeout(() => {
-                document.getElementById('tpe-modal').classList.add('hidden');
-                tinymce.remove();
+                const modal = document.getElementById('tpe-modal');
+                if(modal) modal.classList.add('hidden');
+                if(typeof tinymce !== 'undefined') tinymce.remove();
             }, 1000);
         } catch(err) {
-            msg.textContent = 'Error: ' + err.message;
-            msg.style.color = 'red';
+            if(msg) { msg.textContent = 'Error: ' + err.message; msg.style.color = 'red'; }
         }
     });
-
 
     // ===========================================
     // 2. ANNOUNCEMENT (PENGUMUMAN) LOGIC
     // ===========================================
-    document.getElementById('q-add-announcement-btn').addEventListener('click', () => {
-        document.querySelector('[data-target="announcements-section"]').click();
-        setTimeout(() => document.getElementById('add-announcement-btn').click(), 200);
+    pasangTombol('q-add-announcement-btn', 'click', () => {
+        const targetTab = document.querySelector('[data-target="announcements-section"]');
+        if(targetTab) targetTab.click();
+        setTimeout(() => {
+            const btnAnn = document.getElementById('add-announcement-btn');
+            if(btnAnn) btnAnn.click();
+        }, 200);
     });
 
-    document.getElementById('add-announcement-btn').addEventListener('click', () => {
+    pasangTombol('add-announcement-btn', 'click', () => {
         currentEditAnnouncementId = null;
-        document.getElementById('announcement-form').reset();
-        document.getElementById('announcement-modal').classList.remove('hidden');
+        const formAnn = document.getElementById('announcement-form');
+        if(formAnn) formAnn.reset();
+        
+        const modalAnn = document.getElementById('announcement-modal');
+        if(modalAnn) modalAnn.classList.remove('hidden');
+        
         initTinyMCE();
     });
 
     function listenToAnnouncements() {
         const tbody = document.getElementById('announcements-table-body');
+        if(!tbody) return;
+        
         db.collection('announcements').orderBy('createdAt', 'desc').onSnapshot(snap => {
             if(snap.empty) { tbody.innerHTML = '<tr><td colspan="5" class="text-center">Kosong</td></tr>'; return; }
             let html = '';
@@ -264,7 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 html += `
                     <tr>
-                        <td><strong>${d.judul}</strong></td>
+                        <td><strong>${d.judul || ''}</strong></td>
                         <td>${d.tanggal || '-'} ${d.jam ? '<br>'+d.jam : ''}</td>
                         <td>${d.lokasi || '-'}</td>
                         <td><small>${preview.substring(0, 50)}...</small></td>
@@ -279,34 +330,47 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    document.getElementById('announcements-table-body').addEventListener('click', async (e) => {
+    pasangTombol('announcements-table-body', 'click', async (e) => {
         const btn = e.target.closest('button');
         if(!btn) return;
         const id = btn.dataset.id;
+        if(!id) return;
 
         if(btn.classList.contains('delete-ann')) {
-            if(confirm('Hapus pengumuman ini?')) await db.collection('announcements').doc(id).delete();
+            if(confirm('Hapus pengumuman ini?')) {
+                await db.collection('announcements').doc(id).delete();
+            }
         }
+        
         if(btn.classList.contains('edit-ann')) {
             const doc = await db.collection('announcements').doc(id).get();
             if(!doc.exists) return;
             const d = doc.data();
             currentEditAnnouncementId = id;
-            document.getElementById('ann-judul').value = d.judul;
-            document.getElementById('ann-tanggal').value = d.tanggal;
-            document.getElementById('ann-jam').value = d.jam;
-            document.getElementById('ann-lokasi').value = d.lokasi;
-            document.getElementById('ann-catatan').value = d.catatan;
             
-            document.getElementById('announcement-modal').classList.remove('hidden');
+            document.getElementById('ann-judul').value = d.judul || '';
+            document.getElementById('ann-tanggal').value = d.tanggal || '';
+            document.getElementById('ann-jam').value = d.jam || '';
+            document.getElementById('ann-lokasi').value = d.lokasi || '';
+            document.getElementById('ann-catatan').value = d.catatan || '';
+            
+            const modal = document.getElementById('announcement-modal');
+            if(modal) modal.classList.remove('hidden');
+            
             initTinyMCE(); 
         }
     });
 
-    document.getElementById('announcement-form').addEventListener('submit', async (e) => {
+    pasangTombol('announcement-form', 'submit', async (e) => {
         e.preventDefault();
-        const editor = tinymce.get('ann-catatan');
-        const content = editor ? editor.getContent() : document.getElementById('ann-catatan').value;
+        
+        let content = '';
+        if (typeof tinymce !== 'undefined') {
+            const editor = tinymce.get('ann-catatan');
+            content = editor ? editor.getContent() : document.getElementById('ann-catatan').value;
+        } else {
+            content = document.getElementById('ann-catatan').value;
+        }
         
         const data = {
             judul: document.getElementById('ann-judul').value,
@@ -322,13 +386,15 @@ document.addEventListener('DOMContentLoaded', () => {
             data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
             await db.collection('announcements').add(data);
             
-            // --- TRIGGER NOTIFIKASI PENGUMUMAN BARU ---
+            // Trigger Notifikasi
             const judulNotif = "Warta Paroki Terbaru";
             const isiNotif = data.judul; 
             kirimNotifikasi(judulNotif, isiNotif);
         }
-        document.getElementById('announcement-modal').classList.add('hidden');
-        tinymce.remove();
+        
+        const modal = document.getElementById('announcement-modal');
+        if(modal) modal.classList.add('hidden');
+        if(typeof tinymce !== 'undefined') tinymce.remove();
     });
 
     // ===========================================
@@ -337,6 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function listenToParishStats() {
         const tbody = document.getElementById('stats-table-body');
         const tfoot = document.getElementById('stats-table-footer');
+        if(!tbody || !tfoot) return;
         
         db.collection('parish_stats').orderBy('order').onSnapshot(snap => {
             if(snap.empty) { tbody.innerHTML = '<tr><td colspan="7">Kosong</td></tr>'; return; }
@@ -370,22 +437,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    document.getElementById('stats-table-body').addEventListener('click', async (e) => {
+    pasangTombol('stats-table-body', 'click', async (e) => {
         const btn = e.target.closest('.edit-stat');
         if(!btn) return;
         const id = btn.dataset.id;
+        if(!id) return;
+        
         const doc = await db.collection('parish_stats').doc(id).get();
         if(!doc.exists) return;
         const d = doc.data();
         
         document.getElementById('stat-doc-id').value = id;
-        document.getElementById('stat-kk').value = d.kk;
-        document.getElementById('stat-laki').value = d.laki_laki;
-        document.getElementById('stat-perempuan').value = d.perempuan;
-        document.getElementById('stat-modal').classList.remove('hidden');
+        document.getElementById('stat-kk').value = d.kk || 0;
+        document.getElementById('stat-laki').value = d.laki_laki || 0;
+        document.getElementById('stat-perempuan').value = d.perempuan || 0;
+        
+        const modal = document.getElementById('stat-modal');
+        if(modal) modal.classList.remove('hidden');
     });
 
-    document.getElementById('stat-form').addEventListener('submit', async (e) => {
+    pasangTombol('stat-form', 'submit', async (e) => {
         e.preventDefault();
         const id = document.getElementById('stat-doc-id').value;
         await db.collection('parish_stats').doc(id).update({
@@ -393,11 +464,17 @@ document.addEventListener('DOMContentLoaded', () => {
             laki_laki: parseInt(document.getElementById('stat-laki').value),
             perempuan: parseInt(document.getElementById('stat-perempuan').value)
         });
-        document.getElementById('stat-modal').classList.add('hidden');
+        const modal = document.getElementById('stat-modal');
+        if(modal) modal.classList.add('hidden');
     });
 
     function renderChart(labels, data) {
         const ctx = document.getElementById('umat-chart');
+        if(!ctx) return;
+        if (typeof Chart === 'undefined') {
+            console.warn("Library Chart.js belum termuat.");
+            return;
+        }
         if(umatChart) umatChart.destroy();
         umatChart = new Chart(ctx, {
             type: 'bar',
@@ -417,12 +494,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- MODAL UTILS & LOGOUT ---
     document.querySelectorAll('.close-modal-btn, .modal-overlay').forEach(el => {
         el.addEventListener('click', (e) => {
-            if(e.target === el) {
+            if(e.target === el || el.classList.contains('close-modal-btn')) {
                 document.querySelectorAll('.modal-overlay').forEach(m => m.classList.add('hidden'));
-                tinymce.remove();
+                if(typeof tinymce !== 'undefined') tinymce.remove();
             }
         });
     });
     
-    document.getElementById('logout-button').addEventListener('click', () => auth.signOut());
+    pasangTombol('logout-button', 'click', () => auth.signOut());
 });
