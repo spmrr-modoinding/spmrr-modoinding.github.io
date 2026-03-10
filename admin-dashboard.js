@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentEditAnnouncementId = null;
     let currentEditTpeId = null;
 
-    // --- FUNGSI KIRIM NOTIFIKASI ONESIGNAL ---
+    // --- FUNGSI KIRIM NOTIFIKASI ONESIGNAL (BYPASS CORS) ---
     async function kirimNotifikasi(judul, isiPesan) {
         const ONESIGNAL_APP_ID = "b93c1efb-e3cb-462f-9a43-44fad15e638f"; 
         const ONESIGNAL_REST_API_KEY = "os_v2_app_xe6b567dzndc7gsdit5ncxtdr7zix274ayhe3rm736dh3r3bh2h5qe3c7ky3rbv31y24jqfxpqkorh33i4hu77ti4acqae4y2fw5nqq";
@@ -26,15 +26,19 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            const response = await fetch("https://onesignal.com/api/v1/notifications", {
+            // Menggunakan Jembatan CORS Proxy untuk menembus blokir browser ke OneSignal
+            const targetUrl = encodeURIComponent("https://onesignal.com/api/v1/notifications");
+            const proxyUrl = "https://corsproxy.io/?" + targetUrl;
+
+            const response = await fetch(proxyUrl, {
                 method: "POST",
                 headers: headers,
                 body: JSON.stringify(data)
             });
             const result = await response.json();
-            console.log("Status Notifikasi Push:", result);
+            console.log("Status Notifikasi Push (Sukses Ditembus):", result);
         } catch (error) {
-            console.error("Notifikasi gagal dikirim:", error);
+            console.error("Notifikasi Push gagal dikirim:", error);
         }
     }
 
