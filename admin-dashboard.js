@@ -7,39 +7,38 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentEditAnnouncementId = null;
     let currentEditTpeId = null;
 
-    // --- FUNGSI KIRIM NOTIFIKASI ONESIGNAL (BYPASS CORS) ---
+    // --- FUNGSI KIRIM NOTIFIKASI ONESIGNAL (VIA MAKE.COM WEBHOOK) ---
     async function kirimNotifikasi(judul, isiPesan) {
-        const ONESIGNAL_APP_ID = "b93c1efb-e3cb-462f-9a43-44fad15e638f"; 
-        const ONESIGNAL_REST_API_KEY = "os_v2_app_xe6b567dzndc7gsdit5ncxtdr7zix274ayhe3rm736dh3r3bh2h5qe3c7ky3rbv31y24jqfxpqkorh33i4hu77ti4acqae4y2fw5nqq";
+        
+        // URL Webhook dari Make.com milikmu
+        const WEBHOOK_URL = "https://hook.eu1.make.com/kls1ir3wv4ug3in6x2353ra7wzydh3t5"; 
 
-        const headers = {
-            "Content-Type": "application/json; charset=utf-8",
-            "Authorization": "Basic " + ONESIGNAL_REST_API_KEY
-        };
-
-        const data = {
-            app_id: ONESIGNAL_APP_ID,
-            included_segments: ["All"], 
-            headings: { "en": judul },
-            contents: { "en": isiPesan },
-            // PERBAIKAN URL: Menambahkan subfolder agar klik notifikasi mengarah ke web yang benar
-            url: "https://spmrr-modoinding.github.io/ParokiModoinding/" 
+        const payloadData = {
+            judul: judul,
+            pesan: isiPesan
         };
 
         try {
-            // Menggunakan Jembatan CORS Proxy untuk menembus blokir browser ke OneSignal
-            const targetUrl = encodeURIComponent("https://onesignal.com/api/v1/notifications");
-            const proxyUrl = "https://corsproxy.io/?" + targetUrl;
-
-            const response = await fetch(proxyUrl, {
+            console.log("Mengirim perintah notifikasi ke server Make.com...");
+            
+            const response = await fetch(WEBHOOK_URL, {
                 method: "POST",
-                headers: headers,
-                body: JSON.stringify(data)
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payloadData)
             });
-            const result = await response.json();
-            console.log("Status Notifikasi Push (Sukses Ditembus):", result);
+
+            if (response.ok) {
+                console.log("Notifikasi diledakkan!");
+                alert("Sukses! Notifikasi berhasil dikirim ke layar HP Umat.");
+            } else {
+                console.error("Gagal mengirim perintah:", response.status);
+                alert("Gagal mengirim notifikasi. Cek pengaturan Make.com.");
+            }
         } catch (error) {
-            console.error("Notifikasi Push gagal dikirim:", error);
+            console.error("Error jaringan:", error);
+            alert("Error jaringan saat mengirim notifikasi.");
         }
     }
 
