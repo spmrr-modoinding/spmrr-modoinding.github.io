@@ -22,7 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
             included_segments: ["All"], 
             headings: { "en": judul },
             contents: { "en": isiPesan },
-            url: "https://spmrr-modoinding.github.io" 
+            // PERBAIKAN URL: Menambahkan subfolder agar klik notifikasi mengarah ke web yang benar
+            url: "https://spmrr-modoinding.github.io/ParokiModoinding/" 
         };
 
         try {

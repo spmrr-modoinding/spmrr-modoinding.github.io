@@ -6,9 +6,7 @@
     <title>Paroki Santa Perawan Maria Ratu Rosari Modoinding</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <link rel="stylesheet" href="style.css">
 
     <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
@@ -36,7 +34,11 @@
                 'tip.state.subscribed': 'Anda sudah berlangganan',
                 'tip.state.blocked': 'Notifikasi diblokir'
             }
-          }
+          },
+          // KONFIGURASI WAJIB UNTUK GITHUB PAGES SUBFOLDER
+          path: "/ParokiModoinding/",
+          serviceWorkerParam: { scope: "/ParokiModoinding/" },
+          serviceWorkerPath: "service-worker.js"
         });
       });
     </script>

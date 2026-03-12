@@ -1,3 +1,6 @@
+// Import Service Worker khusus dari OneSignal agar notifikasi bisa masuk (Wajib di baris pertama)
+importScripts("https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js");
+
 const CACHE_NAME = 'paroki-modoinding-cache-v1';
 // Daftar file inti yang akan disimpan untuk akses offline
 const urlsToCache = [
