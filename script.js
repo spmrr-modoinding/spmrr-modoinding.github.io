@@ -20,16 +20,9 @@ const db = firebase.firestore();
 // 2. DATA STATIC & VARIABLES
 // =================================================================
 
-// Variabel Global untuk menyimpan data Paus dari JSON
+// Variabel Global untuk menyimpan data Paus dan Doa
 let globalPausData = [];
-
-// Data Doa Statis
-const prayersData = [
-    { title: 'Tanda Salib', content: { indonesia: `Dalam nama Bapa dan Putra dan Roh Kudus. Amin.`, latin: `In nomine Patris, et Filii, et Spiritus Sancti. Amen.` } },
-    { title: 'Bapa Kami', content: { indonesia: `Bapa kami yang ada di surga, dimuliakanlah nama-Mu.\nDatanglah kerajaan-Mu. Jadilah kehendak-Mu di atas bumi seperti di dalam surga.\nBerilah kami rezeki pada hari ini, dan ampunilah kesalahan kami, seperti kami pun mengampuni yang bersalah kepada kami.\nDan janganlah masukkan kami ke dalam pencobaan, tetapi bebaskanlah kami dari yang jahat. Amin.`, latin: `Pater noster, qui es in caelis: sanctificetur Nomen Tuum;\nadveniat Regnum Tuum; fiat voluntas Tua, sicut in caelo, et in terra.\nPanem nostrum cotidianum da nobis hodie; et dimitte nobis debita nostra, sicut et nos dimittimus debitoribus nostris;\net ne nos inducas in tentationem; sed libera nos a Malo. Amen.` } },
-    { title: 'Salam Maria', content: { indonesia: `Salam Maria, penuh rahmat, Tuhan sertamu,\nterpujilah engkau di antara wanita, dan terpujilah buah tubuhmu, Yesus.\nSanta Maria, bunda Allah, doakanlah kami yang berdosa ini, sekarang dan waktu kami mati. Amin.`, latin: `Ave Maria, gratia plena, Dominus tecum, benedicta tu in mulieribus, et benedictus fructus ventris tui, Iesus. Sancta Maria, Mater Dei, ora pro nobis peccatoribus, nunc et in hora mortis nostrae. Amen.` } },
-    { title: 'Kemuliaan', content: { indonesia: `Kemuliaan kepada Bapa dan Putra dan Roh Kudus,\nseperti pada permulaan, sekarang, selalu, dan sepanjang segala abad. Amin.`, latin: `Gloria Patri, et Filio, et Spiritui Sancto.\nSicut erat in principio, et nunc, et semper, et in saecula saeculorum. Amen.` } }
-];
+let prayersData = []; // Array ini sekarang dikosongkan karena akan diisi dari Firebase
 
 // Data Formulir PDF (Sesuaikan nama file dengan folder 'formulir/')
 const formsData = [
@@ -50,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadLatestTPE();
     loadStatistikRealtime();
     loadSejarahPaus(); 
-    loadPrayers();
+    loadPrayers(); // Panggil fungsi Pustaka Doa dari Firebase
     renderFormsList(); 
     
     // UI Setup
@@ -217,13 +210,39 @@ window.filterPaus = function() {
     renderSejarahPaus(filtered);
 }
 
-// --- FUNGSI DOA ---
+// --- FUNGSI DOA (DARI FIREBASE) ---
 function loadPrayers() {
     const c = document.getElementById('prayer-buttons');
     if(!c) return;
-    let h = '';
-    prayersData.forEach((p, i) => h += `<button class="prayer-btn" onclick="showPrayer(${i})">${p.title}</button>`);
-    c.innerHTML = h;
+    
+    c.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Memuat pustaka doa...</div>';
+
+    db.collection('prayers_library').orderBy('urutan', 'asc').onSnapshot(snap => {
+        if(snap.empty) {
+            c.innerHTML = '<p style="color:#888; text-align:center;">Pustaka doa belum tersedia.</p>';
+            return;
+        }
+
+        prayersData = []; // Kosongkan array lama untuk diisi ulang
+        let h = '';
+        let i = 0;
+
+        snap.forEach(doc => {
+            const d = doc.data();
+            // Menata ulang data agar strukturnya cocok dengan fungsi lama
+            prayersData.push({
+                title: d.judul || 'Tanpa Judul',
+                content: {
+                    indonesia: d.indo || '',
+                    latin: d.latin || ''
+                }
+            });
+            h += `<button class="prayer-btn" onclick="showPrayer(${i})">${d.judul}</button>`;
+            i++;
+        });
+        
+        c.innerHTML = h;
+    });
 }
 
 // --- FUNGSI FORMULIR & PDF PREVIEW ---
@@ -328,7 +347,8 @@ let currPrayer = 0;
 window.showPrayer = function(i) {
     currPrayer = i;
     document.getElementById('prayer-title-display').innerText = prayersData[i].title;
-    document.getElementById('prayer-content-display').innerText = prayersData[i].content.indonesia;
+    // Menggunakan innerHTML karena konten dari TinyMCE mengandung Tag HTML
+    document.getElementById('prayer-content-display').innerHTML = prayersData[i].content.indonesia;
     document.getElementById('prayer-display').style.display = 'block';
     document.getElementById('btn-indo').classList.add('active');
     document.getElementById('btn-latin').classList.remove('active');
@@ -344,7 +364,7 @@ window.switchLang = function(lang) {
     const textEl = document.getElementById('prayer-content-display');
     textEl.style.opacity = '0';
     setTimeout(() => {
-        textEl.innerText = content || 'Terjemahan tidak tersedia.';
+        textEl.innerHTML = content || 'Terjemahan tidak tersedia.';
         textEl.style.opacity = '1';
     }, 200);
     if(lang === 'indonesia') {

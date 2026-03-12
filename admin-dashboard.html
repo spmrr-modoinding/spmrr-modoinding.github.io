@@ -40,6 +40,11 @@
                 </button>
             </li>
             <li>
+                <button class="nav-tab-btn" data-target="prayers-section">
+                    <i class="bi bi-journal-text"></i> <span>Pustaka Doa</span>
+                </button>
+            </li>
+            <li>
                 <button class="nav-tab-btn" data-target="stats-section">
                     <i class="bi bi-people-fill"></i> <span>Statistik Umat</span>
                 </button>
@@ -157,6 +162,30 @@
                             </tr>
                         </thead>
                         <tbody id="announcements-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="prayers-section" class="management-section">
+                <div class="section-header">
+                    <div>
+                        <h2>Pustaka Doa</h2>
+                        <p>Kelola daftar doa Katolik (Latin & Indonesia).</p>
+                    </div>
+                    <button class="primary-btn" id="add-prayer-btn"><i class="bi bi-plus-lg"></i> Tambah Doa</button>
+                </div>
+
+                <div class="table-card">
+                    <table id="prayers-table">
+                        <thead>
+                            <tr>
+                                <th>Urutan</th>
+                                <th>Judul Doa</th>
+                                <th>Pratinjau (Indonesia)</th>
+                                <th class="text-end">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="prayers-table-body"></tbody>
                     </table>
                 </div>
             </div>
@@ -326,6 +355,43 @@
         </div>
     </div>
 
+    <div id="prayer-modal" class="modal-overlay hidden">
+        <div class="modal-content wide-modal">
+            <div class="modal-header">
+                <h3 id="prayer-modal-title">Form Pustaka Doa</h3>
+                <button class="close-modal-btn" data-target="prayer-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="prayer-form">
+                    <input type="hidden" id="prayer-id">
+                    <div class="form-grid">
+                        <div class="grid-col" style="width: 100%;">
+                            <div class="row-2">
+                                <div class="form-group">
+                                    <label>Nomor Urut Tampil</label>
+                                    <input type="number" id="prayer-order" required class="form-control" placeholder="Contoh: 1">
+                                </div>
+                                <div class="form-group" style="flex: 3;">
+                                    <label>Judul Doa</label>
+                                    <input type="text" id="prayer-title" required class="form-control" placeholder="Contoh: Signum Crucis / Tanda Salib">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label>Teks Bahasa Latin</label>
+                        <textarea id="prayer-latin" class="tinymce-editor"></textarea>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label>Terjemahan Bahasa Indonesia</label>
+                        <textarea id="prayer-indo" class="tinymce-editor"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn full-width">Simpan Doa</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div id="stat-modal" class="modal-overlay hidden">
         <div class="modal-content small-modal">
             <div class="modal-header">
@@ -352,6 +418,6 @@
     <script src="firebase-config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="admin-dashboard.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js"></script>
 </body>
 </html>
