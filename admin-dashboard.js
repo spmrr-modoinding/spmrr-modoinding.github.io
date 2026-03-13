@@ -494,7 +494,7 @@ document.addEventListener('DOMContentLoaded', () => {
         umatChart = new Chart(ctx, { type: 'bar', data: { labels: labels, datasets: [{ label: 'Jumlah Jiwa', data: data, backgroundColor: '#004a99', borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false } });
     }
 
-    // --- MODAL UTILS & LOGOUT ---
+    // --- MODAL UTILS & LOGOUT (FIXED) ---
     document.querySelectorAll('.close-modal-btn, .modal-overlay').forEach(el => {
         el.addEventListener('click', (e) => {
             if(e.target === el || el.classList.contains('close-modal-btn')) {
@@ -504,5 +504,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     
-    document.getElementById('logout-button')?.addEventListener('click', () => auth.signOut());
+    // FIX LOGOUT: Mengembalikan user ke halaman beranda setelah berhasil logout
+    document.getElementById('logout-button')?.addEventListener('click', () => {
+        if(confirm("Apakah Anda yakin ingin keluar dari Dashboard?")) {
+            auth.signOut().then(() => {
+                window.location.href = 'index.html';
+            }).catch((error) => {
+                console.error("Gagal keluar:", error);
+            });
+        }
+    });
 });

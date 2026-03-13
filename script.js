@@ -31,7 +31,74 @@ document.addEventListener('DOMContentLoaded', () => {
     
     setupMobileMenu(); 
     initNotificationCenter(); 
+    
+    // EKSEKUSI ALGORITMA JADWAL MISA PINTAR
+    initSmartSchedule();
 });
+
+// =================================================================
+// 3. ALGORITMA JADWAL MISA ROTASI PINTAR (TIME-BASED MODULO)
+// =================================================================
+function initSmartSchedule() {
+    function updateJadwalRotasi() {
+        // Waktu Universal Anchor: Sabtu, 7 Maret 2026, Pukul 12:00:00 WITA.
+        // Format ISO UTC+8: "2026-03-07T12:00:00+08:00"
+        // Titik ini menjadi patokan abadi dimulainya Pola 0 (Minggu 8 Maret)
+        const anchorMs = Date.parse("2026-03-07T12:00:00+08:00");
+        const nowMs = new Date().getTime(); // Waktu universal saat ini di HP User
+        
+        const diffMs = nowMs - anchorMs;
+        const msInWeek = 7 * 24 * 60 * 60 * 1000; // Total milidetik dalam 1 minggu
+        
+        // Menghitung sudah berapa minggu berlalu sejak titik patokan
+        // Math.floor menjamin angka yang tepat meskipun bernilai negatif (sebelum 7 Maret)
+        const elapsedWeeks = Math.floor(diffMs / msInWeek);
+        
+        // 3 Pola Rotasi (Pola 0, Pola 1, Pola 2)
+        const patterns = [
+            ["Stasi Christus Rex - Liningaan", "Stasi St. Andreas - Kinamang", "Stasi Rex Mundi - Tambelang"], // Pola 0 (Mulai 8 Mar)
+            ["Stasi Rex Mundi - Tambelang", "Stasi Christus Rex - Liningaan", "Stasi St. Andreas - Kinamang"], // Pola 1 (Mulai 15 Mar)
+            ["Stasi St. Andreas - Kinamang", "Stasi Rex Mundi - Tambelang", "Stasi Christus Rex - Liningaan"]  // Pola 2 (Mulai 22 Mar)
+        ];
+
+        // Rumus Modulo Pintar untuk perulangan abadi (0,1,2,0,1,2...)
+        const idxCurrent = ((elapsedWeeks % 3) + 3) % 3;
+        const idxNext = (((elapsedWeeks + 1) % 3) + 3) % 3;
+
+        const currData = patterns[idxCurrent];
+        const nextData = patterns[idxNext];
+
+        // 1. Update UI Jadwal Utama (Minggu Ini)
+        const el07 = document.getElementById('rolling-07');
+        const el09 = document.getElementById('rolling-09');
+        const el11 = document.getElementById('rolling-11');
+        
+        if(el07) el07.innerText = currData[0];
+        if(el09) el09.innerText = currData[1];
+        if(el11) el11.innerText = currData[2];
+
+        // 2. Update UI Preview (Minggu Depan)
+        const next07 = document.getElementById('next-07');
+        const next09 = document.getElementById('next-09');
+        const next11 = document.getElementById('next-11');
+
+        // Fungsi pembersih teks: Mengambil nama desa saja (Membuang "Stasi ... - ")
+        const cleanName = (str) => { return str.split(" - ")[1]; }
+
+        if(next07) next07.innerText = cleanName(nextData[0]);
+        if(next09) next09.innerText = cleanName(nextData[1]);
+        if(next11) next11.innerText = cleanName(nextData[2]);
+    }
+
+    // Jalankan segera saat halaman dibuka
+    updateJadwalRotasi();
+
+    // Pengecekan setiap 1 menit (60000ms).
+    // Ini memastikan jika ada umat yang membiarkan website terbuka pada hari Sabtu pukul 11:59 WITA, 
+    // jadwal akan "berganti gigi" dengan sendirinya tepat pukul 12:00 tanpa perlu refresh halaman!
+    setInterval(updateJadwalRotasi, 60000);
+}
+
 
 // --- FUNGSI LOAD TPE TERBARU ---
 function loadLatestTPE() {

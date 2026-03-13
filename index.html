@@ -88,7 +88,7 @@
         </div>
 
         <div class="sidebar-footer">
-            <a href="admin-dashboard.html" class="tab-button login-btn">
+            <a href="login.html" class="tab-button login-btn">
                 <i class="fas fa-user-lock"></i> <span>Login Pastor</span>
             </a>
         </div>
@@ -202,27 +202,40 @@
                             </div>
                         </div>
                     </div>
-                    <div class="jadwal-column">
+                    
+                    <div class="jadwal-column" style="position: relative;">
                         <div class="jadwal-card stasi">
-                            <div class="j-icon"><i class="fas fa-place-of-worship"></i></div>
+                            <div class="j-icon"><i class="fas fa-sync-alt fa-spin-hover" style="color:var(--accent-gold); opacity:0.5; font-size:1.2rem;"></i></div>
                             <div class="j-info">
-                                <h4>Stasi Rex Mundi - Tambelang</h4>
+                                <h4 id="rolling-07">Memuat jadwal...</h4>
                                 <span class="j-time">07.00 WITA</span>
                             </div>
                         </div>
                         <div class="jadwal-card stasi">
-                            <div class="j-icon"><i class="fas fa-place-of-worship"></i></div>
+                            <div class="j-icon"><i class="fas fa-sync-alt fa-spin-hover" style="color:var(--accent-gold); opacity:0.5; font-size:1.2rem;"></i></div>
                             <div class="j-info">
-                                <h4>Stasi St. Andreas - Kinamang</h4>
+                                <h4 id="rolling-09">Memuat jadwal...</h4>
                                 <span class="j-time">09.00 WITA</span>
                             </div>
                         </div>
                         <div class="jadwal-card stasi">
-                            <div class="j-icon"><i class="fas fa-place-of-worship"></i></div>
+                            <div class="j-icon"><i class="fas fa-sync-alt fa-spin-hover" style="color:var(--accent-gold); opacity:0.5; font-size:1.2rem;"></i></div>
                             <div class="j-info">
-                                <h4>Stasi Christus Rex - Liningaan</h4>
+                                <h4 id="rolling-11">Memuat jadwal...</h4>
                                 <span class="j-time">11.00 WITA</span>
                             </div>
+                        </div>
+                        
+                        <div class="preview-jadwal-card">
+                            <div class="preview-header">
+                                <i class="fas fa-calendar-check"></i> 
+                                <span>Jadwal Minggu Depan</span>
+                            </div>
+                            <ul class="preview-list">
+                                <li><span class="p-time">07.00 WITA:</span> <span id="next-07">...</span></li>
+                                <li><span class="p-time">09.00 WITA:</span> <span id="next-09">...</span></li>
+                                <li><span class="p-time">11.00 WITA:</span> <span id="next-11">...</span></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
