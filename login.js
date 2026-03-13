@@ -1,24 +1,9 @@
-// Konfigurasi Firebase Anda
-const firebaseConfig = {
-    apiKey: "AIzaSyC-KNi0YqnlxtzkeoemEFWN5xusjxpWV_I",
-    authDomain: "paroki-modoinding.firebaseapp.com",
-    projectId: "paroki-modoinding",
-    storageBucket: "paroki-modoinding.appspot.com",
-    messagingSenderId: "615770618729",
-    appId: "1:615770618729:web:0f6d67c62512c21f2e5bf8",
-    measurementId: "G-ECLMPR9NJ2"
-};
-
-// Inisialisasi Firebase
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}
-const auth = firebase.auth();
-const db = firebase.firestore();
+// Konfigurasi dan inisialisasi Firebase kini diurus sepenuhnya oleh firebase-config.js
+// Variabel global 'auth' dan 'db' sudah otomatis tersedia.
 
 // Mengambil elemen dari form
 const loginForm = document.getElementById('login-form');
-const emailInput = document.getElementById('email'); // Diubah dari usernameInput
+const emailInput = document.getElementById('email'); 
 const passwordInput = document.getElementById('password');
 const errorMessage = document.getElementById('error-message');
 
