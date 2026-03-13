@@ -1,7 +1,6 @@
 // firebase-config.js
-// Berkas ini berfungsi sebagai pusat konfigurasi Firebase untuk seluruh aplikasi.
+// Berkas ini berfungsi sebagai pusat konfigurasi Firebase untuk seluruh aplikasi Paroki.
 
-// Ganti dengan konfigurasi Firebase proyek Anda.
 const firebaseConfig = {
     apiKey: "AIzaSyC-KNi0YqnlxtzkeoemEFWN5xusjxpWV_I",
     authDomain: "paroki-modoinding.firebaseapp.com",
@@ -12,13 +11,11 @@ const firebaseConfig = {
     measurementId: "G-ECLMPR9NJ2"
 };
 
-// Inisialisasi Firebase (mencegah inisialisasi ganda jika skrip dimuat lebih dari sekali)
+// Inisialisasi Firebase (mencegah inisialisasi ganda)
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 
-// Inisialisasi service yang akan digunakan di file lain dan jadikan variabel global
-// agar bisa diakses oleh script.js dan admin-dashboard.js
+// Deklarasi global agar bisa dipakai langsung oleh script.js dan admin-dashboard.js
 const db = firebase.firestore();
 const auth = firebase.auth();
-const messaging = firebase.messaging ? firebase.messaging() : null; // Cek jika messaging didukung

@@ -35,13 +35,23 @@
                 'tip.state.blocked': 'Notifikasi diblokir'
             }
           },
-          // KONFIGURASI WAJIB UNTUK GITHUB PAGES SUBFOLDER
           path: "/ParokiModoinding/",
           serviceWorkerParam: { scope: "/ParokiModoinding/" },
           serviceWorkerPath: "service-worker.js"
         });
       });
     </script>
+
+    <style>
+        .category-block { margin-bottom: 15px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); background: white; border: 1px solid #eee; }
+        .category-header { background: #fff; padding: 16px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; border-left: 5px solid var(--primary-blue); transition: 0.3s; color: var(--primary-blue); font-size: 1.05rem; }
+        .category-header:hover { background: #f0f7ff; }
+        .category-content { display: none; padding: 10px 20px; border-top: 1px solid #eee; background: #fafcff; }
+        .prayer-item-link { display: flex; align-items: center; padding: 12px 10px; color: #444; text-decoration: none; border-bottom: 1px dotted #ccc; transition: 0.2s; cursor: pointer; font-weight: 500; }
+        .prayer-item-link:hover { color: var(--secondary-blue); padding-left: 15px; background: white; border-radius: 6px; }
+        .prayer-item-link:last-child { border-bottom: none; }
+        .prayer-item-link i { margin-right: 12px; color: var(--accent-gold); font-size: 1.1rem; }
+    </style>
 </head>
 <body>
 
@@ -281,8 +291,16 @@
                     <h2>Pustaka Doa Katolik</h2>
                     <div class="divider"></div>
                 </div>
+                
+                <div class="search-container" style="margin-bottom: 30px;">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-prayer" placeholder="Cari doa (misal: Bapa Kami, Rosario)..." onkeyup="filterPrayers()">
+                </div>
+                
                 <div class="doa-grid">
-                    <div id="prayer-buttons" class="prayer-buttons-container"></div>
+                    <div id="prayer-accordion-container" style="width: 100%;">
+                        <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Memuat Pustaka Doa...</div>
+                    </div>
                 </div>
                 
                 <div id="prayer-display" class="prayer-card glass-effect" style="display:none;">

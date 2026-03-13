@@ -1,28 +1,12 @@
 // =================================================================
-// 1. FIREBASE CONFIGURATION
+// 1. DATA STATIC & VARIABLES
 // =================================================================
-const firebaseConfig = {
-    apiKey: "AIzaSyC-KNi0YqnlxtzkeoemEFWN5xusjxpWV_I",
-    authDomain: "paroki-modoinding.firebaseapp.com",
-    projectId: "paroki-modoinding",
-    storageBucket: "paroki-modoinding.appspot.com",
-    messagingSenderId: "615770618729",
-    appId: "1:615770618729:web:0f6d67c62512c21f2e5bf8",
-    measurementId: "G-ECLMPR9NJ2"
-};
-
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}
-const db = firebase.firestore();
-
-// =================================================================
-// 2. DATA STATIC & VARIABLES
-// =================================================================
+// (Catatan: Koneksi Firebase kini ditangani secara terpusat oleh firebase-config.js)
 
 // Variabel Global untuk menyimpan data Paus dan Doa
 let globalPausData = [];
-let prayersData = []; // Array ini sekarang dikosongkan karena akan diisi dari Firebase
+let prayersData = []; 
+let allPrayersData = []; 
 
 // Data Formulir PDF (Sesuaikan nama file dengan folder 'formulir/')
 const formsData = [
@@ -35,20 +19,18 @@ const formsData = [
 ];
 
 // =================================================================
-// 3. MAIN LOGIC (DOM LOADED)
+// 2. MAIN LOGIC (DOM LOADED)
 // =================================================================
 document.addEventListener('DOMContentLoaded', () => {
-    // Load Data
     loadAgendaRealtime();
     loadLatestTPE();
     loadStatistikRealtime();
     loadSejarahPaus(); 
-    loadPrayers(); // Panggil fungsi Pustaka Doa dari Firebase
+    loadPrayers(); 
     renderFormsList(); 
     
-    // UI Setup
     setupMobileMenu(); 
-    initNotificationCenter(); // Initialize Notif Center
+    initNotificationCenter(); 
 });
 
 // --- FUNGSI LOAD TPE TERBARU ---
@@ -210,9 +192,9 @@ window.filterPaus = function() {
     renderSejarahPaus(filtered);
 }
 
-// --- FUNGSI DOA (DARI FIREBASE) ---
+// --- FUNGSI DOA (SISTEM AKORDION DARI FIREBASE) ---
 function loadPrayers() {
-    const c = document.getElementById('prayer-buttons');
+    const c = document.getElementById('prayer-accordion-container');
     if(!c) return;
     
     c.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Memuat pustaka doa...</div>';
@@ -223,26 +205,92 @@ function loadPrayers() {
             return;
         }
 
-        prayersData = []; // Kosongkan array lama untuk diisi ulang
-        let h = '';
+        allPrayersData = []; 
+        prayersData = []; 
         let i = 0;
 
         snap.forEach(doc => {
             const d = doc.data();
-            // Menata ulang data agar strukturnya cocok dengan fungsi lama
-            prayersData.push({
+            const prayerObj = {
+                index: i,
+                kategori: d.kategori || 'Lain-lain',
                 title: d.judul || 'Tanpa Judul',
                 content: {
                     indonesia: d.indo || '',
                     latin: d.latin || ''
                 }
-            });
-            h += `<button class="prayer-btn" onclick="showPrayer(${i})">${d.judul}</button>`;
+            };
+            allPrayersData.push(prayerObj);
+            prayersData.push(prayerObj);
             i++;
         });
         
-        c.innerHTML = h;
+        renderPrayerCategories(allPrayersData);
     });
+}
+
+function renderPrayerCategories(data) {
+    const container = document.getElementById('prayer-accordion-container');
+    if(!container) return;
+    container.innerHTML = '';
+
+    if(data.length === 0) {
+        container.innerHTML = '<p style="color:#888; text-align:center; padding: 2rem;">Doa tidak ditemukan.</p>';
+        return;
+    }
+
+    const grouped = data.reduce((acc, prayer) => {
+        if (!acc[prayer.kategori]) acc[prayer.kategori] = [];
+        acc[prayer.kategori].push(prayer);
+        return acc;
+    }, {});
+
+    for (const kategori in grouped) {
+        const section = document.createElement('div');
+        section.className = 'category-block';
+        
+        section.innerHTML = `
+            <div class="category-header" onclick="togglePrayerCategory(this)">
+                <span>${kategori}</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="category-content">
+                ${grouped[kategori].map(p => `
+                    <div class="prayer-item-link" onclick="showPrayer(${p.index})">
+                        <i class="fas fa-pray"></i> ${p.title}
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        container.appendChild(section);
+    }
+}
+
+window.togglePrayerCategory = function(element) {
+    const content = element.nextElementSibling;
+    const icon = element.querySelector('i');
+    
+    if (content.style.display === "block") {
+        content.style.display = "none";
+        icon.className = "fas fa-chevron-down";
+    } else {
+        content.style.display = "block";
+        icon.className = "fas fa-chevron-up";
+    }
+}
+
+window.filterPrayers = function() {
+    const query = document.getElementById('search-prayer').value.toLowerCase();
+    const filtered = allPrayersData.filter(p => 
+        p.title.toLowerCase().includes(query) || 
+        p.kategori.toLowerCase().includes(query)
+    );
+    renderPrayerCategories(filtered);
+    
+    if (query !== "") {
+        document.querySelectorAll('.category-content').forEach(c => c.style.display = "block");
+        document.querySelectorAll('.category-header i').forEach(i => i.className = "fas fa-chevron-up");
+    }
 }
 
 // --- FUNGSI FORMULIR & PDF PREVIEW ---
@@ -347,7 +395,6 @@ let currPrayer = 0;
 window.showPrayer = function(i) {
     currPrayer = i;
     document.getElementById('prayer-title-display').innerText = prayersData[i].title;
-    // Menggunakan innerHTML karena konten dari TinyMCE mengandung Tag HTML
     document.getElementById('prayer-content-display').innerHTML = prayersData[i].content.indonesia;
     document.getElementById('prayer-display').style.display = 'block';
     document.getElementById('btn-indo').classList.add('active');
@@ -387,11 +434,9 @@ function initNotificationCenter() {
     const closeBtn = document.getElementById('close-notif-btn');
     const tabs = document.querySelectorAll('.notif-tab');
 
-    // Toggle Panel
     if(bellBtn) bellBtn.addEventListener('click', () => panel.classList.toggle('show'));
     if(closeBtn) closeBtn.addEventListener('click', () => panel.classList.remove('show'));
 
-    // Tab Switching
     tabs.forEach(tab => {
         tab.addEventListener('click', (e) => {
             tabs.forEach(t => t.classList.remove('active'));
@@ -403,7 +448,6 @@ function initNotificationCenter() {
         });
     });
 
-    // Ambil Notifikasi dari Firebase
     db.collection('app_notifications').orderBy('tanggal', 'desc').limit(20).onSnapshot(snap => {
         allNotifications = [];
         snap.forEach(doc => {
@@ -412,7 +456,6 @@ function initNotificationCenter() {
         renderNotifications();
     });
 
-    // Cek apakah pengguna sudah mengizinkan notifikasi HP (Sembunyikan banner jika sudah)
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     OneSignalDeferred.push(async function(OneSignal) {
         if(OneSignal.Notifications.permission === "granted") {
@@ -465,7 +508,6 @@ function renderNotifications() {
     }
 }
 
-// Fungsi Klik Cerdas: Tandai Dibaca dan Arahkan Tab
 window.bacaDanBuka = function(id, kategori) {
     const readIds = getLocalData('readNotifs');
     if (!readIds.includes(id)) {
@@ -474,11 +516,9 @@ window.bacaDanBuka = function(id, kategori) {
         renderNotifications();
     }
     
-    // Tutup panel
     const panel = document.getElementById('notif-panel');
     if(panel) panel.classList.remove('show');
 
-    // Arahkan ke tab yang sesuai
     if (kategori === 'tpe') {
         openTab(null, 'beranda');
         window.scrollTo({top: 0, behavior: 'smooth'});
@@ -488,7 +528,6 @@ window.bacaDanBuka = function(id, kategori) {
     }
 }
 
-// Fungsi Hapus Notifikasi
 window.hapusNotif = function(id, isUnread) {
     if (isUnread) {
         const confirmDelete = confirm("Pesan ini belum dibaca. Anda yakin ingin menghapusnya?");
@@ -502,11 +541,9 @@ window.hapusNotif = function(id, isUnread) {
     }
 }
 
-// Memaksa Pop-Up Izin Tampil (Menembus Blokir HP)
 window.memintaIzinNotifikasi = function() {
     window.OneSignalDeferred.push(async function(OneSignal) {
         await OneSignal.Slidedown.promptPush();
-        // Sembunyikan banner jika diizinkan
         OneSignal.Notifications.addEventListener("permissionChange", function(permissionChange) {
             if (permissionChange === "granted") {
                 const banner = document.getElementById('push-subscribe-banner');
