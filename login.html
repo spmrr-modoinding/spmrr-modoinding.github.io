@@ -23,7 +23,7 @@
             <div class="lamp-filament"></div>
         </div>
         <div class="lamp-glow"></div>
-        <div class="lamp-hint" id="lamp-text">Nyalakan Lampu</div>
+        <div class="lamp-hint" id="lamp-text">Login</div>
     </div>
 
     <div class="login-dock-container" id="dock-container">
@@ -90,10 +90,8 @@
                 bdy.classList.toggle('lights-on');
                 
                 if(bdy.classList.contains('lights-on')) {
-                    teksLampu.innerText = "Matikan Lampu";
                     setTimeout(function() { if(emailBox) emailBox.focus(); }, 1200);
                 } else {
-                    teksLampu.innerText = "Nyalakan Lampu";
                     if(emailBox) emailBox.blur();
                 }
             });
